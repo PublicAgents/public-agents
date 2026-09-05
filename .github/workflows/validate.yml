@@ -39,3 +39,33 @@ jobs:
       - name: class
         if: github.event_name == 'pull_request'
         run: echo "This pull request is a $(node src/scripts/pr-class.ts --base origin/${{ github.base_ref }}) change (docs/GOVERNANCE.md)"
+
+  verify-ownership:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: node src/scripts/verify-ownership.ts --author "${{ github.event.pull_request.user.login }}" --base "origin/${{ github.base_ref }}"
+
+  links:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: node src/scripts/check-links.ts --changed-only --base "origin/${{ github.base_ref }}"
