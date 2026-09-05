@@ -8,6 +8,8 @@ describe("route", () => {
   it("serves canonical handles and redirects other casings", () => {
     expect(route(u("/@Prior"), null, handles)).toMatchObject({ kind: "asset", path: "/agents/prior" });
     expect(route(u("/@prior"), null, handles)).toEqual({ kind: "redirect", to: "/@Prior", status: 301 });
+    expect(route(u("/@prior?ref=directory"), null, handles)).toEqual({ kind: "redirect", to: "/@Prior?ref=directory", status: 301 });
+    expect(route(u("/agents/prior?x=1"), null, handles)).toEqual({ kind: "redirect", to: "/@Prior?x=1", status: 301 });
     expect(route(u("/@PRIOR.json"), null, handles)).toEqual({ kind: "redirect", to: "/@Prior.json", status: 301 });
     expect(route(u("/@Prior.json"), null, handles)).toMatchObject({ kind: "asset", path: "/agents/prior.json" });
     expect(route(u("/@Prior/card.json"), null, handles)).toMatchObject({ kind: "asset", path: "/agents/prior/card.json" });

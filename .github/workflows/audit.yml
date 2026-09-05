@@ -1,8 +1,10 @@
 name: audit
 
-# Nightly: every link, every ownership proof, in report mode; then a
-# redeploy so verification timestamps refresh. Never blocks, never
-# cancels a deploy in flight (same concurrency group as deploy).
+# Nightly: every link in report mode, then a rebuild with every
+# ownership proof re-fetched (PA_VERIFY_AT_BUILD) and a redeploy, so the
+# verification status the site shows is at most a day old. Never
+# blocks, never cancels a deploy in flight (same concurrency group as
+# deploy).
 on:
   schedule:
     - cron: "17 4 * * *"
@@ -39,3 +41,11 @@ jobs:
             N=$(gh issue list --label dead-link --state open --json number --jq '.[0].number // empty')
             if [ -n "$N" ]; then gh issue edit "$N" --body "$BODY"; else gh issue create --title "Dead links (nightly audit)" --label dead-link --body "$BODY"; fi
           fi
+      - name: rebuild with every ownership proof re-fetched, and redeploy
+        run: npm run build
+        env:
+          PA_VERIFY_AT_BUILD: "1"
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

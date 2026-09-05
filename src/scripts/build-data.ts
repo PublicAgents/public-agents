@@ -15,6 +15,8 @@ import { normalizeHandle } from "../lib/handles.ts";
 import { renderProfile } from "../lib/profile.ts";
 import { loadRegistry } from "../lib/registry.ts";
 import { formatRefusal } from "../lib/refusals.ts";
+import { withConcurrency } from "../lib/net.ts";
+import { decideWithProof, fetchProof } from "../lib/ownership.ts";
 
 const root = process.cwd();
 const pub = join(root, "site", "public");
@@ -34,9 +36,41 @@ const commit = (() => {
   }
 })();
 const generatedAt = new Date().toISOString();
-const verification = existsSync(join(root, "registry/verification.json"))
-  ? (JSON.parse(readFileSync(join(root, "registry/verification.json"), "utf8")) as { entries?: Record<string, { verifiedAt: string; method: string; ok: boolean }> })
-  : { entries: {} };
+/**
+ * Verification status is computed at build time and published with the
+ * site (agents.json and tools.json carry it): with PA_VERIFY_AT_BUILD=1
+ * every entry's domain proof is re-fetched; without it the status is
+ * carried over from the live site so a plain build does not fetch.
+ */
+type Status = { verifiedAt: string; method: string; ok: boolean };
+const verification: { entries: Record<string, Status> } = { entries: {} };
+async function carryOver(kind: "agents" | "tools") {
+  try {
+    const response = await fetch(`${SITE}/${kind}.json`, { signal: AbortSignal.timeout(5000) });
+    if (!response.ok) return;
+    const body = (await response.json()) as { agents?: Array<{ handle: string; verification: { ok: boolean; method: string; checkedAt: string | null } }>; tools?: Array<{ slug: string; verification: { ok: boolean; method: string; checkedAt: string | null } }> };
+    for (const a of body.agents ?? []) if (a.verification.checkedAt) verification.entries[a.handle.toLowerCase()] = { verifiedAt: a.verification.checkedAt, method: a.verification.method, ok: a.verification.ok };
+    for (const t of body.tools ?? []) if (t.verification.checkedAt) verification.entries[t.slug] = { verifiedAt: t.verification.checkedAt, method: t.verification.method, ok: t.verification.ok };
+  } catch {
+    /* no live site yet: nothing to carry over */
+  }
+}
+if (process.env.PA_VERIFY_AT_BUILD === "1") {
+  const targets = [
+    ...registry.agents.map(a => ({ name: a.value.handle, domain: a.value.domains[0], maintainers: a.value.maintainers.map(m => m.github) })),
+    ...registry.tools.filter(t => t.value.provenance !== "third-party").map(t => ({ name: t.value.slug, domain: t.value.domains[0], maintainers: t.value.maintainers.map(m => m.github) }))
+  ];
+  await withConcurrency(4, targets.map(target => async () => {
+    const proof = await fetchProof(target.domain, target.name, {});
+    const author = target.maintainers[0] ?? "";
+    const decision = decideWithProof({ name: target.name, author, maintainers: target.maintainers, proof });
+    verification.entries[target.name.toLowerCase()] = { verifiedAt: generatedAt, method: "reason" in proof ? proof.reason : proof.method, ok: decision.ok };
+  }));
+  console.log(`✓ verified ${targets.length} entr(y/ies) against their domains`);
+} else {
+  await carryOver("agents");
+  await carryOver("tools");
+}
 
 // A clean public/: generated files only, nothing stale from a previous build.
 for (const dir of ["agents", "tools", "jobs", "functions", "evidence", "schemas", "skills", ".well-known"]) rmSync(join(pub, dir), { recursive: true, force: true });

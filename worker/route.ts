@@ -33,6 +33,8 @@ export function route(url: URL, accept: string | null, handles: Record<string, s
     return { kind: "redirect", to: `https://public-agents.com${url.pathname}${url.search}`, status: 301 };
   }
   const path = url.pathname;
+  // A redirect keeps the request's query string: attribution and filters survive canonicalisation.
+  const q = url.search;
 
   // /@Handle, /@Handle.json, /@Handle.md, /@Handle/card.json, /@Handle/profile.md
   const at = /^\/@([^/.]+)(\.json|\.md)?(?:\/(card\.json|profile\.md))?$/.exec(path);
@@ -41,7 +43,7 @@ export function route(url: URL, accept: string | null, handles: Record<string, s
     const canonical = handles[given.toLowerCase()];
     if (!canonical) return { kind: "next" };
     if (canonical !== given) {
-      return { kind: "redirect", to: `/@${canonical}${ext ?? ""}${sub ? `/${sub}` : ""}`, status: 301 };
+      return { kind: "redirect", to: `/@${canonical}${ext ?? ""}${sub ? `/${sub}` : ""}${q}`, status: 301 };
     }
     const lower = canonical.toLowerCase();
     if (sub) return { kind: "asset", path: `/agents/${lower}/${sub}`, headers: {} };
@@ -56,7 +58,7 @@ export function route(url: URL, accept: string | null, handles: Record<string, s
   if (emitted) {
     const [, lower, ext, sub] = emitted;
     const canonical = handles[lower.toLowerCase()];
-    if (canonical) return { kind: "redirect", to: `/@${canonical}${ext ?? ""}${sub ? `/${sub}` : ""}`, status: 301 };
+    if (canonical) return { kind: "redirect", to: `/@${canonical}${ext ?? ""}${sub ? `/${sub}` : ""}${q}`, status: 301 };
     return { kind: "next" };
   }
 
