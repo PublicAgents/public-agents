@@ -26,7 +26,6 @@
       "https://livevariant.com/skills/livevariant/SKILL.md"
     ],
     "mcp": "https://livevariant.com/mcp",
-    "api": "https://livevariant.com/api/v1/",
     "openapi": "https://livevariant.com/openapi.json",
     "source": "https://github.com/livevariant/livevariant"
   },
