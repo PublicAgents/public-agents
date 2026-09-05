@@ -1,0 +1,273 @@
+{
+  "$id": "https://public-agents.com/schemas/evidence-case-report.schema.json",
+  "title": "evidence-case-report",
+  "description": "A disclosed case report (registry/evidence/case-reports/<id>.json)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://public-agents.com/schemas/evidence-case-report.schema.json"
+    },
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "allOf": [
+        {
+          "pattern": "^(m|cr)-\\d{8}-[a-z0-9-]{3,60}$"
+        },
+        {
+          "pattern": "^cr-"
+        }
+      ]
+    },
+    "solution": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "tool"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "job": {
+      "type": "string",
+      "pattern": "^[a-z]{2,6}\\.[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "reporter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "github": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "name",
+        "github"
+      ],
+      "additionalProperties": false
+    },
+    "organization": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "sizeBand": {
+          "type": "string",
+          "enum": [
+            "1-10",
+            "11-50",
+            "51-200",
+            "201-1000",
+            "1001-10000",
+            "10000+"
+          ]
+        },
+        "industry": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        }
+      },
+      "required": [
+        "name",
+        "sizeBand",
+        "industry"
+      ],
+      "additionalProperties": false
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}$"
+        }
+      },
+      "required": [
+        "from"
+      ],
+      "additionalProperties": false
+    },
+    "deployment": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 2000
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "mixed",
+            "negative",
+            "inconclusive"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 1200
+        },
+        "metrics": {
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "verdict",
+        "summary"
+      ],
+      "additionalProperties": false
+    },
+    "disclosure": {
+      "type": "object",
+      "properties": {
+        "affiliation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "employee",
+            "contractor",
+            "investor",
+            "operator",
+            "partner",
+            "other"
+          ]
+        },
+        "affiliationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "compensation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "paid-by-vendor",
+            "discounted",
+            "credits",
+            "other"
+          ]
+        },
+        "compensationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "reseller": {
+          "type": "boolean"
+        },
+        "resellerDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "affiliation",
+        "compensation",
+        "reseller"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "minItems": 1,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "created": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "solution",
+    "job",
+    "reporter",
+    "organization",
+    "period",
+    "deployment",
+    "outcome",
+    "disclosure",
+    "sources",
+    "created",
+    "updated",
+    "version"
+  ],
+  "additionalProperties": false
+}

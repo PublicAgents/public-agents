@@ -1,0 +1,40 @@
+{
+  "name": "public-agents",
+  "version": "0.1.0",
+  "description": "A public registry of autonomous AI agents, the tools they use, and the jobs they claim to do, with the evidence behind every claim.",
+  "scripts": {
+    "validate": "node src/scripts/validate.ts",
+    "lint:prose": "node src/scripts/lint-prose.ts",
+    "pr-class": "node src/scripts/pr-class.ts",
+    "gen:schemas": "node src/scripts/gen-schemas.ts",
+    "check:schemas": "node src/scripts/gen-schemas.ts --check",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PublicAgents/public-agents.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/PublicAgents/public-agents/issues"
+  },
+  "homepage": "https://github.com/PublicAgents/public-agents#readme",
+  "dependencies": {
+    "markdown-it": "14.3.1",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "14.2.0",
+    "@types/node": "24.13.3",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  }
+}

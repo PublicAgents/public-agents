@@ -1,0 +1,41 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint:prose
+      - run: npm run check:schemas
+      - name: validate the registry (change rules against the base on a pull request)
+        run: |
+          if [ -n "${{ github.base_ref }}" ]; then
+            node src/scripts/validate.ts --base "origin/${{ github.base_ref }}"
+          else
+            node src/scripts/validate.ts
+          fi
+      - run: npm test
+      - run: npm run typecheck
+      - name: class
+        if: github.event_name == 'pull_request'
+        run: echo "This pull request is a $(node src/scripts/pr-class.ts --base origin/${{ github.base_ref }}) change (docs/GOVERNANCE.md)"
