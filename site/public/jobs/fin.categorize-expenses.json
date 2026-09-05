@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "fin.categorize-expenses",
+    "function": "fin",
+    "name": "Categorize expenses to the chart of accounts",
+    "outcome": "Every expense lands in the account and cost center a controller would choose.",
+    "measures": [
+      "categorization accuracy",
+      "manual recodes per month"
+    ],
+    "aliases": [
+      "expense coding",
+      "GL coding"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

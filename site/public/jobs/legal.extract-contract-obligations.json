@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "legal.extract-contract-obligations",
+    "function": "legal",
+    "name": "Extract obligations and dates from signed contracts",
+    "outcome": "Every obligation, deadline and renewal in a contract is extracted into the register with its clause.",
+    "measures": [
+      "extraction accuracy",
+      "missed obligations found later"
+    ],
+    "aliases": [
+      "contract abstraction",
+      "obligation management"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

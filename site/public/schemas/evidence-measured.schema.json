@@ -1,0 +1,269 @@
+{
+  "$id": "https://public-agents.com/schemas/evidence-measured.schema.json",
+  "title": "evidence-measured",
+  "description": "A re-runnable measurement (registry/evidence/measured/<id>.json)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://public-agents.com/schemas/evidence-measured.schema.json"
+    },
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "allOf": [
+        {
+          "pattern": "^(m|cr)-\\d{8}-[a-z0-9-]{3,60}$"
+        },
+        {
+          "pattern": "^m-"
+        }
+      ]
+    },
+    "solution": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "tool"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "job": {
+      "type": "string",
+      "pattern": "^[a-z]{2,6}\\.[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "conductedBy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "github": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "name",
+        "github"
+      ],
+      "additionalProperties": false
+    },
+    "independence": {
+      "type": "string",
+      "enum": [
+        "independent",
+        "self",
+        "vendor-sponsored"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 40,
+          "maxLength": 2000
+        },
+        "protocolUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "dataset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "sampleSize": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "period": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "to": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          "required": [
+            "from",
+            "to"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "summary",
+        "protocolUrl",
+        "period"
+      ],
+      "additionalProperties": false
+    },
+    "results": {
+      "minItems": 1,
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "baseline": {
+            "type": "number"
+          },
+          "interval": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "higherIsBetter": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "metric",
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reproducibility": {
+      "type": "object",
+      "properties": {
+        "artifactsUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        }
+      },
+      "required": [
+        "artifactsUrl"
+      ],
+      "additionalProperties": false
+    },
+    "disclosure": {
+      "type": "object",
+      "properties": {
+        "affiliation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "employee",
+            "contractor",
+            "investor",
+            "operator",
+            "partner",
+            "other"
+          ]
+        },
+        "affiliationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "compensation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "paid-by-vendor",
+            "discounted",
+            "credits",
+            "other"
+          ]
+        },
+        "compensationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "reseller": {
+          "type": "boolean"
+        },
+        "resellerDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "affiliation",
+        "compensation",
+        "reseller"
+      ],
+      "additionalProperties": false
+    },
+    "created": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "solution",
+    "job",
+    "conductedBy",
+    "independence",
+    "method",
+    "results",
+    "reproducibility",
+    "disclosure",
+    "created",
+    "updated",
+    "version"
+  ],
+  "additionalProperties": false
+}

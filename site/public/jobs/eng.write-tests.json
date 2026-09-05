@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "eng.write-tests",
+    "function": "eng",
+    "name": "Write tests that cover a change or a module",
+    "outcome": "Tests are added that fail on the defect and pass on the fix, and coverage of the changed code rises.",
+    "measures": [
+      "coverage delta",
+      "mutation score",
+      "flaky tests introduced"
+    ],
+    "aliases": [
+      "test generation"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

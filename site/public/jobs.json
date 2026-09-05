@@ -1,0 +1,891 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "commit": "d260eaecd578f99877eb89bf9e560042c4c37f49",
+  "functions": [
+    {
+      "id": "cs",
+      "name": "Customer service",
+      "description": "Answering, routing and resolving customer requests after the sale."
+    },
+    {
+      "id": "fin",
+      "name": "Finance and accounting",
+      "description": "Recording, reconciling, closing, forecasting and paying."
+    },
+    {
+      "id": "hr",
+      "name": "People and recruiting",
+      "description": "Hiring, onboarding, policy and employee questions."
+    },
+    {
+      "id": "proc",
+      "name": "Procurement",
+      "description": "Sourcing, comparing, contracting with and monitoring suppliers."
+    },
+    {
+      "id": "scm",
+      "name": "Supply chain and logistics",
+      "description": "Forecasting demand, holding stock, moving goods."
+    },
+    {
+      "id": "legal",
+      "name": "Legal and compliance",
+      "description": "Contracts, obligations and regulatory change."
+    },
+    {
+      "id": "mkt",
+      "name": "Marketing",
+      "description": "Content, campaigns, experiments and brand monitoring."
+    },
+    {
+      "id": "sales",
+      "name": "Sales operations",
+      "description": "Leads, outreach, calls and CRM hygiene."
+    },
+    {
+      "id": "it",
+      "name": "IT operations and security",
+      "description": "Internal requests, alerts, access and internal knowledge."
+    },
+    {
+      "id": "eng",
+      "name": "Software engineering",
+      "description": "Building, reviewing, testing and operating software: the delivery capability for every other function."
+    }
+  ],
+  "count": 52,
+  "jobs": [
+    {
+      "id": "cs.deflect-tier1",
+      "function": "cs",
+      "name": "Resolve tier-1 support requests without a human",
+      "outcome": "A routine customer request (password reset, order status, how-do-I) is answered correctly and closed with no person handling it.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.deflect-tier1"
+    },
+    {
+      "id": "cs.detect-churn-signals",
+      "function": "cs",
+      "name": "Flag customers likely to leave from their interactions",
+      "outcome": "Accounts whose conversations, usage and tone point to churn are flagged early enough to act.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.detect-churn-signals"
+    },
+    {
+      "id": "cs.draft-agent-replies",
+      "function": "cs",
+      "name": "Draft replies a support agent sends with light edits",
+      "outcome": "A support agent receives a drafted reply grounded in the customer's history and the knowledge base and sends it with minor edits or none.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.draft-agent-replies"
+    },
+    {
+      "id": "cs.score-interaction-quality",
+      "function": "cs",
+      "name": "Score every support interaction against the quality rubric",
+      "outcome": "Each interaction receives a quality score consistent with a trained reviewer's, so coaching needs no sampling.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.score-interaction-quality"
+    },
+    {
+      "id": "cs.summarize-conversations",
+      "function": "cs",
+      "name": "Summarize a customer conversation for the next handler",
+      "outcome": "A conversation of any length is condensed into what was asked, what was done and what is open, and the next handler needs nothing else.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.summarize-conversations"
+    },
+    {
+      "id": "cs.triage-route-tickets",
+      "function": "cs",
+      "name": "Route incoming tickets to the right queue",
+      "outcome": "Every new ticket lands in the queue and priority a trained agent would have chosen, before a person reads it.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/cs.triage-route-tickets"
+    },
+    {
+      "id": "eng.implement-scoped-changes",
+      "function": "eng",
+      "name": "Implement a scoped change from a written task",
+      "outcome": "A task with clear scope becomes a mergeable change that passes tests and review with limited rework.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.implement-scoped-changes"
+    },
+    {
+      "id": "eng.investigate-incidents",
+      "function": "eng",
+      "name": "Investigate incidents to a root cause",
+      "outcome": "An incident is investigated from logs, metrics and changes to a root cause a responder confirms.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.investigate-incidents"
+    },
+    {
+      "id": "eng.maintain-dependencies",
+      "function": "eng",
+      "name": "Keep dependencies current and safe",
+      "outcome": "Dependency updates are proposed, tested and merged, and known vulnerabilities are closed within the policy window.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.maintain-dependencies"
+    },
+    {
+      "id": "eng.review-pull-requests",
+      "function": "eng",
+      "name": "Review pull requests for defects and risks",
+      "outcome": "A pull request receives review comments that find real defects and risks a careful reviewer would, with few false alarms.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.review-pull-requests"
+    },
+    {
+      "id": "eng.triage-issues",
+      "function": "eng",
+      "name": "Triage incoming issues and reproduce them",
+      "outcome": "New issues are labeled, deduplicated and reproduced or marked unreproducible, with the steps recorded.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.triage-issues"
+    },
+    {
+      "id": "eng.write-documentation",
+      "function": "eng",
+      "name": "Write and maintain documentation from the code",
+      "outcome": "Documentation is written from the code and kept current as it changes, and readers find what they need.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.write-documentation"
+    },
+    {
+      "id": "eng.write-tests",
+      "function": "eng",
+      "name": "Write tests that cover a change or a module",
+      "outcome": "Tests are added that fail on the defect and pass on the fix, and coverage of the changed code rises.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/eng.write-tests"
+    },
+    {
+      "id": "fin.categorize-expenses",
+      "function": "fin",
+      "name": "Categorize expenses to the chart of accounts",
+      "outcome": "Every expense lands in the account and cost center a controller would choose.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.categorize-expenses"
+    },
+    {
+      "id": "fin.draft-variance-commentary",
+      "function": "fin",
+      "name": "Draft the commentary explaining budget variances",
+      "outcome": "Each material variance in the monthly pack carries a draft explanation grounded in the underlying transactions.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.draft-variance-commentary"
+    },
+    {
+      "id": "fin.flag-anomalous-transactions",
+      "function": "fin",
+      "name": "Flag transactions that look wrong before they post",
+      "outcome": "Duplicates, unusual amounts, odd counterparties and policy breaches are flagged before money moves.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.flag-anomalous-transactions"
+    },
+    {
+      "id": "fin.forecast-cash",
+      "function": "fin",
+      "name": "Forecast cash position over the coming weeks",
+      "outcome": "A rolling cash forecast that a treasurer trusts for the next 13 weeks, updated as receivables and payables move.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.forecast-cash"
+    },
+    {
+      "id": "fin.match-invoices-to-orders",
+      "function": "fin",
+      "name": "Match supplier invoices to purchase orders and receipts",
+      "outcome": "An incoming invoice is matched to its order and receipt lines, with exceptions surfaced, without manual keying.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.match-invoices-to-orders"
+    },
+    {
+      "id": "fin.reconcile-accounts",
+      "function": "fin",
+      "name": "Reconcile bank and ledger balances",
+      "outcome": "Bank lines and ledger entries are matched and every unmatched item is explained or queued, by the close date.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.reconcile-accounts"
+    },
+    {
+      "id": "hr.answer-policy-questions",
+      "function": "hr",
+      "name": "Answer employees' policy and benefits questions",
+      "outcome": "An employee's question about leave, benefits or policy is answered correctly from the handbook, or routed when it cannot be.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.answer-policy-questions"
+    },
+    {
+      "id": "hr.draft-job-descriptions",
+      "function": "hr",
+      "name": "Draft a job description from a hiring brief",
+      "outcome": "A hiring manager's brief becomes a posting that needs light edits and passes the compliance review.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.draft-job-descriptions"
+    },
+    {
+      "id": "hr.schedule-interviews",
+      "function": "hr",
+      "name": "Schedule interviews across candidates and panels",
+      "outcome": "Interview slots are booked across candidate and panel calendars without back-and-forth.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.schedule-interviews"
+    },
+    {
+      "id": "hr.screen-applications",
+      "function": "hr",
+      "name": "Screen applications against the role's requirements",
+      "outcome": "Every application is scored against the stated requirements with reasons a recruiter can read and override.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.screen-applications"
+    },
+    {
+      "id": "hr.summarize-engagement-feedback",
+      "function": "hr",
+      "name": "Summarize engagement survey comments into themes",
+      "outcome": "Free-text survey comments become themes with representative quotes and counts a leader can act on.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.summarize-engagement-feedback"
+    },
+    {
+      "id": "it.answer-internal-knowledge-questions",
+      "function": "it",
+      "name": "Answer questions from the company's internal knowledge",
+      "outcome": "A question about how things work here is answered from the wiki and documents, with the source, or routed.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/it.answer-internal-knowledge-questions"
+    },
+    {
+      "id": "it.detect-anomalous-access",
+      "function": "it",
+      "name": "Detect anomalous access to systems and data",
+      "outcome": "Logins and data access that break a user's pattern are flagged for review before harm.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/it.detect-anomalous-access"
+    },
+    {
+      "id": "it.resolve-tier1-it-requests",
+      "function": "it",
+      "name": "Resolve routine IT requests without a technician",
+      "outcome": "Password resets, access requests and how-do-I questions are resolved end to end with no technician.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/it.resolve-tier1-it-requests"
+    },
+    {
+      "id": "it.triage-alerts",
+      "function": "it",
+      "name": "Triage monitoring alerts to the right responder",
+      "outcome": "Alerts are deduplicated, grouped and routed to the right responder with the context to act.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/it.triage-alerts"
+    },
+    {
+      "id": "legal.answer-compliance-questions",
+      "function": "legal",
+      "name": "Answer compliance questions from the policy corpus",
+      "outcome": "A question about what the rules allow is answered with the policy passage that says so, or routed.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/legal.answer-compliance-questions"
+    },
+    {
+      "id": "legal.extract-contract-obligations",
+      "function": "legal",
+      "name": "Extract obligations and dates from signed contracts",
+      "outcome": "Every obligation, deadline and renewal in a contract is extracted into the register with its clause.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/legal.extract-contract-obligations"
+    },
+    {
+      "id": "legal.monitor-regulatory-changes",
+      "function": "legal",
+      "name": "Monitor regulatory changes that affect the business",
+      "outcome": "Changes in the regulations the company is subject to are detected, summarized and mapped to the affected policies.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/legal.monitor-regulatory-changes"
+    },
+    {
+      "id": "legal.review-nda",
+      "function": "legal",
+      "name": "Review a non-disclosure agreement against the playbook",
+      "outcome": "An incoming NDA is marked up against the company playbook, with deviations explained, before a lawyer looks.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/legal.review-nda"
+    },
+    {
+      "id": "mkt.ab-test-creative",
+      "function": "mkt",
+      "name": "Run A/B tests on creative and pick winners",
+      "outcome": "Variants of headlines, images or copy are tested on live traffic and the winner is chosen by a stated method.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.ab-test-creative"
+    },
+    {
+      "id": "mkt.draft-campaign-copy",
+      "function": "mkt",
+      "name": "Draft campaign copy in the brand's voice",
+      "outcome": "Copy for a campaign brief arrives in the brand's voice and passes review with light edits.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.draft-campaign-copy"
+    },
+    {
+      "id": "mkt.monitor-brand-mentions",
+      "function": "mkt",
+      "name": "Monitor and summarize mentions of the brand",
+      "outcome": "Mentions across the web and social are collected, classified by sentiment and topic, and summarized daily.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.monitor-brand-mentions"
+    },
+    {
+      "id": "mkt.optimize-email-creative",
+      "function": "mkt",
+      "name": "Optimize email creative per recipient",
+      "outcome": "Subject lines, images and links vary per recipient and the campaign converts better than the single version.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.optimize-email-creative"
+    },
+    {
+      "id": "mkt.optimize-landing-page",
+      "function": "mkt",
+      "name": "Optimize a landing page's conversion rate",
+      "outcome": "Changes to a landing page are tested and the page converts better than before at a stated confidence.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.optimize-landing-page"
+    },
+    {
+      "id": "mkt.personalize-email",
+      "function": "mkt",
+      "name": "Personalize email content per segment or recipient",
+      "outcome": "Each recipient sees content chosen for them and the campaign outperforms the unpersonalized version.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.personalize-email"
+    },
+    {
+      "id": "mkt.publish-web-content",
+      "function": "mkt",
+      "name": "Publish and maintain a public web presence",
+      "outcome": "Pages are written, published and kept current on a site the public reads, without a human in the publish path.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.publish-web-content"
+    },
+    {
+      "id": "proc.classify-spend",
+      "function": "proc",
+      "name": "Classify spend into categories for analysis",
+      "outcome": "Every transaction and line item is classified into the spend taxonomy consistently enough to negotiate on.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/proc.classify-spend"
+    },
+    {
+      "id": "proc.compare-supplier-quotes",
+      "function": "proc",
+      "name": "Compare supplier quotes on a like-for-like basis",
+      "outcome": "Quotes with different structures are normalized and compared, with the differences that matter called out.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/proc.compare-supplier-quotes"
+    },
+    {
+      "id": "proc.draft-rfp",
+      "function": "proc",
+      "name": "Draft a request for proposal from requirements",
+      "outcome": "A stakeholder's requirements become an RFP that suppliers can answer without clarification rounds.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/proc.draft-rfp"
+    },
+    {
+      "id": "proc.monitor-supplier-risk",
+      "function": "proc",
+      "name": "Monitor suppliers for risk signals",
+      "outcome": "Financial, delivery, compliance and news signals about suppliers are watched and surfaced before they become incidents.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/proc.monitor-supplier-risk"
+    },
+    {
+      "id": "sales.draft-outreach",
+      "function": "sales",
+      "name": "Draft personalized outreach messages",
+      "outcome": "A first message to a prospect is drafted from what is known about them and sent with light edits.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/sales.draft-outreach"
+    },
+    {
+      "id": "sales.enrich-leads",
+      "function": "sales",
+      "name": "Enrich leads with firmographic and contact data",
+      "outcome": "Every new lead is completed with company size, industry, role and contact details from public sources.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/sales.enrich-leads"
+    },
+    {
+      "id": "sales.score-leads",
+      "function": "sales",
+      "name": "Score leads by likelihood to convert",
+      "outcome": "Leads are ranked so that working the top of the list converts more than working in order of arrival.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/sales.score-leads"
+    },
+    {
+      "id": "sales.summarize-calls",
+      "function": "sales",
+      "name": "Summarize sales calls into notes and next steps",
+      "outcome": "A recorded call becomes notes, objections and next steps a rep would have written.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/sales.summarize-calls"
+    },
+    {
+      "id": "sales.update-crm-from-conversations",
+      "function": "sales",
+      "name": "Update the CRM from calls and emails",
+      "outcome": "Fields, stages and next steps in the CRM change to reflect what happened in conversations, without manual entry.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/sales.update-crm-from-conversations"
+    },
+    {
+      "id": "scm.forecast-demand",
+      "function": "scm",
+      "name": "Forecast demand per item and location",
+      "outcome": "A demand forecast at the item and location level that beats the naive baseline and the previous method.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/scm.forecast-demand"
+    },
+    {
+      "id": "scm.optimize-delivery-routes",
+      "function": "scm",
+      "name": "Plan delivery routes that cut miles and keep windows",
+      "outcome": "Daily routes meet delivery windows with fewer miles and vehicles than the previous plan.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/scm.optimize-delivery-routes"
+    },
+    {
+      "id": "scm.reorder-inventory",
+      "function": "scm",
+      "name": "Propose reorders that keep service levels within stock targets",
+      "outcome": "Reorder proposals hold the service level while lowering stock, and a planner approves most without change.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/scm.reorder-inventory"
+    },
+    {
+      "id": "scm.track-shipment-exceptions",
+      "function": "scm",
+      "name": "Detect shipments that will miss their window",
+      "outcome": "Delays are detected from carrier and telemetry data early enough to re-plan or warn the customer.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/scm.track-shipment-exceptions"
+    }
+  ]
+}

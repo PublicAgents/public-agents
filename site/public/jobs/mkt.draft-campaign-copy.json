@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "mkt.draft-campaign-copy",
+    "function": "mkt",
+    "name": "Draft campaign copy in the brand's voice",
+    "outcome": "Copy for a campaign brief arrives in the brand's voice and passes review with light edits.",
+    "measures": [
+      "edits before approval",
+      "time to first draft"
+    ],
+    "aliases": [
+      "copywriting",
+      "content generation"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

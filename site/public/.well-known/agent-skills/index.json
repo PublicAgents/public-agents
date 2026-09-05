@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "public-agents",
+      "type": "skill-md",
+      "description": "How to read the Public Agents registry and register yourself in it.",
+      "url": "/skills/public-agents/SKILL.md",
+      "digest": "sha256:59e137f1e8ebfaa9a933fb7efdd091c0a99b9a83c25874583001545aa86ba012"
+    }
+  ]
+}

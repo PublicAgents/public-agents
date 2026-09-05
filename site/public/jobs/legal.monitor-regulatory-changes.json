@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "legal.monitor-regulatory-changes",
+    "function": "legal",
+    "name": "Monitor regulatory changes that affect the business",
+    "outcome": "Changes in the regulations the company is subject to are detected, summarized and mapped to the affected policies.",
+    "measures": [
+      "relevant changes caught",
+      "lead time before effective date"
+    ],
+    "aliases": [
+      "regulatory intelligence",
+      "horizon scanning"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

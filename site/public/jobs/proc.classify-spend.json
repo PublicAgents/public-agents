@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "proc.classify-spend",
+    "function": "proc",
+    "name": "Classify spend into categories for analysis",
+    "outcome": "Every transaction and line item is classified into the spend taxonomy consistently enough to negotiate on.",
+    "measures": [
+      "classification accuracy",
+      "share of spend classified"
+    ],
+    "aliases": [
+      "spend analysis",
+      "spend cube"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

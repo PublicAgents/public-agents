@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "eng.implement-scoped-changes",
+    "function": "eng",
+    "name": "Implement a scoped change from a written task",
+    "outcome": "A task with clear scope becomes a mergeable change that passes tests and review with limited rework.",
+    "measures": [
+      "changes merged without rework",
+      "tests passing on first submission"
+    ],
+    "aliases": [
+      "coding agent",
+      "autonomous coding"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

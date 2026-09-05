@@ -1,0 +1,366 @@
+[
+  {
+    "kind": "job",
+    "id": "cs.deflect-tier1",
+    "title": "Resolve tier-1 support requests without a human",
+    "text": "A routine customer request (password reset, order status, how-do-I) is answered correctly and closed with no person handling it. L1 self-service ticket deflection AI first response cs",
+    "url": "/jobs/cs.deflect-tier1"
+  },
+  {
+    "kind": "job",
+    "id": "cs.detect-churn-signals",
+    "title": "Flag customers likely to leave from their interactions",
+    "text": "Accounts whose conversations, usage and tone point to churn are flagged early enough to act. churn prediction at-risk detection cs",
+    "url": "/jobs/cs.detect-churn-signals"
+  },
+  {
+    "kind": "job",
+    "id": "cs.draft-agent-replies",
+    "title": "Draft replies a support agent sends with light edits",
+    "text": "A support agent receives a drafted reply grounded in the customer's history and the knowledge base and sends it with minor edits or none. reply suggestions agent assist cs",
+    "url": "/jobs/cs.draft-agent-replies"
+  },
+  {
+    "kind": "job",
+    "id": "cs.score-interaction-quality",
+    "title": "Score every support interaction against the quality rubric",
+    "text": "Each interaction receives a quality score consistent with a trained reviewer's, so coaching needs no sampling. QA scoring conversation quality cs",
+    "url": "/jobs/cs.score-interaction-quality"
+  },
+  {
+    "kind": "job",
+    "id": "cs.summarize-conversations",
+    "title": "Summarize a customer conversation for the next handler",
+    "text": "A conversation of any length is condensed into what was asked, what was done and what is open, and the next handler needs nothing else. case summary wrap-up notes cs",
+    "url": "/jobs/cs.summarize-conversations"
+  },
+  {
+    "kind": "job",
+    "id": "cs.triage-route-tickets",
+    "title": "Route incoming tickets to the right queue",
+    "text": "Every new ticket lands in the queue and priority a trained agent would have chosen, before a person reads it. ticket triage auto-routing cs",
+    "url": "/jobs/cs.triage-route-tickets"
+  },
+  {
+    "kind": "job",
+    "id": "eng.implement-scoped-changes",
+    "title": "Implement a scoped change from a written task",
+    "text": "A task with clear scope becomes a mergeable change that passes tests and review with limited rework. coding agent autonomous coding eng",
+    "url": "/jobs/eng.implement-scoped-changes"
+  },
+  {
+    "kind": "job",
+    "id": "eng.investigate-incidents",
+    "title": "Investigate incidents to a root cause",
+    "text": "An incident is investigated from logs, metrics and changes to a root cause a responder confirms. incident analysis RCA eng",
+    "url": "/jobs/eng.investigate-incidents"
+  },
+  {
+    "kind": "job",
+    "id": "eng.maintain-dependencies",
+    "title": "Keep dependencies current and safe",
+    "text": "Dependency updates are proposed, tested and merged, and known vulnerabilities are closed within the policy window. dependency management dependabot eng",
+    "url": "/jobs/eng.maintain-dependencies"
+  },
+  {
+    "kind": "job",
+    "id": "eng.review-pull-requests",
+    "title": "Review pull requests for defects and risks",
+    "text": "A pull request receives review comments that find real defects and risks a careful reviewer would, with few false alarms. AI code review PR review eng",
+    "url": "/jobs/eng.review-pull-requests"
+  },
+  {
+    "kind": "job",
+    "id": "eng.triage-issues",
+    "title": "Triage incoming issues and reproduce them",
+    "text": "New issues are labeled, deduplicated and reproduced or marked unreproducible, with the steps recorded. issue triage bug triage eng",
+    "url": "/jobs/eng.triage-issues"
+  },
+  {
+    "kind": "job",
+    "id": "eng.write-documentation",
+    "title": "Write and maintain documentation from the code",
+    "text": "Documentation is written from the code and kept current as it changes, and readers find what they need. docs generation eng",
+    "url": "/jobs/eng.write-documentation"
+  },
+  {
+    "kind": "job",
+    "id": "eng.write-tests",
+    "title": "Write tests that cover a change or a module",
+    "text": "Tests are added that fail on the defect and pass on the fix, and coverage of the changed code rises. test generation eng",
+    "url": "/jobs/eng.write-tests"
+  },
+  {
+    "kind": "job",
+    "id": "fin.categorize-expenses",
+    "title": "Categorize expenses to the chart of accounts",
+    "text": "Every expense lands in the account and cost center a controller would choose. expense coding GL coding fin",
+    "url": "/jobs/fin.categorize-expenses"
+  },
+  {
+    "kind": "job",
+    "id": "fin.draft-variance-commentary",
+    "title": "Draft the commentary explaining budget variances",
+    "text": "Each material variance in the monthly pack carries a draft explanation grounded in the underlying transactions. management reporting flux analysis fin",
+    "url": "/jobs/fin.draft-variance-commentary"
+  },
+  {
+    "kind": "job",
+    "id": "fin.flag-anomalous-transactions",
+    "title": "Flag transactions that look wrong before they post",
+    "text": "Duplicates, unusual amounts, odd counterparties and policy breaches are flagged before money moves. fraud detection anomaly detection fin",
+    "url": "/jobs/fin.flag-anomalous-transactions"
+  },
+  {
+    "kind": "job",
+    "id": "fin.forecast-cash",
+    "title": "Forecast cash position over the coming weeks",
+    "text": "A rolling cash forecast that a treasurer trusts for the next 13 weeks, updated as receivables and payables move. cash forecasting treasury forecast fin",
+    "url": "/jobs/fin.forecast-cash"
+  },
+  {
+    "kind": "job",
+    "id": "fin.match-invoices-to-orders",
+    "title": "Match supplier invoices to purchase orders and receipts",
+    "text": "An incoming invoice is matched to its order and receipt lines, with exceptions surfaced, without manual keying. three-way match AP automation fin",
+    "url": "/jobs/fin.match-invoices-to-orders"
+  },
+  {
+    "kind": "job",
+    "id": "fin.reconcile-accounts",
+    "title": "Reconcile bank and ledger balances",
+    "text": "Bank lines and ledger entries are matched and every unmatched item is explained or queued, by the close date. bank reconciliation close automation fin",
+    "url": "/jobs/fin.reconcile-accounts"
+  },
+  {
+    "kind": "job",
+    "id": "hr.answer-policy-questions",
+    "title": "Answer employees' policy and benefits questions",
+    "text": "An employee's question about leave, benefits or policy is answered correctly from the handbook, or routed when it cannot be. HR helpdesk employee self-service hr",
+    "url": "/jobs/hr.answer-policy-questions"
+  },
+  {
+    "kind": "job",
+    "id": "hr.draft-job-descriptions",
+    "title": "Draft a job description from a hiring brief",
+    "text": "A hiring manager's brief becomes a posting that needs light edits and passes the compliance review. JD writing hr",
+    "url": "/jobs/hr.draft-job-descriptions"
+  },
+  {
+    "kind": "job",
+    "id": "hr.schedule-interviews",
+    "title": "Schedule interviews across candidates and panels",
+    "text": "Interview slots are booked across candidate and panel calendars without back-and-forth. interview coordination hr",
+    "url": "/jobs/hr.schedule-interviews"
+  },
+  {
+    "kind": "job",
+    "id": "hr.screen-applications",
+    "title": "Screen applications against the role's requirements",
+    "text": "Every application is scored against the stated requirements with reasons a recruiter can read and override. resume screening candidate ranking hr",
+    "url": "/jobs/hr.screen-applications"
+  },
+  {
+    "kind": "job",
+    "id": "hr.summarize-engagement-feedback",
+    "title": "Summarize engagement survey comments into themes",
+    "text": "Free-text survey comments become themes with representative quotes and counts a leader can act on. survey analysis voice of employee hr",
+    "url": "/jobs/hr.summarize-engagement-feedback"
+  },
+  {
+    "kind": "job",
+    "id": "it.answer-internal-knowledge-questions",
+    "title": "Answer questions from the company's internal knowledge",
+    "text": "A question about how things work here is answered from the wiki and documents, with the source, or routed. internal search knowledge assistant it",
+    "url": "/jobs/it.answer-internal-knowledge-questions"
+  },
+  {
+    "kind": "job",
+    "id": "it.detect-anomalous-access",
+    "title": "Detect anomalous access to systems and data",
+    "text": "Logins and data access that break a user's pattern are flagged for review before harm. UEBA insider threat detection it",
+    "url": "/jobs/it.detect-anomalous-access"
+  },
+  {
+    "kind": "job",
+    "id": "it.resolve-tier1-it-requests",
+    "title": "Resolve routine IT requests without a technician",
+    "text": "Password resets, access requests and how-do-I questions are resolved end to end with no technician. IT helpdesk automation IT self-service it",
+    "url": "/jobs/it.resolve-tier1-it-requests"
+  },
+  {
+    "kind": "job",
+    "id": "it.triage-alerts",
+    "title": "Triage monitoring alerts to the right responder",
+    "text": "Alerts are deduplicated, grouped and routed to the right responder with the context to act. alert triage AIOps it",
+    "url": "/jobs/it.triage-alerts"
+  },
+  {
+    "kind": "job",
+    "id": "legal.answer-compliance-questions",
+    "title": "Answer compliance questions from the policy corpus",
+    "text": "A question about what the rules allow is answered with the policy passage that says so, or routed. compliance helpdesk legal",
+    "url": "/jobs/legal.answer-compliance-questions"
+  },
+  {
+    "kind": "job",
+    "id": "legal.extract-contract-obligations",
+    "title": "Extract obligations and dates from signed contracts",
+    "text": "Every obligation, deadline and renewal in a contract is extracted into the register with its clause. contract abstraction obligation management legal",
+    "url": "/jobs/legal.extract-contract-obligations"
+  },
+  {
+    "kind": "job",
+    "id": "legal.monitor-regulatory-changes",
+    "title": "Monitor regulatory changes that affect the business",
+    "text": "Changes in the regulations the company is subject to are detected, summarized and mapped to the affected policies. regulatory intelligence horizon scanning legal",
+    "url": "/jobs/legal.monitor-regulatory-changes"
+  },
+  {
+    "kind": "job",
+    "id": "legal.review-nda",
+    "title": "Review a non-disclosure agreement against the playbook",
+    "text": "An incoming NDA is marked up against the company playbook, with deviations explained, before a lawyer looks. NDA review contract review legal",
+    "url": "/jobs/legal.review-nda"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.ab-test-creative",
+    "title": "Run A/B tests on creative and pick winners",
+    "text": "Variants of headlines, images or copy are tested on live traffic and the winner is chosen by a stated method. split testing creative testing mkt",
+    "url": "/jobs/mkt.ab-test-creative"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.draft-campaign-copy",
+    "title": "Draft campaign copy in the brand's voice",
+    "text": "Copy for a campaign brief arrives in the brand's voice and passes review with light edits. copywriting content generation mkt",
+    "url": "/jobs/mkt.draft-campaign-copy"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.monitor-brand-mentions",
+    "title": "Monitor and summarize mentions of the brand",
+    "text": "Mentions across the web and social are collected, classified by sentiment and topic, and summarized daily. social listening brand monitoring mkt",
+    "url": "/jobs/mkt.monitor-brand-mentions"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.optimize-email-creative",
+    "title": "Optimize email creative per recipient",
+    "text": "Subject lines, images and links vary per recipient and the campaign converts better than the single version. email creative optimization email creative testing mkt",
+    "url": "/jobs/mkt.optimize-email-creative"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.optimize-landing-page",
+    "title": "Optimize a landing page's conversion rate",
+    "text": "Changes to a landing page are tested and the page converts better than before at a stated confidence. CRO landing page optimization mkt",
+    "url": "/jobs/mkt.optimize-landing-page"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.personalize-email",
+    "title": "Personalize email content per segment or recipient",
+    "text": "Each recipient sees content chosen for them and the campaign outperforms the unpersonalized version. email personalization mkt",
+    "url": "/jobs/mkt.personalize-email"
+  },
+  {
+    "kind": "job",
+    "id": "mkt.publish-web-content",
+    "title": "Publish and maintain a public web presence",
+    "text": "Pages are written, published and kept current on a site the public reads, without a human in the publish path. content publishing site maintenance mkt",
+    "url": "/jobs/mkt.publish-web-content"
+  },
+  {
+    "kind": "job",
+    "id": "proc.classify-spend",
+    "title": "Classify spend into categories for analysis",
+    "text": "Every transaction and line item is classified into the spend taxonomy consistently enough to negotiate on. spend analysis spend cube proc",
+    "url": "/jobs/proc.classify-spend"
+  },
+  {
+    "kind": "job",
+    "id": "proc.compare-supplier-quotes",
+    "title": "Compare supplier quotes on a like-for-like basis",
+    "text": "Quotes with different structures are normalized and compared, with the differences that matter called out. bid analysis quote comparison proc",
+    "url": "/jobs/proc.compare-supplier-quotes"
+  },
+  {
+    "kind": "job",
+    "id": "proc.draft-rfp",
+    "title": "Draft a request for proposal from requirements",
+    "text": "A stakeholder's requirements become an RFP that suppliers can answer without clarification rounds. RFP writing proc",
+    "url": "/jobs/proc.draft-rfp"
+  },
+  {
+    "kind": "job",
+    "id": "proc.monitor-supplier-risk",
+    "title": "Monitor suppliers for risk signals",
+    "text": "Financial, delivery, compliance and news signals about suppliers are watched and surfaced before they become incidents. supplier risk third-party risk proc",
+    "url": "/jobs/proc.monitor-supplier-risk"
+  },
+  {
+    "kind": "job",
+    "id": "sales.draft-outreach",
+    "title": "Draft personalized outreach messages",
+    "text": "A first message to a prospect is drafted from what is known about them and sent with light edits. sales outreach sequence writing sales",
+    "url": "/jobs/sales.draft-outreach"
+  },
+  {
+    "kind": "job",
+    "id": "sales.enrich-leads",
+    "title": "Enrich leads with firmographic and contact data",
+    "text": "Every new lead is completed with company size, industry, role and contact details from public sources. lead enrichment data enrichment sales",
+    "url": "/jobs/sales.enrich-leads"
+  },
+  {
+    "kind": "job",
+    "id": "sales.score-leads",
+    "title": "Score leads by likelihood to convert",
+    "text": "Leads are ranked so that working the top of the list converts more than working in order of arrival. lead scoring sales",
+    "url": "/jobs/sales.score-leads"
+  },
+  {
+    "kind": "job",
+    "id": "sales.summarize-calls",
+    "title": "Summarize sales calls into notes and next steps",
+    "text": "A recorded call becomes notes, objections and next steps a rep would have written. call summaries conversation intelligence sales",
+    "url": "/jobs/sales.summarize-calls"
+  },
+  {
+    "kind": "job",
+    "id": "sales.update-crm-from-conversations",
+    "title": "Update the CRM from calls and emails",
+    "text": "Fields, stages and next steps in the CRM change to reflect what happened in conversations, without manual entry. CRM hygiene CRM automation sales",
+    "url": "/jobs/sales.update-crm-from-conversations"
+  },
+  {
+    "kind": "job",
+    "id": "scm.forecast-demand",
+    "title": "Forecast demand per item and location",
+    "text": "A demand forecast at the item and location level that beats the naive baseline and the previous method. demand planning scm",
+    "url": "/jobs/scm.forecast-demand"
+  },
+  {
+    "kind": "job",
+    "id": "scm.optimize-delivery-routes",
+    "title": "Plan delivery routes that cut miles and keep windows",
+    "text": "Daily routes meet delivery windows with fewer miles and vehicles than the previous plan. route optimization scm",
+    "url": "/jobs/scm.optimize-delivery-routes"
+  },
+  {
+    "kind": "job",
+    "id": "scm.reorder-inventory",
+    "title": "Propose reorders that keep service levels within stock targets",
+    "text": "Reorder proposals hold the service level while lowering stock, and a planner approves most without change. replenishment inventory optimization scm",
+    "url": "/jobs/scm.reorder-inventory"
+  },
+  {
+    "kind": "job",
+    "id": "scm.track-shipment-exceptions",
+    "title": "Detect shipments that will miss their window",
+    "text": "Delays are detected from carrier and telemetry data early enough to re-plan or warn the customer. shipment visibility exception management scm",
+    "url": "/jobs/scm.track-shipment-exceptions"
+  }
+]

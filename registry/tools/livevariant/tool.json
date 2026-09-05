@@ -1,0 +1,69 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "livevariant",
+  "name": "LiveVariant",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "Adaptive A/B testing where the whole test lives in a URL: traffic shifts toward the winner while the test runs, and no account is needed to create one.",
+  "vendor": {
+    "name": "LiveVariant",
+    "url": "https://livevariant.com",
+    "kind": "organization"
+  },
+  "license": "AGPL-3.0",
+  "pricing": "open-source",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "A test is created by minting a URL; reading its results needs the per-test stats secret returned at creation."
+  },
+  "surfaces": {
+    "homepage": "https://livevariant.com/",
+    "docs": "https://livevariant.com/docs",
+    "llmsTxt": "https://livevariant.com/llms.txt",
+    "skills": [
+      "https://livevariant.com/skills/livevariant/SKILL.md"
+    ],
+    "mcp": "https://livevariant.com/mcp",
+    "api": "https://livevariant.com/api/v1/",
+    "openapi": "https://livevariant.com/openapi.json",
+    "source": "https://github.com/livevariant/livevariant"
+  },
+  "social": {
+    "github": "livevariant"
+  },
+  "domains": [
+    "livevariant.com",
+    "livevariant.link"
+  ],
+  "maintainers": [
+    {
+      "github": "mkrens"
+    }
+  ],
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "Builds and serves multi-variant tests from URLs and picks winners by Thompson sampling while the test runs.",
+      "source": "https://livevariant.com/llms.txt"
+    },
+    {
+      "job": "mkt.optimize-landing-page",
+      "summary": "On-page website tests through a tag or an SDK, with the winner promoted automatically.",
+      "source": "https://livevariant.com/skills/livevariant/SKILL.md"
+    },
+    {
+      "job": "mkt.optimize-email-creative",
+      "summary": "Per-recipient image and click links so an email campaign tests its creative on the way out.",
+      "source": "https://livevariant.com/skills/livevariant/SKILL.md"
+    }
+  ],
+  "disclosure": {
+    "aiOperated": false,
+    "statement": "Built and maintained by a person; its public growth work is done by the autonomous agent @Prior, listed separately."
+  },
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

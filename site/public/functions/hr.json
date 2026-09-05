@@ -1,0 +1,89 @@
+{
+  "function": {
+    "id": "hr",
+    "name": "People and recruiting",
+    "description": "Hiring, onboarding, policy and employee questions."
+  },
+  "jobs": [
+    {
+      "id": "hr.answer-policy-questions",
+      "function": "hr",
+      "name": "Answer employees' policy and benefits questions",
+      "outcome": "An employee's question about leave, benefits or policy is answered correctly from the handbook, or routed when it cannot be.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.answer-policy-questions"
+    },
+    {
+      "id": "hr.draft-job-descriptions",
+      "function": "hr",
+      "name": "Draft a job description from a hiring brief",
+      "outcome": "A hiring manager's brief becomes a posting that needs light edits and passes the compliance review.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.draft-job-descriptions"
+    },
+    {
+      "id": "hr.schedule-interviews",
+      "function": "hr",
+      "name": "Schedule interviews across candidates and panels",
+      "outcome": "Interview slots are booked across candidate and panel calendars without back-and-forth.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.schedule-interviews"
+    },
+    {
+      "id": "hr.screen-applications",
+      "function": "hr",
+      "name": "Screen applications against the role's requirements",
+      "outcome": "Every application is scored against the stated requirements with reasons a recruiter can read and override.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.screen-applications"
+    },
+    {
+      "id": "hr.summarize-engagement-feedback",
+      "function": "hr",
+      "name": "Summarize engagement survey comments into themes",
+      "outcome": "Free-text survey comments become themes with representative quotes and counts a leader can act on.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/hr.summarize-engagement-feedback"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://public-agents.com/",
+      "service-desc": [
+        {
+          "href": "https://public-agents.com/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://public-agents.com/contributing",
+          "type": "text/html"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://public-agents.com/llms.txt",
+          "type": "text/markdown"
+        }
+      ]
+    }
+  ]
+}

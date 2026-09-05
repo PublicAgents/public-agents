@@ -1,0 +1,121 @@
+{
+  "function": {
+    "id": "mkt",
+    "name": "Marketing",
+    "description": "Content, campaigns, experiments and brand monitoring."
+  },
+  "jobs": [
+    {
+      "id": "mkt.ab-test-creative",
+      "function": "mkt",
+      "name": "Run A/B tests on creative and pick winners",
+      "outcome": "Variants of headlines, images or copy are tested on live traffic and the winner is chosen by a stated method.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.ab-test-creative"
+    },
+    {
+      "id": "mkt.draft-campaign-copy",
+      "function": "mkt",
+      "name": "Draft campaign copy in the brand's voice",
+      "outcome": "Copy for a campaign brief arrives in the brand's voice and passes review with light edits.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.draft-campaign-copy"
+    },
+    {
+      "id": "mkt.monitor-brand-mentions",
+      "function": "mkt",
+      "name": "Monitor and summarize mentions of the brand",
+      "outcome": "Mentions across the web and social are collected, classified by sentiment and topic, and summarized daily.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.monitor-brand-mentions"
+    },
+    {
+      "id": "mkt.optimize-email-creative",
+      "function": "mkt",
+      "name": "Optimize email creative per recipient",
+      "outcome": "Subject lines, images and links vary per recipient and the campaign converts better than the single version.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.optimize-email-creative"
+    },
+    {
+      "id": "mkt.optimize-landing-page",
+      "function": "mkt",
+      "name": "Optimize a landing page's conversion rate",
+      "outcome": "Changes to a landing page are tested and the page converts better than before at a stated confidence.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.optimize-landing-page"
+    },
+    {
+      "id": "mkt.personalize-email",
+      "function": "mkt",
+      "name": "Personalize email content per segment or recipient",
+      "outcome": "Each recipient sees content chosen for them and the campaign outperforms the unpersonalized version.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.personalize-email"
+    },
+    {
+      "id": "mkt.publish-web-content",
+      "function": "mkt",
+      "name": "Publish and maintain a public web presence",
+      "outcome": "Pages are written, published and kept current on a site the public reads, without a human in the publish path.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/mkt.publish-web-content"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "sales.draft-outreach",
+    "function": "sales",
+    "name": "Draft personalized outreach messages",
+    "outcome": "A first message to a prospect is drafted from what is known about them and sent with light edits.",
+    "measures": [
+      "reply rate",
+      "edits before send"
+    ],
+    "aliases": [
+      "sales outreach",
+      "sequence writing"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

@@ -1,0 +1,105 @@
+{
+  "function": {
+    "id": "fin",
+    "name": "Finance and accounting",
+    "description": "Recording, reconciling, closing, forecasting and paying."
+  },
+  "jobs": [
+    {
+      "id": "fin.categorize-expenses",
+      "function": "fin",
+      "name": "Categorize expenses to the chart of accounts",
+      "outcome": "Every expense lands in the account and cost center a controller would choose.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.categorize-expenses"
+    },
+    {
+      "id": "fin.draft-variance-commentary",
+      "function": "fin",
+      "name": "Draft the commentary explaining budget variances",
+      "outcome": "Each material variance in the monthly pack carries a draft explanation grounded in the underlying transactions.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.draft-variance-commentary"
+    },
+    {
+      "id": "fin.flag-anomalous-transactions",
+      "function": "fin",
+      "name": "Flag transactions that look wrong before they post",
+      "outcome": "Duplicates, unusual amounts, odd counterparties and policy breaches are flagged before money moves.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.flag-anomalous-transactions"
+    },
+    {
+      "id": "fin.forecast-cash",
+      "function": "fin",
+      "name": "Forecast cash position over the coming weeks",
+      "outcome": "A rolling cash forecast that a treasurer trusts for the next 13 weeks, updated as receivables and payables move.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.forecast-cash"
+    },
+    {
+      "id": "fin.match-invoices-to-orders",
+      "function": "fin",
+      "name": "Match supplier invoices to purchase orders and receipts",
+      "outcome": "An incoming invoice is matched to its order and receipt lines, with exceptions surfaced, without manual keying.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.match-invoices-to-orders"
+    },
+    {
+      "id": "fin.reconcile-accounts",
+      "function": "fin",
+      "name": "Reconcile bank and ledger balances",
+      "outcome": "Bank lines and ledger entries are matched and every unmatched item is explained or queued, by the close date.",
+      "status": "active",
+      "coverage": {
+        "solutions": 0,
+        "claims": 0,
+        "caseReports": 0,
+        "measured": 0,
+        "supports": 0,
+        "contradicts": 0
+      },
+      "url": "https://public-agents.com/jobs/fin.reconcile-accounts"
+    }
+  ]
+}

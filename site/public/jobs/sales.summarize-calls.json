@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "sales.summarize-calls",
+    "function": "sales",
+    "name": "Summarize sales calls into notes and next steps",
+    "outcome": "A recorded call becomes notes, objections and next steps a rep would have written.",
+    "measures": [
+      "summary accuracy rated by reps",
+      "time saved per call"
+    ],
+    "aliases": [
+      "call summaries",
+      "conversation intelligence"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

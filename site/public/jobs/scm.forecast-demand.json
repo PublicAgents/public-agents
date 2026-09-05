@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "scm.forecast-demand",
+    "function": "scm",
+    "name": "Forecast demand per item and location",
+    "outcome": "A demand forecast at the item and location level that beats the naive baseline and the previous method.",
+    "measures": [
+      "forecast accuracy (MAPE) by horizon",
+      "bias",
+      "improvement over baseline"
+    ],
+    "aliases": [
+      "demand planning"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

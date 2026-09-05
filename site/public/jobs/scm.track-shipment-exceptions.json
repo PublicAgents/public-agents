@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "scm.track-shipment-exceptions",
+    "function": "scm",
+    "name": "Detect shipments that will miss their window",
+    "outcome": "Delays are detected from carrier and telemetry data early enough to re-plan or warn the customer.",
+    "measures": [
+      "lead time of exception alerts",
+      "missed windows without an alert"
+    ],
+    "aliases": [
+      "shipment visibility",
+      "exception management"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}

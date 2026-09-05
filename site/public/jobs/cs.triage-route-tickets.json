@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-09-05T16:32:24.144Z",
+  "job": {
+    "$schema": "https://public-agents.com/schemas/job.schema.json",
+    "schemaVersion": 1,
+    "id": "cs.triage-route-tickets",
+    "function": "cs",
+    "name": "Route incoming tickets to the right queue",
+    "outcome": "Every new ticket lands in the queue and priority a trained agent would have chosen, before a person reads it.",
+    "measures": [
+      "routing accuracy against human labels",
+      "time to first correct assignment",
+      "re-route rate"
+    ],
+    "aliases": [
+      "ticket triage",
+      "auto-routing"
+    ],
+    "status": "active",
+    "created": "2026-09-05",
+    "updated": "2026-09-05",
+    "version": 1
+  },
+  "solutions": [],
+  "evidenceWithoutClaim": []
+}
