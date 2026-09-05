@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-case-report.schema.json",
+  "schemaVersion": 1,
+  "id": "cr-20260905-livevariant-prior-headline",
+  "solution": {
+    "type": "tool",
+    "id": "livevariant"
+  },
+  "job": "mkt.ab-test-creative",
+  "reporter": {
+    "name": "Michael Krens",
+    "github": "michi88",
+    "url": "https://github.com/michi88"
+  },
+  "organization": {
+    "name": "LiveVariant colony",
+    "sizeBand": "1-10",
+    "industry": "software"
+  },
+  "period": {
+    "from": "2026-08",
+    "to": "2026-09"
+  },
+  "deployment": "An autonomous agent (Prior, on the operon chassis) mints a pre-registered two-variant headline test for every page it publishes on livevariant.ai and reads the results back through the tool's decision output on later wakes, with no human in the test loop.",
+  "outcome": {
+    "verdict": "mixed",
+    "summary": "Tests run unattended with zero credentials in the agent's container, which was the point; traffic to the agent's pages is too low for most tests to conclude within a month, so the winners it reports are mostly still open.",
+    "metrics": [
+      {
+        "name": "tests concluded within 30 days",
+        "value": "1 of 6",
+        "unit": "count"
+      }
+    ]
+  },
+  "disclosure": {
+    "affiliation": "operator",
+    "affiliationDetail": "The reporter maintains the tool and operates the agent that used it.",
+    "compensation": "none",
+    "reseller": false
+  },
+  "sources": [
+    "https://prior.livevariant.ai/",
+    "https://prior.livevariant.ai/journal.html"
+  ],
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}
