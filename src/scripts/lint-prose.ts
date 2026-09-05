@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Our own prose carries no em dashes (U+2014) and no en dash used as one
- * (U+2013 between spaces). Entries and profiles are the contributors'
+ * Our own prose carries no em dash (U+2014) and no en dash used as one
+ * (U+2013 between spaces); the characters are spelled as escapes here so
+ * the lint does not catch itself. Entries and profiles are the contributors'
  * voice and are exempt; everything else in the tracked tree is ours.
  */
 import { execFileSync } from "node:child_process";
@@ -18,7 +19,7 @@ let hits = 0;
 for (const file of files) {
   const lines = readFileSync(file, "utf8").split("\n");
   lines.forEach((line, index) => {
-    if (line.includes("—") || / – /.test(line)) {
+    if (line.includes("\u2014") || / \u2013 /.test(line)) {
       hits += 1;
       console.error(`EM_DASH: ${file}:${index + 1}`);
     }
