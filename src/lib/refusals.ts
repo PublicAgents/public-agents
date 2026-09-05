@@ -35,6 +35,15 @@ export const REFUSALS = {
   CREATED_CHANGED: "created never changes",
   REPORTER_CHANGED: "the reporter of evidence never changes after merge",
   STRAY_FILE: "only the files the layout names belong under registry/",
+  LINK_DEAD: "a URL the entry names does not answer",
+  OWNERSHIP_UNVERIFIED: "the author is not a maintainer of the base entry",
+  OWNERSHIP_FETCH_FAILED: "the domain offers no ownership proof that could be read",
+  OWNERSHIP_HANDLE_NOT_LISTED: "the domain's proof does not name this handle or slug",
+  OWNERSHIP_AUTHOR_NOT_LISTED: "the domain's proof does not name the author (or every maintainer the entry lists)",
+  OWNERSHIP_CONFLICT: "the well-known file and the DNS record disagree",
+  OWNERSHIP_REVOKED: "a maintainer the domain no longer names lost authority",
+  OWNERSHIP_ADDRESS_FORBIDDEN: "the domain resolves to a private or reserved address",
+  REPORTER_MISMATCH: "the evidence's reporter must be the pull request's author",
   EM_DASH: "our own files carry no em dashes"
 } as const;
 
