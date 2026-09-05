@@ -1,0 +1,19 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "eng.write-documentation",
+  "function": "eng",
+  "name": "Write and maintain documentation from the code",
+  "outcome": "Documentation is written from the code and kept current as it changes, and readers find what they need.",
+  "measures": [
+    "docs updated with changes",
+    "reader success rate"
+  ],
+  "aliases": [
+    "docs generation"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

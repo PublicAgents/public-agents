@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.draft-variance-commentary",
+  "function": "fin",
+  "name": "Draft the commentary explaining budget variances",
+  "outcome": "Each material variance in the monthly pack carries a draft explanation grounded in the underlying transactions.",
+  "measures": [
+    "commentary accepted without rewrite",
+    "coverage of material variances"
+  ],
+  "aliases": [
+    "management reporting",
+    "flux analysis"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

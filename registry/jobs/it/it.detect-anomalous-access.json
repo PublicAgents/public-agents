@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "it.detect-anomalous-access",
+  "function": "it",
+  "name": "Detect anomalous access to systems and data",
+  "outcome": "Logins and data access that break a user's pattern are flagged for review before harm.",
+  "measures": [
+    "true positive rate",
+    "false positive rate",
+    "time to detection"
+  ],
+  "aliases": [
+    "UEBA",
+    "insider threat detection"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

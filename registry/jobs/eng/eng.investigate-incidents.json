@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "eng.investigate-incidents",
+  "function": "eng",
+  "name": "Investigate incidents to a root cause",
+  "outcome": "An incident is investigated from logs, metrics and changes to a root cause a responder confirms.",
+  "measures": [
+    "root cause confirmed",
+    "time to root cause"
+  ],
+  "aliases": [
+    "incident analysis",
+    "RCA"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

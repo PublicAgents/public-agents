@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "proc.compare-supplier-quotes",
+  "function": "proc",
+  "name": "Compare supplier quotes on a like-for-like basis",
+  "outcome": "Quotes with different structures are normalized and compared, with the differences that matter called out.",
+  "measures": [
+    "time to comparison",
+    "errors caught in quotes"
+  ],
+  "aliases": [
+    "bid analysis",
+    "quote comparison"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

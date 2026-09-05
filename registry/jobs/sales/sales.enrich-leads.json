@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "sales.enrich-leads",
+  "function": "sales",
+  "name": "Enrich leads with firmographic and contact data",
+  "outcome": "Every new lead is completed with company size, industry, role and contact details from public sources.",
+  "measures": [
+    "fields filled per lead",
+    "accuracy of filled fields"
+  ],
+  "aliases": [
+    "lead enrichment",
+    "data enrichment"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

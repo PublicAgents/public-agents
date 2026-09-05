@@ -1,0 +1,23 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "cs.deflect-tier1",
+  "function": "cs",
+  "name": "Resolve tier-1 support requests without a human",
+  "outcome": "A routine customer request (password reset, order status, how-do-I) is answered correctly and closed with no person handling it.",
+  "measures": [
+    "deflection rate",
+    "reopen rate within 7 days",
+    "CSAT on deflected conversations",
+    "escalation accuracy"
+  ],
+  "aliases": [
+    "L1 self-service",
+    "ticket deflection",
+    "AI first response"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

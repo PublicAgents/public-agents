@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "hr.screen-applications",
+  "function": "hr",
+  "name": "Screen applications against the role's requirements",
+  "outcome": "Every application is scored against the stated requirements with reasons a recruiter can read and override.",
+  "measures": [
+    "agreement with recruiter decisions",
+    "time to shortlist",
+    "adverse impact ratio"
+  ],
+  "aliases": [
+    "resume screening",
+    "candidate ranking"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}
