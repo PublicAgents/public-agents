@@ -1,0 +1,75 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+export function getStaticPaths() {
+  return registry.agents.map(a => ({ params: { handle: a.handle.toLowerCase() }, props: { agent: a } }));
+}
+type Cell = { solution: { type: string; id: string }; type: string; supports: number; contradicts: number; evidence: Array<{ id: string; type: string; outcome: string; independence: string; url: string }> };
+const { agent: a } = Astro.props as { agent: (typeof registry.agents)[number] };
+const lower = a.handle.toLowerCase();
+const coverage = registry.coverage as Record<string, { cells: Cell[] }>;
+const claims = (a.jobs ?? []).map(claim => {
+  const cell = coverage[claim.job]?.cells.find(c => c.solution.type === "agent" && c.solution.id === lower);
+  const job = registry.jobs.find(j => j.id === claim.job);
+  return { ...claim, name: job?.name ?? claim.job, type: cell?.type ?? "claim", supports: cell?.supports ?? 0, contradicts: cell?.contradicts ?? 0, evidence: cell?.evidence ?? [] };
+});
+const surfaces = Object.entries(a.surfaces).filter(([, v]) => v && (typeof v === "string" || (Array.isArray(v) && v.length > 0)));
+const operatorAffiliated = a.maintainers.some(m => m.github === "mkrens");
+---
+<Base title={`@${a.handle}`} description={a.purpose} jsonPath={`/@${a.handle}.json`} markdownPath={`/@${a.handle}.md`}>
+  <h1>@{a.handle} <span class="muted">{a.displayName}</span></h1>
+  <p>
+    <span class="tag">autonomous agent</span>
+    <span class="tag">{a.kind}</span>
+    <span class="tag">{a.status}</span>
+    {a.verification.ok ? <span class="tag supports">domain verified ({a.verification.method}, {a.verification.checkedAt})</span> : <span class="tag">domain unverified as of this build</span>}
+  </p>
+  {operatorAffiliated ? <div class="banner">Operated by the registry's operator. Disputes about this entry go to the operator directly, not to the registry's reviewer (see the governance rules).</div> : null}
+  <p>{a.purpose}</p>
+  <dl class="facts">
+    <dt>Operator</dt><dd>{a.operator.url ? <a href={a.operator.url}>{a.operator.name}</a> : a.operator.name} ({a.operator.kind})</dd>
+    {a.provider ? <><dt>Provider</dt><dd>{a.provider.url ? <a href={a.provider.url}>{a.provider.name}</a> : a.provider.name}</dd></> : null}
+    <dt>Chassis</dt><dd>{a.stack.chassis ? (a.stack.chassis.url ? <a href={a.stack.chassis.url}>{a.stack.chassis.name}</a> : a.stack.chassis.name) : "none"}</dd>
+    <dt>Harnesses</dt><dd>{a.stack.harnesses.join(", ") || "none"}</dd>
+    <dt>Models</dt><dd>{a.stack.models.join(", ") || "none"}</dd>
+    <dt>Domains</dt><dd>{a.domains.join(", ")}</dd>
+    {a.capabilities?.length ? <><dt>Capabilities</dt><dd>{a.capabilities.map(c => <span class="tag">{c}</span>)}</dd></> : null}
+    {a.social ? <><dt>Social</dt><dd>{Object.entries(a.social).filter(([, v]) => v).map(([k, v]) => <span class="tag">{k}: {String(v)}</span>)}</dd></> : null}
+    <dt>Disclosure</dt><dd>{a.disclosure.statement}{a.disclosure.humanInLoop ? <span class="muted"> Human in the loop: {a.disclosure.humanInLoop}</span> : null}</dd>
+  </dl>
+  <h2>Surfaces</h2>
+  <p class="muted">What an agent should fetch first: the llms.txt, then the agent card, then the skills.</p>
+  <ul>
+    {surfaces.map(([k, v]) => Array.isArray(v) ? v.map(u => <li>{k}: <a href={u}>{u}</a></li>) : <li>{k}: <a href={String(v)}>{String(v)}</a></li>)}
+  </ul>
+  <h2>Jobs claimed</h2>
+  {claims.length === 0 ? <p class="muted">No jobs claimed.</p> : (
+    <div class="wrap">
+      <table>
+        <thead><tr><th>Job</th><th>In its words</th><th>Evidence</th></tr></thead>
+        <tbody>
+          {claims.map(c => (
+            <tr>
+              <td><a href={`/jobs/${c.job}`}>{c.name}</a><br /><code class="muted">{c.job}</code></td>
+              <td>{c.summary}{c.source ? <> (<a href={c.source}>source</a>)</> : null}</td>
+              <td>
+                <span class={`tag ${c.type}`}>{c.type === "claim" ? "claim only (a finding)" : c.type}</span>
+                {c.supports > 0 ? <span class="tag supports">{c.supports} supporting</span> : null}
+                {c.contradicts > 0 ? <span class="tag contradicts">{c.contradicts} contradicting</span> : null}
+                {c.evidence.map(e => <a href={e.url}> {e.type}: {e.outcome}</a>)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+  <h2>In its own words</h2>
+  <div class="own-words" set:html={a.profileHtml || "<p class='muted'>Nothing yet.</p>"} />
+  <h2>Files</h2>
+  <p class="muted">
+    <a href={`/@${a.handle}.json`}>entry (JSON)</a> · <a href={`/@${a.handle}/card.json`}>the registry's card</a> · <a href={`/@${a.handle}.md`}>markdown</a> · <a href={`/@${a.handle}/profile.md`}>profile source</a> ·
+    <a href={`https://github.com/PublicAgents/public-agents/tree/main/registry/agents/${lower}`}>edit this entry</a> · <a href="/register#evidence">file evidence about this agent</a>.
+    Created {a.created}, updated {a.updated}, version {a.version}.
+  </p>
+</Base>

@@ -1,0 +1,35 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+type Counts = { solutions: number; claims: number; caseReports: number; measured: number; supports: number; contradicts: number };
+const coverage = registry.coverage as Record<string, { counts: Counts }>;
+---
+<Base title="Jobs" jsonPath="/jobs.json">
+  <h1>Jobs</h1>
+  <p class="muted">Outcomes an enterprise wants done, in our own words with the measures that would show them done. Each job page is a coverage cell: which solutions claim it, what evidence exists, and where nothing does. A zero is a finding.</p>
+  {registry.functions.map(fn => {
+    const jobs = registry.jobs.filter(j => j.function === fn.id);
+    return (
+      <>
+        <h2 id={fn.id}><a href={`/functions/${fn.id}`}>{fn.name}</a> <span class="muted">{fn.description}</span></h2>
+        <div class="wrap">
+          <table>
+            <thead><tr><th>Job</th><th>Solutions</th><th>Measured</th><th>Case reports</th><th>Claims only</th><th>Supporting</th><th>Contradicting</th></tr></thead>
+            <tbody>
+              {jobs.map(job => {
+                const c = coverage[job.id]?.counts ?? { solutions: 0, claims: 0, caseReports: 0, measured: 0, supports: 0, contradicts: 0 };
+                return (
+                  <tr>
+                    <td><a href={`/jobs/${job.id}`}>{job.name}</a><br /><code class="muted">{job.id}</code>{job.status === "deprecated" ? <span class="tag">deprecated</span> : null}</td>
+                    <td class={c.solutions === 0 ? "finding" : ""}>{c.solutions === 0 ? "0 (a finding)" : c.solutions}</td>
+                    <td>{c.measured}</td><td>{c.caseReports}</td><td>{c.claims}</td><td>{c.supports}</td><td>{c.contradicts}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  })}
+</Base>

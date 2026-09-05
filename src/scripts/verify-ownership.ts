@@ -30,9 +30,20 @@ if (!author) {
 }
 const root = process.cwd();
 const editors = existsSync(join(root, "registry/editors.json")) ? (JSON.parse(readFileSync(join(root, "registry/editors.json"), "utf8")) as string[]) : [];
-const verification = existsSync(join(root, "registry/verification.json"))
-  ? (JSON.parse(readFileSync(join(root, "registry/verification.json"), "utf8")) as { entries?: Record<string, { verifiedAt: string }> })
-  : { entries: {} };
+// The live site is the record of when each entry's domain was last
+// verified (the nightly audit refreshes it); unreachable means "prove".
+const verification: { entries: Record<string, { verifiedAt: string }> } = { entries: {} };
+for (const kind of ["agents", "tools"] as const) {
+  try {
+    const response = await fetch(`https://public-agents.com/${kind}.json`, { signal: AbortSignal.timeout(5000) });
+    if (!response.ok) continue;
+    const body = (await response.json()) as { agents?: Array<{ handle: string; verification: { ok: boolean; checkedAt: string | null } }>; tools?: Array<{ slug: string; verification: { ok: boolean; checkedAt: string | null } }> };
+    for (const a of body.agents ?? []) if (a.verification.ok && a.verification.checkedAt) verification.entries[a.handle.toLowerCase()] = { verifiedAt: a.verification.checkedAt };
+    for (const t of body.tools ?? []) if (t.verification.ok && t.verification.checkedAt) verification.entries[t.slug] = { verifiedAt: t.verification.checkedAt };
+  } catch {
+    /* prove instead */
+  }
+}
 
 interface Change {
   status: string;

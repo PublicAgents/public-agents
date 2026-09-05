@@ -98,9 +98,13 @@ export const httpsTransport: Transport = req =>
         path: `${req.url.pathname}${req.url.search}`,
         method: req.method,
         headers: { ...req.headers, host: req.url.host },
-        lookup: (_host, _options, callback) => {
-          // The pinned address: whatever the name says now, this socket goes where the check looked.
-          (callback as (err: Error | null, address: string, family: number) => void)(null, req.address, family);
+        lookup: (_host, options, callback) => {
+          // The pinned address: whatever the name says now, this socket
+          // goes where the check looked. Node asks with { all: true } when
+          // it selects the address family itself and expects a list then.
+          const cb = callback as unknown as (err: Error | null, ...rest: unknown[]) => void;
+          if (options && typeof options === "object" && "all" in options && options.all) cb(null, [{ address: req.address, family }]);
+          else cb(null, req.address, family);
         },
         timeout: req.timeoutMs
       },

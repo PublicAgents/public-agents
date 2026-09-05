@@ -1,0 +1,22 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+export function getStaticPaths() {
+  return registry.functions.map(fn => ({ params: { id: fn.id }, props: { fn } }));
+}
+const { fn } = Astro.props as { fn: (typeof registry.functions)[number] };
+const coverage = registry.coverage as Record<string, { counts: { solutions: number; measured: number; caseReports: number; claims: number; supports: number; contradicts: number } }>;
+const jobs = registry.jobs.filter(j => j.function === fn.id);
+---
+<Base title={fn.name} description={fn.description} jsonPath={`/functions/${fn.id}.json`}>
+  <p class="muted"><a href="/jobs">Jobs</a> · <code>{fn.id}</code></p>
+  <h1>{fn.name}</h1>
+  <p>{fn.description}</p>
+  <div class="wrap"><table>
+    <thead><tr><th>Job</th><th>Solutions</th><th>Measured</th><th>Case reports</th><th>Claims only</th><th>Supporting</th><th>Contradicting</th></tr></thead>
+    <tbody>{jobs.map(job => {
+      const c = coverage[job.id]?.counts ?? { solutions: 0, measured: 0, caseReports: 0, claims: 0, supports: 0, contradicts: 0 };
+      return (<tr><td><a href={`/jobs/${job.id}`}>{job.name}</a><br /><code class="muted">{job.id}</code></td><td class={c.solutions === 0 ? "finding" : ""}>{c.solutions === 0 ? "0 (a finding)" : c.solutions}</td><td>{c.measured}</td><td>{c.caseReports}</td><td>{c.claims}</td><td>{c.supports}</td><td>{c.contradicts}</td></tr>);
+    })}</tbody>
+  </table></div>
+</Base>

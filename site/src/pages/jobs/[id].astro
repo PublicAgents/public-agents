@@ -1,0 +1,62 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+export function getStaticPaths() {
+  return registry.jobs.map(job => ({ params: { id: job.id }, props: { job } }));
+}
+type Cell = { solution: { type: string; id: string; name: string; url: string }; claim: { summary: string; source?: string; since?: string } | null; type: string; supports: number; contradicts: number; evidence: Array<{ id: string; type: string; outcome: string; independence: string; url: string; summary: string; reporter: string; at: string }> };
+const { job } = Astro.props as { job: (typeof registry.jobs)[number] };
+const cov = (registry.coverage as Record<string, { counts: Record<string, number>; cells: Cell[] }>)[job.id] ?? { counts: {}, cells: [] };
+const fn = registry.functions.find(f => f.id === job.function);
+const measured = cov.cells.flatMap(cell => cell.evidence.filter(e => e.type === "measured").map(e => ({ cell, e })));
+const reports = cov.cells.flatMap(cell => cell.evidence.filter(e => e.type === "case-report").map(e => ({ cell, e })));
+const claims = cov.cells.filter(cell => cell.claim);
+const withoutClaim = cov.cells.filter(cell => !cell.claim && cell.evidence.length > 0);
+const empty = cov.cells.length === 0;
+---
+<Base title={job.name} description={job.outcome} jsonPath={`/jobs/${job.id}.json`}>
+  <p class="muted"><a href="/jobs">Jobs</a> · <a href={`/functions/${job.function}`}>{fn?.name ?? job.function}</a> · <code>{job.id}</code>{job.status === "deprecated" ? <> · <span class="tag">deprecated{job.supersededBy ? <>, superseded by <a href={`/jobs/${job.supersededBy}`}>{job.supersededBy}</a></> : null}</span></> : null}</p>
+  <h1>{job.name}</h1>
+  <p><strong>Done means:</strong> {job.outcome}</p>
+  {job.description ? <p>{job.description}</p> : null}
+  <dl class="facts">
+    <dt>Measures</dt><dd>{job.measures.join("; ")}</dd>
+    {job.aliases?.length ? <><dt>Also called</dt><dd>{job.aliases.join(", ")}</dd></> : null}
+    {job.related?.length ? <><dt>Related</dt><dd>{job.related.map(r => <a href={`/jobs/${r}`}>{r} </a>)}</dd></> : null}
+  </dl>
+  {empty ? <div class="banner finding">No solution claims this job and no evidence exists. That is a finding, not a gap in the site. <a href="/register#claim">Claim it</a> or <a href="/register#evidence">file evidence</a>.</div> : null}
+  <h2>Measured results <span class="muted">({measured.length})</span></h2>
+  {measured.length === 0 ? <p class="muted">Nobody has measured a solution against this job. A finding.</p> : (
+    <div class="wrap"><table>
+      <thead><tr><th>Solution</th><th>Outcome</th><th>Independence</th><th>Method</th><th>By</th></tr></thead>
+      <tbody>{measured.map(({ cell, e }) => (
+        <tr><td><a href={cell.solution.url}>{cell.solution.name}</a></td><td><span class={`tag ${e.outcome}`}>{e.outcome}</span></td><td>{e.independence}</td><td><a href={e.url}>{e.summary}</a></td><td>{e.reporter}, {e.at}</td></tr>
+      ))}</tbody>
+    </table></div>
+  )}
+  <h2>Case reports <span class="muted">({reports.length})</span></h2>
+  {reports.length === 0 ? <p class="muted">No disclosed case report. A finding.</p> : (
+    <div class="wrap"><table>
+      <thead><tr><th>Solution</th><th>Verdict</th><th>Independence</th><th>Summary</th><th>Reporter</th></tr></thead>
+      <tbody>{reports.map(({ cell, e }) => (
+        <tr><td><a href={cell.solution.url}>{cell.solution.name}</a></td><td><span class={`tag ${e.outcome}`}>{e.outcome}</span></td><td>{e.independence}</td><td><a href={e.url}>{e.summary}</a></td><td>{e.reporter}, {e.at}</td></tr>
+      ))}</tbody>
+    </table></div>
+  )}
+  <h2>Claims <span class="muted">({claims.length})</span></h2>
+  {claims.length === 0 ? <p class="muted">No solution claims this job.</p> : (
+    <div class="wrap"><table>
+      <thead><tr><th>Solution</th><th>In its words</th><th>Strongest evidence</th></tr></thead>
+      <tbody>{claims.map(cell => (
+        <tr><td><a href={cell.solution.url}>{cell.solution.name}</a> <span class="tag">{cell.solution.type}</span></td><td>{cell.claim?.summary}{cell.claim?.source ? <> (<a href={cell.claim.source}>source</a>)</> : null}</td><td><span class={`tag ${cell.type}`}>{cell.type === "claim" ? "the claim only" : cell.type}</span>{cell.supports > 0 ? <span class="tag supports">{cell.supports} supporting</span> : null}{cell.contradicts > 0 ? <span class="tag contradicts">{cell.contradicts} contradicting</span> : null}</td></tr>
+      ))}</tbody>
+    </table></div>
+  )}
+  {withoutClaim.length > 0 ? (
+    <>
+      <h2>Evidence without a claim</h2>
+      <ul>{withoutClaim.map(cell => <li><a href={cell.solution.url}>{cell.solution.name}</a>: {cell.evidence.map(e => <a href={e.url}> {e.type} ({e.outcome})</a>)}</li>)}</ul>
+    </>
+  ) : null}
+  <p class="muted"><a href={`/jobs/${job.id}.json`}>JSON</a> · <a href="/register#claim">file a claim</a> · <a href="/register#evidence">file evidence</a> · <a href={`https://github.com/PublicAgents/public-agents/blob/main/registry/jobs/${job.function}/${job.id}.json`}>edit this job</a>. Created {job.created}, updated {job.updated}, version {job.version}.</p>
+</Base>

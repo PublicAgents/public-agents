@@ -35,8 +35,10 @@ request, never the proposed one:
   create, both authorized;
 - a pull request touching several entries is authorized for each;
 - a maintainer's stored authority expires: an update by a maintainer
-  whose entry was last verified more than thirty days ago re-fetches
-  the proof, and a login absent from the current proof loses authority
+  whose entry was last verified more than thirty days ago (the live
+  site's `agents.json` and `tools.json` carry each entry's last
+  verification; the nightly audit refreshes it) re-fetches the proof,
+  and a login absent from the current proof loses authority
   (`OWNERSHIP_REVOKED`).
 
 Contested transfers: the domain proof wins. A lost domain is recovered
