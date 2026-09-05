@@ -37,9 +37,14 @@ for (const entry of [...registry.agents, ...registry.tools, ...registry.caseRepo
 }
 
 const results = await withConcurrency(4, targets.map(target => async () => {
+  // HEAD first; GET only when HEAD failed outright or the server erred,
+  // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
+  // overwritten by a fallback that fares worse.
   let result = await guardedFetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
-  if (!result.ok || result.status === 405 || result.status === 403 || result.status >= 500) {
-    result = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+  if (!result.ok || result.status >= 500 || result.status === 404) {
+    const fallback = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+    if (fallback.ok && (fallback.status < 400 || [401, 403, 405].includes(fallback.status))) result = fallback;
+    else if (!result.ok) result = fallback;
   }
   // 405 is a URL that exists and answers a different method (an MCP or
   // API endpoint that takes POST): alive. 401 and 403 are alive too, an
