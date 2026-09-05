@@ -41,7 +41,11 @@ const results = await withConcurrency(4, targets.map(target => async () => {
   if (!result.ok || result.status === 405 || result.status === 403 || result.status >= 500) {
     result = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
   }
-  const dead = !result.ok || result.status >= 400;
+  // 405 is a URL that exists and answers a different method (an MCP or
+  // API endpoint that takes POST): alive. 401 and 403 are alive too, an
+  // endpoint that wants credentials still answers.
+  const alive = result.ok && (result.status < 400 || [401, 403, 405].includes(result.status));
+  const dead = !alive;
   return { ...target, dead, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
 }));
 
