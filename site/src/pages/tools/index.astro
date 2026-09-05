@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+---
+<Base title="Tools" jsonPath="/tools.json">
+  <h1>Tools</h1>
+  <p class="muted">Products, services, models and frameworks that claim jobs. The one field this registry is about: can an agent use it without a human making an account?</p>
+  <div class="wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>Kind</th><th>Pricing</th><th>Agent access</th><th>Listing</th><th>Jobs claimed</th></tr></thead>
+      <tbody>
+        {registry.tools.map(t => (
+          <tr>
+            <td><a href={`/tools/${t.slug}`}>{t.name}</a><br /><span class="muted">{t.vendor.name}</span></td>
+            <td>{t.kind}</td><td>{t.pricing}</td>
+            <td>{t.agentAccess ? `${t.agentAccess.noAccountNeeded ? "no account needed" : "account needed"}, ${t.agentAccess.auth}` : <span class="muted">not stated</span>}</td>
+            <td>{t.provenance === "third-party" ? <span class="tag">unclaimed</span> : t.verification.ok ? <span class="tag supports">verified</span> : <span class="tag">unverified</span>}</td>
+            <td>{(t.jobs ?? []).length}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {registry.tools.length === 0 ? <p>No tools yet.</p> : null}
+</Base>

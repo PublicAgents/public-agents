@@ -16,3 +16,4 @@ site/public/*.txt
 site/public/SKILL.md
 site/public/*.md
 site/.astro/
+site/public/sitemap.xml

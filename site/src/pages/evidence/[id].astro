@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+export function getStaticPaths() {
+  return registry.evidence.map(item => ({ params: { id: item.id }, props: { item } }));
+}
+const { item } = Astro.props as { item: (typeof registry.evidence)[number] & Record<string, any> };
+const job = registry.jobs.find(j => j.id === item.job);
+const solution = registry.solutions.find(s => s.type === item.solution.type && s.id === item.solution.id.toLowerCase());
+const isReport = item.kind === "case-report";
+const d = item.disclosure as { affiliation: string; affiliationDetail?: string; compensation: string; compensationDetail?: string; reseller: boolean; resellerDetail?: string };
+const affiliated = d.affiliation !== "none" || d.compensation !== "none" || d.reseller;
+---
+<Base title={item.id} jsonPath={`/evidence/${item.id}.json`}>
+  <p class="muted"><a href={`/jobs/${item.job}`}>{job?.name ?? item.job}</a> · <a href={solution?.url ?? "#"}>{solution?.name ?? item.solution.id}</a> · <code>{item.id}</code></p>
+  <h1>{isReport ? "Case report" : "Measured result"}: {solution?.name ?? item.solution.id} on {job?.name ?? item.job}</h1>
+  <div class={`banner${affiliated ? "" : ""}`}>
+    <strong>Disclosure.</strong> Affiliation: {d.affiliation}{d.affiliationDetail ? ` (${d.affiliationDetail})` : ""}. Compensation: {d.compensation}{d.compensationDetail ? ` (${d.compensationDetail})` : ""}. Reseller: {d.reseller ? `yes (${d.resellerDetail ?? ""})` : "no"}.
+    {d.affiliation === "operator" ? " This is the registry's operator reporting on their own product or agent." : ""}
+  </div>
+  {isReport ? (
+    <>
+      <dl class="facts">
+        <dt>Reporter</dt><dd>{item.reporter.url ? <a href={item.reporter.url}>{item.reporter.name}</a> : item.reporter.name} (GitHub {item.reporter.github})</dd>
+        <dt>Organization</dt><dd>{item.organization.name}, {item.organization.sizeBand} people, {item.organization.industry}</dd>
+        <dt>Period</dt><dd>{item.period.from}{item.period.to ? ` to ${item.period.to}` : " onward"}</dd>
+        <dt>Verdict</dt><dd><span class={`tag ${item.outcome.verdict === "positive" ? "supports" : item.outcome.verdict === "negative" ? "contradicts" : ""}`}>{item.outcome.verdict}</span></dd>
+      </dl>
+      <h2>Deployment</h2><p>{item.deployment}</p>
+      <h2>Outcome</h2><p>{item.outcome.summary}</p>
+      {item.outcome.metrics?.length ? <ul>{item.outcome.metrics.map((m: { name: string; value: string; unit?: string }) => <li>{m.name}: {m.value} {m.unit ?? ""}</li>)}</ul> : null}
+      <h2>Sources</h2><ul>{item.sources.map((s: string) => <li><a href={s}>{s}</a></li>)}</ul>
+    </>
+  ) : (
+    <>
+      <dl class="facts">
+        <dt>Conducted by</dt><dd>{item.conductedBy.url ? <a href={item.conductedBy.url}>{item.conductedBy.name}</a> : item.conductedBy.name} (GitHub {item.conductedBy.github})</dd>
+        <dt>Independence</dt><dd>{item.independence}</dd>
+        <dt>Period</dt><dd>{item.method.period.from} to {item.method.period.to}</dd>
+        {item.method.dataset ? <><dt>Dataset</dt><dd>{item.method.dataset}</dd></> : null}
+        {item.method.sampleSize ? <><dt>Sample size</dt><dd>{item.method.sampleSize}</dd></> : null}
+        <dt>Protocol</dt><dd><a href={item.method.protocolUrl}>{item.method.protocolUrl}</a></dd>
+        <dt>Artifacts</dt><dd><a href={item.reproducibility.artifactsUrl}>{item.reproducibility.artifactsUrl}</a>{item.reproducibility.license ? ` (${item.reproducibility.license})` : ""}</dd>
+      </dl>
+      <h2>Method</h2><p>{item.method.summary}</p>
+      <h2>Results</h2>
+      <div class="wrap"><table>
+        <thead><tr><th>Metric</th><th>Value</th><th>Baseline</th><th>Interval</th></tr></thead>
+        <tbody>{item.results.map((r: { metric: string; value: number; unit?: string; baseline?: number; interval?: string }) => <tr><td>{r.metric}</td><td>{r.value} {r.unit ?? ""}</td><td>{r.baseline ?? ""}</td><td>{r.interval ?? ""}</td></tr>)}</tbody>
+      </table></div>
+    </>
+  )}
+  <p class="muted"><a href={`/evidence/${item.id}.json`}>JSON</a> · <a href="https://github.com/PublicAgents/public-agents/issues/new?template=dispute.md">dispute this</a>. Filed {item.created}, updated {item.updated}, version {item.version}.</p>
+</Base>

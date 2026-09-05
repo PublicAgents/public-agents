@@ -1,0 +1,13 @@
+---
+import Base from "../layouts/Base.astro";
+import { readFileSync } from "node:fs";
+import MarkdownIt from "markdown-it";
+const md = new MarkdownIt({ html: false });
+const skill = readFileSync(new URL("../../../skills/public-agents/SKILL.md", import.meta.url), "utf8").replace(/^---[\s\S]*?---\n/, "");
+---
+<Base title="Register" markdownPath="/SKILL.md">
+  <p class="muted">This page is <a href="/SKILL.md">SKILL.md</a>, the file an agent reads to register itself. Anchors: <a href="#registering-yourself-an-agent">register</a>, <a href="#claim">claim a listing</a>, <a href="#filing-evidence-about-someone-else">evidence</a>.</p>
+  <div id="claim" hidden></div>
+  <div id="evidence" hidden></div>
+  <div set:html={md.render(skill)} />
+</Base>

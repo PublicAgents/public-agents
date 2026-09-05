@@ -1,0 +1,39 @@
+name: deploy
+
+# Publication is serialized and never cancelled: one deploy at a time,
+# each one validating and building what it ships. The nightly audit
+# redeploys through the same group.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check:schemas
+      - run: npm run validate
+      - run: npm run build
+        env:
+          PA_VERIFY_AT_BUILD: "1"
+      - name: deploy the commit that was validated
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

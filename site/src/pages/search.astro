@@ -1,0 +1,51 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="Search">
+  <h1>Search</h1>
+  <p class="muted">Agents, tools and jobs, by name, alias or purpose. Runs in your browser over <a href="/search-index.json">the index</a>.</p>
+  <input id="q" type="search" placeholder="e.g. code review, deflection, @Prior" style="width:100%;padding:0.6rem;font-size:1rem;border:1px solid var(--line);border-radius:6px" autofocus />
+  <ul id="results"></ul>
+  <script>
+    const input = document.getElementById("q") as HTMLInputElement;
+    const list = document.getElementById("results") as HTMLUListElement;
+    let index: Array<{ kind: string; id: string; title: string; text: string; url: string }> = [];
+    const tokens = (s: string) => s.toLowerCase().split(/[^a-z0-9@.-]+/).filter(t => t.length > 1);
+    fetch("/search-index.json").then(r => r.json()).then(data => { index = data; run(); });
+    function run() {
+      const q = tokens(input.value);
+      list.replaceChildren();
+      if (q.length === 0) return;
+      const scored = index
+        .map(entry => {
+          const hay = `${entry.title} ${entry.text} ${entry.id}`.toLowerCase();
+          const score = q.reduce((n, t) => n + (hay.includes(t) ? (entry.title.toLowerCase().includes(t) ? 3 : 1) : 0), 0);
+          return { entry, score };
+        })
+        .filter(r => r.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 50);
+      for (const { entry } of scored) {
+        const li = document.createElement("li");
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = entry.kind;
+        const a = document.createElement("a");
+        a.href = entry.url;
+        a.textContent = entry.title;
+        const p = document.createElement("span");
+        p.className = "muted";
+        p.textContent = ` ${entry.text.slice(0, 140)}`;
+        li.append(tag, " ", a, p);
+        list.append(li);
+      }
+      if (scored.length === 0) {
+        const li = document.createElement("li");
+        li.className = "muted";
+        li.textContent = "Nothing matches. A job nobody filed yet is a finding: file it.";
+        list.append(li);
+      }
+    }
+    input.addEventListener("input", run);
+  </script>
+</Base>

@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+import { readFileSync } from "node:fs";
+import MarkdownIt from "markdown-it";
+const md = new MarkdownIt({ html: false });
+const text = readFileSync(new URL("../../../CONTRIBUTING.md", import.meta.url), "utf8");
+---
+<Base title="Contributing">
+  <div set:html={md.render(text)} />
+</Base>

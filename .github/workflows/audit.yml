@@ -1,0 +1,41 @@
+name: audit
+
+# Nightly: every link, every ownership proof, in report mode; then a
+# redeploy so verification timestamps refresh. Never blocks, never
+# cancels a deploy in flight (same concurrency group as deploy).
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: links, report mode
+        run: node src/scripts/check-links.ts --all | tee links.txt
+      - name: file or update the dead-links issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if grep -q "LINK_DEAD" links.txt; then
+            BODY="$(grep LINK_DEAD links.txt | head -100)"
+            N=$(gh issue list --label dead-link --state open --json number --jq '.[0].number // empty')
+            if [ -n "$N" ]; then gh issue edit "$N" --body "$BODY"; else gh issue create --title "Dead links (nightly audit)" --label dead-link --body "$BODY"; fi
+          fi

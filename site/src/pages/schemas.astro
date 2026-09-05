@@ -1,0 +1,9 @@
+---
+import Base from "../layouts/Base.astro";
+import index from "../../../schemas/index.json";
+---
+<Base title="Schemas">
+  <h1>Schemas</h1>
+  <p class="muted">Every file under registry/ validates against one of these JSON Schemas (draft 2020-12), generated from the registry's own sources. Validate before you open a pull request.</p>
+  <ul>{index.schemas.map(s => <li><a href={s.url}>{s.name}</a>: {s.description}</li>)}</ul>
+</Base>

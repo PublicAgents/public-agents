@@ -326,6 +326,18 @@ writeFileSync(
     changes
   })
 );
+const pages = [
+  "/", "/agents", "/tools", "/jobs", "/search", "/register", "/contributing", "/about", "/schemas",
+  ...registry.agents.map(a => `/@${a.value.handle}`),
+  ...registry.tools.map(t => `/tools/${t.value.slug}`),
+  ...registry.jobs.map(j => `/jobs/${j.value.id}`),
+  ...registry.functions.functions.map(f => `/functions/${f.id}`),
+  ...[...registry.caseReports, ...registry.measured].map(e => `/evidence/${e.value.id}`)
+];
+write(
+  "sitemap.xml",
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map(p => `  <url><loc>${SITE}${p}</loc></url>`).join("\n")}\n</urlset>\n`
+);
 writeFileSync(join(data, "handles.json"), json(Object.fromEntries(registry.agents.map(a => [normalizeHandle(a.value.handle), a.value.handle]))));
 write("handles.json", json(Object.fromEntries(registry.agents.map(a => [normalizeHandle(a.value.handle), a.value.handle]))));
 

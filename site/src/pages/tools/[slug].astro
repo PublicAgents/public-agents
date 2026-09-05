@@ -1,0 +1,61 @@
+---
+import Base from "../../layouts/Base.astro";
+import registry from "../../data/registry.json";
+export function getStaticPaths() {
+  return registry.tools.map(t => ({ params: { slug: t.slug }, props: { tool: t } }));
+}
+type Cell = { solution: { type: string; id: string }; type: string; supports: number; contradicts: number; evidence: Array<{ id: string; type: string; outcome: string; url: string }> };
+const { tool: t } = Astro.props as { tool: (typeof registry.tools)[number] };
+const coverage = registry.coverage as Record<string, { cells: Cell[] }>;
+const claims = (t.jobs ?? []).map(claim => {
+  const cell = coverage[claim.job]?.cells.find(c => c.solution.type === "tool" && c.solution.id === t.slug);
+  const job = registry.jobs.find(j => j.id === claim.job);
+  return { ...claim, name: job?.name ?? claim.job, type: cell?.type ?? "claim", supports: cell?.supports ?? 0, contradicts: cell?.contradicts ?? 0, evidence: cell?.evidence ?? [] };
+});
+const surfaces = Object.entries(t.surfaces).filter(([, v]) => v && (typeof v === "string" || (Array.isArray(v) && v.length > 0)));
+const operatorAffiliated = t.maintainers.some(m => m.github === "mkrens");
+---
+<Base title={t.name} description={t.summary} jsonPath={`/tools/${t.slug}.json`} markdownPath={`/tools/${t.slug}.md`}>
+  <h1>{t.name}</h1>
+  <p>
+    <span class="tag">{t.kind}</span><span class="tag">{t.status}</span><span class="tag">{t.pricing}</span>
+    {t.provenance === "third-party" ? <span class="tag">unclaimed listing</span> : t.verification.ok ? <span class="tag supports">vendor verified</span> : <span class="tag">unverified</span>}
+  </p>
+  {t.provenance === "third-party" ? <div class="banner">An unclaimed listing filed by a researcher from public sources. The vendor can <a href="/register#claim">claim it</a> with domain proof.</div> : null}
+  {operatorAffiliated ? <div class="banner">Maintained by the registry's operator. Disputes about this entry go to the operator directly (see the governance rules).</div> : null}
+  <p>{t.summary}</p>
+  <dl class="facts">
+    <dt>Vendor</dt><dd>{t.vendor.url ? <a href={t.vendor.url}>{t.vendor.name}</a> : t.vendor.name}</dd>
+    {t.license ? <><dt>License</dt><dd>{t.license}</dd></> : null}
+    <dt>Agent access</dt><dd>{t.agentAccess ? <>{t.agentAccess.noAccountNeeded ? "No account needed" : "An account is needed"}; auth: {t.agentAccess.auth}{t.agentAccess.notes ? `. ${t.agentAccess.notes}` : ""}</> : <span class="muted">not stated</span>}</dd>
+    <dt>Domains</dt><dd>{t.domains.join(", ")}</dd>
+    {t.disclosure ? <><dt>Disclosure</dt><dd>{t.disclosure.statement}</dd></> : null}
+  </dl>
+  <h2>Surfaces</h2>
+  <ul>{surfaces.map(([k, v]) => Array.isArray(v) ? v.map(u => <li>{k}: <a href={u}>{u}</a></li>) : <li>{k}: <a href={String(v)}>{String(v)}</a></li>)}</ul>
+  <h2>Jobs claimed</h2>
+  {claims.length === 0 ? <p class="muted">No jobs claimed.</p> : (
+    <div class="wrap">
+      <table>
+        <thead><tr><th>Job</th><th>In its words</th><th>Evidence</th></tr></thead>
+        <tbody>
+          {claims.map(c => (
+            <tr>
+              <td><a href={`/jobs/${c.job}`}>{c.name}</a><br /><code class="muted">{c.job}</code></td>
+              <td>{c.summary}{c.source ? <> (<a href={c.source}>source</a>)</> : null}</td>
+              <td>
+                <span class={`tag ${c.type}`}>{c.type === "claim" ? "claim only (a finding)" : c.type}</span>
+                {c.supports > 0 ? <span class="tag supports">{c.supports} supporting</span> : null}
+                {c.contradicts > 0 ? <span class="tag contradicts">{c.contradicts} contradicting</span> : null}
+                {c.evidence.map(e => <a href={e.url}> {e.type}: {e.outcome}</a>)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+  <h2>In its own words</h2>
+  <div class="own-words" set:html={t.profileHtml || "<p class='muted'>Nothing yet.</p>"} />
+  <p class="muted"><a href={`/tools/${t.slug}.json`}>entry (JSON)</a> · <a href={`/tools/${t.slug}.md`}>markdown</a> · <a href={`https://github.com/PublicAgents/public-agents/tree/main/registry/tools/${t.slug}`}>edit this entry</a> · <a href="/register#evidence">file evidence about this tool</a>. Created {t.created}, updated {t.updated}, version {t.version}.</p>
+</Base>
