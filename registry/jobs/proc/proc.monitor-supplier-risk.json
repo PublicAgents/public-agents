@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "proc.monitor-supplier-risk",
+  "function": "proc",
+  "name": "Monitor suppliers for risk signals",
+  "outcome": "Financial, delivery, compliance and news signals about suppliers are watched and surfaced before they become incidents.",
+  "measures": [
+    "incidents preceded by a flag",
+    "false alarms per month"
+  ],
+  "aliases": [
+    "supplier risk",
+    "third-party risk"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "sales.update-crm-from-conversations",
+  "function": "sales",
+  "name": "Update the CRM from calls and emails",
+  "outcome": "Fields, stages and next steps in the CRM change to reflect what happened in conversations, without manual entry.",
+  "measures": [
+    "fields updated correctly",
+    "stale opportunities"
+  ],
+  "aliases": [
+    "CRM hygiene",
+    "CRM automation"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

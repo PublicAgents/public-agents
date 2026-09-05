@@ -1,0 +1,20 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "cs.summarize-conversations",
+  "function": "cs",
+  "name": "Summarize a customer conversation for the next handler",
+  "outcome": "A conversation of any length is condensed into what was asked, what was done and what is open, and the next handler needs nothing else.",
+  "measures": [
+    "summary accuracy rated by handlers",
+    "time saved per handoff"
+  ],
+  "aliases": [
+    "case summary",
+    "wrap-up notes"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

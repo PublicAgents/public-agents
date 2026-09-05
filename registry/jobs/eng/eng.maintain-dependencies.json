@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "eng.maintain-dependencies",
+  "function": "eng",
+  "name": "Keep dependencies current and safe",
+  "outcome": "Dependency updates are proposed, tested and merged, and known vulnerabilities are closed within the policy window.",
+  "measures": [
+    "vulnerabilities open past window",
+    "updates merged per month",
+    "breakages from updates"
+  ],
+  "aliases": [
+    "dependency management",
+    "dependabot"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

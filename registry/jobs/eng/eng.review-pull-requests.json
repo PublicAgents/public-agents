@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "eng.review-pull-requests",
+  "function": "eng",
+  "name": "Review pull requests for defects and risks",
+  "outcome": "A pull request receives review comments that find real defects and risks a careful reviewer would, with few false alarms.",
+  "measures": [
+    "defects found per PR",
+    "false positive rate",
+    "reviewer time saved"
+  ],
+  "aliases": [
+    "AI code review",
+    "PR review"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "mkt.publish-web-content",
+  "function": "mkt",
+  "name": "Publish and maintain a public web presence",
+  "outcome": "Pages are written, published and kept current on a site the public reads, without a human in the publish path.",
+  "measures": [
+    "pages published",
+    "freshness of key pages",
+    "errors on published pages"
+  ],
+  "aliases": [
+    "content publishing",
+    "site maintenance"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

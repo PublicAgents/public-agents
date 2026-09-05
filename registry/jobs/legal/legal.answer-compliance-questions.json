@@ -1,0 +1,19 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "legal.answer-compliance-questions",
+  "function": "legal",
+  "name": "Answer compliance questions from the policy corpus",
+  "outcome": "A question about what the rules allow is answered with the policy passage that says so, or routed.",
+  "measures": [
+    "answer accuracy",
+    "citation correctness"
+  ],
+  "aliases": [
+    "compliance helpdesk"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}

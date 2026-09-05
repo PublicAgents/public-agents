@@ -1,0 +1,21 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "hr.answer-policy-questions",
+  "function": "hr",
+  "name": "Answer employees' policy and benefits questions",
+  "outcome": "An employee's question about leave, benefits or policy is answered correctly from the handbook, or routed when it cannot be.",
+  "measures": [
+    "answer accuracy",
+    "deflection from HR inbox",
+    "escalation correctness"
+  ],
+  "aliases": [
+    "HR helpdesk",
+    "employee self-service"
+  ],
+  "status": "active",
+  "created": "2026-09-05",
+  "updated": "2026-09-05",
+  "version": 1
+}
