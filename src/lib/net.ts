@@ -1,15 +1,37 @@
 import { lookup } from "node:dns/promises";
+import { request as httpsRequest } from "node:https";
 import { isIP } from "node:net";
 
 /**
  * Fetching what a pull request points at is fetching what a stranger
  * chose (docs/OWNERSHIP.md): https only, the address resolved and
- * checked before every hop, a byte cap read as a stream, a deadline,
- * and at most two same-host redirects. Every failure is a named reason.
+ * checked before every hop AND the connection pinned to that very
+ * address (a second resolution at connect time would let a rebinding
+ * name pass the check and connect somewhere else), a byte cap read as
+ * a stream, a deadline, and at most two same-host redirects. Every
+ * failure is a named reason.
  */
 
+export interface TransportRequest {
+  url: URL;
+  /** The address that passed the check; the connection goes here, with the host name for SNI and the Host header. */
+  address: string;
+  method: "GET" | "HEAD";
+  headers: Record<string, string>;
+  timeoutMs: number;
+  maxBytes: number;
+}
+
+export type TransportResponse =
+  | { kind: "response"; status: number; headers: Record<string, string>; body: string }
+  | { kind: "too_large" }
+  | { kind: "timeout" }
+  | { kind: "error"; detail: string };
+
+export type Transport = (req: TransportRequest) => Promise<TransportResponse>;
+
 export interface GuardedFetchOptions {
-  fetch?: typeof fetch;
+  transport?: Transport;
   resolve?: (host: string) => Promise<string[]>;
   timeoutMs?: number;
   maxBytes?: number;
@@ -58,8 +80,61 @@ async function defaultResolve(host: string): Promise<string[]> {
   return answers.map(a => a.address);
 }
 
+/**
+ * The default transport: an https request whose socket connects to the
+ * checked address (the `lookup` option answers with it and nothing
+ * else), with the host name kept for TLS (SNI, certificate) and the
+ * Host header. The body is read as a stream and stopped at the cap.
+ */
+export const httpsTransport: Transport = req =>
+  new Promise(resolve => {
+    const family = isIP(req.address) === 6 ? 6 : 4;
+    const request = httpsRequest(
+      {
+        protocol: "https:",
+        hostname: req.url.hostname,
+        servername: req.url.hostname,
+        port: req.url.port || 443,
+        path: `${req.url.pathname}${req.url.search}`,
+        method: req.method,
+        headers: { ...req.headers, host: req.url.host },
+        lookup: (_host, _options, callback) => {
+          // The pinned address: whatever the name says now, this socket goes where the check looked.
+          (callback as (err: Error | null, address: string, family: number) => void)(null, req.address, family);
+        },
+        timeout: req.timeoutMs
+      },
+      response => {
+        const chunks: Buffer[] = [];
+        let total = 0;
+        response.on("data", (chunk: Buffer) => {
+          total += chunk.length;
+          if (total > req.maxBytes) {
+            response.destroy();
+            request.destroy();
+            resolve({ kind: "too_large" });
+            return;
+          }
+          chunks.push(chunk);
+        });
+        response.on("end", () => {
+          const headers: Record<string, string> = {};
+          for (const [key, value] of Object.entries(response.headers)) if (typeof value === "string") headers[key.toLowerCase()] = value;
+          resolve({ kind: "response", status: response.statusCode ?? 0, headers, body: Buffer.concat(chunks).toString("utf8") });
+        });
+        response.on("error", error => resolve({ kind: "error", detail: String(error).slice(0, 200) }));
+      }
+    );
+    request.on("timeout", () => {
+      request.destroy();
+      resolve({ kind: "timeout" });
+    });
+    request.on("error", error => resolve({ kind: "error", detail: String(error).slice(0, 200) }));
+    request.end();
+  });
+
 export async function guardedFetch(url: string, options: GuardedFetchOptions = {}): Promise<GuardedResult> {
-  const doFetch = options.fetch ?? fetch;
+  const transport = options.transport ?? httpsTransport;
   const resolve = options.resolve ?? defaultResolve;
   const timeoutMs = options.timeoutMs ?? 5000;
   const maxBytes = options.maxBytes ?? 64 * 1024;
@@ -84,24 +159,19 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
       const why = forbiddenAddress(address);
       if (why) return { ok: false, reason: "address_forbidden", detail: `${parsed.hostname} resolves to ${address} (${why})` };
     }
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
-    let response: Response;
-    try {
-      response = await doFetch(current, {
-        method: options.method ?? "GET",
-        redirect: "manual",
-        signal: controller.signal,
-        headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*" }
-      });
-    } catch (error) {
-      clearTimeout(timer);
-      const detail = String(error).slice(0, 200);
-      return { ok: false, reason: controller.signal.aborted ? "timeout" : "network", detail: `${current}: ${detail}` };
-    }
+    const response = await transport({
+      url: parsed,
+      address: addresses[0],
+      method: options.method ?? "GET",
+      headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*" },
+      timeoutMs,
+      maxBytes
+    });
+    if (response.kind === "timeout") return { ok: false, reason: "timeout", detail: current };
+    if (response.kind === "too_large") return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes` };
+    if (response.kind === "error") return { ok: false, reason: "network", detail: `${current}: ${response.detail}` };
     if (response.status >= 300 && response.status < 400) {
-      clearTimeout(timer);
-      const location = response.headers.get("location");
+      const location = response.headers.location;
       if (!location) return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect without location` };
       const next = new URL(location, current);
       if (next.hostname !== parsed.hostname || hop + 1 > maxRedirects) {
@@ -110,32 +180,7 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
       current = next.toString();
       continue;
     }
-    // Read at most maxBytes, as a stream, then stop.
-    let body = "";
-    try {
-      if (response.body && (options.method ?? "GET") === "GET") {
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let total = 0;
-        for (;;) {
-          const { value, done } = await reader.read();
-          if (done) break;
-          total += value.byteLength;
-          if (total > maxBytes) {
-            await reader.cancel().catch(() => undefined);
-            clearTimeout(timer);
-            return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes` };
-          }
-          body += decoder.decode(value, { stream: true });
-        }
-        body += decoder.decode();
-      }
-    } catch (error) {
-      clearTimeout(timer);
-      return { ok: false, reason: controller.signal.aborted ? "timeout" : "network", detail: `${current}: ${String(error).slice(0, 200)}` };
-    }
-    clearTimeout(timer);
-    return { ok: true, status: response.status, body, url: current, contentType: response.headers.get("content-type") ?? "" };
+    return { ok: true, status: response.status, body: response.body, url: current, contentType: response.headers["content-type"] ?? "" };
   }
 }
 

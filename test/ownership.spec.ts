@@ -1,35 +1,41 @@
 import { describe, expect, it } from "vitest";
-import { forbiddenAddress, guardedFetch } from "../src/lib/net.ts";
+import { forbiddenAddress, guardedFetch, type Transport } from "../src/lib/net.ts";
 import { decideWithProof, fetchProof, parseTxtRecord, updateNeedsProof } from "../src/lib/ownership.ts";
 
 const resolvePublic = async () => ["93.184.216.34"];
 
-function fetchOf(routes: Record<string, { status?: number; body?: string; headers?: Record<string, string> }>): typeof fetch {
-  return (async (input: string | URL | Request) => {
-    const url = typeof input === "string" ? input : input.toString();
-    const route = routes[url];
-    if (!route) return new Response("not found", { status: 404 });
-    return new Response(route.body ?? "", { status: route.status ?? 200, headers: route.headers ?? { "content-type": "application/json" } });
-  }) as typeof fetch;
+/** A scripted transport; it also records the address every request was pinned to. */
+function fetchOf(routes: Record<string, { status?: number; body?: string; headers?: Record<string, string> }>, pinned: string[] = []): Transport {
+  return async req => {
+    pinned.push(req.address);
+    const route = routes[req.url.toString()];
+    if (!route) return { kind: "response", status: 404, headers: {}, body: "not found" };
+    const body = route.body ?? "";
+    if (Buffer.byteLength(body) > req.maxBytes) return { kind: "too_large" };
+    return { kind: "response", status: route.status ?? 200, headers: route.headers ?? { "content-type": "application/json" }, body };
+  };
 }
 
 describe("guardedFetch", () => {
   it("refuses http, private addresses, cross-host redirects and oversized bodies", async () => {
     expect((await guardedFetch("http://a.example/", { resolve: resolvePublic })).ok).toBe(false);
-    const priv = await guardedFetch("https://a.example/", { resolve: async () => ["10.0.0.5"], fetch: fetchOf({}) });
+    const priv = await guardedFetch("https://a.example/", { resolve: async () => ["10.0.0.5"], transport: fetchOf({}) });
     expect(priv).toMatchObject({ ok: false, reason: "address_forbidden" });
     const hop = await guardedFetch("https://a.example/", {
       resolve: resolvePublic,
-      fetch: fetchOf({ "https://a.example/": { status: 302, headers: { location: "https://b.example/" } } })
+      transport: fetchOf({ "https://a.example/": { status: 302, headers: { location: "https://b.example/" } } })
     });
     expect(hop).toMatchObject({ ok: false, reason: "redirect_forbidden" });
-    const big = await guardedFetch("https://a.example/", { resolve: resolvePublic, fetch: fetchOf({ "https://a.example/": { body: "x".repeat(200) } }), maxBytes: 100 });
+    const big = await guardedFetch("https://a.example/", { resolve: resolvePublic, transport: fetchOf({ "https://a.example/": { body: "x".repeat(200) } }), maxBytes: 100 });
     expect(big).toMatchObject({ ok: false, reason: "too_large" });
+    const pinned: string[] = [];
     const ok = await guardedFetch("https://a.example/", {
       resolve: resolvePublic,
-      fetch: fetchOf({ "https://a.example/": { status: 301, headers: { location: "/x" } }, "https://a.example/x": { body: "hi" } })
+      transport: fetchOf({ "https://a.example/": { status: 301, headers: { location: "/x" } }, "https://a.example/x": { body: "hi" } }, pinned)
     });
     expect(ok).toMatchObject({ ok: true, status: 200, body: "hi", url: "https://a.example/x" });
+    // Every hop connects to the address that passed the check, never to a fresh resolution.
+    expect(pinned).toEqual(["93.184.216.34", "93.184.216.34"]);
   });
   it("classifies addresses", () => {
     expect(forbiddenAddress("127.0.0.1")).toBe("loopback");
@@ -54,23 +60,23 @@ describe("proofs", () => {
   it("reads the well-known file, the TXT record, and refuses a conflict", async () => {
     const wk = { version: 1, agents: ["Prior"], tools: [], maintainers: ["mkrens"] };
     const onlyWellKnown = await fetchProof("prior.example", "prior", {
-      fetch: { resolve: resolvePublic, fetch: fetchOf({ "https://prior.example/.well-known/public-agents.json": { body: JSON.stringify(wk) } }) },
+      fetch: { resolve: resolvePublic, transport: fetchOf({ "https://prior.example/.well-known/public-agents.json": { body: JSON.stringify(wk) } }) },
       txt: async () => []
     });
     expect(onlyWellKnown).toMatchObject({ method: "well-known" });
     const onlyTxt = await fetchProof("prior.example", "prior", {
-      fetch: { resolve: resolvePublic, fetch: fetchOf({}) },
+      fetch: { resolve: resolvePublic, transport: fetchOf({}) },
       txt: async () => ["v=pa1; handle=prior; maintainers=mkrens"]
     });
     expect(onlyTxt).toMatchObject({ method: "dns-txt" });
     const conflict = await fetchProof("prior.example", "prior", {
-      fetch: { resolve: resolvePublic, fetch: fetchOf({ "https://prior.example/.well-known/public-agents.json": { body: JSON.stringify(wk) } }) },
+      fetch: { resolve: resolvePublic, transport: fetchOf({ "https://prior.example/.well-known/public-agents.json": { body: JSON.stringify(wk) } }) },
       txt: async () => ["v=pa1; handle=prior; maintainers=someone-else"]
     });
     expect(conflict).toMatchObject({ reason: "OWNERSHIP_CONFLICT" });
-    const nothing = await fetchProof("prior.example", "prior", { fetch: { resolve: resolvePublic, fetch: fetchOf({}) }, txt: async () => [] });
+    const nothing = await fetchProof("prior.example", "prior", { fetch: { resolve: resolvePublic, transport: fetchOf({}) }, txt: async () => [] });
     expect(nothing).toMatchObject({ reason: "OWNERSHIP_FETCH_FAILED" });
-    const internal = await fetchProof("prior.example", "prior", { fetch: { resolve: async () => ["127.0.0.1"], fetch: fetchOf({}) }, txt: async () => [] });
+    const internal = await fetchProof("prior.example", "prior", { fetch: { resolve: async () => ["127.0.0.1"], transport: fetchOf({}) }, txt: async () => [] });
     expect(internal).toMatchObject({ reason: "OWNERSHIP_ADDRESS_FORBIDDEN" });
   });
 
