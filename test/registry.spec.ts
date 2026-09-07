@@ -179,9 +179,14 @@ describe("renderProfile", () => {
 
 describe("classify", () => {
   it("is data only when every path is under the four data directories", () => {
-    expect(classify(["registry/agents/prior/agent.json", "registry/jobs/cs/x.json"])).toBe("data");
-    expect(classify(["registry/agents/prior/agent.json", "site/index.ts"])).toBe("code");
-    expect(classify(["registry/functions.json"])).toBe("code");
+    const m = (path: string) => ({ path, status: "M" });
+    expect(classify([m("registry/agents/prior/agent.json"), m("registry/jobs/cs/x.json")])).toBe("data");
+    expect(classify([m("registry/agents/prior/agent.json"), m("site/index.ts")])).toBe("code");
+    expect(classify([m("registry/functions.json")])).toBe("code");
+    // A deletion is code-class whatever its path; a rename's old side is a deletion.
+    expect(classify([{ path: "registry/evidence/case-reports/x.json", status: "D" }])).toBe("code");
+    expect(classify([{ path: "registry/jobs/cs/old.json", status: "D" }, { path: "registry/jobs/cs/new.json", status: "A" }])).toBe("code");
+    expect(classify([])).toBe("code");
     expect(classify([])).toBe("code");
   });
 });

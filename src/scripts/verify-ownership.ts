@@ -176,9 +176,18 @@ for (const [dir, info] of dirs) {
   });
 }
 
-// Evidence: the reporter is the author, on create and on update.
+// Evidence: the reporter is the author, on create and on update; a
+// deletion is the base reporter's or an editor's (and code-class
+// besides, docs/TAXONOMY.md, so the operator reviews it too).
 for (const change of diff) {
-  if (!/^registry\/evidence\/(case-reports|measured)\//.test(change.path) || change.status === "D") continue;
+  if (!/^registry\/evidence\/(case-reports|measured)\//.test(change.path)) continue;
+  if (change.status === "D") {
+    const gone = readBase(change.path) as { reporter?: { github: string }; conductedBy?: { github: string } } | undefined;
+    const reporter = gone?.reporter?.github ?? gone?.conductedBy?.github;
+    if (reporter === author || editors.includes(author)) passes.push(`${change.path}: deleted by ${reporter === author ? "its reporter" : "an editor"}`);
+    else refusals.push(`OWNERSHIP_UNVERIFIED: ${change.path}: only its reporter (${reporter ?? "unset"}) or an editor may delete evidence; ${author} is neither`);
+    continue;
+  }
   const head = readHead(change.path) as { reporter?: { github: string }; conductedBy?: { github: string } } | undefined;
   if (!head) continue;
   const reporter = head.reporter?.github ?? head.conductedBy?.github;

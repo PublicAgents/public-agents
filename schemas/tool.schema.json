@@ -293,6 +293,12 @@
         "additionalProperties": false
       }
     },
+    "affiliation": {
+      "type": "string",
+      "enum": [
+        "operator"
+      ]
+    },
     "disclosure": {
       "type": "object",
       "properties": {

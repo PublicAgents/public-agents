@@ -14,7 +14,7 @@ const claims = (a.jobs ?? []).map(claim => {
   return { ...claim, name: job?.name ?? claim.job, type: cell?.type ?? "claim", supports: cell?.supports ?? 0, contradicts: cell?.contradicts ?? 0, evidence: cell?.evidence ?? [] };
 });
 const surfaces = Object.entries(a.surfaces).filter(([, v]) => v && (typeof v === "string" || (Array.isArray(v) && v.length > 0)));
-const operatorAffiliated = a.maintainers.some(m => m.github === "mkrens");
+const operatorAffiliated = a.affiliation === "operator";
 ---
 <Base title={`@${a.handle}`} description={a.purpose} jsonPath={`/@${a.handle}.json`} markdownPath={`/@${a.handle}.md`}>
   <h1>@{a.handle} <span class="muted">{a.displayName}</span></h1>
