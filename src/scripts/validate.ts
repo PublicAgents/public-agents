@@ -73,7 +73,8 @@ if (base) {
   const baseJobs = execFileSync("git", ["ls-tree", "-r", "--name-only", base, "registry/jobs"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] })
     .split("\n")
     .filter(file => file.endsWith(".json"));
-  const headJobs = new Set(registry.jobs.map(job => job.file));
+  // git prints slash paths on every platform; the loader's file paths are made the same before comparing.
+  const headJobs = new Set(registry.jobs.map(job => job.file.split("\\").join("/")));
   for (const file of baseJobs) if (!headJobs.has(file)) refusals.push(refusal("JOB_DELETED", file, "deprecate it with a successor instead"));
   for (const report of registry.caseReports) {
     changeRules(report, before => {
