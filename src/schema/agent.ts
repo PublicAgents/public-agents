@@ -49,6 +49,8 @@ export const agentSchema = z.strictObject({
   domains: z.array(host).min(1).max(10),
   maintainers: z.array(z.strictObject({ github: githubLogin })).min(1).max(10),
   jobs: z.array(claim).max(60).optional(),
+  /** Set when the registry's operator runs or maintains this entry (docs/GOVERNANCE.md: banner and recusal). */
+  affiliation: z.enum(["operator"]).optional(),
   disclosure: z.strictObject({
     aiOperated: z.literal(true),
     statement: z.string().trim().min(40).max(600),

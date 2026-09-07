@@ -176,9 +176,24 @@ for (const [dir, info] of dirs) {
   });
 }
 
-// Evidence: the reporter is the author, on create and on update.
+// Evidence: the reporter is the author, on create and on update; a
+// deletion is the base reporter's or an editor's (and code-class
+// besides, docs/TAXONOMY.md, so the operator reviews it too).
+const evidencePath = (path: string) => /^registry\/evidence\/(case-reports|measured)\//.test(path);
+const evidenceRemoval = (path: string) => {
+  const gone = readBase(path) as { reporter?: { github: string }; conductedBy?: { github: string } } | undefined;
+  const reporter = gone?.reporter?.github ?? gone?.conductedBy?.github;
+  if (reporter === author || editors.includes(author)) passes.push(`${path}: removed by ${reporter === author ? "its reporter" : "an editor"}`);
+  else refusals.push(`OWNERSHIP_UNVERIFIED: ${path}: only its reporter (${reporter ?? "unset"}) or an editor may remove evidence; ${author} is neither`);
+};
 for (const change of diff) {
-  if (!/^registry\/evidence\/(case-reports|measured)\//.test(change.path) || change.status === "D") continue;
+  // A rename removes evidence from its old path: the same authority applies there.
+  if (change.from && evidencePath(change.from)) evidenceRemoval(change.from);
+  if (!evidencePath(change.path)) continue;
+  if (change.status === "D") {
+    evidenceRemoval(change.path);
+    continue;
+  }
   const head = readHead(change.path) as { reporter?: { github: string }; conductedBy?: { github: string } } | undefined;
   if (!head) continue;
   const reporter = head.reporter?.github ?? head.conductedBy?.github;

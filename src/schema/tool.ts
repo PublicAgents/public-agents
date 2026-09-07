@@ -53,6 +53,8 @@ export const toolSchema = z
     maintainers: z.array(z.strictObject({ github: githubLogin })).max(10),
     provenance: z.enum(["vendor", "third-party"]).optional(),
     jobs: z.array(claim).max(60).optional(),
+    /** Set when the registry's operator runs or maintains this entry (docs/GOVERNANCE.md: banner and recusal). */
+    affiliation: z.enum(["operator"]).optional(),
     disclosure: z
       .strictObject({
         aiOperated: z.boolean(),

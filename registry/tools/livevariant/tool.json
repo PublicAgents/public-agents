@@ -58,11 +58,12 @@
       "source": "https://livevariant.com/skills/livevariant/SKILL.md"
     }
   ],
+  "affiliation": "operator",
   "disclosure": {
     "aiOperated": false,
     "statement": "Built and maintained by a person; its public growth work is done by the autonomous agent @Prior, listed separately."
   },
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-07",
+  "version": 2
 }

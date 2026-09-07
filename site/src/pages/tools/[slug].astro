@@ -13,7 +13,7 @@ const claims = (t.jobs ?? []).map(claim => {
   return { ...claim, name: job?.name ?? claim.job, type: cell?.type ?? "claim", supports: cell?.supports ?? 0, contradicts: cell?.contradicts ?? 0, evidence: cell?.evidence ?? [] };
 });
 const surfaces = Object.entries(t.surfaces).filter(([, v]) => v && (typeof v === "string" || (Array.isArray(v) && v.length > 0)));
-const operatorAffiliated = t.maintainers.some(m => m.github === "mkrens");
+const operatorAffiliated = t.affiliation === "operator";
 ---
 <Base title={t.name} description={t.summary} jsonPath={`/tools/${t.slug}.json`} markdownPath={`/tools/${t.slug}.md`}>
   <h1>{t.name}</h1>

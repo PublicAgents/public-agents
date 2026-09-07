@@ -34,6 +34,8 @@ export const REFUSALS = {
   UPDATED_FUTURE: "updated may not be more than one day in the future",
   CREATED_CHANGED: "created never changes",
   REPORTER_CHANGED: "the reporter of evidence never changes after merge",
+  JOB_DELETED: "a job is never deleted, only deprecated with a successor",
+  JOB_REVIVED: "a deprecated job stays deprecated; file a new job instead",
   STRAY_FILE: "only the files the layout names belong under registry/",
   LINK_DEAD: "a URL the entry names does not answer",
   OWNERSHIP_UNVERIFIED: "the author is not a maintainer of the base entry",

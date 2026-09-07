@@ -63,7 +63,19 @@ function changeRules<T extends Versioned>(entry: Loaded<T>, extra?: (before: T) 
 if (base) {
   for (const agent of registry.agents) changeRules(agent);
   for (const tool of registry.tools) changeRules(tool);
-  for (const job of registry.jobs) changeRules(job);
+  for (const job of registry.jobs) {
+    changeRules(job, before => {
+      const was = (before as typeof job.value).status;
+      if (was === "deprecated" && job.value.status === "active") refusals.push(refusal("JOB_REVIVED", job.file, "a deprecated job stays deprecated"));
+    });
+  }
+  // A job is never deleted (docs/TAXONOMY.md), only deprecated with a successor.
+  const baseJobs = execFileSync("git", ["ls-tree", "-r", "--name-only", base, "registry/jobs"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] })
+    .split("\n")
+    .filter(file => file.endsWith(".json"));
+  // git prints slash paths on every platform; the loader's file paths are made the same before comparing.
+  const headJobs = new Set(registry.jobs.map(job => job.file.split("\\").join("/")));
+  for (const file of baseJobs) if (!headJobs.has(file)) refusals.push(refusal("JOB_DELETED", file, "deprecate it with a successor instead"));
   for (const report of registry.caseReports) {
     changeRules(report, before => {
       if ((before as typeof report.value).reporter.github !== report.value.reporter.github) refusals.push(refusal("REPORTER_CHANGED", report.file));
