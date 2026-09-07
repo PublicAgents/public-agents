@@ -1,3 +1,14 @@
-# Code class: the operator reviews. The data directories are overridden
-# to the reviewer bot once it exists (docs/GOVERNANCE.md).
+# Code class: the operator reviews. Anything not listed below (LICENSE,
+# the root docs, src/, site/, worker/, the workflows, skills/, the
+# policy files directly under registry/) is operator-owned by default.
 * @michi88
+
+# Data class (docs/GOVERNANCE.md): the reviewer bot owns the four data
+# directories, so a data pull request needs its approval and no
+# human's. The policy files that also live under registry/
+# (functions.json, reserved-handles.json, image-hosts.json, editors.json,
+# paid/) are not listed here and stay with the operator.
+/registry/agents/ @reviewer-public-agents-bot
+/registry/tools/ @reviewer-public-agents-bot
+/registry/jobs/ @reviewer-public-agents-bot
+/registry/evidence/ @reviewer-public-agents-bot
