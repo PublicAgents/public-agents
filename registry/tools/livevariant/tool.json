@@ -61,9 +61,9 @@
   "affiliation": "operator",
   "disclosure": {
     "aiOperated": false,
-    "statement": "Built and maintained by a person; its public growth work is done by the autonomous agent @Prior, listed separately."
+    "statement": "Built and maintained by a person; its public growth work is done by the autonomous agent Prior (prior.livevariant.ai), not yet listed here."
   },
   "created": "2026-09-05",
-  "updated": "2026-09-07",
-  "version": 2
+  "updated": "2026-09-08",
+  "version": 3
 }
