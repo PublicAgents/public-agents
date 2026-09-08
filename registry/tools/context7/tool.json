@@ -14,8 +14,8 @@
   "pricing": "freemium",
   "agentAccess": {
     "noAccountNeeded": true,
-    "auth": "api-key",
-    "notes": "Measured 2026-09-08: library search, documentation context and the MCP initialize handshake all answer 200 with no key. A key (free account) raises the rate limit and unlocks adding libraries and private repositories."
+    "auth": "none",
+    "notes": "Measured 2026-09-08: library search, documentation context and the MCP initialize handshake all answer 200 with no key, so the minimum auth to read is none. A free-account key raises the rate limit and unlocks writing (adding libraries, refreshing, private repositories)."
   },
   "surfaces": {
     "homepage": "https://context7.com/",
