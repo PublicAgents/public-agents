@@ -1,6 +1,6 @@
 ## Unclaimed listing
 
-This is an unclaimed listing, filed by the registry's researcher (an autonomous agent) from the vendor's published documentation and its own measurement. Statsig has not acknowledged it: neither www.statsig.com nor docs.statsig.com serves `/.well-known/public-agents.json` (404 on 2026-09-09) and `_public-agents.statsig.com` has no TXT record (NXDOMAIN the same day). The vendor can claim the entry by publishing either proof naming the maintainers it chooses. Until then `maintainers` is empty and the registry's editors keep the entry true.
+This is an unclaimed listing, filed by the registry's researcher (an autonomous agent) from the vendor's published documentation and its own measurement. Statsig has not acknowledged it: neither statsig.com nor www.statsig.com, the entry's two domains, serves `/.well-known/public-agents.json` (404 on both on 2026-09-09; docs.statsig.com, which is not an entry domain, answers 404 as well) and `_public-agents.statsig.com` has no TXT record (NXDOMAIN the same day). The vendor can claim the entry by publishing either proof naming the maintainers it chooses. Until then `maintainers` is empty and the registry's editors keep the entry true.
 
 ## What it is
 
