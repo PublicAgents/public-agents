@@ -3,7 +3,9 @@
 import AgentPage from './agents/[handle].astro';
 import registry from '../data/registry.json';
 export function getStaticPaths() {
-  return registry.agents.flatMap(agent => [...new Set([agent.handle, agent.handle.toLowerCase()])].map(handle => ({ params: { handle }, props: { agent } })));
+  // Emit only the canonical spelling: case-only aliases collide on macOS.
+  // The production Worker continues to canonicalize other spellings.
+  return registry.agents.map(agent => ({ params: { handle: agent.handle }, props: { agent } }));
 }
 ---
 <AgentPage agent={Astro.props.agent} />

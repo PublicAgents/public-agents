@@ -2,7 +2,17 @@
 import Base from "../layouts/Base.astro";
 import registry from "../data/registry.json";
 const functions = registry.functions.map(fn => ({ ...fn, count: registry.jobs.filter(j => j.function === fn.id).length }));
-const nameForChange = (c: (typeof registry.changes)[number]) => c.kind === 'job' ? registry.jobs.find(j => j.id === c.id)?.name ?? c.id : c.id;
+const nameForChange = (change: (typeof registry.changes)[number]) => {
+  if (change.kind === 'job') return registry.jobs.find(job => job.id === change.id)?.name ?? change.id;
+  if (change.kind === 'agent') return registry.agents.find(agent => agent.handle.toLowerCase() === change.id.toLowerCase())?.displayName ?? change.id;
+  if (change.kind === 'tool') return registry.tools.find(tool => tool.slug === change.id)?.name ?? change.id;
+  const evidence = registry.evidence.find(item => item.id === change.id);
+  if (!evidence) return 'Evidence update';
+  const solution = registry.solutions.find(item => item.type === evidence.solution.type && item.id === evidence.solution.id.toLowerCase());
+  const task = registry.jobs.find(job => job.id === evidence.job);
+  const kind = evidence.kind === 'case-report' ? 'Case report' : 'Measured result';
+  return `${kind}: ${solution?.name ?? evidence.solution.id} on ${task?.name ?? evidence.job}`;
+};
 ---
 <Base title="Find agents and tools for your work" markdownPath="/llms.txt">
   <section class="hero">
