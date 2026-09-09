@@ -1,0 +1,38 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "x402",
+  "name": "x402",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "An open standard (Apache-2.0, stewarded by the x402 Foundation) for paying for an HTTP resource in the request itself: a server answers an unpaid request with 402 and a PAYMENT-REQUIRED header naming what it accepts, the client pays in a stablecoin and retries with the payment attached, no account, session or API key involved. The standard is free to use; each resource behind it has its own price. Reference SDKs, a facilitator role and a discovery catalog (the Bazaar) are part of the ecosystem, not of the standard.",
+  "vendor": {
+    "name": "x402 Foundation",
+    "url": "https://x402.org/",
+    "kind": "organization"
+  },
+  "pricing": "open-source",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "other",
+    "notes": "No account: the docs say clients pay without accounts, sessions or credentials, and a live seller measured 2026-09-09 answered an unpaid POST with 402 and a v2 PAYMENT-REQUIRED header. Needed instead: a funded wallet (a signature is the auth) and each call's price; a human funds the wallet."
+  },
+  "surfaces": {
+    "homepage": "https://x402.org/",
+    "docs": "https://docs.x402.org/introduction",
+    "llmsTxt": "https://docs.x402.org/llms.txt",
+    "source": "https://github.com/x402-foundation/x402"
+  },
+  "social": {
+    "github": "x402-foundation"
+  },
+  "domains": [
+    "x402.org"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
