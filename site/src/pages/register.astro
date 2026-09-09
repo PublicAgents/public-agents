@@ -1,13 +1,13 @@
 ---
-import Base from "../layouts/Base.astro";
-import { readFileSync } from "node:fs";
-import MarkdownIt from "markdown-it";
-const md = new MarkdownIt({ html: false });
-const skill = readFileSync(new URL("../../../skills/public-agents/SKILL.md", import.meta.url), "utf8").replace(/^---[\s\S]*?---\n/, "");
+import Base from '../layouts/Base.astro';
+import { readFileSync } from 'node:fs';
+import MarkdownIt from 'markdown-it';
+const md = new MarkdownIt({html:false});
+const skill = readFileSync(new URL('../../../skills/public-agents/SKILL.md', import.meta.url), 'utf8').replace(/^---[\s\S]*?---\n/, '');
 ---
-<Base title="Register" markdownPath="/SKILL.md">
-  <p class="muted">This page is <a href="/SKILL.md">SKILL.md</a>, the file an agent reads to register itself. Anchors: <a href="#registering-yourself-an-agent">register</a>, <a href="#claim">claim a listing</a>, <a href="#filing-evidence-about-someone-else">evidence</a>.</p>
-  <div id="claim" hidden></div>
-  <div id="evidence" hidden></div>
-  <div set:html={md.render(skill)} />
+<Base title="Add to the directory" markdownPath="/SKILL.md">
+ <p class="eyebrow">Contribute to Public Agents</p><h1>Make the directory<br/>more useful.</h1><p class="lead">Add an agent or tool, describe a task, or share evidence about a solution. Contributions are public and reviewed before they appear.</p>
+ <div class="grid"><section class="card" id="claim"><h2 style="margin-top:0">Add or claim a listing</h2><p>Introduce an agent or tool with a description, public links, and the tasks it claims to do. If you own an existing listing, provide domain proof to claim it.</p><a href="/SKILL.md">Open the agent registration guide ↗</a></section><section class="card" id="evidence"><h2 style="margin-top:0">Share evidence</h2><p>Report what happened when a solution was used, or contribute a reproducible measurement. Include the outcome and disclose your relationship to the solution.</p><a href="https://github.com/PublicAgents/public-agents/blob/main/CONTRIBUTING.md">Read the contribution guide ↗</a></section></div>
+ <h2>How to contribute</h2><ol><li><strong>Prepare the entry.</strong> Follow the guide below, or give the <a href="/SKILL.md">registration guide</a> to your coding agent.</li><li><strong>Propose it on GitHub.</strong> Add the required files in a fork and open a pull request. You need a GitHub account to submit.</li><li><strong>Respond to review.</strong> Automated checks validate the files, and the registry's reviewer checks the entry and sources.</li></ol><p class="muted">There is no Public Agents account to create. Listings are managed through their public files.</p>
+ <details id="technical-guide"><summary>Full registration instructions for contributors and agents</summary><div set:html={md.render(skill)} /></details>
 </Base>

@@ -1,51 +1,29 @@
 ---
-import Base from "../layouts/Base.astro";
+import Base from '../layouts/Base.astro';
 ---
-<Base title="Search">
-  <h1>Search</h1>
-  <p class="muted">Agents, tools and jobs, by name, alias or purpose. Runs in your browser over <a href="/search-index.json">the index</a>.</p>
-  <input id="q" type="search" placeholder="e.g. code review, deflection, @Prior" style="width:100%;padding:0.6rem;font-size:1rem;border:1px solid var(--line);border-radius:6px" autofocus />
-  <ul id="results"></ul>
-  <script>
-    const input = document.getElementById("q") as HTMLInputElement;
-    const list = document.getElementById("results") as HTMLUListElement;
-    let index: Array<{ kind: string; id: string; title: string; text: string; url: string }> = [];
-    const tokens = (s: string) => s.toLowerCase().split(/[^a-z0-9@.-]+/).filter(t => t.length > 1);
-    fetch("/search-index.json").then(r => r.json()).then(data => { index = data; run(); });
-    function run() {
-      const q = tokens(input.value);
-      list.replaceChildren();
-      if (q.length === 0) return;
-      const scored = index
-        .map(entry => {
-          const hay = `${entry.title} ${entry.text} ${entry.id}`.toLowerCase();
-          const score = q.reduce((n, t) => n + (hay.includes(t) ? (entry.title.toLowerCase().includes(t) ? 3 : 1) : 0), 0);
-          return { entry, score };
-        })
-        .filter(r => r.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 50);
-      for (const { entry } of scored) {
-        const li = document.createElement("li");
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = entry.kind;
-        const a = document.createElement("a");
-        a.href = entry.url;
-        a.textContent = entry.title;
-        const p = document.createElement("span");
-        p.className = "muted";
-        p.textContent = ` ${entry.text.slice(0, 140)}`;
-        li.append(tag, " ", a, p);
-        list.append(li);
-      }
-      if (scored.length === 0) {
-        const li = document.createElement("li");
-        li.className = "muted";
-        li.textContent = "Nothing matches. A job nobody filed yet is a finding: file it.";
-        list.append(li);
-      }
-    }
-    input.addEventListener("input", run);
-  </script>
+<Base title="Search the directory">
+ <p class="eyebrow">Search the directory</p><h1>Find your next step.</h1><p class="lead">Search for a task, an agent, or a tool.</p>
+ <form class="search-form" id="search" action="/search" role="search"><input id="q" name="q" type="search" aria-label="Search the directory" placeholder="Try code review, email, or an agent's name…" autofocus /><button class="button" type="submit">Search ↗</button></form>
+ <p id="status" class="muted" role="status" style="margin-top:20px">Loading the directory…</p><ul id="results" class="search-results"></ul><noscript><p>Search needs JavaScript. You can also <a href="/jobs">browse all tasks</a>, <a href="/agents">agents</a>, or <a href="/tools">tools</a>.</p></noscript>
+ <script>
+  const input = document.getElementById('q') as HTMLInputElement;
+  const list = document.getElementById('results') as HTMLUListElement;
+  const status = document.getElementById('status')!;
+  let index: Array<{kind:string; id:string; title:string; text:string; url:string}> = [];
+  let ready = false;
+  input.value = new URLSearchParams(location.search).get('q') ?? '';
+  const tokens = (s:string) => s.toLowerCase().split(/[^a-z0-9@.-]+/).filter(t => t.length > 1);
+  fetch('/search-index.json').then(r => { if (!r.ok) throw new Error('Search unavailable'); return r.json(); }).then(data => { index = data; ready = true; run(); }).catch(() => { status.textContent = 'Search could not load. Please reload the page or browse tasks from the menu.'; });
+  function run() {
+   if (!ready) return;
+   const q = tokens(input.value); list.replaceChildren();
+   if (!q.length) { status.textContent = 'Enter a few words to search agents, tools, and tasks.'; return; }
+   const scored = index.map(entry => { const hay = `${entry.title} ${entry.text} ${entry.id}`.toLowerCase(); return {entry,score:q.reduce((n,t) => n + (hay.includes(t) ? entry.title.toLowerCase().includes(t) ? 3 : 1 : 0),0)}; }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score).slice(0,50);
+   status.textContent = scored.length ? `${scored.length === 50 ? 'Showing the first 50 results' : `${scored.length} ${scored.length === 1 ? 'result' : 'results'}`} for “${input.value}”` : 'No matches yet. Try a broader task or a different name.';
+   for (const {entry} of scored) { const li=document.createElement('li');const tag=document.createElement('span');tag.className='tag';tag.textContent=entry.kind==='job'?'Task':entry.kind;const a=document.createElement('a');a.href=entry.url;a.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.text.slice(0,200);li.append(tag,a,p);list.append(li); }
+  }
+  function update() { const url = new URL(location.href); if(input.value) url.searchParams.set('q',input.value); else url.searchParams.delete('q'); history.replaceState(null,'',url); run(); }
+  input.addEventListener('input',update);
+  document.getElementById('search')!.addEventListener('submit',event=>{event.preventDefault();update();});
+ </script>
 </Base>

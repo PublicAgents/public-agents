@@ -1,0 +1,9 @@
+---
+// Public handle URLs must also work without the production Worker's rewrite.
+import AgentPage from './agents/[handle].astro';
+import registry from '../data/registry.json';
+export function getStaticPaths() {
+  return registry.agents.flatMap(agent => [...new Set([agent.handle, agent.handle.toLowerCase()])].map(handle => ({ params: { handle }, props: { agent } })));
+}
+---
+<AgentPage agent={Astro.props.agent} />

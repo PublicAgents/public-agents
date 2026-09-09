@@ -16,6 +16,7 @@ const surfaces = Object.entries(t.surfaces).filter(([, v]) => v && (typeof v ===
 const operatorAffiliated = t.affiliation === "operator";
 ---
 <Base title={t.name} description={t.summary} jsonPath={`/tools/${t.slug}.json`} markdownPath={`/tools/${t.slug}.md`}>
+  <p class="eyebrow"><a href="/tools">Tools</a> / {t.name}</p>
   <h1>{t.name}</h1>
   <p>
     <span class="tag">{t.kind}</span><span class="tag">{t.status}</span><span class="tag">{t.pricing}</span>
@@ -24,27 +25,18 @@ const operatorAffiliated = t.affiliation === "operator";
   {t.provenance === "third-party" ? <div class="banner">An unclaimed listing filed by a researcher from public sources. The vendor can <a href="/register#claim">claim it</a> with domain proof.</div> : null}
   {operatorAffiliated ? <div class="banner">Maintained by the registry's operator. Disputes about this entry go to the operator directly (see the governance rules).</div> : null}
   <p>{t.summary}</p>
-  <dl class="facts">
-    <dt>Vendor</dt><dd>{t.vendor.url ? <a href={t.vendor.url}>{t.vendor.name}</a> : t.vendor.name}</dd>
-    {t.license ? <><dt>License</dt><dd>{t.license}</dd></> : null}
-    <dt>Agent access</dt><dd>{t.agentAccess ? <>{t.agentAccess.noAccountNeeded ? "No account needed" : "An account is needed"}; auth: {t.agentAccess.auth}{t.agentAccess.notes ? `. ${t.agentAccess.notes}` : ""}</> : <span class="muted">not stated</span>}</dd>
-    <dt>Domains</dt><dd>{t.domains.join(", ")}</dd>
-    {t.disclosure ? <><dt>Disclosure</dt><dd>{t.disclosure.statement}</dd></> : null}
-  </dl>
-  <h2>Surfaces</h2>
-  <ul>{surfaces.map(([k, v]) => Array.isArray(v) ? v.map(u => <li>{k}: <a href={u}>{u}</a></li>) : <li>{k}: <a href={String(v)}>{String(v)}</a></li>)}</ul>
-  <h2>Jobs claimed</h2>
-  {claims.length === 0 ? <p class="muted">No jobs claimed.</p> : (
+  <h2>Tasks claimed</h2>
+  {claims.length === 0 ? <p class="muted">No tasks claimed.</p> : (
     <div class="wrap">
       <table>
-        <thead><tr><th>Job</th><th>In its words</th><th>Evidence</th></tr></thead>
+        <thead><tr><th>Task</th><th>In its words</th><th>Evidence</th></tr></thead>
         <tbody>
           {claims.map(c => (
             <tr>
               <td><a href={`/jobs/${c.job}`}>{c.name}</a><br /><code class="muted">{c.job}</code></td>
               <td>{c.summary}{c.source ? <> (<a href={c.source}>source</a>)</> : null}</td>
               <td>
-                <span class={`tag ${c.type}`}>{c.type === "claim" ? "claim only (a finding)" : c.type}</span>
+                <span class={`tag ${c.type}`}>{c.type === "claim" ? "Claim only" : c.type}</span>
                 {c.supports > 0 ? <span class="tag supports">{c.supports} supporting</span> : null}
                 {c.contradicts > 0 ? <span class="tag contradicts">{c.contradicts} contradicting</span> : null}
                 {c.evidence.map(e => <a href={e.url}> {e.type}: {e.outcome}</a>)}
@@ -55,6 +47,17 @@ const operatorAffiliated = t.affiliation === "operator";
       </table>
     </div>
   )}
+  <details><summary>Technical details & integrations</summary>
+  <dl class="facts">
+    <dt>Vendor</dt><dd>{t.vendor.url ? <a href={t.vendor.url}>{t.vendor.name}</a> : t.vendor.name}</dd>
+    {t.license ? <><dt>License</dt><dd>{t.license}</dd></> : null}
+    <dt>Agent access</dt><dd>{t.agentAccess ? <>{t.agentAccess.noAccountNeeded ? "No account needed" : "An account is needed"}; auth: {t.agentAccess.auth}{t.agentAccess.notes ? `. ${t.agentAccess.notes}` : ""}</> : <span class="muted">not stated</span>}</dd>
+    <dt>Domains</dt><dd>{t.domains.join(", ")}</dd>
+    {t.disclosure ? <><dt>Disclosure</dt><dd>{t.disclosure.statement}</dd></> : null}
+  </dl>
+  <h2>Links & integrations</h2>
+  <ul>{surfaces.map(([k, v]) => Array.isArray(v) ? v.map(u => <li>{k}: <a href={u}>{u}</a></li>) : <li>{k}: <a href={String(v)}>{String(v)}</a></li>)}</ul>
+  </details>
   <h2>In its own words</h2>
   <div class="own-words" set:html={t.profileHtml || "<p class='muted'>Nothing yet.</p>"} />
   <p class="muted"><a href={`/tools/${t.slug}.json`}>entry (JSON)</a> · <a href={`/tools/${t.slug}.md`}>markdown</a> · <a href={`https://github.com/PublicAgents/public-agents/tree/main/registry/tools/${t.slug}`}>edit this entry</a> · <a href="/register#evidence">file evidence about this tool</a>. Created {t.created}, updated {t.updated}, version {t.version}.</p>

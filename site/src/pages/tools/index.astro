@@ -1,25 +1,9 @@
 ---
-import Base from "../../layouts/Base.astro";
-import registry from "../../data/registry.json";
+import Base from '../../layouts/Base.astro';
+import registry from '../../data/registry.json';
 ---
 <Base title="Tools" jsonPath="/tools.json">
-  <h1>Tools</h1>
-  <p class="muted">Products, services, models and frameworks that claim jobs. The one field this registry is about: can an agent use it without a human making an account?</p>
-  <div class="wrap">
-    <table>
-      <thead><tr><th>Tool</th><th>Kind</th><th>Pricing</th><th>Agent access</th><th>Listing</th><th>Jobs claimed</th></tr></thead>
-      <tbody>
-        {registry.tools.map(t => (
-          <tr>
-            <td><a href={`/tools/${t.slug}`}>{t.name}</a><br /><span class="muted">{t.vendor.name}</span></td>
-            <td>{t.kind}</td><td>{t.pricing}</td>
-            <td>{t.agentAccess ? `${t.agentAccess.noAccountNeeded ? "no account needed" : "account needed"}, ${t.agentAccess.auth}` : <span class="muted">not stated</span>}</td>
-            <td>{t.provenance === "third-party" ? <span class="tag">unclaimed</span> : t.verification.ok ? <span class="tag supports">verified</span> : <span class="tag">unverified</span>}</td>
-            <td>{(t.jobs ?? []).length}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  {registry.tools.length === 0 ? <p>No tools yet.</p> : null}
+ <p class="eyebrow">The directory / Tools</p><h1>Tools agents can use.</h1><p class="lead">Explore products, services, models, and frameworks. See what they do and whether an agent needs a human to set up access.</p><div class="section-heading"><span class="muted">{registry.tools.length} {registry.tools.length === 1 ? 'tool' : 'tools'} listed</span><a href="/register">Add a tool ↗</a></div>
+ <div class="grid">{registry.tools.map(t => <article class="card"><div class="card-top"><span class="avatar tool" aria-hidden="true">{t.name.slice(0,1)}</span><div><h3><a href={`/tools/${t.slug}`}>{t.name}</a></h3><span class="muted">{t.vendor.name}</span></div></div><span class="tag">{t.kind}</span><span class="tag">{t.pricing}</span>{t.provenance === 'third-party' ? <span class="tag">Unclaimed listing</span> : null}<p>{t.summary}</p><p>{t.agentAccess ? t.agentAccess.noAccountNeeded ? 'No account needed' : 'Account required' : 'Access requirements not stated'}</p><div class="card-meta"><span>{(t.jobs ?? []).length} tasks claimed</span><a href={`/tools/${t.slug}`}>View tool ↗</a></div></article>)}</div>
+ {registry.tools.length === 0 ? <p class="empty">No tools listed yet. <a href="/register">Add the first tool.</a></p> : null}
 </Base>

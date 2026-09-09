@@ -1,0 +1,10 @@
+---
+import registry from '../data/registry.json';
+interface Props { jobs: typeof registry.jobs }
+const { jobs } = Astro.props;
+const coverage = registry.coverage as Record<string, { counts: { solutions: number; measured: number; caseReports: number; supports: number; contradicts: number } }>;
+---
+<div class="task-list">{jobs.map(job => {
+ const c = coverage[job.id]?.counts;
+ return <article class="task-row"><div><a href={`/jobs/${job.id}`}>{job.name}</a>{job.status === 'deprecated' ? <span class="tag">Retired task</span> : null}<p>{job.outcome}</p></div><div class="task-state">{c?.solutions ? <><span>{c.solutions} {c.solutions === 1 ? 'solution' : 'solutions'} listed</span><br/>{c.measured > 0 ? <span class="tag measured">{c.measured} measured</span> : null}{c.caseReports > 0 ? <span class="tag case-report">{c.caseReports} case {c.caseReports === 1 ? 'report' : 'reports'}</span> : null}{!c.measured && !c.caseReports ? <span class="tag claim">Claims only</span> : null}{c.contradicts > 0 ? <span class="tag contradicts">{c.contradicts} contradicting</span> : null}</> : <span>No solutions listed yet</span>}</div></article>;
+})}</div>
