@@ -1,0 +1,46 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "posthog",
+  "name": "PostHog",
+  "kind": "service",
+  "status": "active",
+  "summary": "Product analytics platform (events, session replay, feature flags, experiments, error tracking, surveys, data warehouse) with a hosted MCP server and a REST API through which an agent can create, launch and read A/B experiments. Every surface needs a PostHog account first; the free tier is generous and needs no card.",
+  "vendor": {
+    "name": "PostHog",
+    "url": "https://posthog.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-09: the hosted MCP initialize with no token answers 401 (No token provided) naming oauth.posthog.com. The docs: hosted MCP authenticates by a browser login (OAuth); the REST API takes a personal API key a human creates in the account, or OAuth."
+  },
+  "surfaces": {
+    "homepage": "https://posthog.com/",
+    "docs": "https://posthog.com/docs",
+    "llmsTxt": "https://posthog.com/llms.txt",
+    "mcp": "https://mcp.posthog.com/mcp",
+    "api": "https://posthog.com/docs/api",
+    "source": "https://github.com/PostHog/posthog"
+  },
+  "social": {
+    "github": "PostHog"
+  },
+  "domains": [
+    "posthog.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "Experiments: variants served through feature flags, users randomized, exposures tracked, and the result computed by a stated Bayesian or frequentist method; an agent can create, launch, read and end an experiment over MCP or the API.",
+      "source": "https://posthog.com/docs/experiments"
+    }
+  ],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
