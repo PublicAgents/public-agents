@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "optimizely",
+  "name": "Optimizely Experimentation",
+  "kind": "service",
+  "status": "active",
+  "summary": "Web Experimentation and Feature Experimentation, the A/B, multivariate and feature-flag testing products of the Optimizely One digital experience platform, with a proprietary stats engine. For agents: a hosted Experimentation MCP server that signs in by OAuth through an Opti ID account with Opal enabled, and a REST API (v2) that takes a personal token or OAuth 2.0. Every surface needs an account first; plans are individually packaged, not self-serve.",
+  "vendor": {
+    "name": "Optimizely",
+    "url": "https://www.optimizely.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-09: MCP initialize with no token answers 401 Authentication required (Bearer; resource_metadata on the MCP host); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: MCP is browser OAuth via Opti ID and Opal; the API takes a personal token or OAuth 2.0."
+  },
+  "surfaces": {
+    "homepage": "https://www.optimizely.com/",
+    "docs": "https://docs.developers.optimizely.com/",
+    "llmsTxt": "https://www.optimizely.com/llms.txt",
+    "mcp": "https://exp.mcp.opal.optimizely.com/mcp",
+    "api": "https://docs.developers.optimizely.com/web-experimentation/docs/api-conventions",
+    "source": null
+  },
+  "social": {
+    "github": "optimizely"
+  },
+  "domains": [
+    "optimizely.com",
+    "www.optimizely.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "A/B, multivariate and multi-page tests on web pages (Web Experimentation) and server-side experiments behind feature flags (Feature Experimentation), analyzed by the vendor's stats engine; an agent creates flags and experiments and reads results over the hosted MCP server or the REST API.",
+      "source": "https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview"
+    }
+  ],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
