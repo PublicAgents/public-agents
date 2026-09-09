@@ -27,8 +27,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "A free, remote MCP server that lists a public GitHub repository's documentation topics, returns its generated documentation and answers questions about it (Ask Devin).",
+      "source": "https://docs.devin.ai/work-with-devin/deepwiki-mcp"
+    }
+  ],
   "created": "2026-09-08",
-  "updated": "2026-09-08",
-  "version": 1
+  "updated": "2026-09-09",
+  "version": 2
 }

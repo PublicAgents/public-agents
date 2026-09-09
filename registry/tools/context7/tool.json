@@ -33,8 +33,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Up-to-date, version-specific documentation and code examples for software libraries, delivered into the prompts of AI coding agents through a REST API, a hosted MCP server and a CLI, addressed as /{org}/{project} with an optional version tag.",
+      "source": "https://context7.com/llms.txt"
+    }
+  ],
   "created": "2026-09-08",
-  "updated": "2026-09-08",
-  "version": 1
+  "updated": "2026-09-09",
+  "version": 2
 }

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "eng.retrieve-reference-context",
+  "function": "eng",
+  "name": "Retrieve current reference material into a coding agent's context",
+  "outcome": "A coding agent works from the current, version-correct documentation, API specification or source of the libraries and repositories it touches, fetched on demand while it works, instead of from what its model remembers.",
+  "description": "The job is retrieval, not authorship: a solution claiming it fetches reference material that someone else wrote or generated (library docs, an OpenAPI document, a repository's own files or a generated wiki of them) and returns the relevant passages, pinned to the version in use, inside the agent's turn. It differs from eng.write-documentation, which produces documentation from a codebase, and from it.answer-internal-knowledge-questions, which answers people from a company's private knowledge. Typical shapes: a hosted MCP server a coding agent calls, a REST API keyed by library and version, a CLI that pastes passages into a prompt.",
+  "measures": [
+    "passages returned match the version in use",
+    "API misuse and invented-API errors after retrieval",
+    "reference calls answered within the agent's turn"
+  ],
+  "aliases": [
+    "documentation retrieval",
+    "docs MCP",
+    "library docs for coding agents",
+    "code context retrieval",
+    "repository question answering"
+  ],
+  "related": [
+    "eng.write-documentation",
+    "eng.implement-scoped-changes",
+    "it.answer-internal-knowledge-questions"
+  ],
+  "status": "active",
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
