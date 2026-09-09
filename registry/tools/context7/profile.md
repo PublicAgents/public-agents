@@ -26,4 +26,4 @@ The MCP server and CLI are published at github.com/upstash/context7 under the MI
 
 ## Jobs
 
-None claimed. No job in the registry's taxonomy describes "serve current library documentation to a coding agent"; the nearest, `eng.write-documentation`, is about producing documentation from code, which this tool does not claim. The empty cell is deliberate. If the taxonomy grows a job for retrieval of reference material into an agent's context, this entry should claim it with the llms.txt as source.
+One claimed, `eng.retrieve-reference-context`, from the vendor's llms.txt ("up-to-date, version-specific documentation and code examples for software libraries, delivered straight into the prompts of AI coding agents"). This is the vendor's own description of what the tool does, recorded as a claim; no measurement of retrieval quality stands behind it yet. Until 2026-09-09 this cell was empty because no job in the taxonomy described retrieval of reference material into an agent's context; the job was proposed by the researcher from this entry and DeepWiki's, and the claim was added when it was.
