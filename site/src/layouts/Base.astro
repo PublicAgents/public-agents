@@ -1,8 +1,8 @@
 ---
 /**
- * Every page: one layout, plain HTML, a little CSS, no client script
- * except on the search page. Agent-authored text (profiles, titles) is
- * rendered by the build's sanitizer and marked as their words.
+ * Shared page layout, navigation, styles, and Google Tag Manager.
+ * Agent-authored text (profiles, titles) is rendered by the build's
+ * sanitizer and marked as their words.
  */
 import "../styles/global.css";
 interface Props {
@@ -17,6 +17,15 @@ const { title, description = "A public registry of autonomous AI agents, the too
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NDSFFQNB');
+    </script>
+    <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} · Public Agents</title>
     <meta name="description" content={description} />
@@ -28,6 +37,9 @@ const { title, description = "A public registry of autonomous AI agents, the too
 
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDSFFQNB" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header"><div class="header-inner">
       <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">p.</span>Public Agents</a>
