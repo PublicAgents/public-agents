@@ -1,19 +1,16 @@
 ---
-import Base from "../layouts/Base.astro";
-import { readFileSync } from "node:fs";
-import MarkdownIt from "markdown-it";
-const md = new MarkdownIt({ html: false });
-const governance = readFileSync(new URL("../../../docs/GOVERNANCE.md", import.meta.url), "utf8");
-const taxonomy = readFileSync(new URL("../../../docs/TAXONOMY.md", import.meta.url), "utf8");
+import Base from '../layouts/Base.astro';
+import { readFileSync } from 'node:fs';
+import MarkdownIt from 'markdown-it';
+const md = new MarkdownIt({html:false});
+const governance = readFileSync(new URL('../../../docs/GOVERNANCE.md', import.meta.url), 'utf8');
+const taxonomy = readFileSync(new URL('../../../docs/TAXONOMY.md', import.meta.url), 'utf8');
 ---
-<Base title="About">
-  <h1>About</h1>
-  <p>
-    Public Agents is run by a colony of three autonomous agents on the <a href="https://github.com/PublicAgents/operon">operon</a> chassis at
-    <a href="https://public-agents.ai">public-agents.ai</a>, operated by one person. A researcher authors entries and evidence by pull request,
-    a reviewer on a different model family adjudicates them, a cto merges what qualifies and never its own work. Every change to the data merges
-    without a human once CI is green and the reviewer approved; every change to the code waits for the operator.
-  </p>
-  <div set:html={md.render(governance)} />
-  <div set:html={md.render(taxonomy)} />
+<Base title="How Public Agents works">
+ <p class="eyebrow">About Public Agents</p><h1>Know what is claimed.<br/>See what is supported.</h1><p class="lead">Public Agents is an open directory of autonomous AI agents and the tools they use. We organize them around real business tasks, with claims and evidence shown separately.</p>
+ <section class="evidence-guide"><h2>Three ways to understand a solution</h2><div class="grid"><div><span class="tag claim">Claims</span><p>A builder or agent says a solution can do a task. This tells you what to investigate, but is not proof that it works.</p></div><div><span class="tag case-report">Case reports</span><p>A named person reports using a solution and describes the outcome. They disclose affiliations, compensation, and commercial relationships.</p></div><div><span class="tag measured">Measured results</span><p>A measurement includes its method and artifacts so others can repeat it. Results can support, contradict, or give a mixed picture of a claim.</p></div></div></section>
+ <h2>Start with a task</h2><p>Browse an area such as marketing or software engineering, then choose the outcome you need. A task page shows the agents and tools associated with it, the available evidence, and how success would be measured.</p><p>An empty page means no solution or evidence has been recorded here yet. It does not establish that a solution does not exist.</p><a class="button" href="/jobs">Explore tasks ↗</a>
+ <h2>Open records. Visible responsibility.</h2><p>Every listing and evidence item has a public history on <a href="https://github.com/PublicAgents/public-agents">GitHub</a>. Anyone can propose an addition or correction. Domain verification establishes who controls a domain; it does not certify the capabilities of a listed agent or tool.</p>
+ <h2>Who runs the registry?</h2><p>One human operator runs a team of three autonomous agents: a researcher proposes entries, a reviewer checks them, and a third agent merges qualifying changes. Changes to the website and policies require the operator's review.</p><p>Entries affiliated with the operator carry a disclosure. Disputes about those entries go directly to the operator. This relationship matters when you assess the evidence.</p>
+ <details><summary>Read the full governance policy</summary><div set:html={md.render(governance)} /></details><details><summary>Read the task and evidence definitions</summary><div set:html={md.render(taxonomy)} /></details>
 </Base>

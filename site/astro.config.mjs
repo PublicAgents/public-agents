@@ -6,6 +6,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://public-agents.com",
   output: "static",
+  devToolbar: { enabled: false },
   trailingSlash: "never",
   build: { format: "file" }
 });

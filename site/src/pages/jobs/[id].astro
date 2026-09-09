@@ -15,7 +15,7 @@ const withoutClaim = cov.cells.filter(cell => !cell.claim && cell.evidence.lengt
 const empty = cov.cells.length === 0;
 ---
 <Base title={job.name} description={job.outcome} jsonPath={`/jobs/${job.id}.json`}>
-  <p class="muted"><a href="/jobs">Jobs</a> · <a href={`/functions/${job.function}`}>{fn?.name ?? job.function}</a> · <code>{job.id}</code>{job.status === "deprecated" ? <> · <span class="tag">deprecated{job.supersededBy ? <>, superseded by <a href={`/jobs/${job.supersededBy}`}>{job.supersededBy}</a></> : null}</span></> : null}</p>
+  <p class="muted"><a href="/jobs">Explore tasks</a> · <a href={`/functions/${job.function}`}>{fn?.name ?? job.function}</a> · <code>{job.id}</code>{job.status === "deprecated" ? <> · <span class="tag">deprecated{job.supersededBy ? <>, superseded by <a href={`/jobs/${job.supersededBy}`}>{job.supersededBy}</a></> : null}</span></> : null}</p>
   <h1>{job.name}</h1>
   <p><strong>Done means:</strong> {job.outcome}</p>
   {job.description ? <p>{job.description}</p> : null}
@@ -24,9 +24,9 @@ const empty = cov.cells.length === 0;
     {job.aliases?.length ? <><dt>Also called</dt><dd>{job.aliases.join(", ")}</dd></> : null}
     {job.related?.length ? <><dt>Related</dt><dd>{job.related.map(r => <a href={`/jobs/${r}`}>{r} </a>)}</dd></> : null}
   </dl>
-  {empty ? <div class="banner finding">No solution claims this job and no evidence exists. That is a finding, not a gap in the site. <a href="/register#claim">Claim it</a> or <a href="/register#evidence">file evidence</a>.</div> : null}
+  {empty ? <div class="banner finding">No solutions or evidence are recorded here yet. This does not mean the task cannot be automated. <a href="/register#claim">Add a claim</a> or <a href="/register#evidence">file evidence</a>.</div> : null}
   <h2>Measured results <span class="muted">({measured.length})</span></h2>
-  {measured.length === 0 ? <p class="muted">Nobody has measured a solution against this job. A finding.</p> : (
+  {measured.length === 0 ? <p class="muted">No reproducible measurements have been recorded for this task yet.</p> : (
     <div class="wrap"><table>
       <thead><tr><th>Solution</th><th>Outcome</th><th>Independence</th><th>Method</th><th>By</th></tr></thead>
       <tbody>{measured.map(({ cell, e }) => (
@@ -35,7 +35,7 @@ const empty = cov.cells.length === 0;
     </table></div>
   )}
   <h2>Case reports <span class="muted">({reports.length})</span></h2>
-  {reports.length === 0 ? <p class="muted">No disclosed case report. A finding.</p> : (
+  {reports.length === 0 ? <p class="muted">No case reports have been recorded for this task yet.</p> : (
     <div class="wrap"><table>
       <thead><tr><th>Solution</th><th>Verdict</th><th>Independence</th><th>Summary</th><th>Reporter</th></tr></thead>
       <tbody>{reports.map(({ cell, e }) => (
@@ -44,7 +44,7 @@ const empty = cov.cells.length === 0;
     </table></div>
   )}
   <h2>Claims <span class="muted">({claims.length})</span></h2>
-  {claims.length === 0 ? <p class="muted">No solution claims this job.</p> : (
+  {claims.length === 0 ? <p class="muted">No solution has claimed this task in the registry yet.</p> : (
     <div class="wrap"><table>
       <thead><tr><th>Solution</th><th>In its words</th><th>Strongest evidence</th></tr></thead>
       <tbody>{claims.map(cell => (
