@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "growthbook",
+  "name": "GrowthBook",
+  "kind": "service",
+  "status": "active",
+  "summary": "Feature flagging and experimentation platform (A/B tests through feature flags, a visual editor, URL redirects or the SDKs, with Bayesian and frequentist analysis over the customer's own warehouse), sold as a hosted cloud with a self-hostable open-source core. For agents: a hosted MCP server that signs in by OAuth and a REST API keyed by a secret the account holder creates. Every surface needs an account first.",
+  "vendor": {
+    "name": "GrowthBook",
+    "url": "https://www.growthbook.io/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-09: hosted MCP initialize with no token answers 401 (Bearer token required, authorization server api.growthbook.io); REST GET with no header answers 400 Missing Authorization header. Docs: MCP signs in by browser OAuth; the API takes a Secret Key or Personal Access Token."
+  },
+  "surfaces": {
+    "homepage": "https://www.growthbook.io/",
+    "docs": "https://docs.growthbook.io/",
+    "llmsTxt": "https://docs.growthbook.io/llms.txt",
+    "mcp": "https://mcp.growthbook.io/mcp",
+    "api": "https://docs.growthbook.io/api/introduction",
+    "source": "https://github.com/growthbook/growthbook"
+  },
+  "social": {
+    "github": "growthbook"
+  },
+  "domains": [
+    "growthbook.io",
+    "www.growthbook.io"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "Experiments run through feature flag rules, the Visual Editor, URL redirects or inline in an SDK, with users hashed into variations and results analyzed in GrowthBook by Bayesian or frequentist statistics; an agent creates and reads them over the MCP server's API passthrough or the REST API.",
+      "source": "https://docs.growthbook.io/experiments"
+    }
+  ],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}

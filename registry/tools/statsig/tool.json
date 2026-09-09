@@ -1,0 +1,48 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "statsig",
+  "name": "Statsig",
+  "kind": "service",
+  "status": "active",
+  "summary": "Experimentation, feature flag, product analytics and session replay platform. For agents: a hosted MCP server over the Console API (OAuth or a Console API key) that creates, updates and reads experiments and their results, a REST Console API with a published OpenAPI document, and a separate keyless read-only MCP server that serves only the vendor's documentation. Doing the job needs an account; reading the docs does not.",
+  "vendor": {
+    "name": "Statsig",
+    "url": "https://www.statsig.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-09: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401. The docs MCP at docs.statsig.com/api/mcp answers 200 with no key and a keyless search_docs call returns results. Docs: MCP by OAuth or a Console API key."
+  },
+  "surfaces": {
+    "homepage": "https://www.statsig.com/",
+    "docs": "https://docs.statsig.com/",
+    "llmsTxt": "https://docs.statsig.com/llms.txt",
+    "mcp": "https://api.statsig.com/v1/mcp",
+    "api": "https://docs.statsig.com/console-api/introduction",
+    "openapi": "https://api.statsig.com/openapi/20240601.json",
+    "source": "https://github.com/statsig-io"
+  },
+  "social": {
+    "github": "statsig-io"
+  },
+  "domains": [
+    "statsig.com",
+    "www.statsig.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "The MCP server exposes Create_Experiment, Update_Experiment_Entirely, Get_Experiment_Overall_Results and Get_Experiment_Metric_Dimension_Results (with CUPED and confidence options) over the Console API, so an agent can set up an A/B test, run it and read its results.",
+      "source": "https://docs.statsig.com/integrations/mcp/overview"
+    }
+  ],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
