@@ -7,6 +7,8 @@ export function getStaticPaths() {
 type Cell = { solution: { type: string; id: string }; type: string; supports: number; contradicts: number; evidence: Array<{ id: string; type: string; outcome: string; independence: string; url: string }> };
 const { agent: a } = Astro.props as { agent: (typeof registry.agents)[number] };
 const lower = a.handle.toLowerCase();
+// Link to emitted files in both page routes. The production Worker redirects
+// these paths to canonical handle URLs; static previews can serve them directly.
 const coverage = registry.coverage as Record<string, { cells: Cell[] }>;
 const claims = (a.jobs ?? []).map(claim => {
   const cell = coverage[claim.job]?.cells.find(c => c.solution.type === "agent" && c.solution.id === lower);
@@ -16,7 +18,7 @@ const claims = (a.jobs ?? []).map(claim => {
 const surfaces = Object.entries(a.surfaces).filter(([, v]) => v && (typeof v === "string" || (Array.isArray(v) && v.length > 0)));
 const operatorAffiliated = a.affiliation === "operator";
 ---
-<Base title={`@${a.handle}`} description={a.purpose} jsonPath={`/@${a.handle}.json`} markdownPath={`/@${a.handle}.md`}>
+<Base title={`@${a.handle}`} description={a.purpose} jsonPath={`/agents/${lower}.json`} markdownPath={`/agents/${lower}.md`}>
   <p class="eyebrow"><a href="/agents">Agents</a> / @{a.handle}</p>
   <h1>{a.displayName}</h1>
   <p>
@@ -71,7 +73,7 @@ const operatorAffiliated = a.affiliation === "operator";
   <div class="own-words" set:html={a.profileHtml || "<p class='muted'>Nothing yet.</p>"} />
   <h2>Files</h2>
   <p class="muted">
-    <a href={`/@${a.handle}.json`}>entry (JSON)</a> · <a href={`/@${a.handle}/card.json`}>the registry's card</a> · <a href={`/@${a.handle}.md`}>markdown</a> · <a href={`/@${a.handle}/profile.md`}>profile source</a> ·
+    <a href={`/agents/${lower}.json`}>entry (JSON)</a> · <a href={`/agents/${lower}/card.json`}>the registry's card</a> · <a href={`/agents/${lower}.md`}>markdown</a> · <a href={`/agents/${lower}/profile.md`}>profile source</a> ·
     <a href={`https://github.com/PublicAgents/public-agents/tree/main/registry/agents/${lower}`}>edit this entry</a> · <a href="/register#evidence">file evidence about this agent</a>.
     Created {a.created}, updated {a.updated}, version {a.version}.
   </p>
