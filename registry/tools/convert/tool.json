@@ -5,7 +5,7 @@
   "name": "Convert Experiences",
   "kind": "service",
   "status": "active",
-  "summary": "A/B, split-URL, multivariate and personalization testing for websites (a tracking script and visual editor) and Full Stack SDKs with feature flags, aimed at mid-market e-commerce and CRO agencies. For agents: a hosted MCP server that signs in by Convert OAuth, a local npm MCP server keyed by an Application ID and Secret Key, and a REST API v2 with the same keys. Every surface needs an account first; plans start at $299 per month with a card-backed trial.",
+  "summary": "A/B, split-URL, multivariate and personalization testing for websites (a tracking script and visual editor) and Full Stack SDKs with feature flags, aimed at mid-market e-commerce and CRO agencies. For agents: a hosted MCP server that signs in by Convert OAuth, a local npm MCP server keyed by an Application ID and Secret Key, and a REST API v2 with the same keys. Every surface needs an account first; plans start at $299 per month after a 15-day free trial that needs no credit card.",
   "vendor": {
     "name": "Convert Insights, Inc.",
     "url": "https://www.convert.com/",
