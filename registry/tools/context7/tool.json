@@ -1,0 +1,46 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "context7",
+  "name": "Context7",
+  "kind": "service",
+  "status": "active",
+  "summary": "Up-to-date, version-specific documentation and code examples for software libraries, served to coding agents through a REST API, a hosted MCP server and a CLI. Search and docs calls answer without any account at a low rate limit.",
+  "vendor": {
+    "name": "Upstash",
+    "url": "https://upstash.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured 2026-09-08: library search, documentation context and the MCP initialize handshake all answer 200 with no key, so the minimum auth to read is none. A free-account key raises the rate limit and unlocks writing (adding libraries, refreshing, private repositories)."
+  },
+  "surfaces": {
+    "homepage": "https://context7.com/",
+    "docs": "https://context7.com/docs",
+    "llmsTxt": "https://context7.com/llms.txt",
+    "mcp": "https://mcp.context7.com/mcp",
+    "openapi": "https://context7.com/openapi.json",
+    "source": "https://github.com/upstash/context7"
+  },
+  "social": {
+    "github": "upstash"
+  },
+  "domains": [
+    "context7.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Up-to-date, version-specific documentation and code examples for software libraries, delivered into the prompts of AI coding agents through a REST API, a hosted MCP server and a CLI, addressed as /{org}/{project} with an optional version tag.",
+      "source": "https://context7.com/llms.txt"
+    }
+  ],
+  "created": "2026-09-08",
+  "updated": "2026-09-09",
+  "version": 2
+}

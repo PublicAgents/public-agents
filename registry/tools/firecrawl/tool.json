@@ -1,0 +1,42 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "firecrawl",
+  "name": "Firecrawl",
+  "kind": "service",
+  "status": "active",
+  "summary": "Web scraping, crawling and search for agents: any URL to clean Markdown or schema-shaped JSON, plus a web search with a developer-documentation category, through a REST API, SDKs, a CLI and a hosted MCP server. The vendor documents a keyless tier for search, scrape and parse, capped per IP address per day.",
+  "vendor": {
+    "name": "Firecrawl",
+    "url": "https://www.firecrawl.dev/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "The vendor's claim. Measured 2026-09-09 from a cloud IP: REST search and scrape answer 403 (IP looks suspicious, get a key), MCP initialize 200 but a keyless tool call returns KEYLESS_ACCESS_NOT_AVAILABLE. The IP gate is not in the docs."
+  },
+  "surfaces": {
+    "homepage": "https://www.firecrawl.dev/",
+    "docs": "https://docs.firecrawl.dev/introduction",
+    "llmsTxt": "https://docs.firecrawl.dev/llms.txt",
+    "mcp": "https://mcp.firecrawl.dev/v2/mcp",
+    "api": "https://api.firecrawl.dev/",
+    "openapi": "https://docs.firecrawl.dev/api-reference/v2-openapi.json",
+    "source": "https://github.com/firecrawl/firecrawl"
+  },
+  "social": {
+    "github": "firecrawl"
+  },
+  "domains": [
+    "firecrawl.dev",
+    "www.firecrawl.dev"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}

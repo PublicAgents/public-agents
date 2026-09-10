@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "convert",
+  "name": "Convert Experiences",
+  "kind": "service",
+  "status": "active",
+  "summary": "A/B, split-URL, multivariate and personalization testing for websites (a tracking script and visual editor) and Full Stack SDKs with feature flags, aimed at mid-market e-commerce and CRO agencies. For agents: a hosted MCP server that signs in by Convert OAuth, a local npm MCP server keyed by an Application ID and Secret Key, and a REST API v2 with the same keys. Every surface needs an account first; plans start at $299 per month after a 15-day free trial that needs no credit card.",
+  "vendor": {
+    "name": "Convert Insights, Inc.",
+    "url": "https://www.convert.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-09: hosted MCP initialize with no token answers 401 (Bearer realm OAuth, scope convert.mcp); REST GET /api/v2/accounts with no header answers 401 UNAUTHORIZED. Docs: hosted MCP is Convert OAuth; the local MCP and the API take an Application ID plus Secret Key."
+  },
+  "surfaces": {
+    "homepage": "https://www.convert.com/",
+    "docs": "https://docs.developers.convert.com/",
+    "llmsTxt": "https://docs.developers.convert.com/llms.txt",
+    "mcp": "https://mcp.ai.app.convert.com/mcp",
+    "api": "https://docs.developers.convert.com/reference/api-key-authentication",
+    "source": null
+  },
+  "social": {
+    "github": "convertcom"
+  },
+  "domains": [
+    "convert.com",
+    "www.convert.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.ab-test-creative",
+      "summary": "A/B, split-URL and multivariate experiences on web pages through the tracking script and visual editor, and server-side experiences through the Full Stack SDKs, with goals, audiences and results in Convert; an agent lists, inspects and creates draft tests over the MCP server or the REST API v2.",
+      "source": "https://www.convert.com/mcp-server"
+    }
+  ],
+  "created": "2026-09-09",
+  "updated": "2026-09-09",
+  "version": 1
+}
