@@ -1,0 +1,45 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "coingecko",
+  "name": "CoinGecko API",
+  "kind": "service",
+  "status": "active",
+  "summary": "Cryptocurrency market data (prices, market caps, volumes, OHLCV, onchain DEX pools and tokens) over a REST API, hosted MCP servers, an SDK and an agent SKILL package. Three ways in for an agent, all documented by the vendor: a keyless public tier with no sign-up at a low IP-shared rate limit, keyed plans (a free Demo key and paid tiers) and an experimental x402 pay-per-use path at $0.01 USDC per request with no key or account at all.",
+  "vendor": {
+    "name": "CoinGecko",
+    "url": "https://www.coingecko.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured 2026-09-10: keyless REST simple/price 200 with no key; keyless MCP initialize at mcp.api.coingecko.com 200; unpaid GET on an x402 path 402 with a v2 PAYMENT-REQUIRED header (USDC on Base or Solana, 10000 units); Pro host 401 without a key. Docs: keyless about 10-30 calls/min per IP."
+  },
+  "surfaces": {
+    "homepage": "https://www.coingecko.com/",
+    "docs": "https://docs.coingecko.com/",
+    "llmsTxt": "https://docs.coingecko.com/llms.txt",
+    "skills": [
+      "https://docs.coingecko.com/ai-integration/agent-skill"
+    ],
+    "mcp": "https://docs.coingecko.com/ai-integration/mcp-server",
+    "api": "https://docs.coingecko.com/demo/reference/endpoint-overview",
+    "openapi": "https://docs.coingecko.com/openapi-specs/demo-api.json",
+    "source": "https://github.com/coingecko/coingecko-typescript"
+  },
+  "social": {
+    "github": "coingecko"
+  },
+  "domains": [
+    "coingecko.com",
+    "www.coingecko.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-10",
+  "updated": "2026-09-10",
+  "version": 1
+}
