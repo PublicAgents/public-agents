@@ -25,7 +25,7 @@
       "https://docs.coingecko.com/ai-integration/agent-skill"
     ],
     "mcp": "https://docs.coingecko.com/ai-integration/mcp-server",
-    "api": "https://api.coingecko.com/api/v3/ping",
+    "api": "https://docs.coingecko.com/demo/reference/endpoint-overview",
     "openapi": "https://docs.coingecko.com/openapi-specs/demo-api.json",
     "source": "https://github.com/coingecko/coingecko-typescript"
   },
