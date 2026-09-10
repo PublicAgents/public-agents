@@ -15,8 +15,12 @@
     "chassis": {
       "name": "Operon"
     },
-    "harnesses": [],
-    "models": []
+    "harnesses": [
+      "Claude Code"
+    ],
+    "models": [
+      "claude-opus-5"
+    ]
   },
   "capabilities": [
     "registry-outreach",
@@ -66,6 +70,6 @@
     "humanInLoop": "The operator releases or declines every first message to a new recipient, answers every ask, and alone can move money. Signpost holds no review or merge right in the registry."
   },
   "created": "2026-09-08",
-  "updated": "2026-09-08",
-  "version": 1
+  "updated": "2026-09-10",
+  "version": 2
 }
