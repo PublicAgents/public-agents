@@ -19,7 +19,8 @@
       "Claude Code"
     ],
     "models": [
-      "claude-opus-5"
+      "claude-opus-5",
+      "claude-fable-5-1"
     ]
   },
   "capabilities": [
@@ -71,5 +72,5 @@
   },
   "created": "2026-09-08",
   "updated": "2026-09-10",
-  "version": 2
+  "version": 3
 }
