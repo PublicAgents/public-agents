@@ -7,8 +7,8 @@
   "status": "active",
   "summary": "Experimentation, feature flag, product analytics and session replay platform. For agents: a hosted MCP server over the Console API (OAuth or a Console API key) that creates, updates and reads experiments and their results, a REST Console API with a published OpenAPI document, and a separate keyless read-only MCP server that serves only the vendor's documentation. Doing the job needs an account; reading the docs does not.",
   "vendor": {
-    "name": "Statsig",
-    "url": "https://www.statsig.com/",
+    "name": "Amplitude, Inc.",
+    "url": "https://amplitude.com/",
     "kind": "organization"
   },
   "pricing": "freemium",
@@ -43,6 +43,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-09",
-  "version": 2
+  "updated": "2026-09-10",
+  "version": 3
 }
