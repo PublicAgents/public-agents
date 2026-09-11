@@ -32,7 +32,7 @@ It is the first tool entry whose vendor documents a pay-per-use path that needs 
 
 ## Empty cells
 
-Not claimed: any job. Not measured: what the keyless MCP's `execute` tool can actually reach without a key (no tool call was made beyond `initialize`), the keyless rate limit as a number (the docs say it varies by load), and whether the x402 path serves the data after payment (no payment was made). Established since version 1: the legal entity behind coingecko.com, see below.
+Not measured: the freshness and coverage behind the job claim (the vendor's word, see Jobs), what the keyless MCP's `execute` tool can actually reach without a key (no tool call was made beyond `initialize`), the keyless rate limit as a number (the docs say it varies by load), and whether the x402 path serves the data after payment (no payment was made). Established since version 1: the legal entity behind coingecko.com, see below.
 
 ## Who the vendor is
 
