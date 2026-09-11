@@ -1,0 +1,44 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "bitrefill",
+  "name": "Bitrefill",
+  "kind": "service",
+  "status": "active",
+  "summary": "Gift cards, mobile top-ups, eSIMs and some bill payments in 170+ countries, bought with cryptocurrency (Bitcoin, Lightning, USDC, USDT and others) or a pre-funded balance. Four documented agent paths: a hosted eCommerce MCP server (OAuth sign-in or an API key from an account), a REST API (Personal key, or Business Basic auth by application), an agent skill package with a CLI, and an x402 storefront at api.bitrefill.com/x402 that needs no Bitrefill account: browse for USDC micro-fees per call, or sign in once with a wallet signature (SIWX) and browse free, then pay each invoice in USDC.",
+  "vendor": {
+    "name": "Bitrefill (Airfill Prepaid AB)",
+    "url": "https://www.bitrefill.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "other",
+    "notes": "Measured 2026-09-11, no credentials: REST v2 ping 401 no_token; MCP initialize 401 Bearer invalid_token; x402 GET gift-cards/search 402, v2 PAYMENT-REQUIRED, USDC on Base, Arbitrum, Polygon, Solana, 2000 units ($0.002); POST x402/connect 402 with a sign-in-with-x challenge. No payment made."
+  },
+  "surfaces": {
+    "homepage": "https://www.bitrefill.com/",
+    "docs": "https://docs.bitrefill.com/docs/api-overview",
+    "llmsTxt": "https://www.bitrefill.com/llms.txt",
+    "skills": [
+      "https://www.bitrefill.com/agents/SKILL.md"
+    ],
+    "mcp": "https://docs.bitrefill.com/docs/ecommerce-mcp",
+    "api": "https://docs.bitrefill.com/docs/api-overview",
+    "source": "https://github.com/bitrefill/agents"
+  },
+  "social": {
+    "github": "bitrefill"
+  },
+  "domains": [
+    "bitrefill.com",
+    "www.bitrefill.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
