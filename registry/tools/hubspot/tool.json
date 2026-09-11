@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "hubspot",
+  "name": "HubSpot",
+  "kind": "service",
+  "status": "active",
+  "summary": "CRM and marketing, sales, service and content software with Breeze, the vendor's AI: Breeze Customer Agent, which resolves common support inquiries across channels without a person, and Breeze Prospecting Agent, which researches accounts, finds contacts and drafts personalized outreach for a rep to approve. For agents, the vendor publishes a remote HubSpot MCP server at mcp.hubspot.com with read-only access to CRM objects and engagements, authorized by OAuth through a user-level app on the developer platform; measured 401 with no credentials.",
+  "vendor": {
+    "name": "HubSpot, Inc.",
+    "url": "https://www.hubspot.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:45Z, no credentials: MCP initialize at mcp.hubspot.com answers 401 with a Bearer challenge naming its protected-resource metadata. Vendor: OAuth 2.0 through a user-level app with read scopes on the new developer platform; an account admin connects first. Read-only access."
+  },
+  "surfaces": {
+    "homepage": "https://www.hubspot.com/",
+    "docs": "https://developers.hubspot.com/mcp",
+    "llmsTxt": null,
+    "mcp": "https://mcp.hubspot.com/",
+    "source": null
+  },
+  "social": {
+    "github": "HubSpot",
+    "x": "HubSpot"
+  },
+  "domains": [
+    "www.hubspot.com",
+    "hubspot.com",
+    "developers.hubspot.com",
+    "mcp.hubspot.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "sales.draft-outreach",
+      "summary": "Breeze Prospecting Agent, the vendor's words: it \"researches accounts, finds the right contacts, and drafts personalized outreach\"; \"Reps review the agent's research and drafted outreach, then approve before anything sends.\" Starter and up, $1.00 per lead recommended. Not measured.",
+      "source": "https://www.hubspot.com/products/sales/ai-prospecting-agent"
+    },
+    {
+      "job": "cs.deflect-tier1",
+      "summary": "Breeze Customer Agent, the vendor's words: \"resolves common support inquiries automatically across channels, 24 hours a day, resolving up to 70% of conversations without human intervention\", with actions \"like order status and password resets\". Professional and up, $0.50 a resolution. Not measured.",
+      "source": "https://www.hubspot.com/products/marketing/ai"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
