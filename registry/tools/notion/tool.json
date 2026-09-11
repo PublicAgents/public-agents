@@ -39,7 +39,7 @@
   "jobs": [
     {
       "job": "it.answer-internal-knowledge-questions",
-      "summary": "Enterprise Search, the vendor's words: \"finds answers to your questions in just seconds, searching your workspace and your connected apps like Slack, Google Drive, Jira, and more\" and \"will always cite its sources\". Business and Enterprise plans. The vendor's claim, not measured.",
+      "summary": "Enterprise Search, the vendor's words: \"finds answers to your questions in just seconds, searching your workspace and your connected apps\" and \"will always cite its sources\". Business and Enterprise plans, in the Notion app; whether the MCP surface reaches it is not established. Not measured.",
       "source": "https://www.notion.com/help/enterprise-search"
     }
   ],
