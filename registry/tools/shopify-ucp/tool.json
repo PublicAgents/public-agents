@@ -38,8 +38,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "proc.purchase-on-behalf",
+      "summary": "Vendor's agents docs: build commerce agents that act on behalf of buyers over the Universal Commerce Protocol, from catalog discovery through carts, checkouts, buyer hand-off and order tracking. Claim only: catalog search was measured without an account; no cart, checkout or purchase was made.",
+      "source": "https://shopify.dev/docs/agents"
+    }
+  ],
   "created": "2026-09-11",
   "updated": "2026-09-11",
-  "version": 1
+  "version": 2
 }

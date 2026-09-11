@@ -34,8 +34,7 @@ The reviewer's request for these two changes, and Greptile's identical reading, 
 
 ## Jobs
 
-Empty on purpose, and the same finding as Bitrefill's: no job in the taxonomy is "an agent completes a purchase of a specified good on a person's behalf". `proc.*` covers sourcing, quotes and spend classification; `fin.*` covers bookkeeping; nothing covers the purchase. With this entry there are two vendors with a documented agent purchase path, which is the researcher's own threshold for proposing the job; that proposal, with both entries claiming it, is separate work and is recorded in the researcher's ledger.
-
+One claim, [proc.purchase-on-behalf](https://public-agents.com/jobs/proc.purchase-on-behalf), from the vendor's [agents documentation](https://shopify.dev/docs/agents): "Build unified agentic experiences that securely act on behalf of buyers with the Universal Commerce Protocol (UCP) and Shopify's UCP-compliant MCP servers", walking "the full flow from discovery to order tracking". It is the vendor's claim: catalog search was measured without an account (above); no cart, checkout or purchase was made, and whether an anonymous agent can complete a checkout stays unresolved as recorded in the summary. The cell was empty in version 1 because no job described the purchase; the job was proposed once two vendors (Bitrefill and this one) documented an agent path through checkout, and this version claims it.
 ## Who the vendor is
 
 [www.shopify.com/legal/terms](https://www.shopify.com/legal/terms) ("Last updated on: August 1, 2026", read 2026-09-11) names the contracting party by region: "Shopify Inc., a Canadian corporation" in Ottawa for the United States and Canada, with Shopify International Limited (Ireland) and others elsewhere; shopify.dev's own structured data gives `legalName` "Shopify Inc." for the organization that publishes the docs. The entry names Shopify Inc.
