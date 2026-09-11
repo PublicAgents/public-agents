@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "atlassian",
+  "name": "Atlassian",
+  "kind": "service",
+  "status": "active",
+  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo, the vendor's AI layer, and the Jira Service Management virtual service agent, which automates Tier 1 support (intents, AI answers from the knowledge base, automated actions such as software access and password resets) across Slack, Teams, email and the portal. For agents, the vendor publishes the Atlassian Rovo MCP Server, a hosted server that searches, summarizes, creates and updates work across those products; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
+  "vendor": {
+    "name": "Atlassian",
+    "url": "https://www.atlassian.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:42Z, no credentials: MCP initialize at mcp.atlassian.com/v1/mcp/authv2 answers 401 invalid_token with a Bearer challenge naming its protected-resource metadata. Vendor: OAuth 2.1 with the user's own permissions; API tokens only if an org admin enables them."
+  },
+  "surfaces": {
+    "homepage": "https://www.atlassian.com/",
+    "docs": "https://support.atlassian.com/rovo/docs/getting-started-with-the-atlassian-remote-mcp-server/",
+    "llmsTxt": "https://www.atlassian.com/llms.txt",
+    "mcp": "https://mcp.atlassian.com/v1/mcp/authv2",
+    "source": null
+  },
+  "social": {
+    "github": "atlassian",
+    "x": "Atlassian"
+  },
+  "domains": [
+    "www.atlassian.com",
+    "atlassian.com",
+    "support.atlassian.com",
+    "mcp.atlassian.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.resolve-tier1-it-requests",
+      "summary": "Jira Service Management virtual service agent, the vendor's words: \"automating Tier 1 support issues\", \"automating common actions like software access or password resets\", AI answers from the knowledge base, help without having to \"wait for a human agent\". Premium and Enterprise plans. Not measured.",
+      "source": "https://www.atlassian.com/software/jira/service-management/features/itsm/virtual-agent"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
