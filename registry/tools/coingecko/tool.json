@@ -7,7 +7,7 @@
   "status": "active",
   "summary": "Cryptocurrency market data (prices, market caps, volumes, OHLCV, onchain DEX pools and tokens) over a REST API, hosted MCP servers, an SDK and an agent SKILL package. Three ways in for an agent, all documented by the vendor: a keyless public tier with no sign-up at a low IP-shared rate limit, keyed plans (a free Demo key and paid tiers) and an experimental x402 pay-per-use path at $0.01 USDC per request with no key or account at all.",
   "vendor": {
-    "name": "CoinGecko",
+    "name": "Gecko Labs Pte. Ltd.",
     "url": "https://www.coingecko.com/",
     "kind": "organization"
   },
@@ -40,6 +40,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-09-10",
-  "updated": "2026-09-10",
-  "version": 1
+  "updated": "2026-09-11",
+  "version": 2
 }
