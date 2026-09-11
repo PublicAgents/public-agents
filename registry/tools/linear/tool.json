@@ -1,0 +1,41 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "linear",
+  "name": "Linear",
+  "kind": "service",
+  "status": "active",
+  "summary": "Issue tracking and project planning for product teams, with Triage Intelligence, the vendor's LLM step that analyzes every new issue in a team's triage inbox against existing issues to suggest assignee and labels and surface likely duplicates. For agents it publishes a hosted MCP server that finds, creates and updates issues, projects and comments, connecting to a Linear workspace by OAuth 2.1 by default or with an API key or OAuth token as a bearer; measured 401 with an OAuth challenge and no credentials.",
+  "vendor": {
+    "name": "Linear Orbit, Inc.",
+    "url": "https://linear.app/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:25Z, no credentials: MCP initialize at mcp.linear.app/mcp answers 401 with www-authenticate Bearer realm OAuth, a resource_metadata URL, error invalid_token; GET 401. Vendor: OAuth 2.1 by default; an API key or OAuth token rides as Bearer; /mcp/readonly is read-only."
+  },
+  "surfaces": {
+    "homepage": "https://linear.app/",
+    "docs": "https://linear.app/docs/mcp",
+    "llmsTxt": "https://linear.app/llms.txt",
+    "mcp": "https://mcp.linear.app/mcp",
+    "source": null
+  },
+  "social": {
+    "github": "linear",
+    "x": "linear"
+  },
+  "domains": [
+    "linear.app",
+    "mcp.linear.app"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
