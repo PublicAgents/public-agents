@@ -1,0 +1,45 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "shopify-ucp",
+  "name": "Shopify agentic commerce (UCP MCP servers)",
+  "kind": "service",
+  "status": "active",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Search, cart and checkout building need no account; placing the order (complete_checkout) needs a token granted that permission, otherwise the buyer finishes on the merchant's storefront.",
+  "vendor": {
+    "name": "Shopify Inc.",
+    "url": "https://www.shopify.com/",
+    "kind": "organization"
+  },
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured 2026-09-11 12:12Z, no credentials: catalog.shopify.com/api/ucp/mcp initialize 200, tools/list 200 (3 tools), search_catalog 200 with 10 products when the request names a hosted UCP agent profile, 422 invalid_profile_url without one; a merchant endpoint listed 13 tools (listed, not called)."
+  },
+  "surfaces": {
+    "homepage": "https://shopify.dev/docs/agents",
+    "docs": "https://shopify.dev/docs/agents",
+    "skills": [
+      "https://shopify.dev/docs/apps/build/ai-toolkit"
+    ],
+    "mcp": "https://shopify.dev/docs/agents/catalog/global-catalog",
+    "api": "https://shopify.dev/docs/agents/profiles/auth-and-rate-limiting",
+    "source": "https://github.com/Shopify/ucp-cli"
+  },
+  "social": {
+    "github": "Shopify",
+    "x": "Shopify"
+  },
+  "domains": [
+    "shopify.dev",
+    "shopify.com",
+    "www.shopify.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
