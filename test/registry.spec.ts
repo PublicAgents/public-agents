@@ -213,7 +213,32 @@ describe("payments and probes", () => {
     const valuePattern = new RegExp(published.properties.observed.properties.headers.additionalProperties.pattern);
     expect(valuePattern.test(fakeBearer)).toBe(false);
     expect(valuePattern.test("Payment method=\"tempo\", nonce=[redacted]")).toBe(true);
-    expect(new RegExp(published.properties.at.pattern).test("2026-13-40T99:99Z")).toBe(false);
+    // the patterns carry no flags, so case folding is spelled out: mixed-case look-alikes fail too
+    const mixedCase = [
+      ["GHp", "abcdefghijklmnopqrstuv"].join("_"),
+      ["XOXB", "abcdefghijklmnop"].join("-"),
+      ["SK_LIVE", "abcdefghijklmnopqrst"].join("_"),
+      ["BEARER", "abcdefghijklmnop"].join(" ")
+    ];
+    for (const value of mixedCase) {
+      expect(valuePattern.test(value)).toBe(false);
+      expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": value } } })).toMatch(/credential/);
+    }
+    const commandPattern = new RegExp(published.properties.reproducibility.properties.command.pattern);
+    expect(commandPattern.test(`curl 'https://example.com/api/paid?${["API", "KEY"].join("_")}=abc123'`)).toBe(false);
+    expect(commandPattern.test("curl -H 'AUTHORIZATION: [redacted]' https://example.com/api/paid")).toBe(false);
+    expect(commandPattern.test("curl -U user:pass https://example.com/api/paid")).toBe(false);
+    expect(commandPattern.test("curl -sI https://example.com/api/paid")).toBe(true);
+    // the calendar is in the pattern too: month lengths and leap days
+    const atPattern = new RegExp(published.properties.at.pattern);
+    expect(atPattern.test("2026-13-40T99:99Z")).toBe(false);
+    expect(atPattern.test("2026-02-30T10:00Z")).toBe(false);
+    expect(atPattern.test("2026-04-31T10:00Z")).toBe(false);
+    expect(atPattern.test("2026-02-29T10:00Z")).toBe(false);
+    expect(atPattern.test("2028-02-29T10:00Z")).toBe(true);
+    expect(atPattern.test("2100-02-29T10:00Z")).toBe(false);
+    expect(atPattern.test("2000-02-29T10:00Z")).toBe(true);
+    expect(atPattern.test("2026-12-31T23:59Z")).toBe(true);
     expect(messages({ ...PROBE, at: "2026-02-30T10:00Z" })).toMatch(/real UTC minute/);
     expect(messages({ ...PROBE, at: "2026-09-12T00:00Z" })).toMatch(/postdate/);
   });

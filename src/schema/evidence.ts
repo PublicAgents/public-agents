@@ -91,21 +91,54 @@ export const measuredSchema = z.strictObject({
 /**
  * The rules below are regexes wherever they can be, so the generated
  * JSON Schema carries them too (a negative lookahead is valid JSON
- * Schema regex); only the calendar check on `at` is repository-only.
+ * Schema regex). JSON Schema patterns carry no flags, so case folding is
+ * spelled out per letter; only the `at` versus `updated` ordering is
+ * repository-only.
  */
+/** Spells a literal so it matches in any case without a flag: "key" becomes "[kK][eE][yY]". */
+const anyCase = (literal: string) => literal.replace(/[a-z]/g, c => `[${c}${c.toUpperCase()}]`);
 /** Header names that carry a session or a credential in either direction; never published, even redacted. */
 const credentialHeaderName = /^(?!(?:authorization|proxy-authorization|cookie|set-cookie|x-api-key|api-key|x-auth-token|x-access-token|x-csrf-token|x-xsrf-token|x-amz-security-token|x-session-token|x-payment|payment-signature)$)[a-z0-9-]+$/;
-/** Values that look like a bearer token, a JWT, a vendor key prefix, a cloud key id, a GitHub or Slack token. */
-const credentialValue = /^(?![\s\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\s+[A-Za-z0-9._~+/=-]{8,}|\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\bsk-[A-Za-z0-9_-]{20,}|\bAKIA[0-9A-Z]{16}\b|\bgh[pousr]_[A-Za-z0-9]{20,}|\bxox[abpr]-[A-Za-z0-9-]{10,}))/;
-/** Ways a credential rides in a command: a header flag, basic auth, or a query parameter that names a key. */
-const noCredentialInCommand = /^(?![\s\S]*(?:-H\s*['"]?\s*(?:[Aa]uthorization|[Cc]ookie|[Xx]-[Aa][Pp][Ii]-[Kk]ey|[Aa]pi-[Kk]ey|[Xx]-[Aa]uth-[Tt]oken)\s*:|(?:^|\s)(?:-u|--user|--oauth2-bearer)\s|[?&](?:api[_-]?key|apikey|access[_-]?token|auth[_-]?token|token|secret|password|passwd|client[_-]?secret)=))/;
-const noCredential = (label: string) =>
-  z.string().max(2000).regex(credentialValue, `${label} looks like it carries a credential; replace it with [redacted] and say so in the finding`);
+/** Values that look like a bearer token, a JWT, a vendor key prefix, a cloud key id, a GitHub or Slack token, in any case. */
+const credentialValue = new RegExp(
+  "^(?![\\s\\S]*(?:" +
+    [
+      `${anyCase("bearer")}\\s+[A-Za-z0-9._~+/=-]{8,}`,
+      `\\b${anyCase("eyj")}[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}`,
+      `\\b[sprkSPRK][kpKP]?[-_](?:${anyCase("live")}|${anyCase("test")})?[-_]?[A-Za-z0-9]{16,}`,
+      `\\b${anyCase("sk")}-[A-Za-z0-9_-]{20,}`,
+      `\\b${anyCase("akia")}[A-Za-z0-9]{16}\\b`,
+      `\\b${anyCase("gh")}[pousrPOUSR]_[A-Za-z0-9]{20,}`,
+      `\\b${anyCase("xox")}[abprABPR]-[A-Za-z0-9-]{10,}`
+    ].join("|") +
+    "))"
+);
+/** Ways a credential rides in a command: a header flag, basic or proxy auth, a bearer flag, or a query parameter that names a key, in any case. */
+const noCredentialInCommand = new RegExp(
+  "^(?![\\s\\S]*(?:" +
+    [
+      `-H\\s*['"]?\\s*(?:${["authorization", "proxy-authorization", "cookie", "x-api-key", "api-key", "x-auth-token", "x-access-token"].map(anyCase).join("|")})\\s*:`,
+      `(?:^|\\s)(?:-u|-U|--user|--proxy-user|--oauth2-bearer)\\s`,
+      `[?&](?:${anyCase("api")}[_-]?${anyCase("key")}|${anyCase("access")}[_-]?${anyCase("token")}|${anyCase("auth")}[_-]?${anyCase("token")}|${anyCase("token")}|${anyCase("secret")}|${anyCase("password")}|${anyCase("passwd")}|${anyCase("client")}[_-]?${anyCase("secret")})=`
+    ].join("|") +
+    "))"
+);
+/** One pattern for the re-run command: both lookaheads in one, so the published schema carries both. */
+const commandWithoutCredential = new RegExp(`^${credentialValue.source.slice(1)}${noCredentialInCommand.source.slice(1)}`);
+/** No `.pipe` here: the JSON Schema is generated from the last stage of a pipe, which would drop the pattern. */
+const noCredential = (label: string, max = 2000) =>
+  z.string().trim().min(1).max(max).regex(credentialValue, `${label} looks like it carries a credential; replace it with [redacted] and say so in the finding`);
 
-/** A real UTC minute, YYYY-MM-DDTHH:MMZ: fields in range by regex, then a round trip through Date for the calendar. */
+/**
+ * A real UTC minute, YYYY-MM-DDTHH:MMZ. The regex carries the calendar
+ * (month lengths and leap days), so the published schema refuses
+ * 2026-02-30 too; the Date round trip is the same check, kept as a guard.
+ */
+const leapYear = "(?:\\d\\d(?:0[48]|[2468][048]|[13579][26])|(?:[02468][048]|[13579][26])00)";
+const calendarDay = `(?:\\d{4}-(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|\\d{4}-(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|\\d{4}-02-(?:0[1-9]|1\\d|2[0-8])|${leapYear}-02-29)`;
 const utcMinute = z
   .string()
-  .regex(/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\dZ$/, "YYYY-MM-DDTHH:MMZ, a real UTC minute")
+  .regex(new RegExp(`^${calendarDay}T(?:[01]\\d|2[0-3]):[0-5]\\dZ$`), "YYYY-MM-DDTHH:MMZ, a real UTC minute")
   .refine(v => {
     const d = new Date(`${v.slice(0, 16)}:00.000Z`);
     return !Number.isNaN(d.getTime()) && `${d.toISOString().slice(0, 16)}Z` === v;
@@ -128,7 +161,7 @@ export const probeSchema = z
       /** What kind of network the request left from; one IP is one sample and the field says so. */
       from: shortText(120),
       /** The request body, or a description of it, when the method carries one. */
-      body: noCredential("request.body").pipe(shortText(600)).optional()
+      body: noCredential("request.body", 600).optional()
     }),
     observed: z.strictObject({
       status: z.number().int().min(100).max(599),
@@ -146,9 +179,12 @@ export const probeSchema = z
     independence: z.enum(["independent", "self", "vendor-sponsored"]),
     reproducibility: z.strictObject({
       /** The command that re-runs it, with no credentials in it: no auth header flag, no basic auth, no key in the query string. */
-      command: noCredential("reproducibility.command")
-        .regex(noCredentialInCommand, "the re-run command carries a credential (an auth header, basic auth, or a key in the query string)")
-        .pipe(shortText(600)),
+      command: z
+        .string()
+        .trim()
+        .min(1)
+        .max(600)
+        .regex(commandWithoutCredential, "the re-run command looks like it carries a credential (a token, an auth header, basic auth, or a key in the query string); replace it with [redacted] and say so in the finding"),
       /** A dated artifact of the full response, when one is published. */
       artifactsUrl: httpsUrl.optional()
     }),

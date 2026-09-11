@@ -85,7 +85,8 @@
         "body": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 600
+          "maxLength": 600,
+          "pattern": "^(?![\\s\\S]*(?:[bB][eE][aA][rR][eE][rR]\\s+[A-Za-z0-9._~+/=-]{8,}|\\b[eE][yY][jJ][A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprkSPRK][kpKP]?[-_](?:[lL][iI][vV][eE]|[tT][eE][sS][tT])?[-_]?[A-Za-z0-9]{16,}|\\b[sS][kK]-[A-Za-z0-9_-]{20,}|\\b[aA][kK][iI][aA][A-Za-z0-9]{16}\\b|\\b[gG][hH][pousrPOUSR]_[A-Za-z0-9]{20,}|\\b[xX][oO][xX][abprABPR]-[A-Za-z0-9-]{10,}))"
         }
       },
       "required": [
@@ -112,8 +113,9 @@
           },
           "additionalProperties": {
             "type": "string",
+            "minLength": 1,
             "maxLength": 2000,
-            "pattern": "^(?![\\s\\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\\s+[A-Za-z0-9._~+/=-]{8,}|\\beyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\\bsk-[A-Za-z0-9_-]{20,}|\\bAKIA[0-9A-Z]{16}\\b|\\bgh[pousr]_[A-Za-z0-9]{20,}|\\bxox[abpr]-[A-Za-z0-9-]{10,}))"
+            "pattern": "^(?![\\s\\S]*(?:[bB][eE][aA][rR][eE][rR]\\s+[A-Za-z0-9._~+/=-]{8,}|\\b[eE][yY][jJ][A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprkSPRK][kpKP]?[-_](?:[lL][iI][vV][eE]|[tT][eE][sS][tT])?[-_]?[A-Za-z0-9]{16,}|\\b[sS][kK]-[A-Za-z0-9_-]{20,}|\\b[aA][kK][iI][aA][A-Za-z0-9]{16}\\b|\\b[gG][hH][pousrPOUSR]_[A-Za-z0-9]{20,}|\\b[xX][oO][xX][abprABPR]-[A-Za-z0-9-]{10,}))"
           }
         },
         "decoded": {
@@ -125,8 +127,9 @@
             "anyOf": [
               {
                 "type": "string",
+                "minLength": 1,
                 "maxLength": 2000,
-                "pattern": "^(?![\\s\\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\\s+[A-Za-z0-9._~+/=-]{8,}|\\beyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\\bsk-[A-Za-z0-9_-]{20,}|\\bAKIA[0-9A-Z]{16}\\b|\\bgh[pousr]_[A-Za-z0-9]{20,}|\\bxox[abpr]-[A-Za-z0-9-]{10,}))"
+                "pattern": "^(?![\\s\\S]*(?:[bB][eE][aA][rR][eE][rR]\\s+[A-Za-z0-9._~+/=-]{8,}|\\b[eE][yY][jJ][A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprkSPRK][kpKP]?[-_](?:[lL][iI][vV][eE]|[tT][eE][sS][tT])?[-_]?[A-Za-z0-9]{16,}|\\b[sS][kK]-[A-Za-z0-9_-]{20,}|\\b[aA][kK][iI][aA][A-Za-z0-9]{16}\\b|\\b[gG][hH][pousrPOUSR]_[A-Za-z0-9]{20,}|\\b[xX][oO][xX][abprABPR]-[A-Za-z0-9-]{10,}))"
               },
               {
                 "type": "number"
@@ -196,7 +199,8 @@
         "command": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 600
+          "maxLength": 600,
+          "pattern": "^(?![\\s\\S]*(?:[bB][eE][aA][rR][eE][rR]\\s+[A-Za-z0-9._~+/=-]{8,}|\\b[eE][yY][jJ][A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprkSPRK][kpKP]?[-_](?:[lL][iI][vV][eE]|[tT][eE][sS][tT])?[-_]?[A-Za-z0-9]{16,}|\\b[sS][kK]-[A-Za-z0-9_-]{20,}|\\b[aA][kK][iI][aA][A-Za-z0-9]{16}\\b|\\b[gG][hH][pousrPOUSR]_[A-Za-z0-9]{20,}|\\b[xX][oO][xX][abprABPR]-[A-Za-z0-9-]{10,}))(?![\\s\\S]*(?:-H\\s*['\"]?\\s*(?:[aA][uU][tT][hH][oO][rR][iI][zZ][aA][tT][iI][oO][nN]|[pP][rR][oO][xX][yY]-[aA][uU][tT][hH][oO][rR][iI][zZ][aA][tT][iI][oO][nN]|[cC][oO][oO][kK][iI][eE]|[xX]-[aA][pP][iI]-[kK][eE][yY]|[aA][pP][iI]-[kK][eE][yY]|[xX]-[aA][uU][tT][hH]-[tT][oO][kK][eE][nN]|[xX]-[aA][cC][cC][eE][sS][sS]-[tT][oO][kK][eE][nN])\\s*:|(?:^|\\s)(?:-u|-U|--user|--proxy-user|--oauth2-bearer)\\s|[?&](?:[aA][pP][iI][_-]?[kK][eE][yY]|[aA][cC][cC][eE][sS][sS][_-]?[tT][oO][kK][eE][nN]|[aA][uU][tT][hH][_-]?[tT][oO][kK][eE][nN]|[tT][oO][kK][eE][nN]|[sS][eE][cC][rR][eE][tT]|[pP][aA][sS][sS][wW][oO][rR][dD]|[pP][aA][sS][sS][wW][dD]|[cC][lL][iI][eE][nN][tT][_-]?[sS][eE][cC][rR][eE][tT])=))"
         },
         "artifactsUrl": {
           "type": "string",
@@ -210,7 +214,7 @@
     },
     "at": {
       "type": "string",
-      "pattern": "^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T(?:[01]\\d|2[0-3]):[0-5]\\dZ$"
+      "pattern": "^(?:\\d{4}-(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|\\d{4}-(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|\\d{4}-02-(?:0[1-9]|1\\d|2[0-8])|(?:\\d\\d(?:0[48]|[2468][048]|[13579][26])|(?:[02468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\dZ$"
     },
     "disclosure": {
       "type": "object",
