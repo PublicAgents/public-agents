@@ -39,12 +39,12 @@
   "jobs": [
     {
       "job": "sales.draft-outreach",
-      "summary": "Breeze Prospecting Agent, the vendor's words: it \"researches accounts, finds the right contacts, and drafts personalized outreach\"; \"Reps review the agent's research and drafted outreach, then approve before anything sends.\" Starter and up, $1.00 per lead recommended. Not measured.",
-      "source": "https://www.hubspot.com/products/sales/ai-prospecting-agent"
+      "summary": "Breeze Prospecting Agent, the vendor's words on this page: it uses \"CRM data and real-time signals to craft personalized outreach\"; \"Reps review the agent's research and drafted outreach, then approve before anything sends.\" Metered per lead; edition not established. Not measured.",
+      "source": "https://www.hubspot.com/products/artificial-intelligence/use-cases/send-personalized-sales-outreach"
     },
     {
       "job": "cs.deflect-tier1",
-      "summary": "Breeze Customer Agent, the vendor's words: \"resolves common support inquiries automatically across channels, 24 hours a day, resolving up to 70% of conversations without human intervention\", with actions \"like order status and password resets\". Professional and up, $0.50 a resolution. Not measured.",
+      "summary": "Breeze Customer Agent, the vendor's words on this page: \"resolves common support inquiries automatically across channels, 24 hours a day, resolving up to 70% of conversations without human intervention\"; hands off \"when human judgment is needed\". Professional and up, $0.50 each. Not measured.",
       "source": "https://www.hubspot.com/products/marketing/ai"
     }
   ],
