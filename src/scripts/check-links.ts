@@ -28,12 +28,21 @@ function urlsOf(value: unknown, out: Set<string>) {
   else if (value && typeof value === "object") Object.values(value).forEach(v => urlsOf(v, out));
 }
 
-const targets: Array<{ file: string; url: string }> = [];
+/** The machine endpoints of an entry (`surfaces.mcp`, `surfaces.api`): URLs an agent POSTs to, not pages. */
+function endpointsOf(value: unknown): Set<string> {
+  const out = new Set<string>();
+  const surfaces = (value as { surfaces?: { mcp?: unknown; api?: unknown } } | undefined)?.surfaces;
+  for (const v of [surfaces?.mcp, surfaces?.api]) if (typeof v === "string" && /^https:\/\//.test(v)) out.add(v);
+  return out;
+}
+
+const targets: Array<{ file: string; url: string; endpoint: boolean }> = [];
 for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured]) {
   if (changed && !changed.has(entry.file)) continue;
   const urls = new Set<string>();
   urlsOf(entry.value, urls);
-  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: entry.file, url });
+  const endpoints = endpointsOf(entry.value);
+  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: entry.file, url, endpoint: endpoints.has(url) });
 }
 
 const results = await withConcurrency(4, targets.map(target => async () => {
@@ -49,13 +58,19 @@ const results = await withConcurrency(4, targets.map(target => async () => {
   // 405 is a URL that exists and answers a different method (an MCP or
   // API endpoint that takes POST): alive. 401 and 403 are alive too, an
   // endpoint that wants credentials still answers.
-  const alive = result.ok && (result.status < 400 || [401, 403, 405].includes(result.status));
+  // A machine endpoint that answers a browser's GET with a redirect to
+  // its documentation on another host (AWS's Knowledge MCP does) is
+  // alive: the server answered. The guarded fetch refuses to follow a
+  // cross-host redirect, so for an endpoint that refusal counts as an
+  // answer; for a page it stays dead, since a parked domain redirects too.
+  const redirected = !result.ok && result.reason === "redirect_forbidden" && target.endpoint;
+  const alive = (result.ok && (result.status < 400 || [401, 403, 405].includes(result.status))) || redirected;
   const dead = !alive;
   return { ...target, dead, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
 }));
 
 const dead = results.filter(r => r.dead);
-for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.dead ? r.detail : ""}`);
+for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.dead || r.detail.startsWith("redirect_forbidden") ? r.detail : ""}`);
 if (dead.length === 0) {
   console.log(`✓ ${results.length} link(s) answer`);
   process.exit(0);
