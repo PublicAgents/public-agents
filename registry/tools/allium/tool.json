@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Measured 2026-09-11, no credentials: supported-chains 200 free; unpaid GET tokens/search 402 with BOTH an MPP WWW-Authenticate Payment (method tempo) header and an x402 v2 payment-required header (USDC on Base or Solana, 30000 units); mcp.allium.so initialize 200, tool call Not authenticated."
+    "notes": "Measured 2026-09-11 12:02Z, no credentials: supported-chains 200 free; unpaid GET tokens/search 402 with BOTH an MPP WWW-Authenticate Payment (tempo) header and an x402 v2 header (USDC 30000 units on Base, Solana, X Layer, Polygon); mcp.allium.so initialize 200, tool call Not authenticated."
   },
   "surfaces": {
     "homepage": "https://www.allium.so/",
