@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "sentry",
+  "name": "Sentry",
+  "kind": "service",
+  "status": "active",
+  "summary": "Error and performance monitoring for applications, with Seer, the vendor's AI debugging agent, which analyzes issues to a root cause and proposes fixes. For agents it publishes a hosted MCP server (searching errors, analyzing performance, triaging issues, reading documentation, managing projects) that connects to a Sentry account, by OAuth by default or with a user token; measured 401 with an OAuth challenge and no credentials.",
+  "vendor": {
+    "name": "Functional Software, Inc. (d/b/a Sentry)",
+    "url": "https://sentry.io/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:11Z, no credentials: MCP initialize at mcp.sentry.dev/mcp answers 401 with www-authenticate Bearer realm OAuth and a resource_metadata URL; GET 401. Vendor: all connections use OAuth to a Sentry account; a user token can ride as Sentry-Bearer. Free plan includes MCP access."
+  },
+  "surfaces": {
+    "homepage": "https://sentry.io/",
+    "docs": "https://mcp.sentry.dev/",
+    "llmsTxt": "https://mcp.sentry.dev/llms.txt",
+    "mcp": "https://mcp.sentry.dev/mcp",
+    "source": "https://github.com/getsentry/sentry-mcp"
+  },
+  "social": {
+    "github": "getsentry",
+    "x": "getsentry"
+  },
+  "domains": [
+    "sentry.io",
+    "mcp.sentry.dev"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.investigate-incidents",
+      "summary": "Seer, the vendor's debugging agent, analyzes issues as they are ingested with a root cause analysis step over errors, traces, logs and code context, then proposes remediation or a pull request; the vendor's claim, from its Seer documentation, not measured.",
+      "source": "https://docs.sentry.io/product/ai-in-sentry/seer/"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
