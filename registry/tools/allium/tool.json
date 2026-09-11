@@ -1,0 +1,44 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "allium",
+  "name": "Allium",
+  "kind": "service",
+  "status": "active",
+  "summary": "Blockchain data (historical SQL over 150+ chains, realtime prices, balances, transactions and PnL, Hyperliquid) for institutions and, per the vendor, for AI agents. Three documented agent paths: a hosted MCP server (OAuth sign-in or an API key from a free account), REST APIs keyed from the same account, and machine payments at agents.allium.so, where every priced endpoint is paid per call in USDC over Tempo MPP or x402 with no API key, registration or subscription, plus an agent skill package and a CLI that drive the paid path.",
+  "vendor": {
+    "name": "Allium Labs, Inc.",
+    "url": "https://www.allium.so/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "other",
+    "notes": "Measured 2026-09-11 12:02Z, no credentials: supported-chains 200 free; unpaid GET tokens/search 402 with BOTH an MPP WWW-Authenticate Payment (tempo) header and an x402 v2 header (USDC 30000 units on Base, Solana, X Layer, Polygon); mcp.allium.so initialize 200, tool call Not authenticated."
+  },
+  "surfaces": {
+    "homepage": "https://www.allium.so/",
+    "docs": "https://docs.allium.so/",
+    "llmsTxt": "https://docs.allium.so/llms.txt",
+    "skills": [
+      "https://docs.allium.so/ai/machine-payments/agent-skills"
+    ],
+    "mcp": "https://docs.allium.so/ai/mcp/overview",
+    "api": "https://docs.allium.so/ai/machine-payments/endpoints-pricing",
+    "source": "https://github.com/Allium-Science/allium-cli"
+  },
+  "social": {
+    "github": "allium-labs"
+  },
+  "domains": [
+    "allium.so",
+    "www.allium.so"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
