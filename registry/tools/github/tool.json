@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "github",
+  "name": "GitHub",
+  "kind": "service",
+  "status": "active",
+  "summary": "Code hosting with pull requests, issues, Actions and the Copilot agents: Copilot code review, which reviews a pull request's full changeset and comments on the lines that need attention, and Copilot coding agent, which takes a task from an issue or a prompt, makes the changes in its own GitHub Actions environment and opens a pull request. For agents, the vendor publishes a remote GitHub MCP server over repositories, issues, pull requests, Actions and code security, and the Copilot tools; it authenticates by OAuth or a personal access token, measured 401 without one.",
+  "vendor": {
+    "name": "GitHub, Inc.",
+    "url": "https://github.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:37Z, no credentials: MCP initialize at api.githubcopilot.com/mcp/ answers 401 with a Bearer challenge naming its protected-resource metadata. Vendor: OAuth on first use, or a personal access token; a GitHub App for non-interactive use. Copilot tools need a Copilot license."
+  },
+  "surfaces": {
+    "homepage": "https://github.com/",
+    "docs": "https://docs.github.com/en/copilot/how-tos/context/use-mcp/use-the-github-mcp-server",
+    "llmsTxt": "https://docs.github.com/llms.txt",
+    "mcp": "https://api.githubcopilot.com/mcp/",
+    "source": "https://github.com/github/github-mcp-server"
+  },
+  "social": {
+    "github": "github",
+    "x": "github"
+  },
+  "domains": [
+    "github.com",
+    "docs.github.com",
+    "api.githubcopilot.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.review-pull-requests",
+      "summary": "Copilot code review, the vendor's words: \"Reviews the full changeset across files to flag bugs, security risks, and style issues\" and \"comments directly on the lines that need attention\"; a \"first-pass\" review. In the product, on request or on every pull request; needs a Copilot plan. Not measured.",
+      "source": "https://github.com/features/copilot/code-review"
+    },
+    {
+      "job": "eng.implement-scoped-changes",
+      "summary": "Copilot coding agent, the vendor's words: it \"will make the required changes and open a pull request\" for a task from an issue or a prompt, in an environment where it can \"execute automated tests and linters\"; can \"Fix bugs\", \"Implement incremental new features\". Copilot Pro and up. Not measured.",
+      "source": "https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
