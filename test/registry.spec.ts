@@ -140,6 +140,7 @@ const PROBE = {
   independence: "independent",
   reproducibility: { command: "curl -s -D - -o /dev/null https://example.com/api/paid" },
   at: "2026-09-11T18:08Z",
+  disclosure: { affiliation: "none", compensation: "none", reseller: false },
   created: "2026-09-11",
   updated: "2026-09-11",
   version: 1
@@ -182,6 +183,30 @@ describe("payments and probes", () => {
     expect(probeSchema.safeParse({ ...PROBE, id: "m-20260911-exampleproduct-402" }).success).toBe(false);
     expect(probeSchema.safeParse({ ...PROBE, at: "2026-09-11" }).success).toBe(false);
     expect(probeSchema.safeParse({ ...PROBE, job: "cs.deflect-tier1" }).success).toBe(false);
+  });
+
+  it("refuses a probe that could publish a credential, an impossible minute, or no disclosure", () => {
+    const { disclosure: _d, ...undisclosed } = PROBE;
+    expect(probeSchema.safeParse(undisclosed).success).toBe(false);
+    const messages = (p: unknown) => probeSchema.safeParse(p).error?.issues.map(i => i.message).join(" ") ?? "";
+    // credential-bearing header names are refused even with a placeholder value
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "set-cookie": "[redacted]" } } })).toMatch(/never published/);
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { authorization: "[redacted]" } } })).toMatch(/never published/);
+    // values that look like a token are refused wherever they sit; the look-alikes are assembled at
+    // run time so this file never carries one (the secret sweep on the way in refuses them too)
+    const fakeBearer = ["Bearer", "abcdefghijklmnop.qrstuvwxyz"].join(" ");
+    const fakeJwt = ["eyJhbGciOiJIUzI1NiJ9", "eyJzdWIiOiIxIn0", "abcdefghijklmnop"].join(".");
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": fakeBearer } } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, decoded: { token: fakeJwt } } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: `curl -H '${["Authorization:", fakeBearer].join(" ")}' https://example.com/api/paid` } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: "curl -u user:pass https://example.com/api/paid" } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: `curl 'https://example.com/api/paid?${["api", "key"].join("_")}=abc123'` } })).toMatch(/credential/);
+    // a redacted challenge in a non-credential header is fine
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Payment method=\"tempo\", nonce=[redacted]" } } }).success).toBe(true);
+    // a real UTC minute, and not after the file's updated date
+    expect(messages({ ...PROBE, at: "2026-13-40T99:99Z" })).toMatch(/real UTC minute/);
+    expect(messages({ ...PROBE, at: "2026-02-30T10:00Z" })).toMatch(/real UTC minute/);
+    expect(messages({ ...PROBE, at: "2026-09-12T00:00Z" })).toMatch(/postdate/);
   });
 });
 

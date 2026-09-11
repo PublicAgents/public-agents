@@ -121,11 +121,20 @@
             "type": "string"
           },
           "additionalProperties": {
-            "type": [
-              "string",
-              "number",
-              "boolean",
-              "null"
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
             ]
           }
         },
@@ -201,6 +210,57 @@
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$"
     },
+    "disclosure": {
+      "type": "object",
+      "properties": {
+        "affiliation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "employee",
+            "contractor",
+            "investor",
+            "operator",
+            "partner",
+            "other"
+          ]
+        },
+        "affiliationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "compensation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "paid-by-vendor",
+            "discounted",
+            "credits",
+            "other"
+          ]
+        },
+        "compensationDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "reseller": {
+          "type": "boolean"
+        },
+        "resellerDetail": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "affiliation",
+        "compensation",
+        "reseller"
+      ],
+      "additionalProperties": false
+    },
     "created": {
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
@@ -228,6 +288,7 @@
     "independence",
     "reproducibility",
     "at",
+    "disclosure",
     "created",
     "updated",
     "version"

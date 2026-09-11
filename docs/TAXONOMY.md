@@ -45,8 +45,14 @@ Evidence is its own file and never needs the subject's consent:
   first; `payment`: what does it cost inline and by which protocol;
   `disclosure`: does the surface say it is an agent). It has a subject
   and no job, sets no field on the subject, never counts as support or
-  contradiction for any claim, and is shown apart from both. One IP is
-  one sample and the finding says so.
+  contradiction for any claim, and is shown apart from both, on
+  `/probes`. It carries the same `disclosure` block as the other two
+  kinds. One IP is one sample and the finding says so. Probe files are
+  published verbatim, so the schema refuses what could carry a
+  credential: `authorization`, `cookie`, `set-cookie` and api-key
+  headers by name, values or commands that look like a token, a key in
+  a query string. A nonce or a challenge that must be kept out is
+  written as the literal `[redacted]` and the finding says so.
 
 ## Payment
 

@@ -44,6 +44,11 @@
     "command": "curl -s -D - -o /dev/null -A public-agents-ci 'https://pro-api.coingecko.com/api/v3/x402/simple/price?vs_currencies=usd&symbols=btc'"
   },
   "at": "2026-09-11T18:08Z",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
   "created": "2026-09-11",
   "updated": "2026-09-11",
   "version": 1

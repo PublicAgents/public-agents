@@ -184,6 +184,7 @@ const toolsIndex = registry.tools.map(tool => {
     summary: t.summary,
     pricing: t.pricing,
     agentAccess: t.agentAccess ?? null,
+    payments: t.payments ?? null,
     provenance: t.provenance ?? "vendor",
     homepage: t.surfaces.homepage,
     domains: t.domains,
@@ -195,6 +196,7 @@ const toolsIndex = registry.tools.map(tool => {
   };
 });
 write("tools.json", json({ generatedAt, commit, count: toolsIndex.length, tools: toolsIndex }));
+write("payment-protocols.json", json({ generatedAt, commit, count: registry.paymentProtocols.protocols.length, protocols: registry.paymentProtocols.protocols }));
 for (const tool of registry.tools) {
   write(`tools/${tool.value.slug}.json`, tool.raw);
   write(`tools/${tool.value.slug}/profile.md`, tool.profile);
@@ -209,6 +211,7 @@ for (const tool of registry.tools) {
       `- kind: ${t.kind}; pricing: ${t.pricing}; vendor: ${t.vendor.name}`,
       `- homepage: ${t.surfaces.homepage}`,
       ...(t.agentAccess ? [`- agent access: ${t.agentAccess.noAccountNeeded ? "no account needed" : "account needed"}, auth ${t.agentAccess.auth}`] : []),
+      ...(t.payments ? [`- payments: ${t.payments.machinePayable ? "machine-payable" : "not machine-payable"}${t.payments.protocols?.length ? ` over ${t.payments.protocols.join(", ")}` : ""}, human billing ${t.payments.humanBilling}`] : []),
       "",
       "## Jobs claimed",
       "",
@@ -264,7 +267,7 @@ const changes = [
   ...registry.tools.map(t => ({ kind: "tool", id: t.value.slug, version: t.value.version, updated: t.value.updated, url: `${SITE}/tools/${t.value.slug}` })),
   ...registry.jobs.map(j => ({ kind: "job", id: j.value.id, version: j.value.version, updated: j.value.updated, url: `${SITE}/jobs/${j.value.id}` })),
   ...[...registry.caseReports, ...registry.measured].map(e => ({ kind: "evidence", id: e.value.id, version: e.value.version, updated: e.value.updated, url: `${SITE}/evidence/${e.value.id}` })),
-  ...registry.probes.map(e => ({ kind: "probe", id: e.value.id, version: e.value.version, updated: e.value.updated, url: `${SITE}/evidence/${e.value.id}.json` }))
+  ...registry.probes.map(e => ({ kind: "probe", id: e.value.id, version: e.value.version, updated: e.value.updated, url: `${SITE}/probes#${e.value.id}` }))
 ]
   .sort((a, b) => b.updated.localeCompare(a.updated))
   .slice(0, 100);
@@ -320,7 +323,8 @@ write(
         ["/jobs.json", "Every job with its coverage counts"],
         ["/jobs/{id}.json", "One job with every solution that claims it and the evidence by type, outcome and independence"],
         ["/functions.json", "The function list"],
-        ["/evidence/{id}.json", "One evidence file as filed"],
+        ["/payment-protocols.json", "The payment-protocol vocabulary a tool's or agent's payments block refers to"],
+        ["/evidence/{id}.json", "One evidence file as filed (a case report, a measured result, or a probe)"],
         ["/changes.json", "The last hundred changes"],
         ["/search-index.json", "The search index"]
       ].map(([path, summary]) => [
@@ -365,7 +369,7 @@ writeFileSync(
   })
 );
 const pages = [
-  "/", "/agents", "/tools", "/jobs", "/search", "/register", "/contributing", "/about", "/schemas",
+  "/", "/agents", "/tools", "/jobs", "/probes", "/search", "/register", "/contributing", "/about", "/schemas",
   ...registry.agents.map(a => `/@${a.value.handle}`),
   ...registry.tools.map(t => `/tools/${t.value.slug}`),
   ...registry.jobs.map(j => `/jobs/${j.value.id}`),

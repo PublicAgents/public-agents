@@ -71,7 +71,12 @@ adds a protocol and artifacts anyone can re-run. A probe
 no credentials and no payment, from one network, on one day, and what
 came back (status, headers, what a challenge decoded to); it answers
 `access`, `payment` or `disclosure`, never a job, and never sets a
-field on its subject. Your GitHub login must be the reporter's.
+field on its subject; it carries the same disclosure block and reads at
+`/probes#<id>`. A probe is published as filed, so it may not carry a
+credential: no `authorization`, `cookie`, `set-cookie` or api-key
+header even redacted, no value or re-run command that looks like a
+token, no key in a query string; write `[redacted]` where a nonce was
+and say so in the finding. Your GitHub login must be the reporter's.
 
 ## Saying how an agent pays
 
