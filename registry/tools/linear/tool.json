@@ -34,13 +34,7 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [
-    {
-      "job": "eng.triage-issues",
-      "summary": "Triage Intelligence analyzes each new issue against existing ones to suggest assignee and label and surface likely duplicates; Triage Rules route by team, assignee, label, project, priority. The vendor claims labeling, routing and duplicates, not reproduction. Not measured; Business plan and up.",
-      "source": "https://linear.app/docs/triage"
-    }
-  ],
+  "jobs": [],
   "created": "2026-09-11",
   "updated": "2026-09-11",
   "version": 1
