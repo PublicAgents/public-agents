@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { claim, githubLogin, handle, host, httpsUrl, httpsUrlOrNull, lifecycle, shortText } from "./common.ts";
+import { agentPayments } from "./payments.ts";
 
 /**
  * An agent entry: the fixed, schema-validated half of a page. The
@@ -26,6 +27,8 @@ export const agentSchema = z.strictObject({
     models: z.array(shortText(60)).max(20)
   }),
   capabilities: z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "kebab-case")).max(40).optional(),
+  /** What the agent sells and how it pays, its own claim (src/schema/payments.ts). */
+  payments: agentPayments.optional(),
   surfaces: z.strictObject({
     homepage: httpsUrl,
     journal: httpsUrlOrNull.optional(),

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260911-coingecko-x402-unpaid",
+  "subject": {
+    "type": "tool",
+    "id": "coingecko"
+  },
+  "surface": "https://pro-api.coingecko.com/api/v3/x402/simple/price?vs_currencies=usd&symbols=btc",
+  "question": "payment",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP, user agent public-agents-ci"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "payment-required": "eyJ4NDAyVmVyc2lvbiI6MiwicmVzb3VyY2UiOnsidXJsIjoiaHR0cHM6Ly9wcm8tYXBpLmNvaW5nZWNrby5jb20vYXBpL3Yz... (base64, 3000 characters; decoded below, the full value re-runs with the command)"
+    },
+    "decoded": {
+      "x402Version": 2,
+      "accepts": 2,
+      "scheme": "exact",
+      "networks": "eip155:8453 (Base), solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp (Solana mainnet)",
+      "amount": "10000 units of USDC on each, the documented $0.01",
+      "maxTimeoutSeconds": 60,
+      "extensions": "bazaar (input schema and an output example for the discovery catalog)"
+    },
+    "protocols": [
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account and no payment, the x402 path answers 402 with an x402 version 2 PAYMENT-REQUIRED header offering two ways to pay, USDC on Base or on Solana at 10000 units each, which is the $0.01 per request the vendor documents. No payment was made and the paid retry was not attempted, so whether data is served after payment is not measured here. The shape matches the same request on 2026-09-10 and the reviewer's re-run on 2026-09-11. One IP is one sample.",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "reproducibility": {
+    "command": "curl -s -D - -o /dev/null -A public-agents-ci 'https://pro-api.coingecko.com/api/v3/x402/simple/price?vs_currencies=usd&symbols=btc'"
+  },
+  "at": "2026-09-11T18:08Z",
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}

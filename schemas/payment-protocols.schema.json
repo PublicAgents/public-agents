@@ -1,0 +1,71 @@
+{
+  "$id": "https://public-agents.com/schemas/payment-protocols.schema.json",
+  "title": "payment-protocols",
+  "description": "The payment protocol vocabulary (registry/payment-protocols.json)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://public-agents.com/schemas/payment-protocols.schema.json"
+    },
+    "protocols": {
+      "maxItems": 40,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "spec": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 400
+          },
+          "source": {
+            "type": "string",
+            "format": "uri"
+          },
+          "since": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "url",
+          "summary",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "protocols"
+  ],
+  "additionalProperties": false
+}

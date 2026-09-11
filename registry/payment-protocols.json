@@ -1,0 +1,23 @@
+{
+  "$schema": "https://public-agents.com/schemas/payment-protocols.schema.json",
+  "protocols": [
+    {
+      "id": "x402",
+      "name": "x402",
+      "url": "https://x402.org/",
+      "spec": "https://github.com/x402-foundation/x402",
+      "summary": "HTTP 402 with a PAYMENT-REQUIRED header naming accepted schemes, networks and amounts; the client retries the same request with a signed stablecoin payment and a facilitator settles it. Open standard, Apache-2.0, stewarded by the x402 Foundation.",
+      "source": "https://docs.x402.org/introduction",
+      "since": "2026-09-09"
+    },
+    {
+      "id": "mpp",
+      "name": "Machine Payments Protocol",
+      "url": "https://mpp.dev/",
+      "spec": "https://paymentauth.org/",
+      "summary": "HTTP 402 with a WWW-Authenticate: Payment challenge carrying a method, an intent (charge or session) and a base64 request; payment-method agnostic, with Tempo stablecoins, cards via Stripe and Lightning documented; the core scheme is submitted to the IETF.",
+      "source": "https://mpp.dev/overview",
+      "since": "2026-09-09"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
 import { renderProfile } from "../src/lib/profile.ts";
 import { classify } from "../src/scripts/pr-class.ts";
-import { agentSchema, caseReportSchema, jobSchema, toolSchema } from "../src/schema/index.ts";
+import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
 
 /** A registry on disk from a map of relative paths to contents; JSON values are canonicalised. */
 function registry(files: Record<string, unknown>): string {
@@ -124,6 +124,64 @@ describe("loadRegistry", () => {
       "registry/agents/prior2/profile.md": "x\n"
     });
     expect(codes(root)).toEqual(expect.arrayContaining(["HANDLE_TAKEN", "PATH_MISMATCH"]));
+  });
+});
+
+const PROBE = {
+  schemaVersion: 1,
+  id: "p-20260911-exampleproduct-402",
+  subject: { type: "tool", id: "exampleproduct" },
+  surface: "https://example.com/api/paid",
+  question: "payment",
+  request: { method: "GET", credentials: "none", payment: "none", from: "a cloud container, one IP" },
+  observed: { status: 402, headers: { "payment-required": "eyJ4NDAyVmVyc2lvbiI6Mn0=" }, decoded: { x402Version: 2 }, protocols: ["x402"] },
+  finding: "Answers 402 with an x402 version 2 challenge to a request with no credentials and no payment; no payment was made.",
+  conductedBy: { name: "Researcher", github: "researcher" },
+  independence: "independent",
+  reproducibility: { command: "curl -s -D - -o /dev/null https://example.com/api/paid" },
+  at: "2026-09-11T18:08Z",
+  created: "2026-09-11",
+  updated: "2026-09-11",
+  version: 1
+};
+
+const PROTOCOLS = {
+  protocols: [{ id: "x402", name: "x402", url: "https://x402.org/", summary: "HTTP 402 with a PAYMENT-REQUIRED header; the client retries with a signed payment.", source: "https://docs.x402.org/introduction" }]
+};
+
+describe("payments and probes", () => {
+  it("loads the protocol vocabulary, a payments block and a probe, and refuses unknown or missing protocols by name", () => {
+    const paid = { ...TOOL, payments: { machinePayable: true, protocols: ["x402"], methods: ["stablecoin"], humanBilling: "none", priceList: "https://example.com/pricing" } };
+    const good = registry({
+      "registry/payment-protocols.json": PROTOCOLS,
+      "registry/tools/exampleproduct/tool.json": paid,
+      "registry/tools/exampleproduct/profile.md": "Paid per request.\n",
+      "registry/agents/prior/agent.json": { ...AGENT, jobs: undefined, payments: { sells: null, pays: { protocols: ["x402"], methods: ["stablecoin"], source: "https://prior.example-colony.com/CHARTER.md", spendGate: "First payment to a new merchant is held for the operator." } } },
+      "registry/agents/prior/profile.md": "Prior.\n",
+      "registry/evidence/probes/p-20260911-exampleproduct-402.json": PROBE
+    });
+    const loaded = loadRegistry(good);
+    expect(loaded.refusals).toEqual([]);
+    expect(loaded.paymentProtocols.protocols.map(p => p.id)).toEqual(["x402"]);
+    expect(loaded.probes.map(p => p.value.id)).toEqual(["p-20260911-exampleproduct-402"]);
+
+    const bad = registry({
+      "registry/payment-protocols.json": { protocols: [...PROTOCOLS.protocols, ...PROTOCOLS.protocols] },
+      "registry/tools/exampleproduct/tool.json": { ...paid, payments: { ...paid.payments, protocols: ["mpp"] } },
+      "registry/tools/exampleproduct/profile.md": "Paid per request.\n",
+      "registry/tools/other/tool.json": { ...TOOL, slug: "other", payments: { machinePayable: true, protocols: [], methods: [], humanBilling: "unknown" } },
+      "registry/tools/other/profile.md": "Other.\n",
+      "registry/evidence/probes/p-20260911-exampleproduct-402.json": { ...PROBE, subject: { type: "tool", id: "nobody" }, observed: { ...PROBE.observed, protocols: ["nope"] } }
+    });
+    expect(codes(bad)).toEqual(["PAYMENT_PROTOCOL_MISSING", "PAYMENT_PROTOCOL_TAKEN", "PAYMENT_PROTOCOL_UNKNOWN", "PAYMENT_PROTOCOL_UNKNOWN", "REF_UNRESOLVED"]);
+  });
+
+  it("pins the probe's shape: no credentials, no payment, a p- id, a minute-precise time", () => {
+    expect(probeSchema.safeParse(PROBE).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, request: { ...PROBE.request, credentials: "api-key" } }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, id: "m-20260911-exampleproduct-402" }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, at: "2026-09-11" }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, job: "cs.deflect-tier1" }).success).toBe(false);
   });
 });
 

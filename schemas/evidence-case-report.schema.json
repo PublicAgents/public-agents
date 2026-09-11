@@ -17,7 +17,7 @@
       "type": "string",
       "allOf": [
         {
-          "pattern": "^(m|cr)-\\d{8}-[a-z0-9-]{3,60}$"
+          "pattern": "^(m|cr|p)-\\d{8}-[a-z0-9-]{3,60}$"
         },
         {
           "pattern": "^cr-"

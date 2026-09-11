@@ -149,6 +149,116 @@
         "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
       }
     },
+    "payments": {
+      "type": "object",
+      "properties": {
+        "sells": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "protocols": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+                  }
+                },
+                "methods": {
+                  "maxItems": 6,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "stablecoin",
+                      "card",
+                      "lightning",
+                      "bank-transfer",
+                      "invoice",
+                      "other"
+                    ]
+                  }
+                },
+                "source": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "surface": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "required": [
+                "protocols",
+                "methods",
+                "source"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pays": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "protocols": {
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+                  }
+                },
+                "methods": {
+                  "maxItems": 6,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "stablecoin",
+                      "card",
+                      "lightning",
+                      "bank-transfer",
+                      "invoice",
+                      "other"
+                    ]
+                  }
+                },
+                "source": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "spendGate": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "protocols",
+                "methods",
+                "source",
+                "spendGate"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sells",
+        "pays"
+      ],
+      "additionalProperties": false
+    },
     "surfaces": {
       "type": "object",
       "properties": {
