@@ -1,0 +1,46 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "aws-knowledge-mcp",
+  "name": "AWS Knowledge MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "A managed remote MCP server from AWS that searches and reads AWS documentation, API references, What's New posts, Well-Architected guidance, CDK and CloudFormation references, regional availability data and AWS agent skills. The vendor says it needs no AWS account and no authentication, at no cost, under rate limits; measured true for initialize, tools/list and a search call.",
+  "vendor": {
+    "name": "Amazon Web Services, Inc.",
+    "url": "https://aws.amazon.com/",
+    "kind": "organization"
+  },
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured 2026-09-11 23:06Z from a cloud IP, no credentials: MCP initialize 200 (server AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, a search_documentation call 200 with ranked results. Tool names carry an aws___ prefix the README omits. Rate limits are not published as numbers."
+  },
+  "surfaces": {
+    "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
+    "docs": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
+    "mcp": "https://github.com/awslabs/mcp/tree/main/src/aws-knowledge-mcp-server",
+    "source": "https://github.com/awslabs/mcp/tree/main/src/aws-knowledge-mcp-server"
+  },
+  "social": {
+    "github": "awslabs"
+  },
+  "domains": [
+    "awslabs.github.io",
+    "knowledge-mcp.global.api.aws",
+    "aws.amazon.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "AWS documentation, API references, code samples, troubleshooting guides, Well-Architected guidance, CDK and CloudFormation references and Strands Agents SDK docs, searched and read into an agent's context over a hosted MCP server; the vendor's claim, retrieval quality not measured.",
+      "source": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
