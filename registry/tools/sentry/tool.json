@@ -5,7 +5,7 @@
   "name": "Sentry",
   "kind": "service",
   "status": "active",
-  "summary": "Error and performance monitoring for applications, with Seer, the vendor's AI debugging agent, which analyzes issues to a root cause and proposes fixes. For agents it publishes a hosted MCP server (searching errors, analyzing performance, triaging issues, reading documentation, managing projects) that connects only by OAuth to a Sentry account; measured 401 with an OAuth challenge and no credentials.",
+  "summary": "Error and performance monitoring for applications, with Seer, the vendor's AI debugging agent, which analyzes issues to a root cause and proposes fixes. For agents it publishes a hosted MCP server (searching errors, analyzing performance, triaging issues, reading documentation, managing projects) that connects to a Sentry account, by OAuth by default or with a user token; measured 401 with an OAuth challenge and no credentials.",
   "vendor": {
     "name": "Functional Software, Inc. (d/b/a Sentry)",
     "url": "https://sentry.io/",
