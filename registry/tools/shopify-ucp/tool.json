@@ -5,13 +5,13 @@
   "name": "Shopify agentic commerce (UCP MCP servers)",
   "kind": "service",
   "status": "active",
-  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Search, cart and checkout building need no account; placing the order (complete_checkout) needs a token granted that permission, otherwise the buyer finishes on the merchant's storefront.",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Catalog search needs no account (measured). Whether anonymous agents can build checkouts is unresolved: the vendor's pages disagree and it was not measured. Placing the order needs a permissioned token.",
   "vendor": {
     "name": "Shopify Inc.",
     "url": "https://www.shopify.com/",
     "kind": "organization"
   },
-  "pricing": "free",
+  "pricing": "unknown",
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
