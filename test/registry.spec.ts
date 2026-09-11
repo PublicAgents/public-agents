@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -190,8 +190,8 @@ describe("payments and probes", () => {
     expect(probeSchema.safeParse(undisclosed).success).toBe(false);
     const messages = (p: unknown) => probeSchema.safeParse(p).error?.issues.map(i => i.message).join(" ") ?? "";
     // credential-bearing header names are refused even with a placeholder value
-    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "set-cookie": "[redacted]" } } })).toMatch(/never published/);
-    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { authorization: "[redacted]" } } })).toMatch(/never published/);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "set-cookie": "[redacted]" } } }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { authorization: "[redacted]" } } }).success).toBe(false);
     // values that look like a token are refused wherever they sit; the look-alikes are assembled at
     // run time so this file never carries one (the secret sweep on the way in refuses them too)
     const fakeBearer = ["Bearer", "abcdefghijklmnop.qrstuvwxyz"].join(" ");
@@ -205,6 +205,15 @@ describe("payments and probes", () => {
     expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Payment method=\"tempo\", nonce=[redacted]" } } }).success).toBe(true);
     // a real UTC minute, and not after the file's updated date
     expect(messages({ ...PROBE, at: "2026-13-40T99:99Z" })).toMatch(/real UTC minute/);
+    // the published JSON Schema carries the same refusals as patterns, so an external validator agrees
+    const published = JSON.parse(readFileSync("schemas/evidence-probe.schema.json", "utf8"));
+    const headerNamePattern = new RegExp(published.properties.observed.properties.headers.propertyNames.pattern);
+    expect(headerNamePattern.test("set-cookie")).toBe(false);
+    expect(headerNamePattern.test("www-authenticate")).toBe(true);
+    const valuePattern = new RegExp(published.properties.observed.properties.headers.additionalProperties.pattern);
+    expect(valuePattern.test(fakeBearer)).toBe(false);
+    expect(valuePattern.test("Payment method=\"tempo\", nonce=[redacted]")).toBe(true);
+    expect(new RegExp(published.properties.at.pattern).test("2026-13-40T99:99Z")).toBe(false);
     expect(messages({ ...PROBE, at: "2026-02-30T10:00Z" })).toMatch(/real UTC minute/);
     expect(messages({ ...PROBE, at: "2026-09-12T00:00Z" })).toMatch(/postdate/);
   });

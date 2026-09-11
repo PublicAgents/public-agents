@@ -108,11 +108,12 @@
           "type": "object",
           "propertyNames": {
             "type": "string",
-            "pattern": "^[a-z0-9-]+$"
+            "pattern": "^(?!(?:authorization|proxy-authorization|cookie|set-cookie|x-api-key|api-key|x-auth-token|x-access-token|x-csrf-token|x-xsrf-token|x-amz-security-token|x-session-token|x-payment|payment-signature)$)[a-z0-9-]+$"
           },
           "additionalProperties": {
             "type": "string",
-            "maxLength": 2000
+            "maxLength": 2000,
+            "pattern": "^(?![\\s\\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\\s+[A-Za-z0-9._~+/=-]{8,}|\\beyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\\bsk-[A-Za-z0-9_-]{20,}|\\bAKIA[0-9A-Z]{16}\\b|\\bgh[pousr]_[A-Za-z0-9]{20,}|\\bxox[abpr]-[A-Za-z0-9-]{10,}))"
           }
         },
         "decoded": {
@@ -124,7 +125,8 @@
             "anyOf": [
               {
                 "type": "string",
-                "maxLength": 2000
+                "maxLength": 2000,
+                "pattern": "^(?![\\s\\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\\s+[A-Za-z0-9._~+/=-]{8,}|\\beyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}|\\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\\bsk-[A-Za-z0-9_-]{20,}|\\bAKIA[0-9A-Z]{16}\\b|\\bgh[pousr]_[A-Za-z0-9]{20,}|\\bxox[abpr]-[A-Za-z0-9-]{10,}))"
               },
               {
                 "type": "number"
@@ -208,7 +210,7 @@
     },
     "at": {
       "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$"
+      "pattern": "^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T(?:[01]\\d|2[0-3]):[0-5]\\dZ$"
     },
     "disclosure": {
       "type": "object",

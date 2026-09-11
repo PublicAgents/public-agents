@@ -88,22 +88,24 @@ export const measuredSchema = z.strictObject({
  * says so.
  */
 
+/**
+ * The rules below are regexes wherever they can be, so the generated
+ * JSON Schema carries them too (a negative lookahead is valid JSON
+ * Schema regex); only the calendar check on `at` is repository-only.
+ */
 /** Header names that carry a session or a credential in either direction; never published, even redacted. */
-const credentialHeaders = new Set([
-  "authorization", "proxy-authorization", "cookie", "set-cookie", "x-api-key", "api-key", "x-auth-token",
-  "x-access-token", "x-csrf-token", "x-xsrf-token", "x-amz-security-token", "x-session-token", "x-payment", "payment-signature"
-]);
-/** Values that look like a bearer token, a JWT, a vendor key prefix or a cloud key id. */
-const credentialValue = /(bearer\s+[a-z0-9._~+/=-]{8,}|\beyJ[a-z0-9_-]{8,}\.[a-z0-9_-]{8,}\.[a-z0-9_-]{8,}|\b(?:sk|pk|rk)[-_](?:live|test)?[-_]?[a-z0-9]{16,}|\bsk-[a-z0-9_-]{20,}|\bAKIA[0-9A-Z]{16}\b|\bgh[pousr]_[a-z0-9]{20,}|\bxox[abpr]-[a-z0-9-]{10,})/i;
+const credentialHeaderName = /^(?!(?:authorization|proxy-authorization|cookie|set-cookie|x-api-key|api-key|x-auth-token|x-access-token|x-csrf-token|x-xsrf-token|x-amz-security-token|x-session-token|x-payment|payment-signature)$)[a-z0-9-]+$/;
+/** Values that look like a bearer token, a JWT, a vendor key prefix, a cloud key id, a GitHub or Slack token. */
+const credentialValue = /^(?![\s\S]*(?:[Bb][Ee][Aa][Rr][Ee][Rr]\s+[A-Za-z0-9._~+/=-]{8,}|\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|\b[sprk][kp]?[-_](?:live|test)?[-_]?[A-Za-z0-9]{16,}|\bsk-[A-Za-z0-9_-]{20,}|\bAKIA[0-9A-Z]{16}\b|\bgh[pousr]_[A-Za-z0-9]{20,}|\bxox[abpr]-[A-Za-z0-9-]{10,}))/;
 /** Ways a credential rides in a command: a header flag, basic auth, or a query parameter that names a key. */
-const credentialInCommand = /(-H\s*['"]?\s*(?:authorization|cookie|x-api-key|api-key|x-auth-token)\s*:|(?:^|\s)(?:-u|--user|--oauth2-bearer)\s|[?&](?:api[_-]?key|apikey|access[_-]?token|auth[_-]?token|token|secret|password|passwd|client[_-]?secret)=)/i;
+const noCredentialInCommand = /^(?![\s\S]*(?:-H\s*['"]?\s*(?:[Aa]uthorization|[Cc]ookie|[Xx]-[Aa][Pp][Ii]-[Kk]ey|[Aa]pi-[Kk]ey|[Xx]-[Aa]uth-[Tt]oken)\s*:|(?:^|\s)(?:-u|--user|--oauth2-bearer)\s|[?&](?:api[_-]?key|apikey|access[_-]?token|auth[_-]?token|token|secret|password|passwd|client[_-]?secret)=))/;
 const noCredential = (label: string) =>
-  z.string().max(2000).refine(v => !credentialValue.test(v), `${label} looks like it carries a credential; replace it with [redacted] and say so in the finding`);
+  z.string().max(2000).regex(credentialValue, `${label} looks like it carries a credential; replace it with [redacted] and say so in the finding`);
 
-/** A real UTC minute, YYYY-MM-DDTHH:MMZ: the string must survive a round trip through Date. */
+/** A real UTC minute, YYYY-MM-DDTHH:MMZ: fields in range by regex, then a round trip through Date for the calendar. */
 const utcMinute = z
   .string()
-  .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$/, "YYYY-MM-DDTHH:MMZ")
+  .regex(/^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])T(?:[01]\d|2[0-3]):[0-5]\dZ$/, "YYYY-MM-DDTHH:MMZ, a real UTC minute")
   .refine(v => {
     const d = new Date(`${v.slice(0, 16)}:00.000Z`);
     return !Number.isNaN(d.getTime()) && `${d.toISOString().slice(0, 16)}Z` === v;
@@ -132,8 +134,7 @@ export const probeSchema = z
       status: z.number().int().min(100).max(599),
       /** Lowercased header names; values as received, nonces and challenges replaced by [redacted] where the finding says so. Credential-bearing headers are refused by name. */
       headers: z
-        .record(z.string().regex(/^[a-z0-9-]+$/, "a lowercase header name"), noCredential("a header value"))
-        .refine(h => !Object.keys(h).some(k => credentialHeaders.has(k)), "a credential-bearing header (authorization, cookie, set-cookie, an api key header) is never published, not even redacted")
+        .record(z.string().regex(credentialHeaderName, "a lowercase header name; a credential-bearing header (authorization, cookie, set-cookie, an api key header) is never published, not even redacted"), noCredential("a header value"))
         .optional(),
       /** What a challenge decoded to: the accepted networks, amounts, the realm, the authorization server. */
       decoded: z.record(z.string(), z.union([noCredential("a decoded value"), z.number(), z.boolean(), z.null()])).optional(),
@@ -146,7 +147,7 @@ export const probeSchema = z
     reproducibility: z.strictObject({
       /** The command that re-runs it, with no credentials in it: no auth header flag, no basic auth, no key in the query string. */
       command: noCredential("reproducibility.command")
-        .refine(v => !credentialInCommand.test(v), "the re-run command carries a credential (an auth header, basic auth, or a key in the query string)")
+        .regex(noCredentialInCommand, "the re-run command carries a credential (an auth header, basic auth, or a key in the query string)")
         .pipe(shortText(600)),
       /** A dated artifact of the full response, when one is published. */
       artifactsUrl: httpsUrl.optional()
