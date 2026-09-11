@@ -20,8 +20,8 @@
   "surfaces": {
     "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
     "docs": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
-    "mcp": "https://github.com/awslabs/mcp/tree/main/src/aws-knowledge-mcp-server",
-    "source": "https://github.com/awslabs/mcp/tree/main/src/aws-knowledge-mcp-server"
+    "mcp": "https://knowledge-mcp.global.api.aws",
+    "source": null
   },
   "social": {
     "github": "awslabs"

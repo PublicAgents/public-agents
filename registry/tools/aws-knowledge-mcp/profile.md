@@ -13,7 +13,7 @@ Yes. On 2026-09-11 at 23:06Z the researcher called `https://knowledge-mcp.global
 - `POST` with an MCP `initialize` request: 200, server `AWSKnowledgeMCP` version 1.0.0, protocol 2025-03-26, tools advertised, a session id returned in `mcp-session-id`.
 - `tools/list` on that session: 200, five tools named `aws___search_documentation`, `aws___read_documentation`, `aws___list_regions`, `aws___get_regional_availability`, `aws___retrieve_skill`.
 - `tools/call` of `aws___search_documentation` with the phrase "S3 bucket versioning": 200, ranked results with titles, context and URLs.
-- A bare `GET` of the endpoint: 302 to the README on GitHub (it is not a browsable page), which is why this entry's `mcp` surface is the README rather than the endpoint; the endpoint is `https://knowledge-mcp.global.api.aws`, as the vendor's configuration examples give it.
+- A bare `GET` of the endpoint: 302 to the README on GitHub (it is not a browsable page; the endpoint takes POST).
 
 The vendor's surfaces say the same in three places: the server page ("The Knowledge MCP server does not require authentication but is subject to rate limits"; FAQ 3, "No. You can get started with the Knowledge MCP server without an AWS account"), the GA announcement quoted above, and the July 2025 preview announcement. The rate limits are not published as numbers.
 
@@ -29,7 +29,7 @@ The AWS MCP Server (`aws-mcp.us-east-1.api.aws/mcp`, general availability 2026-0
 
 ## Licence and source
 
-The server is a managed service; its README lives in the [awslabs/mcp](https://github.com/awslabs/mcp) repository, which is licensed Apache-2.0, but the repository holds the documentation, not the server's code, so no licence field is set on this entry.
+The server is a managed service whose code is not published; its README lives in the [awslabs/mcp](https://github.com/awslabs/mcp) repository, which is licensed Apache-2.0, but the repository holds the documentation, not the server's code, so `source` is null and no licence field is set on this entry.
 
 ## Jobs
 
