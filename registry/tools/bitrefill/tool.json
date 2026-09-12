@@ -37,8 +37,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "proc.purchase-on-behalf",
+      "summary": "Vendor's llms.txt: agents can search products, check prices and complete full purchases of gift cards, payment cards, mobile top-ups and eSIMs via MCP or REST API, delivered instantly; the skill and x402 storefront add a no-account path paid from a wallet. Claim only; no purchase was made.",
+      "source": "https://www.bitrefill.com/llms.txt"
+    }
+  ],
   "created": "2026-09-11",
   "updated": "2026-09-11",
-  "version": 1
+  "version": 2
 }
