@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "intercom",
+  "name": "Intercom (Fin)",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer service platform with Fin, the vendor's AI customer agent, which answers and resolves customer conversations without a person and reports a resolution rate. For agents, the vendor publishes a hosted MCP server at mcp.intercom.com (US) and mcp.eu.intercom.com (EU) over the workspace's data, authorized by OAuth, and a Fin Agent API by which another agent calls Fin to answer, run a procedure or escalate; access to that API is by request. Measured: MCP initialize and the REST API answer 401 with no credentials.",
+  "vendor": {
+    "name": "Intercom, Inc.",
+    "url": "https://www.intercom.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-12 06:03Z, no credentials: MCP initialize at mcp.intercom.com/mcp answers 401, Bearer realm OAuth, invalid_token; api.intercom.io answers 401 missing_authorization. Vendor: authenticated remote MCP; REST and Fin Agent API by access token; Fin Agent API access on request."
+  },
+  "surfaces": {
+    "homepage": "https://www.intercom.com/",
+    "docs": "https://developers.intercom.com/docs/guides/mcp",
+    "llmsTxt": "https://www.intercom.com/llms.txt",
+    "mcp": "https://mcp.intercom.com/mcp",
+    "api": "https://api.intercom.io/me",
+    "source": null
+  },
+  "social": {
+    "github": "intercom",
+    "x": "intercom"
+  },
+  "domains": [
+    "www.intercom.com",
+    "intercom.com",
+    "developers.intercom.com",
+    "mcp.intercom.com",
+    "fin.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.deflect-tier1",
+      "summary": "Fin, the vendor's words on this page: \"industry leading resolution rates, averaging 76% across 12,000+ customers\"; \"Fin updates accounts, processes payments and refunds, troubleshoots technical issues\"; \"works 24 hours a day, every day\". \"From $0.99 per Fin outcome\" (pricing page). Not measured.",
+      "source": "https://fin.ai/"
+    }
+  ],
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}
