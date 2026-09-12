@@ -1,0 +1,33 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "mkt.localize-content",
+  "function": "mkt",
+  "name": "Publish existing public content in another language and market",
+  "outcome": "Public-facing content a business already has (pages, campaigns, product copy, help articles) exists in the target language, reads as if it was written for that market, carries the same meaning and the same claims as the original, and is brought back into step when the original changes.",
+  "description": "Taking content that exists and making it usable in another language and market, including the terminology control a brand or a regulated claim needs, the review path before publication, and the detection of an original that has moved on since it was translated. It is not mkt.draft-campaign-copy, which writes new copy in one language; not cs.draft-agent-replies, which answers one customer at a time; and not it.answer-internal-knowledge-questions, which serves people inside the company. A claim names the languages, who or what reviews the output before it publishes (machine only, machine with human review, native reviewer), and how a stale translation is found. Drift is the part that fails quietly: a translated page that no longer says what the original says is worse than one that was never translated, and the measures below are written around that.",
+  "measures": [
+    "share of published content available in each target language",
+    "lag between a change to the original and the updated translation",
+    "share of translated segments changed at review",
+    "terminology and glossary compliance in published output",
+    "translated pages found stale against their original"
+  ],
+  "aliases": [
+    "localization",
+    "translation",
+    "multilingual publishing",
+    "transcreation",
+    "market adaptation",
+    "content internationalization"
+  ],
+  "related": [
+    "mkt.draft-campaign-copy",
+    "mkt.publish-web-content",
+    "cs.draft-agent-replies"
+  ],
+  "status": "active",
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}
