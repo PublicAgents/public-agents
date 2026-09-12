@@ -1,11 +1,11 @@
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
 import { renderProfile } from "../src/lib/profile.ts";
 import { classify } from "../src/scripts/pr-class.ts";
-import { agentSchema, caseReportSchema, jobSchema, toolSchema } from "../src/schema/index.ts";
+import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
 
 /** A registry on disk from a map of relative paths to contents; JSON values are canonicalised. */
 function registry(files: Record<string, unknown>): string {
@@ -124,6 +124,123 @@ describe("loadRegistry", () => {
       "registry/agents/prior2/profile.md": "x\n"
     });
     expect(codes(root)).toEqual(expect.arrayContaining(["HANDLE_TAKEN", "PATH_MISMATCH"]));
+  });
+});
+
+const PROBE = {
+  schemaVersion: 1,
+  id: "p-20260911-exampleproduct-402",
+  subject: { type: "tool", id: "exampleproduct" },
+  surface: "https://example.com/api/paid",
+  question: "payment",
+  request: { method: "GET", credentials: "none", payment: "none", from: "a cloud container, one IP" },
+  observed: { status: 402, headers: { "payment-required": "eyJ4NDAyVmVyc2lvbiI6Mn0=" }, decoded: { x402Version: 2 }, protocols: ["x402"] },
+  finding: "Answers 402 with an x402 version 2 challenge to a request with no credentials and no payment; no payment was made.",
+  conductedBy: { name: "Researcher", github: "researcher" },
+  independence: "independent",
+  reproducibility: { command: "curl -s -D - -o /dev/null https://example.com/api/paid" },
+  at: "2026-09-11T18:08Z",
+  disclosure: { affiliation: "none", compensation: "none", reseller: false },
+  created: "2026-09-11",
+  updated: "2026-09-11",
+  version: 1
+};
+
+const PROTOCOLS = {
+  protocols: [{ id: "x402", name: "x402", url: "https://x402.org/", summary: "HTTP 402 with a PAYMENT-REQUIRED header; the client retries with a signed payment.", source: "https://docs.x402.org/introduction" }]
+};
+
+describe("payments and probes", () => {
+  it("loads the protocol vocabulary, a payments block and a probe, and refuses unknown or missing protocols by name", () => {
+    const paid = { ...TOOL, payments: { machinePayable: true, protocols: ["x402"], methods: ["stablecoin"], humanBilling: "none", priceList: "https://example.com/pricing" } };
+    const good = registry({
+      "registry/payment-protocols.json": PROTOCOLS,
+      "registry/tools/exampleproduct/tool.json": paid,
+      "registry/tools/exampleproduct/profile.md": "Paid per request.\n",
+      "registry/agents/prior/agent.json": { ...AGENT, jobs: undefined, payments: { sells: null, pays: { protocols: ["x402"], methods: ["stablecoin"], source: "https://prior.example-colony.com/CHARTER.md", spendGate: "First payment to a new merchant is held for the operator." } } },
+      "registry/agents/prior/profile.md": "Prior.\n",
+      "registry/evidence/probes/p-20260911-exampleproduct-402.json": PROBE
+    });
+    const loaded = loadRegistry(good);
+    expect(loaded.refusals).toEqual([]);
+    expect(loaded.paymentProtocols.protocols.map(p => p.id)).toEqual(["x402"]);
+    expect(loaded.probes.map(p => p.value.id)).toEqual(["p-20260911-exampleproduct-402"]);
+
+    const bad = registry({
+      "registry/payment-protocols.json": { protocols: [...PROTOCOLS.protocols, ...PROTOCOLS.protocols] },
+      "registry/tools/exampleproduct/tool.json": { ...paid, payments: { ...paid.payments, protocols: ["mpp"] } },
+      "registry/tools/exampleproduct/profile.md": "Paid per request.\n",
+      "registry/tools/other/tool.json": { ...TOOL, slug: "other", payments: { machinePayable: true, protocols: [], methods: [], humanBilling: "unknown" } },
+      "registry/tools/other/profile.md": "Other.\n",
+      "registry/evidence/probes/p-20260911-exampleproduct-402.json": { ...PROBE, subject: { type: "tool", id: "nobody" }, observed: { ...PROBE.observed, protocols: ["nope"] } }
+    });
+    expect(codes(bad)).toEqual(["PAYMENT_PROTOCOL_MISSING", "PAYMENT_PROTOCOL_TAKEN", "PAYMENT_PROTOCOL_UNKNOWN", "PAYMENT_PROTOCOL_UNKNOWN", "REF_UNRESOLVED"]);
+  });
+
+  it("pins the probe's shape: no credentials, no payment, a p- id, a minute-precise time", () => {
+    expect(probeSchema.safeParse(PROBE).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, request: { ...PROBE.request, credentials: "api-key" } }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, id: "m-20260911-exampleproduct-402" }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, at: "2026-09-11" }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, job: "cs.deflect-tier1" }).success).toBe(false);
+  });
+
+  it("refuses a probe that could publish a credential, an impossible minute, or no disclosure", () => {
+    const { disclosure: _d, ...undisclosed } = PROBE;
+    expect(probeSchema.safeParse(undisclosed).success).toBe(false);
+    const messages = (p: unknown) => probeSchema.safeParse(p).error?.issues.map(i => i.message).join(" ") ?? "";
+    // credential-bearing header names are refused even with a placeholder value
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "set-cookie": "[redacted]" } } }).success).toBe(false);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { authorization: "[redacted]" } } }).success).toBe(false);
+    // values that look like a token are refused wherever they sit; the look-alikes are assembled at
+    // run time so this file never carries one (the secret sweep on the way in refuses them too)
+    const fakeBearer = ["Bearer", "abcdefghijklmnop.qrstuvwxyz"].join(" ");
+    const fakeJwt = ["eyJhbGciOiJIUzI1NiJ9", "eyJzdWIiOiIxIn0", "abcdefghijklmnop"].join(".");
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": fakeBearer } } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, decoded: { token: fakeJwt } } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: `curl -H '${["Authorization:", fakeBearer].join(" ")}' https://example.com/api/paid` } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: "curl -u user:pass https://example.com/api/paid" } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, reproducibility: { command: `curl 'https://example.com/api/paid?${["api", "key"].join("_")}=abc123'` } })).toMatch(/credential/);
+    // a redacted challenge in a non-credential header is fine
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Payment method=\"tempo\", nonce=[redacted]" } } }).success).toBe(true);
+    // a real UTC minute, and not after the file's updated date
+    expect(messages({ ...PROBE, at: "2026-13-40T99:99Z" })).toMatch(/real UTC minute/);
+    // the published JSON Schema carries the same refusals as patterns, so an external validator agrees
+    const published = JSON.parse(readFileSync("schemas/evidence-probe.schema.json", "utf8"));
+    const headerNamePattern = new RegExp(published.properties.observed.properties.headers.propertyNames.pattern);
+    expect(headerNamePattern.test("set-cookie")).toBe(false);
+    expect(headerNamePattern.test("www-authenticate")).toBe(true);
+    const valuePattern = new RegExp(published.properties.observed.properties.headers.additionalProperties.pattern);
+    expect(valuePattern.test(fakeBearer)).toBe(false);
+    expect(valuePattern.test("Payment method=\"tempo\", nonce=[redacted]")).toBe(true);
+    // the patterns carry no flags, so case folding is spelled out: mixed-case look-alikes fail too
+    const mixedCase = [
+      ["GHp", "abcdefghijklmnopqrstuv"].join("_"),
+      ["XOXB", "abcdefghijklmnop"].join("-"),
+      ["SK_LIVE", "abcdefghijklmnopqrst"].join("_"),
+      ["BEARER", "abcdefghijklmnop"].join(" ")
+    ];
+    for (const value of mixedCase) {
+      expect(valuePattern.test(value)).toBe(false);
+      expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": value } } })).toMatch(/credential/);
+    }
+    const commandPattern = new RegExp(published.properties.reproducibility.properties.command.pattern);
+    expect(commandPattern.test(`curl 'https://example.com/api/paid?${["API", "KEY"].join("_")}=abc123'`)).toBe(false);
+    expect(commandPattern.test("curl -H 'AUTHORIZATION: [redacted]' https://example.com/api/paid")).toBe(false);
+    expect(commandPattern.test("curl -U user:pass https://example.com/api/paid")).toBe(false);
+    expect(commandPattern.test("curl -sI https://example.com/api/paid")).toBe(true);
+    // the calendar is in the pattern too: month lengths and leap days
+    const atPattern = new RegExp(published.properties.at.pattern);
+    expect(atPattern.test("2026-13-40T99:99Z")).toBe(false);
+    expect(atPattern.test("2026-02-30T10:00Z")).toBe(false);
+    expect(atPattern.test("2026-04-31T10:00Z")).toBe(false);
+    expect(atPattern.test("2026-02-29T10:00Z")).toBe(false);
+    expect(atPattern.test("2028-02-29T10:00Z")).toBe(true);
+    expect(atPattern.test("2100-02-29T10:00Z")).toBe(false);
+    expect(atPattern.test("2000-02-29T10:00Z")).toBe(true);
+    expect(atPattern.test("2026-12-31T23:59Z")).toBe(true);
+    expect(messages({ ...PROBE, at: "2026-02-30T10:00Z" })).toMatch(/real UTC minute/);
+    expect(messages({ ...PROBE, at: "2026-09-12T00:00Z" })).toMatch(/postdate/);
   });
 });
 

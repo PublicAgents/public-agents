@@ -9,7 +9,7 @@ export const HANDLE = /^[A-Za-z0-9][A-Za-z0-9-]{1,31}$/;
 export const SLUG = /^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$/;
 export const FUNCTION_ID = /^[a-z]{2,6}$/;
 export const JOB_ID = /^[a-z]{2,6}\.[a-z0-9]+(?:-[a-z0-9]+)*$/;
-export const EVIDENCE_ID = /^(m|cr)-\d{8}-[a-z0-9-]{3,60}$/;
+export const EVIDENCE_ID = /^(m|cr|p)-\d{8}-[a-z0-9-]{3,60}$/;
 export const GITHUB_LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/;
 export const HOST = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
 export const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -19,7 +19,7 @@ export const handle = z.string().regex(HANDLE, "a handle is 2 to 32 letters, dig
 export const slug = z.string().regex(SLUG, "a slug is lowercase letters, digits and hyphens");
 export const functionId = z.string().regex(FUNCTION_ID, "a function id is 2 to 6 lowercase letters");
 export const jobId = z.string().regex(JOB_ID, "a job id is <function>.<outcome-slug>");
-export const evidenceId = z.string().regex(EVIDENCE_ID, "an evidence id is m-YYYYMMDD-slug or cr-YYYYMMDD-slug");
+export const evidenceId = z.string().regex(EVIDENCE_ID, "an evidence id is m-YYYYMMDD-slug, cr-YYYYMMDD-slug or p-YYYYMMDD-slug");
 export const githubLogin = z.string().regex(GITHUB_LOGIN, "a GitHub login");
 export const host = z.string().regex(HOST, "a lowercase host name");
 export const isoDate = z.string().regex(DATE, "YYYY-MM-DD");

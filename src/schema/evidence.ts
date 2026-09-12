@@ -1,12 +1,15 @@
 import { z } from "zod";
 import { disclosure, evidenceId, githubLogin, httpsUrl, isoDate, isoMonth, jobId, lifecycle, shortText, solutionRef } from "./common.ts";
+import { paymentProtocolId } from "./payments.ts";
 
 /**
- * Evidence lives in its own files, one of two kinds, never inline in an
- * entry (docs/TAXONOMY.md): a case report is a named reporter saying
+ * Evidence lives in its own files, one of three kinds, never inline in
+ * an entry (docs/TAXONOMY.md): a case report is a named reporter saying
  * they deployed a solution for a job, with disclosure; a measured result
- * is a re-runnable measurement with its protocol and artifacts. The
- * reporter's GitHub login must equal the pull request's author.
+ * is a re-runnable measurement with its protocol and artifacts; a probe
+ * is one request with no credentials and no payment, and what came
+ * back. The reporter's GitHub login must equal the pull request's
+ * author.
  */
 
 const period = z.strictObject({ from: isoMonth, to: isoMonth.optional() });
@@ -69,5 +72,134 @@ export const measuredSchema = z.strictObject({
   ...lifecycle
 });
 
+/**
+ * A probe answers a question no job can: what does this surface say to
+ * a stranger? One request, no credentials, no payment, from one
+ * network, on one day, with the status and the headers that came back.
+ * It never sets a field on its subject and never counts as a claim or
+ * as support for a job; it is the measurement behind an
+ * `agentAccess` or `payments` block, kept apart from it.
+ *
+ * Probe files are published verbatim at /evidence/<id>.json, so the
+ * schema refuses anything that could carry a credential: header names
+ * that carry sessions or keys, values or commands that look like a
+ * token, a query parameter that names a key. A nonce or a challenge
+ * that must be kept goes in as the literal `[redacted]` and the finding
+ * says so.
+ */
+
+/**
+ * The rules below are regexes wherever they can be, so the generated
+ * JSON Schema carries them too (a negative lookahead is valid JSON
+ * Schema regex). JSON Schema patterns carry no flags, so case folding is
+ * spelled out per letter; only the `at` versus `updated` ordering is
+ * repository-only.
+ */
+/** Spells a literal so it matches in any case without a flag: "key" becomes "[kK][eE][yY]". */
+const anyCase = (literal: string) => literal.replace(/[a-z]/g, c => `[${c}${c.toUpperCase()}]`);
+/** Header names that carry a session or a credential in either direction; never published, even redacted. */
+const credentialHeaderName = /^(?!(?:authorization|proxy-authorization|cookie|set-cookie|x-api-key|api-key|x-auth-token|x-access-token|x-csrf-token|x-xsrf-token|x-amz-security-token|x-session-token|x-payment|payment-signature)$)[a-z0-9-]+$/;
+/** Values that look like a bearer token, a JWT, a vendor key prefix, a cloud key id, a GitHub or Slack token, in any case. */
+const credentialValue = new RegExp(
+  "^(?![\\s\\S]*(?:" +
+    [
+      `${anyCase("bearer")}\\s+[A-Za-z0-9._~+/=-]{8,}`,
+      `\\b${anyCase("eyj")}[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}`,
+      `\\b[sprkSPRK][kpKP]?[-_](?:${anyCase("live")}|${anyCase("test")})?[-_]?[A-Za-z0-9]{16,}`,
+      `\\b${anyCase("sk")}-[A-Za-z0-9_-]{20,}`,
+      `\\b${anyCase("akia")}[A-Za-z0-9]{16}\\b`,
+      `\\b${anyCase("gh")}[pousrPOUSR]_[A-Za-z0-9]{20,}`,
+      `\\b${anyCase("xox")}[abprABPR]-[A-Za-z0-9-]{10,}`
+    ].join("|") +
+    "))"
+);
+/** Ways a credential rides in a command: a header flag, basic or proxy auth, a bearer flag, or a query parameter that names a key, in any case. */
+const noCredentialInCommand = new RegExp(
+  "^(?![\\s\\S]*(?:" +
+    [
+      `-H\\s*['"]?\\s*(?:${["authorization", "proxy-authorization", "cookie", "x-api-key", "api-key", "x-auth-token", "x-access-token"].map(anyCase).join("|")})\\s*:`,
+      `(?:^|\\s)(?:-u|-U|--user|--proxy-user|--oauth2-bearer)\\s`,
+      `[?&](?:${anyCase("api")}[_-]?${anyCase("key")}|${anyCase("access")}[_-]?${anyCase("token")}|${anyCase("auth")}[_-]?${anyCase("token")}|${anyCase("token")}|${anyCase("secret")}|${anyCase("password")}|${anyCase("passwd")}|${anyCase("client")}[_-]?${anyCase("secret")})=`
+    ].join("|") +
+    "))"
+);
+/** One pattern for the re-run command: both lookaheads in one, so the published schema carries both. */
+const commandWithoutCredential = new RegExp(`^${credentialValue.source.slice(1)}${noCredentialInCommand.source.slice(1)}`);
+/** No `.pipe` here: the JSON Schema is generated from the last stage of a pipe, which would drop the pattern. */
+const noCredential = (label: string, max = 2000) =>
+  z.string().trim().min(1).max(max).regex(credentialValue, `${label} looks like it carries a credential; replace it with [redacted] and say so in the finding`);
+
+/**
+ * A real UTC minute, YYYY-MM-DDTHH:MMZ. The regex carries the calendar
+ * (month lengths and leap days), so the published schema refuses
+ * 2026-02-30 too; the Date round trip is the same check, kept as a guard.
+ */
+const leapYear = "(?:\\d\\d(?:0[48]|[2468][048]|[13579][26])|(?:[02468][048]|[13579][26])00)";
+const calendarDay = `(?:\\d{4}-(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|\\d{4}-(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|\\d{4}-02-(?:0[1-9]|1\\d|2[0-8])|${leapYear}-02-29)`;
+const utcMinute = z
+  .string()
+  .regex(new RegExp(`^${calendarDay}T(?:[01]\\d|2[0-3]):[0-5]\\dZ$`), "YYYY-MM-DDTHH:MMZ, a real UTC minute")
+  .refine(v => {
+    const d = new Date(`${v.slice(0, 16)}:00.000Z`);
+    return !Number.isNaN(d.getTime()) && `${d.toISOString().slice(0, 16)}Z` === v;
+  }, "not a real UTC minute");
+
+export const probeSchema = z
+  .strictObject({
+    $schema: z.literal("https://public-agents.com/schemas/evidence-probe.schema.json").optional(),
+    schemaVersion: z.literal(1),
+    id: evidenceId.regex(/^p-/, "a probe id starts with p-"),
+    subject: solutionRef,
+    /** The URL the request went to. */
+    surface: httpsUrl,
+    /** access: what must a human do first; payment: what does it cost inline; disclosure: does the surface say it is an agent. */
+    question: z.enum(["access", "payment", "disclosure"]),
+    request: z.strictObject({
+      method: z.enum(["GET", "HEAD", "POST", "OPTIONS"]),
+      credentials: z.literal("none"),
+      payment: z.literal("none"),
+      /** What kind of network the request left from; one IP is one sample and the field says so. */
+      from: shortText(120),
+      /** The request body, or a description of it, when the method carries one. */
+      body: noCredential("request.body", 600).optional()
+    }),
+    observed: z.strictObject({
+      status: z.number().int().min(100).max(599),
+      /** Lowercased header names; values as received, nonces and challenges replaced by [redacted] where the finding says so. Credential-bearing headers are refused by name. */
+      headers: z
+        .record(z.string().regex(credentialHeaderName, "a lowercase header name; a credential-bearing header (authorization, cookie, set-cookie, an api key header) is never published, not even redacted"), noCredential("a header value"))
+        .optional(),
+      /** What a challenge decoded to: the accepted networks, amounts, the realm, the authorization server. */
+      decoded: z.record(z.string(), z.union([noCredential("a decoded value"), z.number(), z.boolean(), z.null()])).optional(),
+      /** Protocol ids from registry/payment-protocols.json the response spoke, for a payment probe. */
+      protocols: z.array(paymentProtocolId).max(10).optional()
+    }),
+    finding: z.string().trim().min(20).max(1200),
+    conductedBy: z.strictObject({ name: shortText(120), github: githubLogin, url: httpsUrl.optional() }),
+    independence: z.enum(["independent", "self", "vendor-sponsored"]),
+    reproducibility: z.strictObject({
+      /** The command that re-runs it, with no credentials in it: no auth header flag, no basic auth, no key in the query string. */
+      command: z
+        .string()
+        .trim()
+        .min(1)
+        .max(600)
+        .regex(commandWithoutCredential, "the re-run command looks like it carries a credential (a token, an auth header, basic auth, or a key in the query string); replace it with [redacted] and say so in the finding"),
+      /** A dated artifact of the full response, when one is published. */
+      artifactsUrl: httpsUrl.optional()
+    }),
+    /** When the request was made, to the minute, UTC. */
+    at: utcMinute,
+    /** The same disclosure every evidence file carries: who the prober is to the subject. */
+    disclosure,
+    ...lifecycle
+  })
+  .superRefine((value, ctx) => {
+    if (value.at.slice(0, 10) > value.updated) {
+      ctx.addIssue({ code: "custom", path: ["at"], message: "the request cannot postdate the file's updated date" });
+    }
+  });
+
 export type CaseReport = z.infer<typeof caseReportSchema>;
+export type Probe = z.infer<typeof probeSchema>;
 export type Measured = z.infer<typeof measuredSchema>;

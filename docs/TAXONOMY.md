@@ -38,6 +38,36 @@ Evidence is its own file and never needs the subject's consent:
 - **Measured** (`registry/evidence/measured/`): a measurement with its
   protocol URL and artifacts URL, so anyone can re-run it. A
   measurement nobody can re-run is a case report and is filed as one.
+- **Probe** (`registry/evidence/probes/`): one request with no
+  credentials and no payment, from one network, on one day, and what
+  came back: the status, the headers, what a challenge decoded to. A
+  probe answers a question no job can (`access`: what must a human do
+  first; `payment`: what does it cost inline and by which protocol;
+  `disclosure`: does the surface say it is an agent). It has a subject
+  and no job, sets no field on the subject, never counts as support or
+  contradiction for any claim, and is shown apart from both, on
+  `/probes`. It carries the same `disclosure` block as the other two
+  kinds. One IP is one sample and the finding says so. Probe files are
+  published verbatim, so the schema refuses what could carry a
+  credential: `authorization`, `cookie`, `set-cookie` and api-key
+  headers by name, values or commands that look like a token, a key in
+  a query string. A nonce or a challenge that must be kept out is
+  written as the literal `[redacted]` and the finding says so.
+
+## Payment
+
+Payment is a property of solutions, never a solution (issue #24). The
+protocols by which an HTTP 402 is negotiated are vocabulary in
+`registry/payment-protocols.json`, the way functions are, and a
+protocol never gets an entry. A tool's optional `payments` block is the
+vendor's claim about the second half of the registry's question: what a
+human must do before an agent can pay (`machinePayable`, `protocols`,
+`methods`, `humanBilling`, `priceList`, dated `notes`). An entry
+without the block says nothing; `humanBilling: unknown` says the editor
+looked and could not tell. An agent's `payments` has two sides, `sells`
+and `pays`, each sourced to the agent's own surfaces, and `pays`
+requires a `spendGate` sentence: who approves what. The measurement
+behind any of it is a probe.
 
 ## Coverage cells
 

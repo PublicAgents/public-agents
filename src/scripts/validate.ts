@@ -86,6 +86,11 @@ if (base) {
       if ((before as typeof measured.value).conductedBy.github !== measured.value.conductedBy.github) refusals.push(refusal("REPORTER_CHANGED", measured.file));
     });
   }
+  for (const probe of registry.probes) {
+    changeRules(probe, before => {
+      if ((before as typeof probe.value).conductedBy.github !== probe.value.conductedBy.github) refusals.push(refusal("REPORTER_CHANGED", probe.file));
+    });
+  }
   // A profile-only edit bumps its sibling entry (the entry is the unit of versioning).
   for (const entry of [...registry.agents, ...registry.tools]) {
     let profileBefore: string | undefined;
@@ -101,7 +106,7 @@ if (base) {
   }
 }
 
-const counts = `${registry.agents.length} agent(s), ${registry.tools.length} tool(s), ${registry.jobs.length} job(s), ${registry.caseReports.length} case report(s), ${registry.measured.length} measured result(s)`;
+const counts = `${registry.agents.length} agent(s), ${registry.tools.length} tool(s), ${registry.jobs.length} job(s), ${registry.caseReports.length} case report(s), ${registry.measured.length} measured result(s), ${registry.probes.length} probe(s)`;
 if (refusals.length === 0) {
   console.log(`✓ registry valid: ${counts}${base ? ` (change rules against ${base})` : ""}`);
   process.exit(0);
