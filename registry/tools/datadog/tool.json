@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "datadog",
+  "name": "Datadog",
+  "kind": "service",
+  "status": "active",
+  "summary": "Observability and security monitoring (infrastructure, APM, logs, monitors, incidents), with Bits Investigation (until recently Bits AI SRE), the vendor's on-call agent that investigates every alert as it fires and reports a root cause with a verifiable investigation. For agents it publishes a hosted MCP server over its observability data (logs, metrics, traces, dashboards, monitors, incidents) that authenticates by OAuth 2.0 by default, or by API and application keys for servers and CI; measured 401 with an OAuth challenge and no credentials.",
+  "vendor": {
+    "name": "Datadog, Inc.",
+    "url": "https://www.datadoghq.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-12, no credentials: MCP initialize at mcp.datadoghq.com/v1/mcp (US1, the current documented endpoint) answers 401; its protected-resource metadata names an OAuth server. Vendor: OAuth 2.0 recommended; API and app keys for servers and CI; 50,000 tool calls a month."
+  },
+  "surfaces": {
+    "homepage": "https://www.datadoghq.com/",
+    "docs": "https://docs.datadoghq.com/mcp_server/",
+    "llmsTxt": "https://docs.datadoghq.com/llms.txt",
+    "mcp": "https://mcp.datadoghq.com/v1/mcp",
+    "source": null
+  },
+  "social": {
+    "github": "DataDog",
+    "x": "datadoghq"
+  },
+  "domains": [
+    "www.datadoghq.com",
+    "datadoghq.com",
+    "docs.datadoghq.com",
+    "mcp.datadoghq.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.investigate-incidents",
+      "summary": "Bits Investigation, the vendor's words: \"Automatically investigate every alert the moment it fires\", \"Easily root out root causes within minutes\", \"Get clear RCAs with transparent, verifiable investigations\", over the platform's telemetry. The vendor's claim, not measured; billed in AI credits.",
+      "source": "https://www.datadoghq.com/product/ai/bits-investigation/"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-12",
+  "version": 1
+}
