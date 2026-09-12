@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "notion",
+  "name": "Notion",
+  "kind": "service",
+  "status": "active",
+  "summary": "A workspace for documents, wikis, databases and projects, with Notion AI. Enterprise Search, a feature of Notion AI on the Business and Enterprise plans, answers questions from the workspace and connected apps (Slack, Google Drive, Jira and others) and cites its sources. For agents it publishes a hosted MCP server (search, read, create and update content, pages and databases) that connects to a Notion workspace by OAuth only, with no non-interactive authorization yet; measured 401 with an OAuth challenge and no credentials.",
+  "vendor": {
+    "name": "Notion Labs, Inc.",
+    "url": "https://www.notion.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:28Z, no credentials: MCP initialize at mcp.notion.com/mcp answers 401 with www-authenticate Bearer realm OAuth, a resource_metadata URL, error invalid_token; GET 401. Vendor: OAuth required, non-interactive authorization not yet supported; owners can restrict clients."
+  },
+  "surfaces": {
+    "homepage": "https://www.notion.com/",
+    "docs": "https://developers.notion.com/guides/mcp/overview",
+    "llmsTxt": "https://developers.notion.com/llms.txt",
+    "mcp": "https://mcp.notion.com/mcp",
+    "source": null
+  },
+  "social": {
+    "github": "makenotion",
+    "x": "NotionHQ"
+  },
+  "domains": [
+    "www.notion.com",
+    "notion.com",
+    "developers.notion.com",
+    "mcp.notion.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.answer-internal-knowledge-questions",
+      "summary": "Enterprise Search, the vendor's words: \"finds answers to your questions in just seconds, searching your workspace and your connected apps\" and \"will always cite its sources\". Business and Enterprise plans, in the Notion app; whether the MCP surface reaches it is not established. Not measured.",
+      "source": "https://www.notion.com/help/enterprise-search"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
