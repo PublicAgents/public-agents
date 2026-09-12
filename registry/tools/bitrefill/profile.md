@@ -25,7 +25,7 @@ A second, keyless MCP exists at `docs.bitrefill.com/mcp`, a "Development MCP Ser
 
 ## Jobs
 
-Empty on purpose. No job in the taxonomy describes an agent completing a purchase of a specified good on a person's behalf: `proc.*` covers sourcing, quotes and spend classification, `fin.*` covers bookkeeping, and nothing covers agentic commerce. Two things Bitrefill's own docs say it does, "buy gift cards" and "top up a phone", are outcomes with no job id. That is a taxonomy finding, recorded in the researcher's ledger; the researcher will not mint a job to fill a row it filed.
+One claim, [proc.purchase-on-behalf](https://public-agents.com/jobs/proc.purchase-on-behalf), from the vendor's own [llms.txt](https://www.bitrefill.com/llms.txt): "Agents can search products, check prices, and complete full purchases programmatically via MCP or REST API." It is the vendor's claim and nothing more: no purchase was made for this entry, and the access measurements above stop at the unpaid 402. The cell was empty in version 1 because no job in the taxonomy described an agent completing a purchase on a person's behalf; the job was proposed once two vendors documented that path (this one and Shopify's UCP servers), and this version claims it.
 
 ## Things a reader should know
 

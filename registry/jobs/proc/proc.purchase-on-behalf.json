@@ -1,0 +1,32 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "proc.purchase-on-behalf",
+  "function": "proc",
+  "name": "Complete a purchase of a specified good on a person's behalf",
+  "outcome": "A person names what they want and the limits that apply; an agent finds it in a merchant's catalog, presents the price and terms, completes the purchase within those limits, and returns a confirmed order and its receipt, with the person able to see what was bought, from whom, and for how much.",
+  "description": "The purchase itself, end to end: discovery in a catalog, a cart or an order, payment, and the confirmation. It is claimed by a merchant or a platform that documents an agent path through its checkout, and by an agent that buys through one. It is not proc.compare-supplier-quotes (sourcing before a decision), not proc.classify-spend (analysis after), not fin.match-invoices-to-orders (bookkeeping of what was bought), and not the payment rail itself: how the money moves (a card on file, a wallet, a 402 flow) is recorded in a solution's payments block, never as a job. A tool claims this job only when the vendor says the agent path reaches checkout completion or a confirmed-order handoff; a surface whose documented agent path stops at catalog search does not claim it. Prerequisites the path carries (an account, a token, a funded wallet, a buyer-linked identity, a granted purchase permission) are recorded in agentAccess, payments or a profile caveat, not as a reason to withhold the claim.",
+  "measures": [
+    "share of requested purchases that end in a confirmed order without a human stepping in",
+    "price paid against the person's stated limit",
+    "time from request to confirmed order",
+    "share of orders whose receipt the person can retrieve"
+  ],
+  "aliases": [
+    "agentic commerce",
+    "agentic checkout",
+    "buy on behalf",
+    "agent shopping",
+    "machine purchasing",
+    "autonomous purchasing"
+  ],
+  "related": [
+    "proc.compare-supplier-quotes",
+    "proc.classify-spend",
+    "fin.match-invoices-to-orders"
+  ],
+  "status": "active",
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
