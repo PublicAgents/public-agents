@@ -1,0 +1,34 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "mkt.build-website",
+  "function": "mkt",
+  "name": "Build and launch a website a business did not have",
+  "outcome": "A business with no usable website has one live at its own domain: the pages a customer needs, working on the phone most of them will arrive with, a way to call, find or write to the business in one step, and the domain, the hosting and the files in the business's own name.",
+  "description": "Bringing a site into existence, as distinct from keeping one current. It covers the first site for a business that has none or only a page on someone else's platform, and the replacement of one that cannot be used on a phone. It is not mkt.publish-web-content, which is the ongoing publishing and maintenance of a presence that already exists; not mkt.optimize-landing-page, which tests and improves a page that is already live; and not eng.implement-scoped-changes, which is work inside an existing codebase. A claim names what the solution actually delivers and to whom it belongs at the end: pages, assets, forms, domain registration, hosting, and ownership. Who owns the result matters enough to be part of the outcome, because a site the business cannot move is a different product from one it can.",
+  "measures": [
+    "time from brief to a site live at the business's own domain",
+    "pages live and reachable at launch",
+    "mobile usability and performance errors at launch",
+    "share of builds accepted by the business without a rebuild",
+    "contacts reaching the business through the site after launch"
+  ],
+  "aliases": [
+    "website build",
+    "site build",
+    "web design",
+    "small business website",
+    "AI website builder",
+    "site launch",
+    "landing page build"
+  ],
+  "related": [
+    "mkt.publish-web-content",
+    "mkt.improve-search-visibility",
+    "mkt.optimize-landing-page"
+  ],
+  "status": "active",
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}

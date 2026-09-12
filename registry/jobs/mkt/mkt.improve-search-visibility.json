@@ -1,0 +1,35 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "mkt.improve-search-visibility",
+  "function": "mkt",
+  "name": "Make a business findable in search and in assistant answers",
+  "outcome": "When someone looks for what a business does, in a search engine or through an assistant that answers from the web, the business's own pages are reachable, readable by the crawler and good enough to be chosen, and every change that made that true is named, dated and re-measurable.",
+  "description": "The work of being found, not the work of being read: crawlability and indexability, what each page is titled and how it is structured, what a search engine or an assistant is allowed to fetch (robots rules, llms.txt, structured data), how fast a page paints on a phone, and the listings a business appears in elsewhere. It is not mkt.publish-web-content, which is producing and maintaining the pages; not mkt.optimize-landing-page, which is what happens after the visitor arrives; and not mkt.monitor-brand-mentions, which is listening rather than being found. A claim names the surfaces the solution changes and the measurement plan it leaves behind. No claim here is a claim about rankings: placement is set by a third party that neither the vendor nor the registry controls, which is why the measures below are about reach, evidence and speed rather than position.",
+  "measures": [
+    "share of target queries that return one of the business's own pages",
+    "clicks and impressions from search, measured before and after the change",
+    "pages a crawler can reach and render, as a share of pages published",
+    "mobile page performance, measured before and after the change",
+    "answers by assistants to target questions that cite the business's own pages"
+  ],
+  "aliases": [
+    "SEO",
+    "search engine optimization",
+    "technical SEO",
+    "answer engine optimization",
+    "generative engine optimization",
+    "AI search visibility",
+    "discoverability",
+    "local search listings"
+  ],
+  "related": [
+    "mkt.publish-web-content",
+    "mkt.optimize-landing-page",
+    "mkt.monitor-brand-mentions"
+  ],
+  "status": "active",
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}
