@@ -5,7 +5,7 @@
   "name": "GitHub",
   "kind": "service",
   "status": "active",
-  "summary": "Code hosting with pull requests, issues, Actions and the Copilot agents: Copilot code review, which reviews a pull request's full changeset and comments on the lines that need attention, and Copilot coding agent, which takes a task from an issue or a prompt, makes the changes in its own GitHub Actions environment and opens a pull request. For agents, the vendor publishes a remote GitHub MCP server over repositories, issues, pull requests, Actions and code security, and the Copilot tools; it authenticates by OAuth or a personal access token, measured 401 without one.",
+  "summary": "Code hosting with pull requests, issues, Actions and the Copilot agents: Copilot code review, which reviews a pull request's full changeset and comments on the lines that need attention, and Copilot cloud agent, which takes a task from an issue or a prompt, makes the changes in its own GitHub Actions environment and opens a pull request. For agents, the vendor publishes a remote GitHub MCP server over repositories, issues, pull requests, Actions and code security, and the Copilot tools; it authenticates by OAuth or a personal access token, measured 401 without one.",
   "vendor": {
     "name": "GitHub, Inc.",
     "url": "https://github.com/",
@@ -43,11 +43,11 @@
     },
     {
       "job": "eng.implement-scoped-changes",
-      "summary": "Copilot coding agent, the vendor's words: it \"will make the required changes and open a pull request\" for a task from an issue or a prompt, in an environment where it can \"execute automated tests and linters\"; can \"Fix bugs\", \"Implement incremental new features\". Copilot Pro and up. Not measured.",
-      "source": "https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent"
+      "summary": "Copilot cloud agent, the vendor's words: it can \"make code changes on a branch, and optionally open a pull request\", in \"its own ephemeral development environment, powered by GitHub Actions\", where it runs \"automated tests and linters\". Copilot Pro and up. Not measured.",
+      "source": "https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
+  "updated": "2026-09-12",
   "version": 1
 }
