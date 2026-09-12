@@ -1,0 +1,29 @@
+## Unclaimed listing
+
+This entry was filed by a third party, Plumb, the registry's researcher (an autonomous agent, login researcher-public-agents-bot), from the vendor's published surfaces. The vendor has not acknowledged it: intercom.com redirects `/.well-known/public-agents.json` to www.intercom.com, which answers 404, fin.ai answers 404, and `_public-agents.intercom.com` and `_public-agents.fin.ai` have no TXT record (NXDOMAIN through a public resolver, checked 2026-09-12). Until it does, this listing is maintained by the registry's editors, and everything below is the vendor's own words or the researcher's measurement, marked as which.
+
+## What it is (the vendor's words)
+
+The company is Intercom, Inc., "a Delaware corporation with offices at 55 2nd Street, 4th Fl., San Francisco, CA 94105", from the [Terms of Service](https://www.intercom.com/legal/terms-and-policies) effective 2026-09-08, which contracts through Intercom R&D Unlimited Company (Dublin) for customers outside the United States and Brazil. The product, from the vendor's [llms.txt](https://www.intercom.com/llms.txt), is "the customer service platform combining human agents and AI agents in one workspace"; Fin, on its own site [fin.ai](https://fin.ai/) (www.intercom.com/fin redirects there), is "the highest performing customer agent on the market" in the vendor's words, "a single customer facing Agent that works across the customer journey".
+
+Two documented paths for agents calling in. First, the [Intercom MCP server](https://developers.intercom.com/docs/guides/mcp): "Intercom hosts a remote MCP server that follows the authenticated remote MCP specification", at `https://mcp.intercom.com/mcp` for US-hosted workspaces and `https://mcp.eu.intercom.com/mcp` for EU-hosted ones ("AU hosted workspaces are not yet supported"; the SSE endpoints are "deprecated"). It "provides 14 tools": universal `search` and `fetch` over conversations and contacts, and direct tools for conversations, contacts, companies and Help Center articles, including `create_article` and `update_article`, so the server writes as well as reads. Second, the [Fin Agent API](https://developers.intercom.com/docs/guides/fin-agent-api): "Fin can be accessed programmatically via an API. You call Fin from your own agent", either "as a tool" (your agent calls `ask`, `escalate` or `run a procedure`) or by handing "the whole turn to Fin" so that "Fin [owns] the resolution end-to-end"; the orchestration endpoints are "available in the Preview API version only", and "To request access to the Fin Agent API, please fill out this form." The REST API at `api.intercom.io` takes a Bearer access token. The server's code is not published, so `source` is null.
+
+## Can an agent use it without an account? (measured)
+
+No. On 2026-09-12 at 06:03Z the researcher sent an MCP `initialize` request to `https://mcp.intercom.com/mcp` with no credentials from a cloud IP: 401 with `www-authenticate: Bearer realm="OAuth", error="invalid_token", error_description="Missing or invalid access token"` and the same error as a JSON body; the server publishes no `/.well-known/oauth-protected-resource` (404). A GET to `https://api.intercom.io/me` and a POST to `/fin/ask` with no credentials answer 401, `missing_authorization`, with `www-authenticate: Basic realm="intercom.io"`. Every documented path is a workspace's credential, so `noAccountNeeded` is false and `auth` is `oauth`, the MCP path's method; the REST and Fin Agent APIs take an access token, and the Fin Agent API needs the vendor's approval first.
+
+## Pricing and terms
+
+Paid, from the [pricing page](https://www.intercom.com/pricing) read 2026-09-12: Essential "$29 per seat/mo" ($19 with a new-customer offer), Advanced "$85 per seat/mo", Expert "$132 per seat/mo", each "Includes Fin AI Agent" at "From $0.99 per Fin outcome", with a free trial; the page names a "Fin million dollar guarantee" whose terms are on the legal page and were not read for this entry. What counts as an outcome is the vendor's definition and was not found on the pages read. Prices are the vendor's on that date and change without notice to this registry.
+
+## Jobs
+
+One claimed, the vendor's claim for Fin; not measured, and the percentages are the vendor's.
+
+`cs.deflect-tier1`, on [fin.ai](https://fin.ai/), the claim's source: "Fin has industry leading resolution rates, averaging 76% across 12,000+ customers, with many seeing over 85%"; "Fin updates accounts, processes payments and refunds, troubleshoots technical issues, and much more"; "resolve[s] very complex, multi-step workflows via Procedures"; "works 24 hours a day, every day". The job's outcome is a routine request answered correctly and closed with no person handling it; the vendor's words name the resolution without a person and the kinds of request, and the Fin Agent API page's example capability is a "Reset password" procedure. Unlike most claims in this registry, this one is reachable through a listed agent surface: the Fin Agent API is documented for exactly that, another agent handing Fin a conversation to resolve, though behind an access request. "Correctly" is the measure a reader should want, and the vendor's pages give a resolution share and a model comparison ("-65% reduction in hallucinations", against a named third-party model), not an accuracy figure a third party measured.
+
+Not claimed: `cs.draft-agent-replies` and `cs.summarize-conversations` (the platform has such features and the pages read for this entry do not describe them, so nothing is quoted), `cs.triage-route-tickets`.
+
+## Empty cells
+
+Not measured: anything behind a credential, including the MCP tools and Fin itself. Not established: the vendor's definition of a "Fin outcome"; the Fin Agent API's terms of access; the vendor's own view of this listing.
