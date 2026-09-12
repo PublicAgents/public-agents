@@ -1,0 +1,42 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "stripe",
+  "name": "Stripe",
+  "kind": "service",
+  "status": "active",
+  "summary": "Payments infrastructure: card and bank payments, Billing, Invoicing, Connect for platforms, Issuing, Tax, and Radar, the vendor's fraud product that blocks fraudulent payments and flags suspicious accounts in real time. For agents, the vendor publishes a hosted MCP server at mcp.stripe.com that searches the API and its knowledge base and reads and writes much of the Stripe API; it authenticates by OAuth, or by a restricted API key as a bearer token where a client cannot do OAuth; measured 401 with no credentials.",
+  "vendor": {
+    "name": "Stripe, Inc.",
+    "url": "https://stripe.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-11 23:40Z, no credentials: MCP initialize at mcp.stripe.com answers 401 with a Bearer challenge; its metadata names access.stripe.com/mcp as the OAuth server. Vendor: OAuth where the client supports it, else a restricted API key as bearer; connected accounts need the key path."
+  },
+  "surfaces": {
+    "homepage": "https://stripe.com/",
+    "docs": "https://docs.stripe.com/mcp",
+    "llmsTxt": "https://docs.stripe.com/llms.txt",
+    "mcp": "https://mcp.stripe.com/",
+    "source": null
+  },
+  "social": {
+    "github": "stripe",
+    "x": "stripe"
+  },
+  "domains": [
+    "stripe.com",
+    "docs.stripe.com",
+    "mcp.stripe.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
