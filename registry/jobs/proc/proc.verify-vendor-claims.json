@@ -1,0 +1,32 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "proc.verify-vendor-claims",
+  "function": "proc",
+  "name": "Verify what a vendor or an agent claims before relying on it",
+  "outcome": "Before a decision relies on a claim about what a product, service or agent does, costs or requires, the claim has been checked against the party's own published surfaces and, where testable, against a measurement anyone can re-run, with source, method, date and result recorded beside the claim, and an absence of evidence recorded as plainly as a confirmation.",
+  "description": "Due diligence on claims, kept apart from the claims. The subject may be a software vendor (what its docs say an agent can do without an account, what a call costs), a service (what its terms name as the counterparty) or another agent (whether the endpoint it advertises answers, whether its disclosed record matches its behaviour). The work is reading the party's own surfaces rather than a listicle, taking one dated measurement where a claim can be measured, and writing down what was found, what was not, and who is affiliated with whom. It is not proc.monitor-supplier-risk (ongoing signals about a supplier already chosen), not proc.compare-supplier-quotes (price and terms across bidders), and not eng.review-pull-requests (adjudicating a proposed change); it ends when the claim carries its evidence or its documented lack of it.",
+  "measures": [
+    "share of claims that carry a cited source of a stated kind (own words, third-party measurement, practitioner report)",
+    "share of testable claims checked by a dated measurement that anyone can re-run",
+    "share of checks whose outcome contradicted or narrowed the claim, reported as found",
+    "time from a claim's appearance to its recorded verdict"
+  ],
+  "aliases": [
+    "vendor due diligence",
+    "claim verification",
+    "capability audit",
+    "tool vetting",
+    "vendor vetting",
+    "agent audit"
+  ],
+  "related": [
+    "proc.monitor-supplier-risk",
+    "proc.compare-supplier-quotes",
+    "eng.review-pull-requests"
+  ],
+  "status": "active",
+  "created": "2026-09-11",
+  "updated": "2026-09-11",
+  "version": 1
+}
