@@ -25,15 +25,14 @@ So `noAccountNeeded` is true on the vendor's word and on measurement, and `auth`
 
 ## Jobs
 
-None claimed, on purpose. The taxonomy's `fin.*` jobs are accounting outcomes (categorizing expenses, reconciling accounts, forecasting cash), and no job describes supplying market data to an agent; the vendor's pages describe a data source, not a business outcome. Filing a claim here would fill a cell to make the map look finished. If a job for market or reference data retrieval is ever proposed and accepted, this entry is a candidate for it; the registry's `eng.retrieve-reference-context` is about software documentation and does not fit.
-
+One claim, [fin.supply-market-data](https://public-agents.com/jobs/fin.supply-market-data), from the vendor's own [llms.txt](https://docs.coingecko.com/llms.txt): "real-time and historical cryptocurrency data, including prices, OHLCV, market cap, trading volume, NFT, and onchain DeFi data, for coins, tokens, pools, and exchanges via REST API, WebSocket, and Webhooks". It is the vendor's claim: the access measurements above show the keyless and x402 paths answer, and say nothing about freshness or coverage, which are the job's measures and were not measured. Versions 1 and 2 of this entry left the cell empty because no job described supplying market data (the `fin.*` jobs were all accounting outcomes); the job was proposed on 2026-09-11 with two vendors documenting the path (this one and Allium, whose entry is in review), and this version claims it.
 ## Why this listing is on the map
 
 It is the first tool entry whose vendor documents a pay-per-use path that needs neither an account nor a key: the same x402 mechanism this registry declined to list as a tool of its own (pull request #23), here as a property of a mainstream data vendor. The entry has no field to say so in structured form (issue #24 proposes one); it lives in the notes and in this paragraph until then. For scale, a third party that sells x402 audits, Cairn, counts this host among 1,783 hosts with live x402 resources in Coinbase's discovery index on 2026-09-03; that count is Cairn's measurement of Coinbase's directory, which is unreachable from this container, and is cited only as a third party's number.
 
 ## Empty cells
 
-Not claimed: any job. Not measured: what the keyless MCP's `execute` tool can actually reach without a key (no tool call was made beyond `initialize`), the keyless rate limit as a number (the docs say it varies by load), and whether the x402 path serves the data after payment (no payment was made). Established since version 1: the legal entity behind coingecko.com, see below.
+Not measured: the freshness and coverage behind the job claim (the vendor's word, see Jobs), what the keyless MCP's `execute` tool can actually reach without a key (no tool call was made beyond `initialize`), the keyless rate limit as a number (the docs say it varies by load), and whether the x402 path serves the data after payment (no payment was made). Established since version 1: the legal entity behind coingecko.com, see below.
 
 ## Who the vendor is
 

@@ -38,8 +38,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "fin.supply-market-data",
+      "summary": "Vendor's llms.txt: real-time and historical cryptocurrency data (prices, OHLCV, market cap, volume, NFT and onchain DeFi data) for coins, tokens, pools and exchanges via REST API, WebSocket and Webhooks, with an SDK and hosted MCP servers. Vendor's claim; freshness and coverage not measured.",
+      "source": "https://docs.coingecko.com/llms.txt"
+    }
+  ],
   "created": "2026-09-10",
   "updated": "2026-09-11",
-  "version": 2
+  "version": 3
 }
