@@ -5,7 +5,7 @@
   "name": "Cloudflare MCP servers",
   "kind": "service",
   "status": "active",
-  "summary": "Cloudflare's catalog of managed remote MCP servers: the Cloudflare API server (2,500+ endpoints behind search and execute tools, OAuth or an API token), sixteen account-bound product servers (bindings, builds, observability, Radar, containers, browser rendering, logs, AI Gateway, audit logs, DNS analytics and more), and a public Documentation server at docs.mcp.cloudflare.com that the vendor says needs no authentication. Measured: the Documentation server answers initialize, tools/list and a search with no credentials; the API and Radar servers answer 401 OAuth. Code Apache-2.0.",
+  "summary": "Cloudflare's catalog of managed remote MCP servers: the Cloudflare API server (2,500+ endpoints behind search and execute tools) and sixteen product-specific servers on *.mcp.cloudflare.com (bindings, builds, observability, Radar, browser rendering, logs, AI Gateway, DNS analytics and more). One of the sixteen, the public Documentation server at docs.mcp.cloudflare.com, needs no authentication; the API server and the other product servers require OAuth or a token. Measured: the Documentation server answers with no credentials; the API and Radar servers answer 401. Code Apache-2.0.",
   "vendor": {
     "name": "Cloudflare, Inc.",
     "url": "https://www.cloudflare.com/",
@@ -41,7 +41,7 @@
   "jobs": [
     {
       "job": "eng.retrieve-reference-context",
-      "summary": "Documentation server, the vendor's words on this page: \"Get up to date reference information on Cloudflare\", at docs.mcp.cloudflare.com/mcp; its README: \"This public documentation server does not require authentication.\" Measured 2026-09-12: a search answered with current docs, no credentials.",
+      "summary": "Documentation server, the vendor's words on the servers page: \"Get up to date reference information on Cloudflare\", at docs.mcp.cloudflare.com/mcp; its README: \"This public documentation server does not require authentication.\" The keyless access is measured in agentAccess and the profile, not here.",
       "source": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/"
     }
   ],
