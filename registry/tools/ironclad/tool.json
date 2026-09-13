@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 06:06Z, no credentials, cloud IP: MCP initialize at mcp.na1.ironcladapp.com/mcp answers 401, www-authenticate Bearer with a resource_metadata URL; mcp.eu1.ironcladapp.com/mcp answers 401, Bearer token required. Vendor: per-user OAuth, the user's own permissions."
+    "notes": "Measured 2026-09-13 06:06Z and 12:03Z, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth, the user's own permissions; Dynamic Client Registration unsupported, only Slackbot, ChatGPT and Claude supported, so no headless path."
   },
   "surfaces": {
     "homepage": "https://ironcladapp.com/",

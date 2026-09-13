@@ -18,6 +18,8 @@ No. On 2026-09-13 at 06:06Z the researcher sent an MCP `initialize` with no cred
 - `https://mcp.eu1.ironcladapp.com/mcp` answered **401** with the same header shape for its own host and the body `{"error":"unauthorized","message":"Bearer token required"}`. The two servers answer from visibly different stacks (nginx against Express), which is worth knowing if an agent is written against one region's error shape.
 - A bare `GET` on the NA1 URL also answers 401.
 
+Re-measured at 12:03Z the same day, same result at both regions: NA1 401 behind nginx, EU1 401 behind Express, each carrying its own `resource_metadata` URL.
+
 So `noAccountNeeded` is false and `auth` is `oauth`. With DCR unsupported, the path for an agent is a person completing an OAuth login in a supported client, not a headless registration.
 
 ## Pricing and terms
