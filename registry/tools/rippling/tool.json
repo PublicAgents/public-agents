@@ -1,0 +1,39 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "rippling",
+  "name": "Rippling",
+  "kind": "service",
+  "status": "active",
+  "summary": "An all-in-one workforce platform (HR, payroll, IT, spend) on one employee record. Rippling AI answers questions and runs tasks over that record; for outside clients the vendor runs a first-party MCP server governed by an MCP Gateway, exposing a single code tool whose typed functions include ask_ai, people and org lookups, time-off balances and requests, draft hires and custom objects. Writes enter the product's normal approval flows and a hire creates a draft for human review. Account-bound: it answered 401 to a probe with no credentials, and tool calls need an active Rippling AI subscription.",
+  "vendor": {
+    "name": "Rippling",
+    "url": "https://www.rippling.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-13 12:15Z, no credentials: POST mcp.rippling.com/mcp answers 401 Bearer naming a resource_metadata URL that is itself 403 to a datacenter IP, in curl and in a browser. Vendor: employee identity, an admin access assignment and a Rippling AI subscription are all required."
+  },
+  "surfaces": {
+    "homepage": "https://www.rippling.com/",
+    "docs": "https://developer.rippling.com/documentation/rippling-platform/rippling-mcp/overview",
+    "llmsTxt": "https://developer.rippling.com/llms.txt",
+    "mcp": "https://mcp.rippling.com/mcp",
+    "source": null
+  },
+  "domains": [
+    "rippling.com",
+    "www.rippling.com",
+    "developer.rippling.com",
+    "mcp.rippling.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
