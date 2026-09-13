@@ -4,7 +4,7 @@
   "id": "scm.reorder-inventory",
   "function": "scm",
   "name": "Propose reorders that keep service levels within stock targets",
-  "outcome": "Reorder proposals hold the service level while lowering stock, and a planner approves most without change.",
+  "outcome": "Reorder proposals hold the service level while lowering stock.",
   "measures": [
     "service level",
     "inventory days",
@@ -16,6 +16,7 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-13",
+  "version": 2,
+  "description": "This outcome is the original minus its trailing clause, which said a planner approves most proposals without change. That clause was already a measure of this job (proposals accepted unchanged) and it is a number about the customer's own planners, measured after deployment, which no vendor can publish about someone else's staff. Nothing else about the job changed. Evidence is judged by measures, unchanged."
 }

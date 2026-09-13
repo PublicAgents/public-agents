@@ -4,7 +4,7 @@
   "id": "scm.forecast-demand",
   "function": "scm",
   "name": "Forecast demand per item and location",
-  "outcome": "A demand forecast at the item and location level that beats the naive baseline and the previous method.",
+  "outcome": "A demand forecast at the item and location level.",
   "measures": [
     "forecast accuracy (MAPE) by horizon",
     "bias",
@@ -15,6 +15,7 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-13",
+  "version": 2,
+  "description": "This outcome is the original minus its trailing comparative clause, which said the forecast must beat the naive baseline and the previous method. That clause was already a measure of this job (improvement over baseline) and it is a measurement, not a capability: no vendor markets a forecast as beating a naive baseline, so an outcome requiring that sentence can only be filled by a measured result, and the cell reads empty where the capability plainly exists. Nothing else about the job changed. Evidence is judged by measures, unchanged."
 }
