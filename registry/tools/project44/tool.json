@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "project44",
+  "name": "project44",
+  "kind": "service",
+  "status": "active",
+  "summary": "Supply chain visibility, transportation management and yard platform, sold as Movement. The vendor publishes a portfolio of AI agents for freight procurement, disruption management, network operations, exception management, slot booking and carrier onboarding, plus a conversational analyst called Mo, all operating inside its own platform. Its REST API is documented publicly, with a complete OpenAPI description readable without an account, and authorized by an OAuth 2.0 client-credentials machine user.",
+  "vendor": {
+    "name": "project44",
+    "url": "https://www.project44.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-13, no credentials: GET na12.api.project44.com/api/v4/oauth2/client-applications answers 401 JSON, www-authenticate: Basic realm=\"project44 Security Realm\", Bearer realm=\"project44 Security Realm\". OAuth 2.0 client credentials, machine user. No MCP: mcp.project44.com NXDOMAIN."
+  },
+  "surfaces": {
+    "homepage": "https://www.project44.com/",
+    "docs": "https://developers.project44.com/",
+    "llmsTxt": "https://www.project44.com/llms.txt",
+    "mcp": null,
+    "openapi": "https://developers.project44.com/_spec/api-reference/@v4/api-docs.json?download",
+    "source": null
+  },
+  "domains": [
+    "project44.com",
+    "www.project44.com",
+    "developers.project44.com",
+    "na12.api.project44.com",
+    "eu12.api.project44.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "scm.track-shipment-exceptions",
+      "summary": "Vendor's claim for its Exceptions Management Agent, which \"Detects and resolves shipment exceptions across modes, including missed pickups, delivery failures, and route deviations\", and its AI Ocean Exceptions Agent, which monitors transshipment legs and retrieves rescheduling options for review.",
+      "source": "https://www.project44.com/press-releases/project44-launches-ai-agent-portfolio-at-decision44-built-on-a-decade-of-context-skills-and-orchestration/"
+    }
+  ],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
