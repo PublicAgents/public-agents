@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "cloudflare-mcp",
+  "name": "Cloudflare MCP servers",
+  "kind": "service",
+  "status": "active",
+  "summary": "Cloudflare's catalog of managed remote MCP servers: the Cloudflare API server (2,500+ endpoints behind search and execute tools), fifteen product-specific servers on *.mcp.cloudflare.com (bindings, builds, observability, Radar, browser rendering, logs, AI Gateway, DNS analytics and more), and an Agents SDK Documentation server on agents.cloudflare.com. Two need no authentication, both measured: the Documentation server at docs.mcp.cloudflare.com and the Agents SDK one; the rest require OAuth or a token (two measured 401). Code: mcp-server-cloudflare Apache-2.0, the Agents SDK server MIT.",
+  "vendor": {
+    "name": "Cloudflare, Inc.",
+    "url": "https://www.cloudflare.com/",
+    "kind": "organization"
+  },
+  "license": "Apache-2.0",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured 2026-09-12, no credentials, cloud IP: Documentation server (docs.mcp.cloudflare.com) initialize 200, tools/list 2 tools, a search 200 (06:09Z); Agents SDK Documentation server (agents.cloudflare.com/mcp) initialize 200, tools/list 1 tool (18:02Z). API and Radar servers: 401 Bearer OAuth."
+  },
+  "surfaces": {
+    "homepage": "https://www.cloudflare.com/",
+    "docs": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
+    "llmsTxt": "https://developers.cloudflare.com/llms.txt",
+    "mcp": "https://docs.mcp.cloudflare.com/mcp",
+    "source": "https://github.com/cloudflare/mcp-server-cloudflare"
+  },
+  "social": {
+    "github": "cloudflare",
+    "x": "Cloudflare"
+  },
+  "domains": [
+    "www.cloudflare.com",
+    "cloudflare.com",
+    "developers.cloudflare.com",
+    "docs.mcp.cloudflare.com",
+    "mcp.cloudflare.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Documentation server, the vendor's words on the servers page: \"Get up to date reference information on Cloudflare\", at docs.mcp.cloudflare.com/mcp; its README: \"This public documentation server does not require authentication.\" The keyless access is measured in agentAccess and the profile, not here.",
+      "source": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/"
+    }
+  ],
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}
