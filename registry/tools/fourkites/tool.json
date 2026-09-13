@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "fourkites",
+  "name": "FourKites",
+  "kind": "service",
+  "status": "active",
+  "summary": "Supply chain visibility and execution platform. The vendor operates six named AI agents it calls a Digital Workforce (Tracy, Sam, Alan, Cassie, Polly, Sophie) on an orchestration layer called Loft: they chase carriers on late shipments, parse supplier documents, book dock appointments, answer customer status inquiries and collect delivery documents. The agents act for the customer inside the platform; they are not a surface another agent can call, and the API documentation sits behind a login, so no endpoint, credential type or schema is readable without an account.",
+  "vendor": {
+    "name": "FourKites, Inc.",
+    "url": "https://www.fourkites.ai/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "other",
+    "notes": "Measured 2026-09-13, no credentials: developer.fourkites.com answers 200 with a login form and no readable docs; api.fourkites.com answers 404 JSON at the root with no auth challenge. No MCP server (mcp.fourkites.ai is NXDOMAIN). Credential type not documented publicly."
+  },
+  "surfaces": {
+    "homepage": "https://www.fourkites.ai/",
+    "docs": "https://developer.fourkites.com/",
+    "llmsTxt": null,
+    "mcp": null,
+    "source": null
+  },
+  "domains": [
+    "fourkites.ai",
+    "www.fourkites.ai",
+    "fourkites.com",
+    "www.fourkites.com",
+    "developer.fourkites.com",
+    "api.fourkites.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "scm.track-shipment-exceptions",
+      "summary": "Vendor's claim for its agent Tracy: \"Shipment Twin detects an ETA deviation or missed milestone based on live tracking data\", Tracy contacts the carrier, notifies the \"shipper operations team, consignee, customer service\" with status and expected resolution, and escalates to a human.",
+      "source": "https://www.fourkites.ai/digital-workforce/tracy"
+    },
+    {
+      "job": "cs.deflect-tier1",
+      "summary": "Vendor's claim for its agent Cassie, order status only: it answers with \"real-time status, current ETA, and any active exceptions\" in the customer's own channel, \"WISMO ... queries are deflected entirely from the human service team\", complex cases escalate. No accuracy published.",
+      "source": "https://www.fourkites.ai/digital-workforce/cassie"
+    }
+  ],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
