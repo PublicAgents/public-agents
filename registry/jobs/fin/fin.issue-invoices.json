@@ -1,0 +1,35 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.issue-invoices",
+  "function": "fin",
+  "name": "Invoice customers for what they owe, on time and correctly",
+  "outcome": "Every amount a customer owes has been invoiced soon after it was earned, to the right entity, with the terms, tax treatment and references the customer needs in order to pay it without asking a question.",
+  "description": "Raising the bill: turning a delivery, a usage record or a subscription renewal into an invoice or a charge, addressed and coded so the customer's own systems can accept it. It covers recurring billing and usage-based charges as well as one-off invoices, and the credit notes that correct them. It is not fin.collect-customer-payment, which is taking the money once the customer pays. It is not fin.collect-overdue-receivables, which starts when an invoice passes its due date; a solution may do one, the other or both, and the two are separate ids so that each can be claimed on its own. It is not fin.reconcile-accounts, which matches what arrived against the ledger.",
+  "measures": [
+    "time from delivery, usage or renewal to the invoice being sent",
+    "invoices raised and sent without a person touching them",
+    "share of invoices corrected or reissued after sending",
+    "share of invoices a customer queries before paying",
+    "billable usage invoiced against usage recorded"
+  ],
+  "aliases": [
+    "invoicing",
+    "billing",
+    "subscription billing",
+    "usage based billing",
+    "raise invoices",
+    "send invoices",
+    "recurring billing",
+    "credit notes"
+  ],
+  "related": [
+    "fin.collect-overdue-receivables",
+    "fin.collect-customer-payment",
+    "fin.reconcile-accounts"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

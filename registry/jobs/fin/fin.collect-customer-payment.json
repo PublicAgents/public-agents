@@ -1,0 +1,37 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.collect-customer-payment",
+  "function": "fin",
+  "name": "Take payment from a customer and get the money into the account",
+  "outcome": "A customer's payment for a sale has cleared into the business's own account, with the amount, the fees, and any failure, refund or dispute recorded against that sale, and without a person handling the money.",
+  "description": "Getting paid at the point of sale: authorizing the customer's method, settling the funds, and recording what each one cost and what happened to it. It covers cards, bank transfers, wallets, stablecoins and machine-to-machine payment protocols alike, because the outcome is the same whatever the rail. It is not proc.purchase-on-behalf, which is the buying side of the same transaction. It is not fin.reconcile-accounts, which starts after the money has landed and asks whether the ledger agrees with the bank. It is not fin.issue-invoices, which raises the bill, nor fin.collect-overdue-receivables, which chases it when it goes past due; those two meet this one when an invoice is finally paid, and a solution may claim more than one. Fraud screening at the moment of payment belongs here when it is part of accepting the payment, and in fin.flag-anomalous-transactions when it is a review of transactions the business has already recorded.",
+  "measures": [
+    "share of attempted payments that authorize and settle",
+    "days from sale to cleared funds",
+    "total cost per payment collected, fees included",
+    "disputed or charged back share of settled value",
+    "share of failed payments recovered on a retry"
+  ],
+  "aliases": [
+    "accept payments",
+    "take card payments",
+    "payment processing",
+    "checkout",
+    "get paid",
+    "collect money from customers",
+    "payment acceptance",
+    "merchant of record"
+  ],
+  "related": [
+    "fin.issue-invoices",
+    "fin.collect-overdue-receivables",
+    "fin.reconcile-accounts",
+    "fin.flag-anomalous-transactions",
+    "proc.purchase-on-behalf"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

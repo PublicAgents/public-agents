@@ -1,0 +1,34 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.send-payouts",
+  "function": "fin",
+  "name": "Pay out money held for sellers, contractors or claimants",
+  "outcome": "Money the business holds on someone else's behalf reaches them on the schedule they were promised, to a verified destination, in a currency they can use, with the fees, the exchange rate and the reason for any hold visible to the recipient.",
+  "description": "The payouts job: a marketplace paying its sellers, a platform paying contractors or creators, an insurer or a service paying claimants, an agent being paid for what it sold. The money is not the business's own, which is what separates this from fin.pay-supplier-bills: the obligation arises from holding it, the recipient is often not a registered supplier, and onboarding, identity checks and destination verification are part of getting it right. It is not fin.collect-customer-payment, which is the money coming in. Machine-to-machine rails belong here when an agent or an endpoint is the party being paid.",
+  "measures": [
+    "share of payouts arriving by the promised date",
+    "payouts failed or returned for bad destination details",
+    "cost per payout sent, fees and foreign exchange included",
+    "time from a recipient being eligible to their first payout",
+    "value held in unresolved payout holds"
+  ],
+  "aliases": [
+    "payouts",
+    "disbursements",
+    "marketplace payouts",
+    "creator payouts",
+    "pay contractors",
+    "mass payments",
+    "claims payments"
+  ],
+  "related": [
+    "fin.pay-supplier-bills",
+    "fin.collect-customer-payment",
+    "fin.forecast-cash"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
