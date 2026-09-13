@@ -1,0 +1,33 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.determine-transaction-tax",
+  "function": "fin",
+  "name": "Charge the right tax on every sale",
+  "outcome": "Every sale carries the tax the buyer's jurisdiction requires, at the rate and treatment in force on the day of the sale, for that product category and that customer's status, with the rule and the rate that produced the amount recorded against the transaction.",
+  "description": "Getting the tax on the transaction right at the moment the transaction happens: which jurisdiction may tax this sale, at what rate, under which treatment for this kind of product and this kind of buyer, and on what authority. It covers sales tax, VAT, GST and their local equivalents alike, because the outcome is the same wherever the buyer is. It is not fin.issue-invoices, which puts the treatment on the bill as part of billing what is owed; a solution may claim both, and one that only prints a rate somebody else determined should claim only that one. It is not fin.file-and-remit-tax-returns, which is the periodic return to an authority rather than the amount on a single sale. It is not fin.sell-as-merchant-of-record, where the tax becomes another legal seller's obligation rather than the business's. Knowing where the business is obliged to register in the first place, from where its customers and revenue are, is an adjacent outcome that no job in this registry covers today and that this one deliberately does not absorb.",
+  "measures": [
+    "share of transactions whose applied tax matches an independent recalculation",
+    "jurisdictions covered with rates and rules current to the day of the sale",
+    "share of transactions carrying the recorded rule and rate behind the amount charged",
+    "assessments, penalties or credit notes arising from a wrong rate or treatment"
+  ],
+  "aliases": [
+    "sales tax calculation",
+    "VAT calculation",
+    "tax determination",
+    "tax engine",
+    "GST calculation",
+    "indirect tax calculation"
+  ],
+  "related": [
+    "fin.collect-customer-payment",
+    "fin.issue-invoices",
+    "fin.file-and-remit-tax-returns",
+    "fin.sell-as-merchant-of-record"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
