@@ -1,0 +1,44 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "ironclad",
+  "name": "Ironclad",
+  "kind": "service",
+  "status": "active",
+  "summary": "Contract lifecycle management for legal teams. Its agentic product is Jurist, which the vendor says redlines a whole contract against the organization's playbook, on third-party paper, as a first pass before a lawyer reads it; Ironclad AI separately extracts properties, clauses and obligations from uploaded contracts. For agents it publishes a first-party MCP server, one URL per region, with a read-only conversational search over contracts and create/read/update tools for obligations; a user connects it by OAuth, and it answered 401 to a probe with no credentials.",
+  "vendor": {
+    "name": "Ironclad, Inc.",
+    "url": "https://ironcladapp.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-13 06:06Z and 12:03Z, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth, the user's own permissions; Dynamic Client Registration unsupported, only Slackbot, ChatGPT and Claude supported, so no headless path."
+  },
+  "surfaces": {
+    "homepage": "https://ironcladapp.com/",
+    "docs": "https://developer.ironcladapp.com/",
+    "llmsTxt": null,
+    "mcp": "https://mcp.na1.ironcladapp.com/mcp",
+    "source": null
+  },
+  "domains": [
+    "ironcladapp.com",
+    "mcp.na1.ironcladapp.com",
+    "mcp.eu1.ironcladapp.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "legal.review-nda",
+      "summary": "Jurist Redlining Agent with Playbooks, the vendor's words: Jurist \"can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Not measured: licensed, account-bound, outside the MCP surface.",
+      "source": "https://ironcladapp.com/resources/articles/jurist-redlining-playbooks"
+    }
+  ],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
