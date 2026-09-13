@@ -1,0 +1,33 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.file-and-remit-tax-returns",
+  "function": "fin",
+  "name": "File transaction tax returns and remit what is owed",
+  "outcome": "Every jurisdiction the business is registered in receives a return for each period and the money owed with it, on or before its own deadline, prepared from the transaction record, with the filing confirmation and the payment kept against that period.",
+  "description": "The periodic obligation that follows the sales: take the period's transactions, produce the return each jurisdiction demands in the form it demands, file it, and move the money to the authority by its deadline, keeping the confirmation. It covers sales tax, VAT, GST and their local equivalents. It is not fin.determine-transaction-tax, which decides the amount on a single sale as it happens; a determination engine that never files should claim that job and not this one, and a filing service that takes somebody else's figures should claim this one and not that. It is not fin.pay-supplier-bills: a return is a statutory filing to an authority on a calendar the business does not set, not an approved invoice with payment terms, and the failure that matters is a missed deadline rather than a duplicate payment. It is not fin.reconcile-accounts, which asks whether the ledger agrees with the bank. Corporate income tax, its provision and its filing are a different outcome with different solutions, and no job in this registry covers them today.",
+  "measures": [
+    "share of returns filed on or before their statutory deadline",
+    "share of liabilities remitted in full by their deadline",
+    "penalties and interest incurred in the period",
+    "jurisdictions filed in per period without a person preparing the return"
+  ],
+  "aliases": [
+    "sales tax filing",
+    "VAT returns",
+    "tax remittance",
+    "indirect tax compliance",
+    "returns preparation",
+    "tax filing automation"
+  ],
+  "related": [
+    "fin.determine-transaction-tax",
+    "fin.reconcile-accounts",
+    "fin.pay-supplier-bills",
+    "fin.sell-as-merchant-of-record"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.sell-as-merchant-of-record",
+  "function": "fin",
+  "name": "Stand as the legal seller so somebody else's business can sell",
+  "outcome": "A third party is the seller on the record for each sale: it contracts with the buyer, charges and remits the transaction tax under its own registrations, carries the refund and chargeback liability, and pays the business its balance on a stated schedule, with the sales, the tax and the payout recorded for every period.",
+  "description": "Taking on the legal position of the seller, not merely the movement of the money. The buyer's contract, receipt and statement name the third party; the tax is charged and remitted under that party's registrations rather than the business's; refunds, chargebacks and consumer-law obligations land on it; and what reaches the business is a periodic balance net of those. It is not fin.collect-customer-payment, where a processor moves the money and the business remains the seller with its own tax and dispute exposure; the difference is whose name and whose liability, not whose rail. It is not fin.determine-transaction-tax or fin.file-and-remit-tax-returns, which are what a business does when the obligation is still its own, although a party claiming this job necessarily does both for itself. It is not fin.send-payouts: the payout here is a consequence of the arrangement rather than the outcome being bought, and a party that only pays out balances is not the seller of anything.",
+  "measures": [
+    "share of sales where the third party is named as seller on the buyer's contract and receipt",
+    "jurisdictions where tax is charged and remitted under the third party's own registrations",
+    "days from sale to payout of the balance",
+    "share of refunds and chargebacks absorbed by the third party rather than passed back"
+  ],
+  "aliases": [
+    "merchant of record",
+    "MoR",
+    "seller of record",
+    "reseller of record"
+  ],
+  "related": [
+    "fin.collect-customer-payment",
+    "fin.determine-transaction-tax",
+    "fin.file-and-remit-tax-returns",
+    "fin.send-payouts"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
