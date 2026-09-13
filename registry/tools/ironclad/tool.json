@@ -34,7 +34,7 @@
   "jobs": [
     {
       "job": "legal.review-nda",
-      "summary": "Jurist Redlining Agent with Playbooks, the vendor's words: Jurist \"can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\", applying \"your predefined positions and fallbacks\". Not measured: licensed, account-bound, not reachable through the MCP surface.",
+      "summary": "Jurist Redlining Agent with Playbooks, the vendor's words: Jurist \"can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Not measured: licensed, account-bound, outside the MCP surface.",
       "source": "https://ironcladapp.com/resources/articles/jurist-redlining-playbooks"
     }
   ],
