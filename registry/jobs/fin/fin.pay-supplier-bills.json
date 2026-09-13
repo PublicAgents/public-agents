@@ -1,0 +1,33 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.pay-supplier-bills",
+  "function": "fin",
+  "name": "Pay approved supplier bills on or before their due date, once",
+  "outcome": "Each approved supplier bill has left the business's account on or before its due date, to the bank details the supplier actually gave, in the right currency, exactly once, recorded against the bill it settles.",
+  "description": "Accounts payable as an execution job: scheduling and releasing payment for bills somebody has already approved. It is not fin.match-invoices-to-orders, which decides whether a bill should be paid at all by matching it to the order and the receipt; that decision is upstream and has its own id. It is not fin.send-payouts, which pays money the business is holding on someone else's behalf rather than money it owes a supplier. It is not fin.forecast-cash, which says whether the money will be there. Paying once, to details that were not changed by someone impersonating the supplier, is part of the outcome and not a detail: duplicate and misdirected payments are this job's characteristic failures, and a solution that cannot show it prevents them has not done it.",
+  "measures": [
+    "share of bills paid on or before the due date",
+    "duplicate or misdirected payments per thousand sent",
+    "early payment discounts captured against those offered",
+    "days from approval to money leaving the account",
+    "payment runs released without a person re-keying an amount"
+  ],
+  "aliases": [
+    "accounts payable",
+    "pay suppliers",
+    "bill payment",
+    "vendor payments",
+    "settle invoices",
+    "payment runs"
+  ],
+  "related": [
+    "fin.match-invoices-to-orders",
+    "fin.send-payouts",
+    "fin.forecast-cash"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

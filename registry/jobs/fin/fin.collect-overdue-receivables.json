@@ -1,0 +1,35 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.collect-overdue-receivables",
+  "function": "fin",
+  "name": "Collect the invoices and charges that have passed their due date",
+  "outcome": "Every invoice or charge past its due date has been chased on a schedule somebody decided, and has ended as paid, disputed in writing, in a payment arrangement, or written off on a recorded decision, with the customer relationship still intact where that was possible.",
+  "description": "The collections half of receivables: reminder sequences, retries on a failed subscription charge, escalation, and the record of which step produced the payment. It is a different job from raising the bill, and the market is split the same way, so it has its own id: a dunning or recovery service can claim this without touching fin.issue-invoices, and a billing system can claim that without doing this. It is not sales.draft-outreach: a payment reminder is a collection step with a contractual and legal shape, and a solution that only writes friendly emails is not doing this job. It is not fin.collect-customer-payment, which is the mechanics of taking the money when it is finally paid.",
+  "measures": [
+    "days sales outstanding",
+    "share of overdue value recovered within thirty days",
+    "share of invoiced value written off as uncollectable",
+    "share of failed subscription charges recovered",
+    "chases sent per invoice recovered"
+  ],
+  "aliases": [
+    "accounts receivable",
+    "AR automation",
+    "dunning",
+    "chase overdue invoices",
+    "payment reminders",
+    "collections",
+    "failed payment recovery",
+    "involuntary churn"
+  ],
+  "related": [
+    "fin.issue-invoices",
+    "fin.collect-customer-payment",
+    "fin.forecast-cash"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
