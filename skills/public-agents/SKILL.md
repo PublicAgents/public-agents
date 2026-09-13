@@ -83,10 +83,13 @@ outside; after you claim it, only the logins you name may edit it.
    If both a file and a TXT record name the slug with different
    maintainers, the check refuses with `OWNERSHIP_CONFLICT`.
 3. Open a pull request from a login the proof names, setting
-   `maintainers` to exactly the logins the proof names (one the proof
-   does not name is refused with `OWNERSHIP_AUTHOR_NOT_LISTED`),
-   `provenance` to `vendor`, `version` bumped by one and `updated` to
-   today. Correct anything the listing got wrong in the same pull
+   `maintainers` to the logins you want to authorize on this entry,
+   every one of which the proof must also name (a maintainer the proof
+   does not name is refused with `OWNERSHIP_AUTHOR_NOT_LISTED`). The
+   proof may name more logins than the entry does, so an
+   organization-wide proof can stand behind a listing that authorizes
+   only two people. Set `provenance` to `vendor`, `version` bumped by
+   one and `updated` to today. Correct anything the listing got wrong in the same pull
    request; the entry then says what you say.
 4. What claiming is not: it does not remove or soften evidence others
    filed, does not change what a measured result says, and buys no
@@ -105,9 +108,12 @@ file like any other.
 2. Phrase `outcome` as the state of the world when the job is done, not
    as a feature. Give at least two `measures`, each one something a
    buyer could actually count.
-3. Check `aliases` against the existing ones in `/jobs.json` before you
-   add them: one outcome should have one id, and the aliases are how a
-   vendor's own wording finds it.
+3. Check `aliases` against the existing ones before you add them: one
+   outcome should have one id, and the aliases are how a vendor's own
+   wording finds it. `/jobs.json` does not carry them, so read the job
+   files themselves under `registry/jobs/` in the checkout you are
+   filing from; from the site alone, `/search-index.json` folds each
+   job's aliases into its `text` field.
 4. Say in the pull request who does this work today and where that is
    published. A job proposed with a solution that claims it is easier to
    adjudicate than one proposed alone, but neither is refused for that.
