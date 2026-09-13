@@ -1,0 +1,46 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "docusign",
+  "name": "Docusign",
+  "kind": "service",
+  "status": "active",
+  "summary": "Electronic signature and agreement management. Its first-party MCP server, in open beta for developer and production accounts, exposes 22 tools over envelopes, recipients, templates, users and Maestro workflows: create an envelope from a template or a remote document, set signers and their routing order, read envelope and recipient status, remind pending signers, and void. The tool catalog is published without credentials at mcp.docusign.com/tools; the endpoint itself answered 403 to a probe with no token, and the vendor accepts only Confidential Authorization Code Grant tokens.",
+  "vendor": {
+    "name": "Docusign, Inc.",
+    "url": "https://www.docusign.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-13 12:25Z, no credentials: GET mcp.docusign.com/tools answers 200 with the full 22-tool catalog and schemas; POST mcp.docusign.com/mcp answers 403 \"RBAC: access denied\", plain text, no www-authenticate, so the refusal names no way in. OAuth: Confidential Auth Code Grant only."
+  },
+  "surfaces": {
+    "homepage": "https://www.docusign.com/",
+    "docs": "https://developers.docusign.com/platform/mcp-server/",
+    "llmsTxt": null,
+    "mcp": "https://mcp.docusign.com/mcp",
+    "source": null
+  },
+  "domains": [
+    "docusign.com",
+    "www.docusign.com",
+    "developers.docusign.com",
+    "mcp.docusign.com",
+    "mcp-d.docusign.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "legal.route-agreements-for-signature",
+      "summary": "The vendor's published MCP tool catalog, read without credentials: createEnvelope from a template or remote document, updateEnvelopeRecipients with a routingOrder per signer, getEnvelope and listRecipients for status, sendReminder to pending signers, updateEnvelope to send or void. Not executed.",
+      "source": "https://mcp.docusign.com/tools"
+    }
+  ],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

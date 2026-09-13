@@ -1,0 +1,23 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "legal.route-agreements-for-signature",
+  "function": "legal",
+  "name": "Route an agreement for signature and see it completed",
+  "outcome": "An agreement reaches the right signers in the right order, its status is visible at any moment, and stalled signatures are chased until it is executed or withdrawn, without a person chasing it.",
+  "measures": [
+    "time from send to completion",
+    "share completed without a person chasing",
+    "envelopes voided or re-sent for routing errors"
+  ],
+  "aliases": [
+    "send for signature",
+    "eSignature workflow",
+    "agreement routing",
+    "chase signatures"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
