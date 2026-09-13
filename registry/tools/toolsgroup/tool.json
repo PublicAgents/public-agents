@@ -1,0 +1,39 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "toolsgroup",
+  "name": "ToolsGroup",
+  "kind": "service",
+  "status": "active",
+  "summary": "Enterprise supply chain planning software, sold as SO99+, JustEnough and a platform the vendor calls Decion. It claims probabilistic demand forecasting with a full probability distribution for every SKU-location, multi-echelon inventory optimization against per-class service targets, and replenishment that recommends when, where and how much to reorder. No job is claimed in this entry: see the profile, which sets out element by element what the vendor's words cover and the one element of each scm planning job they do not reach.",
+  "vendor": {
+    "name": "ToolsGroup",
+    "url": "https://www.toolsgroup.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "other",
+    "notes": "Measured 2026-09-13, no credentials: www.toolsgroup.com serves a hand-written llms.txt (200), while docs.toolsgroup.com and support.toolsgroup.com both answer a Cloudflare managed challenge (403, cf-mitigated: challenge). No public API docs; no MCP server (mcp.toolsgroup.com has no address record)."
+  },
+  "surfaces": {
+    "homepage": "https://www.toolsgroup.com/",
+    "docs": null,
+    "llmsTxt": "https://www.toolsgroup.com/llms.txt",
+    "mcp": null,
+    "source": null
+  },
+  "domains": [
+    "toolsgroup.com",
+    "www.toolsgroup.com",
+    "docs.toolsgroup.com",
+    "support.toolsgroup.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

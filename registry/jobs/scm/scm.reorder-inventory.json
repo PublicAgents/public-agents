@@ -4,7 +4,7 @@
   "id": "scm.reorder-inventory",
   "function": "scm",
   "name": "Propose reorders that keep service levels within stock targets",
-  "outcome": "Reorder proposals hold the service level while lowering stock, and a planner approves most without change.",
+  "outcome": "Reorder proposals that hold the target service level while lowering stock, produced per item and location and ready for a planner to release.",
   "measures": [
     "service level",
     "inventory days",
@@ -16,6 +16,7 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-13",
+  "version": 2,
+  "description": "Whether a planner accepts the proposals unchanged is a measure and lives in measures. Acceptance is how the job is judged, not what it is, and it is a number a vendor cannot publish about a customer's planners, so an outcome that requires it can only ever be filled by a measured result. A solution claims this job by producing reorder proposals held against a service target."
 }
