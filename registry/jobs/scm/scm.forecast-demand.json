@@ -4,7 +4,7 @@
   "id": "scm.forecast-demand",
   "function": "scm",
   "name": "Forecast demand per item and location",
-  "outcome": "A demand forecast at the item and location level, refreshed every planning cycle, that the supply and inventory plans are built from.",
+  "outcome": "A demand forecast at the item and location level.",
   "measures": [
     "forecast accuracy (MAPE) by horizon",
     "bias",
@@ -17,5 +17,5 @@
   "created": "2026-09-05",
   "updated": "2026-09-13",
   "version": 2,
-  "description": "The comparative test, whether the forecast beats the naive baseline and the method it replaced, is a measure and lives in measures. It is how a forecast is judged, not what the job is: no vendor markets a forecast as beating a naive baseline, so an outcome that requires that sentence can only ever be filled by a measured result, and the cell reads empty where the capability plainly exists. A solution claims this job by producing the forecast; the evidence decides whether it is a good one."
+  "description": "This outcome is the original minus its trailing comparative clause, which said the forecast must beat the naive baseline and the previous method. That clause was already a measure of this job (improvement over baseline) and it is a measurement, not a capability: no vendor markets a forecast as beating a naive baseline, so an outcome requiring that sentence can only be filled by a measured result, and the cell reads empty where the capability plainly exists. Nothing else about the job changed. Evidence is judged by measures, unchanged."
 }
