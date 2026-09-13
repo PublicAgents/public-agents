@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "ashby",
+  "name": "Ashby",
+  "kind": "service",
+  "status": "active",
+  "summary": "An all-in-one recruiting platform: applicant tracking, sourcing CRM, interview scheduling and analytics, with AI features across it. AI-Assisted Application Review evaluates each active application against criteria an admin writes per job and shows its reasoning criterion by criterion; Ashby Assistant and custom agents read and take a short list of actions inside the product under the user's own permissions. For outside clients the vendor runs a first-party MCP server in open beta at mcp.ashbyhq.com/mcp/v1, per-user OAuth, which answered 401 to a probe with no credentials.",
+  "vendor": {
+    "name": "Ashby",
+    "url": "https://www.ashbyhq.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-13 12:05Z, no credentials: MCP initialize answers 401 Bearer (scope openid mcp offline_access); POST api.ashbyhq.com/candidate.list answers 401 plain text. Two paths: per-user OAuth for MCP (OIDC metadata advertises DCR, not exercised), an account-made API key for REST."
+  },
+  "surfaces": {
+    "homepage": "https://www.ashbyhq.com/",
+    "docs": "https://docs.ashbyhq.com/",
+    "llmsTxt": "https://www.ashbyhq.com/llms.txt",
+    "api": "https://api.ashbyhq.com/",
+    "mcp": "https://mcp.ashbyhq.com/mcp/v1",
+    "source": null
+  },
+  "domains": [
+    "ashbyhq.com",
+    "www.ashbyhq.com",
+    "docs.ashbyhq.com",
+    "mcp.ashbyhq.com",
+    "api.ashbyhq.com",
+    "developers.ashbyhq.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "hr.screen-applications",
+      "summary": "AI-Assisted Application Review, the vendor's words: the AI \"assesses candidate resumes against each specific criterion and returns an evaluation status\" of meets, does not meet or undecided, and \"Click on any criterion to see the reasoning\". Skipped where a candidate opts out. Not measured.",
+      "source": "https://docs.ashbyhq.com/ai-assisted-application-review"
+    },
+    {
+      "job": "hr.schedule-interviews",
+      "summary": "The scheduling product, not the AI surface: the vendor says \"Automation, templates, and self-serve options remove the need for back-and-forth\", direct booking links let candidates book interviewer calendars, and the Advanced Auto-scheduling add-on generates schedules for panels and loops.",
+      "source": "https://www.ashbyhq.com/platform/recruiting/scheduling"
+    }
+  ],
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
