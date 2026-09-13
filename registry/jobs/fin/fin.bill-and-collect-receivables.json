@@ -1,0 +1,36 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.bill-and-collect-receivables",
+  "function": "fin",
+  "name": "Bill customers for what they owe and collect the overdue ones",
+  "outcome": "Every amount a customer owes has been invoiced with the right terms soon after it was earned, and the ones that pass their due date are chased until they are paid, disputed in writing, or written off on a decision somebody made.",
+  "description": "The receivables cycle: raising the invoice or the subscription charge, sending it to the party that pays, and following up on what does not arrive. It covers dunning sequences, retries on a failed subscription charge, and the record of which reminder produced the payment. It is not fin.collect-customer-payment, which is the mechanics of taking the money when the customer pays; an invoice and a checkout are two doors into the same account. It is not fin.reconcile-accounts, which matches what arrived against the ledger. It is not sales.draft-outreach: a payment reminder is a collection step with a legal and contractual shape, not a marketing message, and a solution that only writes friendly emails is not doing this job.",
+  "measures": [
+    "days sales outstanding",
+    "share of invoices paid by their due date",
+    "time from delivery or renewal to the invoice being sent",
+    "share of invoiced value written off as uncollectable",
+    "invoices raised and sent without a person touching them",
+    "share of failed subscription charges recovered"
+  ],
+  "aliases": [
+    "invoicing",
+    "accounts receivable",
+    "AR automation",
+    "dunning",
+    "subscription billing",
+    "chase overdue invoices",
+    "payment reminders",
+    "collections"
+  ],
+  "related": [
+    "fin.collect-customer-payment",
+    "fin.reconcile-accounts",
+    "fin.forecast-cash"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}

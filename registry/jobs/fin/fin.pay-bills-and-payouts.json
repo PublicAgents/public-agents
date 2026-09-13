@@ -1,0 +1,35 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.pay-bills-and-payouts",
+  "function": "fin",
+  "name": "Pay approved bills and send payouts on time and once",
+  "outcome": "Each approved supplier bill, refund and payout has left the business's account on or before its due date, to the party named on it, in the right currency, exactly once, with the payment recorded against the obligation it settles.",
+  "description": "The paying side of finance: scheduling and releasing money the business already owes, and paying out to the sellers, contractors or customers a platform holds funds for. The obligation has been approved elsewhere; this job is making the payment happen correctly and on time. It is not fin.match-invoices-to-orders, which decides whether a supplier invoice should be paid at all by matching it to the order and the receipt. It is not proc.purchase-on-behalf, which is buying a specified good, deciding and committing in one step. It is not fin.forecast-cash, which says whether the money will be there. Paying once is part of the outcome and not a detail: a duplicated payment is the characteristic failure of this job, and a solution that cannot show it avoids duplicates has not done it.",
+  "measures": [
+    "share of bills paid on or before the due date",
+    "duplicate or misdirected payments per thousand sent",
+    "cost per payment sent, fees and foreign exchange included",
+    "early payment discounts captured against those offered",
+    "days from approval to money leaving the account",
+    "payment runs released without a person re-keying an amount"
+  ],
+  "aliases": [
+    "accounts payable",
+    "pay suppliers",
+    "bill payment",
+    "payouts",
+    "disbursements",
+    "vendor payments",
+    "settle invoices"
+  ],
+  "related": [
+    "fin.match-invoices-to-orders",
+    "fin.forecast-cash",
+    "fin.collect-customer-payment"
+  ],
+  "status": "active",
+  "created": "2026-09-13",
+  "updated": "2026-09-13",
+  "version": 1
+}
