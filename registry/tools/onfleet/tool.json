@@ -1,0 +1,46 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "onfleet",
+  "name": "Onfleet",
+  "kind": "product",
+  "status": "active",
+  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter, including a per-vehicle dispatch cost and a penalty for delivering past a task's time window. One scm job is claimed from that reference. The optimization endpoints are Enterprise-plan only, and an undocumented MCP server is measured but claims nothing.",
+  "vendor": {
+    "name": "Onfleet",
+    "url": "https://onfleet.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-14, no credentials: GET onfleet.com/api/v2/organization 401 InvalidCredentials, no www-authenticate; the API key is the Basic-auth username. mcp.onfleet.com/mcp answers 401 with resource_metadata, full OAuth discovery and a registration endpoint, and is in no vendor doc."
+  },
+  "surfaces": {
+    "homepage": "https://onfleet.com/",
+    "docs": "https://docs.onfleet.com/reference/introduction",
+    "llmsTxt": "https://docs.onfleet.com/llms.txt",
+    "mcp": "https://mcp.onfleet.com/mcp",
+    "api": "https://docs.onfleet.com/reference/route-optimization",
+    "openapi": null,
+    "source": null
+  },
+  "domains": [
+    "onfleet.com",
+    "docs.onfleet.com",
+    "mcp.onfleet.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "scm.optimize-delivery-routes",
+      "summary": "Vendor's claim for its Route Optimization API, whose public cost model names each element: costPerUnitDistance as the mileage proxy, fixedCost per vehicle dispatched (\"Higher values push the solver toward using fewer vehicles/routes\"), and costPerUnitLateTime for delivery \"past its time window\".",
+      "source": "https://docs.onfleet.com/reference/route-optimization-cost-parameters"
+    }
+  ],
+  "created": "2026-09-14",
+  "updated": "2026-09-14",
+  "version": 1
+}
