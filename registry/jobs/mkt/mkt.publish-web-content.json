@@ -14,8 +14,13 @@
     "content publishing",
     "site maintenance"
   ],
+  "related": [
+    "mkt.build-website",
+    "mkt.improve-search-visibility",
+    "mkt.localize-content"
+  ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }

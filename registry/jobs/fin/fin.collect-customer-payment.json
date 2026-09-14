@@ -27,10 +27,13 @@
     "fin.collect-overdue-receivables",
     "fin.reconcile-accounts",
     "fin.flag-anomalous-transactions",
-    "proc.purchase-on-behalf"
+    "proc.purchase-on-behalf",
+    "fin.determine-transaction-tax",
+    "fin.sell-as-merchant-of-record",
+    "fin.send-payouts"
   ],
   "status": "active",
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }
