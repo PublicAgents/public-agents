@@ -17,6 +17,6 @@
   "status": "active",
   "created": "2026-09-05",
   "updated": "2026-09-14",
-  "version": 2,
-  "description": "This outcome is the original minus its trailing comparative clause, which required the routes to use fewer miles and vehicles than the previous plan. That clause is a measured comparison against a baseline the seller does not control, and it now sits in measures, where the same bar is applied to evidence. The third scm job to need this: scm.forecast-demand and scm.reorder-inventory were corrected the same way in #65. Two vendors were read against the old wording before proposing this, Samsara (#68) and Onfleet (#69), and neither could be filed under it; the job had zero claimants, so nothing in the registry moves under the change."
+  "version": 3,
+  "description": "Assigning a day's stops to vehicles and sequencing them so each delivery window is met while miles driven and vehicles used stay down. Own fleet and contracted fleet alike, and the plan is the deliverable: executing it, and reacting when it breaks, is scm.track-shipment-exceptions. It is not scm.reorder-inventory, which decides what moves between locations rather than how a vehicle gets there. Trading cost against windows is the job; beating the operation's previous plan is a measure of it."
 }
