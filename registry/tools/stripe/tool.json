@@ -50,6 +50,11 @@
       "job": "fin.file-and-remit-tax-returns",
       "summary": "US state sales tax only: the vendor claims \"Automated US filing ... in all 46 US locations with a state-level sales and use tax\" through TaxJar, a Stripe company, remitting from the business's US bank account. Requires the Tax Complete plan; outside the US, filing is a partner app.",
       "source": "https://docs.stripe.com/tax/file-with-stripe"
+    },
+    {
+      "job": "fin.issue-invoices",
+      "summary": "Amounts recorded in Stripe: the vendor's Invoicing product, where \"Subscriptions automatically generate invoices, or you can manually create a one-off invoice\", invoices carry due terms, Stripe Tax treatment and account- or customer-level sequential numbering chosen for EU and UK invoicing rules.",
+      "source": "https://docs.stripe.com/invoicing"
     }
   ],
   "created": "2026-09-11",
