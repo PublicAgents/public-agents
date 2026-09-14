@@ -15,7 +15,7 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-13",
-  "version": 2,
-  "description": "This outcome is the original minus its trailing comparative clause, which said the forecast must beat the naive baseline and the previous method. That clause was already a measure of this job (improvement over baseline) and it is a measurement, not a capability: no vendor markets a forecast as beating a naive baseline, so an outcome requiring that sentence can only be filled by a measured result, and the cell reads empty where the capability plainly exists. Nothing else about the job changed. Evidence is judged by measures, unchanged."
+  "updated": "2026-09-14",
+  "version": 3,
+  "description": "Predicting how much of each item will be needed at each stocking location over a horizon, from history, seasonality, promotions and whatever other signals the method uses. It is the input to scm.reorder-inventory and not the same job: a forecast nobody turns into a replenishment proposal still satisfies this outcome, and an engine that consumes somebody else's forecast claims that job rather than this one. The unit is part of the job, so a national or category total is not a forecast at item and location level. Whether a forecast is any good is judged by this job's measures, not asserted in its outcome."
 }

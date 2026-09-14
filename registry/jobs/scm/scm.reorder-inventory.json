@@ -16,7 +16,7 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-13",
-  "version": 2,
-  "description": "This outcome is the original minus its trailing clause, which said a planner approves most proposals without change. That clause was already a measure of this job (proposals accepted unchanged) and it is a number about the customer's own planners, measured after deployment, which no vendor can publish about someone else's staff. Nothing else about the job changed. Evidence is judged by measures, unchanged."
+  "updated": "2026-09-14",
+  "version": 3,
+  "description": "Turning a demand picture and the current stock position into proposed replenishment: what to order or move, how much, to which location, and when, against service-level and stock targets somebody set. It begins where scm.forecast-demand ends, and a solution may claim both. It is not the purchase itself, which is a proc job, and it is not scm.track-shipment-exceptions, which starts once goods are already in motion. The proposal is the deliverable; whether a planner accepts it unchanged is a measure of this job."
 }
