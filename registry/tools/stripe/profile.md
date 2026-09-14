@@ -59,7 +59,7 @@ Claimed, and scoped in the first words of the claim to amounts recorded in Strip
 - **Tax treatment.** Stripe Tax applies to invoices, which is the claim above.
 - **References the customer needs.** [Invoice numbering](https://docs.stripe.com/invoicing/customize) is sequential per customer or per account, and the vendor chooses the default by country because "European Union member countries and the United Kingdom typically require account level sequencing". A vendor that has read the invoicing law of the buyer's jurisdiction into its numbering default is doing the part of this job that gets an invoice paid without a question.
 
-Not claimed: that any invoice is correct, or that customers pay. Neither is published with a method and neither is measured here.
+What this claim is and is not. The claim is that the product issues invoices carrying the terms, the tax treatment and the references the outcome names; that is a capability of the tool and the vendor documents each part of it. What is **not** claimed is any rate: no proportion of invoices paid without a query, no accuracy figure, no time from earning to issue. None of those is published with a method and none is measured here, and whether a particular business's invoices are right also depends on that business's own data, which no vendor controls.
 
 ## Jobs deliberately not claimed
 
