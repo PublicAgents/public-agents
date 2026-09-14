@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 06:06Z and 12:03Z, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth, the user's own permissions; Dynamic Client Registration unsupported, only Slackbot, ChatGPT and Claude supported, so no headless path."
+    "notes": "Measured 2026-09-13 and again 2026-09-14 12:33Z, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth, the user's own permissions. The authorization server named by the challenge publishes no registration_endpoint."
   },
   "surfaces": {
     "homepage": "https://ironcladapp.com/",
@@ -39,6 +39,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }
