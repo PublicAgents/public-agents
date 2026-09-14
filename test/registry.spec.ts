@@ -119,6 +119,13 @@ describe("loadRegistry", () => {
     const dangling = codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": { ...JOB, related: ["cs.nobody"] } }));
     expect(dangling).toContain("REF_UNRESOLVED");
     expect(dangling).not.toContain("RELATED_NOT_SYMMETRIC");
+    // The refusal is a repair instruction, so the file and the detail are
+    // the part that has to be right: they say which id to add and where.
+    const refused = loadRegistry(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": b }))
+      .refusals.filter(r => r.code === "RELATED_NOT_SYMMETRIC");
+    expect(refused).toEqual([
+      { code: "RELATED_NOT_SYMMETRIC", file: join("registry", "jobs", "cs", "cs.deflect-tier1.json"), detail: "related cs.other: add cs.deflect-tier1 to cs.other" }
+    ]);
   });
 
   it("refuses a supersede cycle and a duplicate handle", () => {
