@@ -5,7 +5,7 @@
   "name": "Samsara",
   "kind": "product",
   "status": "active",
-  "summary": "Fleet operations platform: vehicle gateways, dash cams, GPS tracking, compliance, and a route planning and dispatch product. Its REST API models the planning loop an outside system can drive (create a plan, bulk-upsert orders with appointment windows, read back the routes the planner produced) and emits route-stop ETA and early/late arrival webhooks in beta. Two scm jobs are claimed from the vendor's own product page and its public OpenAPI description; nothing here is measured, and no vendor performance number enters a machine-readable field.",
+  "summary": "Fleet operations platform: vehicle gateways, dash cams, GPS tracking, compliance, and a route planning and dispatch product. Its REST API models the planning loop an outside system can drive (create a plan, bulk-upsert orders with appointment windows, read back the routes the planner produced) and emits route-stop ETA and early/late arrival webhooks in beta. One scm job is claimed; route optimization is deliberately NOT claimed, and the profile says which sentence the vendor would have to publish for it to be.",
   "vendor": {
     "name": "Samsara Inc.",
     "url": "https://www.samsara.com/",
@@ -36,11 +36,6 @@
   "maintainers": [],
   "provenance": "third-party",
   "jobs": [
-    {
-      "job": "scm.optimize-delivery-routes",
-      "summary": "Vendor's claim for its routing and dispatch product, headlined \"Finish routes with fewer miles and vehicles\" and \"Generate smarter, optimized routes\" built for real-world constraints; its OpenAPI description models service time windows per location and per-plan optimization settings.",
-      "source": "https://www.samsara.com/products/telematics/routing"
-    },
     {
       "job": "scm.track-shipment-exceptions",
       "summary": "Own-fleet telemetry, not carrier feeds: the vendor documents RouteStopEtaUpdated and RouteStopEarlyLateArrival webhooks (both labelled beta) and Route Stop ETA and Out of Route alert triggers, with route execution that lets a dispatcher \"manage exceptions in real time\".",
