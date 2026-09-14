@@ -13,8 +13,12 @@
     "bid analysis",
     "quote comparison"
   ],
+  "related": [
+    "proc.purchase-on-behalf",
+    "proc.verify-vendor-claims"
+  ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }

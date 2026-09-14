@@ -24,10 +24,11 @@
   "related": [
     "fin.match-invoices-to-orders",
     "fin.send-payouts",
-    "fin.forecast-cash"
+    "fin.forecast-cash",
+    "fin.file-and-remit-tax-returns"
   ],
   "status": "active",
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }

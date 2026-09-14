@@ -13,8 +13,14 @@
     "cash forecasting",
     "treasury forecast"
   ],
+  "related": [
+    "fin.collect-overdue-receivables",
+    "fin.pay-supplier-bills",
+    "fin.send-payouts",
+    "fin.supply-market-data"
+  ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }

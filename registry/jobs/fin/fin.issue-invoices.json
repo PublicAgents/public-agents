@@ -26,10 +26,11 @@
   "related": [
     "fin.collect-overdue-receivables",
     "fin.collect-customer-payment",
-    "fin.reconcile-accounts"
+    "fin.reconcile-accounts",
+    "fin.determine-transaction-tax"
   ],
   "status": "active",
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }

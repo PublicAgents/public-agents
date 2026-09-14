@@ -25,10 +25,11 @@
   "related": [
     "fin.pay-supplier-bills",
     "fin.collect-customer-payment",
-    "fin.forecast-cash"
+    "fin.forecast-cash",
+    "fin.sell-as-merchant-of-record"
   ],
   "status": "active",
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }
