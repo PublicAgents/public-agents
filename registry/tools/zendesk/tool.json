@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "zendesk",
+  "name": "Zendesk",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer service platform (ticketing, messaging, voice, help center) with Zendesk AI: AI agents that resolve customer requests across channels without a person, Copilot for human agents, and AutoQA, which scores every interaction. For agents calling in, the vendor publishes the REST API (OAuth access tokens; API tokens deprecated) and an AI Agents API keyed per organization; Zendesk itself is an MCP client that connects to external servers, and publishes no MCP server of its own. Measured: the API answers an anonymous end user on an open instance.",
+  "vendor": {
+    "name": "Zendesk, Inc.",
+    "url": "https://www.zendesk.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-12 06:06Z, no credentials: GET support.zendesk.com/api/v2/users/me.json answers 200 as \"Anonymous user\", the documented anonymous end-user access of an open instance. Everything else: OAuth access token per account; API token deprecated. AI Agents API: organization API key."
+  },
+  "surfaces": {
+    "homepage": "https://www.zendesk.com/",
+    "docs": "https://developer.zendesk.com/api-reference/introduction/security-and-auth/",
+    "llmsTxt": null,
+    "mcp": null,
+    "api": "https://developer.zendesk.com/api-reference/",
+    "source": null
+  },
+  "social": {
+    "github": "zendesk",
+    "x": "Zendesk"
+  },
+  "domains": [
+    "www.zendesk.com",
+    "zendesk.com",
+    "developer.zendesk.com",
+    "support.zendesk.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.deflect-tier1",
+      "summary": "Zendesk AI agents, the vendor's words on this page: \"Resolve multi-step, multi-intent requests across channels with AI agents that understand intent, ask clarifying questions, and take action across systems\"; \"complete requests without handoffs\"; \"resolving requests autonomously\". Not measured.",
+      "source": "https://www.zendesk.com/service/ai/ai-agents/"
+    },
+    {
+      "job": "cs.score-interaction-quality",
+      "summary": "AutoQA, the vendor's words on this page: \"Let AI powered QA review every interaction, whether handled by a human or AI agent\"; \"AutoQA scores the quality of all interactions, including AI agents and voice\". Agreement with a trained reviewer's score is not stated. Not measured.",
+      "source": "https://www.zendesk.com/service/quality-assurance/"
+    }
+  ],
+  "created": "2026-09-12",
+  "updated": "2026-09-12",
+  "version": 1
+}
