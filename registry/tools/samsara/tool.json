@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "samsara",
+  "name": "Samsara",
+  "kind": "product",
+  "status": "active",
+  "summary": "Fleet operations platform: vehicle gateways, dash cams, GPS tracking, compliance, and a route planning and dispatch product. Its REST API models the planning loop an outside system can drive (create a plan, bulk-upsert orders with appointment windows, read back the routes the planner produced) and emits route-stop ETA and early/late arrival webhooks in beta. Two scm jobs are claimed from the vendor's own product page and its public OpenAPI description; nothing here is measured, and no vendor performance number enters a machine-readable field.",
+  "vendor": {
+    "name": "Samsara Inc.",
+    "url": "https://www.samsara.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-09-14, no credentials: api.samsara.com/fleet/vehicles 401; the full 4.5 MB OpenAPI description is 200 to anyone; docs serve Markdown (.md on any page) and an llms.txt index. An undocumented MCP server at mcp.samsara.com/mcp answers 401 Bearer realm=\"mcp\" with no OAuth metadata (404)."
+  },
+  "surfaces": {
+    "homepage": "https://www.samsara.com/",
+    "docs": "https://developers.samsara.com/reference/overview",
+    "llmsTxt": "https://developers.samsara.com/llms.txt",
+    "mcp": "https://mcp.samsara.com/mcp",
+    "api": "https://developers.samsara.com/docs/authentication",
+    "openapi": "https://developers.samsara.com/openapi/samsara-api.json",
+    "source": null
+  },
+  "domains": [
+    "samsara.com",
+    "www.samsara.com",
+    "developers.samsara.com",
+    "api.samsara.com",
+    "mcp.samsara.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "scm.optimize-delivery-routes",
+      "summary": "Vendor's claim for its routing and dispatch product, headlined \"Finish routes with fewer miles and vehicles\" and \"Generate smarter, optimized routes\" built for real-world constraints; its OpenAPI description models service time windows per location and per-plan optimization settings.",
+      "source": "https://www.samsara.com/products/telematics/routing"
+    },
+    {
+      "job": "scm.track-shipment-exceptions",
+      "summary": "Own-fleet telemetry, not carrier feeds: the vendor documents RouteStopEtaUpdated and RouteStopEarlyLateArrival webhooks (both labelled beta) and Route Stop ETA and Out of Route alert triggers, with route execution that lets a dispatcher \"manage exceptions in real time\".",
+      "source": "https://developers.samsara.com/docs/routestopearlylatearrival"
+    }
+  ],
+  "created": "2026-09-14",
+  "updated": "2026-09-14",
+  "version": 1
+}
