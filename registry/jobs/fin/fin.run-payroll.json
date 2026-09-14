@@ -1,0 +1,34 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "fin.run-payroll",
+  "function": "fin",
+  "name": "Pay employees on the payroll calendar, with the deductions withheld and remitted",
+  "outcome": "Every employee is paid the correct net amount on the published pay date, with income tax, social contributions and other statutory and elective deductions withheld at the rate their circumstances require, each one remitted to the authority or provider that is owed it by that body's own deadline, and a pay statement the employee can read showing how gross became net.",
+  "description": "The recurring obligation to the workforce: take the period's hours, salaries, variable pay and record changes, compute what each person is owed and what must be held back, move the net to the employee and the withheld amounts to the bodies entitled to them, and keep the record each jurisdiction demands. It is not fin.send-payouts, which pays earnings, balances and entitlements to recipients who are not employees; what separates them is the employer's statutory obligation to withhold on someone else's behalf and to remit it on a calendar the business does not set, which is why a contractor payment and a salary that look identical leaving the bank are different jobs. It is not fin.pay-supplier-bills, where the trigger is an approved invoice with terms on it. It is not fin.file-and-remit-tax-returns, which is transaction tax on sales; payroll's own filings and deposits ride on this job's calendar and belong to its outcome. Paying the right gross and the wrong net, and paying the employee on time while remitting late, are this job's characteristic failures, and both look like success on the bank statement: a solution that cannot show the remittance has done half of it.",
+  "measures": [
+    "share of pay runs completed on or before the published pay date",
+    "corrections and off-cycle runs per thousand payslips",
+    "share of payroll deposits and filings made by their statutory deadline",
+    "penalties and interest incurred in the period",
+    "days from a hire, a leaver or a pay change being recorded to it reaching a payslip"
+  ],
+  "aliases": [
+    "payroll",
+    "payroll processing",
+    "run payroll",
+    "global payroll",
+    "statutory deductions",
+    "payroll tax filing"
+  ],
+  "related": [
+    "fin.send-payouts",
+    "fin.pay-supplier-bills",
+    "fin.file-and-remit-tax-returns",
+    "it.provision-and-revoke-access"
+  ],
+  "status": "active",
+  "created": "2026-09-14",
+  "updated": "2026-09-14",
+  "version": 1
+}

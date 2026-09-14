@@ -1,0 +1,33 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "it.provision-and-revoke-access",
+  "function": "it",
+  "name": "Grant, change and revoke access as people join, move and leave",
+  "outcome": "On the day a person joins, changes role or leaves, every account, group, licence and device they hold matches the role the system of record says they now have, the leaver's access is gone the same day rather than at the next review, and there is a record of who held what and on whose authority.",
+  "description": "The identity lifecycle as an execution job: a change in the employee or contractor record drives the accounts, group memberships, licences and devices that follow from it, in both directions. It is not it.resolve-tier1-it-requests, which resolves a request somebody filed, one at a time; this job runs whether or not anyone asks, and the leaver who asks for nothing is exactly the case it exists for. It is not it.detect-anomalous-access, which watches access that already exists and asks whether its use looks wrong; this one decides what should exist at all. The paperwork and equipment side of a first day (contracts, right-to-work checks, a desk) is a different outcome and no job in this registry covers it today. Access that outlives the person is this job's characteristic failure: orphaned accounts, licences still billing, a contractor who kept a key. A joiner idle on day one is the same failure pointing the other way, and a solution that grants quickly but cannot show the revocation has done the easy half.",
+  "measures": [
+    "share of leavers fully de-provisioned within one day of their last day",
+    "orphaned accounts found at access review, per thousand identities",
+    "share of joiners with their full role access on day one",
+    "paid licences assigned to nobody",
+    "access changes applied from the system of record without a ticket"
+  ],
+  "aliases": [
+    "identity lifecycle",
+    "joiner mover leaver",
+    "user provisioning",
+    "deprovisioning",
+    "access provisioning",
+    "account lifecycle"
+  ],
+  "related": [
+    "it.resolve-tier1-it-requests",
+    "it.detect-anomalous-access",
+    "fin.run-payroll"
+  ],
+  "status": "active",
+  "created": "2026-09-14",
+  "updated": "2026-09-14",
+  "version": 1
+}
