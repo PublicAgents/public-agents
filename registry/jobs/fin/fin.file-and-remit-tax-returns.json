@@ -24,10 +24,11 @@
     "fin.determine-transaction-tax",
     "fin.reconcile-accounts",
     "fin.pay-supplier-bills",
-    "fin.sell-as-merchant-of-record"
+    "fin.sell-as-merchant-of-record",
+    "fin.run-payroll"
   ],
   "status": "active",
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-14",
+  "version": 2
 }
