@@ -109,6 +109,18 @@ describe("loadRegistry", () => {
     expect(codes(registry({ "registry/agents/prior/agent.json": AGENT, "registry/agents/prior/profile.md": "x\n", "registry/agents/prior/notes.txt": "x", "registry/jobs/cs/cs.deflect-tier1.json": JOB }))).toContain("STRAY_FILE");
   });
 
+  it("refuses a related edge that reads from only one end", () => {
+    const a = { ...JOB, related: ["cs.other"] };
+    const b = { ...JOB, id: "cs.other" };
+    expect(codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": b }))).toContain("RELATED_NOT_SYMMETRIC");
+    const back = { ...b, related: ["cs.deflect-tier1"] };
+    expect(codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": back }))).not.toContain("RELATED_NOT_SYMMETRIC");
+    // An unresolved id is one refusal, not two: it cannot name anyone back.
+    const dangling = codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": { ...JOB, related: ["cs.nobody"] } }));
+    expect(dangling).toContain("REF_UNRESOLVED");
+    expect(dangling).not.toContain("RELATED_NOT_SYMMETRIC");
+  });
+
   it("refuses a supersede cycle and a duplicate handle", () => {
     const a = { ...JOB, status: "deprecated", supersededBy: "cs.other" };
     const b = { ...JOB, id: "cs.other", status: "deprecated", supersededBy: "cs.deflect-tier1" };
