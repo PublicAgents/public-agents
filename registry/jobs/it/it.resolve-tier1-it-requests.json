@@ -14,9 +14,9 @@
     "IT helpdesk automation",
     "IT self-service",
     "password reset automation",
-    "service desk automation",
-    "employee it support",
-    "tier 1 it support"
+    "it request automation",
+    "routine it requests",
+    "access request fulfillment"
   ],
   "related": [
     "it.provision-and-revoke-access"
