@@ -5,7 +5,7 @@
   "name": "Atlassian",
   "kind": "service",
   "status": "active",
-  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo, the vendor's AI layer, and the Jira Service Management virtual service agent, which automates Tier 1 support (intents, AI answers from the knowledge base, automated actions such as software access and password resets) across Slack, Teams, email and the portal. For agents, the vendor publishes the Atlassian Rovo MCP Server, a hosted server that searches, summarizes, creates and updates work across those products; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
+  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo as the AI layer and the Jira Service Management virtual service agent, which automates Tier 1 support (intents, AI answers from the knowledge base, automated actions such as software access and password resets) across Slack, Teams, email and the portal. For agents, the vendor publishes the Atlassian Rovo MCP Server at mcp.atlassian.com/v2/mcp, which reads and writes work across those products plus Loom, Teams, Goals and Projects; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
   "vendor": {
     "name": "Atlassian",
     "url": "https://www.atlassian.com/",
@@ -15,13 +15,13 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-11 23:42Z, no credentials: MCP initialize at mcp.atlassian.com/v1/mcp/authv2 answers 401 invalid_token with a Bearer challenge naming its protected-resource metadata. Vendor: OAuth 2.1 with the user's own permissions; API tokens only if an org admin enables them."
+    "notes": "Measured 2026-09-15, no credentials: MCP initialize at mcp.atlassian.com/v2/mcp answers 401 with a Bearer challenge naming its protected-resource metadata, which answers 200 and names auth.atlassian.com. The v1 endpoints still answer 401. Vendor: OAuth 2.1 with the user's own permissions."
   },
   "surfaces": {
     "homepage": "https://www.atlassian.com/",
-    "docs": "https://support.atlassian.com/rovo/docs/getting-started-with-the-atlassian-remote-mcp-server/",
+    "docs": "https://support.atlassian.com/atlassian-ai-gateway/docs/get-started-with-the-atlassian-remote-mcp-server/",
     "llmsTxt": "https://www.atlassian.com/llms.txt",
-    "mcp": "https://mcp.atlassian.com/v1/mcp/authv2",
+    "mcp": "https://mcp.atlassian.com/v2/mcp",
     "source": null
   },
   "social": {
@@ -44,6 +44,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
+  "updated": "2026-09-15",
   "version": 1
 }
