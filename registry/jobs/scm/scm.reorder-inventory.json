@@ -12,11 +12,15 @@
   ],
   "aliases": [
     "replenishment",
-    "inventory optimization"
+    "inventory optimization",
+    "replenishment planning",
+    "reorder points",
+    "safety stock planning",
+    "inventory planning"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 3,
+  "updated": "2026-09-15",
+  "version": 4,
   "description": "Turning a demand picture and the current stock position into proposed replenishment: what to order or move, how much, to which location, and when, against service-level and stock targets somebody set. It begins where scm.forecast-demand ends, and a solution may claim both. It is not the purchase itself, which is a proc job, and it is not scm.track-shipment-exceptions, which starts once goods are already in motion. The proposal is the deliverable; whether a planner accepts it unchanged is a measure of this job."
 }

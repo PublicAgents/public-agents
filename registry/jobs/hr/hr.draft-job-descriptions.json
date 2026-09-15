@@ -11,10 +11,15 @@
     "applicant quality"
   ],
   "aliases": [
-    "JD writing"
+    "JD writing",
+    "job description writing",
+    "job posting drafting",
+    "job ad copywriting",
+    "role description drafting",
+    "job spec writing"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }

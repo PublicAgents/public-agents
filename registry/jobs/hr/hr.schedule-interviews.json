@@ -10,10 +10,15 @@
     "reschedules per interview"
   ],
   "aliases": [
-    "interview coordination"
+    "interview coordination",
+    "interview scheduling",
+    "candidate scheduling",
+    "panel interview scheduling",
+    "recruiting coordination",
+    "interview logistics"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }

@@ -12,11 +12,16 @@
     "miles and vehicles against the previous plan"
   ],
   "aliases": [
-    "route optimization"
+    "route optimization",
+    "route planning",
+    "vehicle routing",
+    "last mile routing",
+    "fleet routing",
+    "routing and scheduling"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 3,
+  "updated": "2026-09-15",
+  "version": 4,
   "description": "Assigning a day's stops to vehicles and sequencing them so each delivery window is met while miles driven and vehicles used stay down. Own fleet and contracted fleet alike, and the plan is the deliverable. It is not scm.track-shipment-exceptions, which detects from carrier and telemetry data that a shipment already in motion will miss its window; executing a plan, and dispatching against it, is covered by no job in this registry today. It is not scm.reorder-inventory, which decides what moves between locations rather than how a vehicle gets there. Trading cost against windows is the job; beating the operation's previous plan is a measure of it."
 }
