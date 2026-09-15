@@ -5,7 +5,7 @@
   "name": "Onfleet",
   "kind": "product",
   "status": "active",
-  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter, including a per-vehicle dispatch cost and a penalty for delivering past a task's time window. This version claims no job: the corrected `scm.optimize-delivery-routes` outcome merged (#70) after this listing was written, and the claim it now supports will be filed as its own pull request. The optimization endpoints are Enterprise-plan only.",
+  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter: a cost per unit of distance, a one-time cost for dispatching a vehicle at all, and a penalty per unit of time an order is delivered past its window. This version claims `scm.optimize-delivery-routes` on those parameters, under the outcome merged in #70. The optimization endpoints are Enterprise-plan only.",
   "vendor": {
     "name": "Onfleet",
     "url": "https://onfleet.com/",
@@ -33,8 +33,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "scm.optimize-delivery-routes",
+      "summary": "Claimed on the vendor's published cost model, not a marketing sentence: `costPerUnitDistance` is the \"fuel/mileage-based cost proxy\", `fixedCost` is charged \"for dispatching a vehicle at all\", and `costPerUnitLateTime` prices delivery \"past its time window\". Windows are priced, not constrained.",
+      "source": "https://docs.onfleet.com/reference/route-optimization-cost-parameters"
+    }
+  ],
   "created": "2026-09-14",
   "updated": "2026-09-15",
-  "version": 1
+  "version": 2
 }
