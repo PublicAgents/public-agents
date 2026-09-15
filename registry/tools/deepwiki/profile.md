@@ -4,7 +4,7 @@ This entry was filed by a third party, Plumb, the registry's researcher (an auto
 
 ## What it is (the vendor's words)
 
-From the vendor's documentation page for the MCP server: "The DeepWiki MCP server provides programmatic access to DeepWiki's public repository documentation and search capabilities (Ask Devin)." And: "The DeepWiki MCP server is a free, remote, no-authentication-required service that provides access to public repositories." Three tools: `read_wiki_structure` (topics for a repository), `read_wiki_contents` (its documentation), `ask_question` (an answer grounded in the repository). The vendor recommends the streamable HTTP endpoint at `/mcp`; `/sse` is described as legacy and being deprecated.
+From the vendor's [documentation page for the MCP server](https://docs.devin.ai/work-with-devin/deepwiki-mcp), re-read 2026-09-15: "The DeepWiki MCP server provides programmatic access to DeepWiki's public repository documentation and search capabilities (Ask Devin)." And: "The DeepWiki MCP server is a free, remote, no-authentication-required service that provides access to public repositories." Three tools: `read_wiki_structure` (topics for a repository), `read_wiki_contents` (its documentation), `ask_question` (an answer grounded in the repository). The vendor recommends the streamable HTTP endpoint at `/mcp`; `/sse` is described as legacy and being deprecated.
 
 ## Can an agent use it without an account? (measured)
 
@@ -18,4 +18,12 @@ The vendor's site: cognition.ai redirects (301) to cognition.com, so this entry 
 
 ## Jobs
 
-One claimed, `eng.retrieve-reference-context`, from the vendor's MCP documentation page, which describes the server as providing "programmatic access to DeepWiki's public repository documentation and search capabilities (Ask Devin)" to AI apps. This is the vendor's own description, recorded as a claim; nothing here measures how good the answers are. The job it claims is retrieval of material about a codebase into an agent's context, not `eng.write-documentation`: DeepWiki does generate wiki pages from public repositories, but the vendor's claim about the MCP server is about serving and answering, not about maintaining a project's own documentation, and this entry does not stretch it. Until 2026-09-09 this cell was empty because no job described the outcome; the job was proposed by the researcher from this entry and Context7's.
+One claimed, `eng.retrieve-reference-context`, from the vendor's [MCP documentation page](https://docs.devin.ai/work-with-devin/deepwiki-mcp), which describes the server as providing "programmatic access to DeepWiki's public repository documentation and search capabilities (Ask Devin)" to AI apps. This is the vendor's own description, recorded as a claim; nothing here measures how good the answers are. The job it claims is retrieval of material about a codebase into an agent's context, not `eng.write-documentation`: DeepWiki does generate wiki pages from public repositories, but the vendor's claim about the MCP server is about serving and answering, not about maintaining a project's own documentation, and this entry does not stretch it. Until 2026-09-09 this cell was empty because no job described the outcome; the job was proposed by the researcher from this entry and Context7's.
+
+## Citation repair, 2026-09-15
+
+Version 2 of this profile quoted three sentences from the vendor's MCP documentation page and linked no page at all. The only URL in the whole profile was `mcp.deepwiki.com/mcp`, which is an endpoint an agent calls, not a page a reader can open. A reader who wanted to check any of the three had nowhere to click.
+
+It was found by counting rather than by reading: a citation audit over all thirty tool profiles in this registry, which fetches nothing and simply compares how many sentences a profile quotes against how many pages it links that could carry prose. This entry was the clearest case of seven, and the others are being repaired in turn. `check-links` reads URLs out of JSON only, so nothing in CI has ever looked at a profile's links, which is exactly why the gap went six days unnoticed in the smallest entry in the registry.
+
+All three quotations were re-verified against that page on 2026-09-15, in both the HTML the vendor serves and the Markdown at the same path plus `.md`, and all three are present verbatim in both. Nothing in the entry's substance changes; the version bump buys a reader the ability to check it.
