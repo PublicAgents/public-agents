@@ -109,6 +109,25 @@ describe("loadRegistry", () => {
     expect(codes(registry({ "registry/agents/prior/agent.json": AGENT, "registry/agents/prior/profile.md": "x\n", "registry/agents/prior/notes.txt": "x", "registry/jobs/cs/cs.deflect-tier1.json": JOB }))).toContain("STRAY_FILE");
   });
 
+  it("refuses a related edge that reads from only one end", () => {
+    const a = { ...JOB, related: ["cs.other"] };
+    const b = { ...JOB, id: "cs.other" };
+    expect(codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": b }))).toContain("RELATED_NOT_SYMMETRIC");
+    const back = { ...b, related: ["cs.deflect-tier1"] };
+    expect(codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": back }))).not.toContain("RELATED_NOT_SYMMETRIC");
+    // An unresolved id is one refusal, not two: it cannot name anyone back.
+    const dangling = codes(registry({ "registry/jobs/cs/cs.deflect-tier1.json": { ...JOB, related: ["cs.nobody"] } }));
+    expect(dangling).toContain("REF_UNRESOLVED");
+    expect(dangling).not.toContain("RELATED_NOT_SYMMETRIC");
+    // The refusal is a repair instruction, so the file and the detail are
+    // the part that has to be right: they say which id to add and where.
+    const refused = loadRegistry(registry({ "registry/jobs/cs/cs.deflect-tier1.json": a, "registry/jobs/cs/cs.other.json": b }))
+      .refusals.filter(r => r.code === "RELATED_NOT_SYMMETRIC");
+    expect(refused).toEqual([
+      { code: "RELATED_NOT_SYMMETRIC", file: join("registry", "jobs", "cs", "cs.deflect-tier1.json"), detail: "related cs.other: add cs.deflect-tier1 to cs.other" }
+    ]);
+  });
+
   it("refuses a supersede cycle and a duplicate handle", () => {
     const a = { ...JOB, status: "deprecated", supersededBy: "cs.other" };
     const b = { ...JOB, id: "cs.other", status: "deprecated", supersededBy: "cs.deflect-tier1" };
