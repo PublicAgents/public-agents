@@ -5,7 +5,7 @@
   "name": "Atlassian",
   "kind": "service",
   "status": "active",
-  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo as the AI layer and the Jira Service Management virtual service agent, which automates Tier 1 support (intents, AI answers from the knowledge base, automated actions such as software access and password resets) across Slack, Teams, email and the portal. For agents, the vendor publishes the Atlassian Rovo MCP Server at mcp.atlassian.com/v2/mcp, which reads and writes work across those products plus Loom, Teams, Goals and Projects; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
+  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo as the AI layer. Jira Service Management documents two distinct AI products: the virtual service agent, which runs conversation flows and escalates by design, and Request Resolver (formerly Rovo Service), whose autonomous mode assigns itself a work item and starts working immediately. For agents, the vendor publishes the Atlassian Rovo MCP Server at mcp.atlassian.com/v2/mcp, reading and writing work across those products plus Loom, Teams, Goals and Projects; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
   "vendor": {
     "name": "Atlassian",
     "url": "https://www.atlassian.com/",
@@ -39,8 +39,8 @@
   "jobs": [
     {
       "job": "it.resolve-tier1-it-requests",
-      "summary": "Jira Service Management virtual service agent, the vendor's words: \"automating Tier 1 support issues\", \"automating common actions like software access or password resets\", AI answers from the knowledge base, help without having to \"wait for a human agent\". Premium and Enterprise plans. Not measured.",
-      "source": "https://www.atlassian.com/software/jira/service-management/features/itsm/virtual-agent"
+      "summary": "Request Resolver in autonomous mode only, the vendor's words: it \"assigns itself to the work item, and starts working immediately\", recommended for \"app access, group access, or distribution lists\", \"How do I?\" questions and \"hardware, software, and project access questions\". Password resets are named for the feature, not for that mode. Pauses for a person on low-confidence or irreversible steps. Supervised mode waits for a person and is not this job. Not measured.",
+      "source": "https://support.atlassian.com/jira-service-management-cloud/docs/about-execution-modes-in-request-resolver/"
     }
   ],
   "created": "2026-09-11",
