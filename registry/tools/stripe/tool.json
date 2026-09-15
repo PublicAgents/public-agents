@@ -35,8 +35,29 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "fin.collect-customer-payment",
+      "summary": "Vendor's claim for payments: the charge settles to the business's Stripe balance and \"Stripe sends funds from your available balance to your bank account as payouts\"; the disputes page (docs.stripe.com/disputes) adds \"Stripe debits your balance for the payment amount and dispute fee\".",
+      "source": "https://docs.stripe.com/payouts"
+    },
+    {
+      "job": "fin.determine-transaction-tax",
+      "summary": "Vendor's claim for Stripe Tax, which \"uses your business address, tax registrations, product tax codes, customers' locations, and customer status to determine the correct tax rates\", kept current by \"tax researchers who monitor tax laws\". Limit in the vendor's words: no registration, zero tax.",
+      "source": "https://docs.stripe.com/tax/how-tax-works"
+    },
+    {
+      "job": "fin.file-and-remit-tax-returns",
+      "summary": "US state sales tax only: the vendor claims \"Automated US filing is available in all 46 US locations with a state-level sales and use tax\" through TaxJar, a Stripe company, remitting from the business's US bank account. Tax Complete plan; outside the US, filing is a partner app.",
+      "source": "https://docs.stripe.com/tax/file-with-stripe"
+    },
+    {
+      "job": "fin.issue-invoices",
+      "summary": "Amounts recorded in Stripe: the vendor's Invoicing product, where \"You can send invoices to customers to collect payment or you can create an invoice and automatically charge a customer's saved payment method\", with due terms, Stripe Tax treatment and EU/UK-aware sequential numbering.",
+      "source": "https://docs.stripe.com/invoicing/overview"
+    }
+  ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }
