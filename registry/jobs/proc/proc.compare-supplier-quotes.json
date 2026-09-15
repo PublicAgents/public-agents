@@ -11,7 +11,11 @@
   ],
   "aliases": [
     "bid analysis",
-    "quote comparison"
+    "quote comparison",
+    "quote normalization",
+    "bid comparison",
+    "supplier quote analysis",
+    "tender evaluation"
   ],
   "related": [
     "proc.purchase-on-behalf",
@@ -19,6 +23,6 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-15",
+  "version": 3
 }

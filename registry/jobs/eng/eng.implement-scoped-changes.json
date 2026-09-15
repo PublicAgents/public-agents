@@ -11,13 +11,17 @@
   ],
   "aliases": [
     "coding agent",
-    "autonomous coding"
+    "autonomous coding",
+    "software engineering agent",
+    "ticket to pull request",
+    "feature implementation",
+    "bug fixing"
   ],
   "related": [
     "eng.retrieve-reference-context"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-15",
+  "version": 3
 }

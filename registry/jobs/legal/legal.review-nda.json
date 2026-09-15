@@ -12,10 +12,14 @@
   ],
   "aliases": [
     "NDA review",
-    "contract review"
+    "contract review",
+    "non-disclosure agreement review",
+    "contract redlining",
+    "playbook based markup",
+    "confidentiality agreement review"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }

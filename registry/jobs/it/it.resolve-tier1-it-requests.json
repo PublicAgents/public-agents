@@ -12,13 +12,17 @@
   ],
   "aliases": [
     "IT helpdesk automation",
-    "IT self-service"
+    "IT self-service",
+    "password reset automation",
+    "service desk automation",
+    "employee it support",
+    "tier 1 it support"
   ],
   "related": [
     "it.provision-and-revoke-access"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-15",
+  "version": 3
 }

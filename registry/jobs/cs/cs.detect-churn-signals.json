@@ -12,10 +12,14 @@
   ],
   "aliases": [
     "churn prediction",
-    "at-risk detection"
+    "at-risk detection",
+    "churn risk scoring",
+    "customer health scoring",
+    "retention risk detection",
+    "account risk signals"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }
