@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 and again 2026-09-14 12:33Z, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth, the user's own permissions. The authorization server named by the challenge publishes no registration_endpoint."
+    "notes": "Measured 2026-09-13, 2026-09-14 and 2026-09-15, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth. The authorization server named by the challenge publishes no registration_endpoint and advertises client_id_metadata_document_supported."
   },
   "surfaces": {
     "homepage": "https://ironcladapp.com/",
@@ -39,6 +39,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-15",
+  "version": 3
 }
