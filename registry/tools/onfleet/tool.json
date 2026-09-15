@@ -5,7 +5,7 @@
   "name": "Onfleet",
   "kind": "product",
   "status": "active",
-  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter, including a per-vehicle dispatch cost and a penalty for delivering past a task's time window. No job is claimed: the only job it fits carries a comparative clause no seller can phrase, which is the subject of a separate pull request. The optimization endpoints are Enterprise-plan only.",
+  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter, including a per-vehicle dispatch cost and a penalty for delivering past a task's time window. This version claims no job: the corrected `scm.optimize-delivery-routes` outcome merged (#70) after this listing was written, and the claim it now supports will be filed as its own pull request. The optimization endpoints are Enterprise-plan only.",
   "vendor": {
     "name": "Onfleet",
     "url": "https://onfleet.com/",
@@ -35,6 +35,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-09-14",
-  "updated": "2026-09-14",
+  "updated": "2026-09-15",
   "version": 1
 }
