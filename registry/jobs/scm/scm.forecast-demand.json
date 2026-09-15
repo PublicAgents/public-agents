@@ -11,11 +11,16 @@
     "improvement over baseline"
   ],
   "aliases": [
-    "demand planning"
+    "demand planning",
+    "demand forecasting",
+    "demand sensing",
+    "SKU level forecast",
+    "statistical forecasting",
+    "consumption forecasting"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 3,
+  "updated": "2026-09-15",
+  "version": 4,
   "description": "Predicting how much of each item will be needed at each stocking location over a horizon, from history, seasonality, promotions and whatever other signals the method uses. It is the input to scm.reorder-inventory and not the same job: a forecast nobody turns into a replenishment proposal still satisfies this outcome, and an engine that consumes somebody else's forecast claims that job rather than this one. The unit is part of the job, so a national or category total is not a forecast at item and location level. Whether a forecast is any good is judged by this job's measures, not asserted in its outcome."
 }
