@@ -5,7 +5,7 @@
   "name": "Intercom (Fin)",
   "kind": "service",
   "status": "active",
-  "summary": "Customer service platform with Fin, the vendor's AI customer agent, which answers and resolves customer conversations without a person and reports a resolution rate. For agents, the vendor publishes a hosted MCP server at mcp.intercom.com (US) and mcp.eu.intercom.com (EU) over the workspace's data, authorized by OAuth, and a Fin Agent API by which another agent calls Fin to answer, run a procedure or escalate; access to that API is by request. Measured: MCP initialize and the REST API answer 401 with no credentials.",
+  "summary": "Customer service platform, acquired by Salesforce on 2026-09-10; the published terms still name Intercom, Inc. as the contracting party. Fin is the vendor's AI customer agent, which resolves customer conversations without a person and reports a resolution rate. For agents, a hosted MCP server at mcp.intercom.com (US) and mcp.eu.intercom.com (EU) over the workspace's data, authorized by OAuth, and a Fin Agent API by which another agent calls Fin to answer, run a procedure or escalate; access to that API is by request. Measured: MCP initialize and the REST API answer 401 with no credentials.",
   "vendor": {
     "name": "Intercom, Inc.",
     "url": "https://www.intercom.com/",
@@ -46,6 +46,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-12",
+  "updated": "2026-09-15",
   "version": 1
 }
