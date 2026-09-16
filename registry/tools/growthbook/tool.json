@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-09: hosted MCP initialize with no token answers 401 (Bearer token required, authorization server api.growthbook.io); REST GET with no header answers 400 Missing Authorization header. Docs: MCP signs in by browser OAuth; the API takes a Secret Key or Personal Access Token."
+    "notes": "Measured 2026-09-09, re-run unchanged 2026-09-16: hosted MCP initialize with no token answers 401 (Bearer token required; authorization server api.growthbook.io advertises a registration endpoint and token auth method none only); REST GET with no header answers 400 Missing Authorization header."
   },
   "surfaces": {
     "homepage": "https://www.growthbook.io/",
@@ -42,6 +42,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-09",
-  "version": 1
+  "updated": "2026-09-16",
+  "version": 2
 }
