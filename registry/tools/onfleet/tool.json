@@ -5,7 +5,7 @@
   "name": "Onfleet",
   "kind": "product",
   "status": "active",
-  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. Its cost model is public and per-parameter: a cost per unit of distance, a one-time cost for dispatching a vehicle at all, and a penalty per unit of time an order is delivered past its window. This version claims `scm.optimize-delivery-routes` on those parameters, under the outcome merged in #70. The optimization endpoints are Enterprise-plan only.",
+  "summary": "Last-mile delivery management platform with a documented Route Optimization API: a caller schedules an optimization over tasks and teams, starts the engine, polls status and applies the result. The optimization endpoint takes a required maximum allowed delay and an objective mode (minimize distance, always on time, or balance the two), and the v3 engine takes a published per-parameter cost model instead. This version claims `scm.optimize-delivery-routes` on those parameters. The optimization endpoints are Enterprise-plan only.",
   "vendor": {
     "name": "Onfleet",
     "url": "https://onfleet.com/",
@@ -36,11 +36,11 @@
   "jobs": [
     {
       "job": "scm.optimize-delivery-routes",
-      "summary": "Claimed on the vendor's published cost model, not a marketing sentence: `costPerUnitDistance` is the \"fuel/mileage-based cost proxy\", `fixedCost` is charged \"for dispatching a vehicle at all\", and `costPerUnitLateTime` prices delivery \"past its time window\". Windows are priced, not constrained.",
-      "source": "https://docs.onfleet.com/reference/route-optimization-cost-parameters"
+      "summary": "Claimed on the vendor's API reference for the optimization endpoint, not marketing: the required `mode` offers \"0 for Minimize Distance Driven\", \"1 for Always on Time\" and \"3 for Balance Driving distance and Timely Arrival\", and `maxViolationTime` is required: \"Max allowed delay time, in minutes\".",
+      "source": "https://docs.onfleet.com/reference/initialize-route-optimization"
     }
   ],
   "created": "2026-09-14",
-  "updated": "2026-09-15",
+  "updated": "2026-09-16",
   "version": 2
 }
