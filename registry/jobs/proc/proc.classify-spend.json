@@ -11,13 +11,17 @@
   ],
   "aliases": [
     "spend analysis",
-    "spend cube"
+    "spend cube",
+    "spend classification",
+    "spend taxonomy mapping",
+    "procurement categorization",
+    "supplier spend visibility"
   ],
   "related": [
     "proc.purchase-on-behalf"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-15",
+  "version": 3
 }

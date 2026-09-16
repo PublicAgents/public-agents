@@ -12,10 +12,14 @@
   ],
   "aliases": [
     "churn prediction",
-    "at-risk detection"
+    "at-risk detection",
+    "customer retention risk",
+    "customer health scoring",
+    "churn early warning",
+    "customer churn risk"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }
