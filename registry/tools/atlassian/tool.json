@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "atlassian",
+  "name": "Atlassian",
+  "kind": "service",
+  "status": "active",
+  "summary": "Jira, Jira Service Management, Confluence, Bitbucket and Compass, with Rovo as the AI layer. JSM documents two distinct AI products: the virtual service agent, which runs conversation flows and escalates by design, and Request Resolver (formerly Rovo Service), whose autonomous mode assigns itself a work item and starts working immediately. For agents, the vendor publishes the Rovo MCP Server at mcp.atlassian.com/v2/mcp, reading and writing across those products plus Loom, Teams, Goals and Projects; OAuth 2.1, or an API token where an admin enables it; measured 401 with no credentials.",
+  "vendor": {
+    "name": "Atlassian",
+    "url": "https://www.atlassian.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-09-15, no credentials: MCP initialize at mcp.atlassian.com/v2/mcp answers 401 with a Bearer challenge naming its protected-resource metadata, which answers 200 and names auth.atlassian.com. The v1 endpoints still answer 401. Vendor: OAuth 2.1 with the user's own permissions."
+  },
+  "surfaces": {
+    "homepage": "https://www.atlassian.com/",
+    "docs": "https://support.atlassian.com/atlassian-ai-gateway/docs/get-started-with-the-atlassian-remote-mcp-server/",
+    "llmsTxt": "https://www.atlassian.com/llms.txt",
+    "mcp": "https://mcp.atlassian.com/v2/mcp",
+    "source": null
+  },
+  "social": {
+    "github": "atlassian",
+    "x": "Atlassian"
+  },
+  "domains": [
+    "www.atlassian.com",
+    "atlassian.com",
+    "support.atlassian.com",
+    "mcp.atlassian.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.resolve-tier1-it-requests",
+      "summary": "Request Resolver in autonomous mode only, the vendor's words: it \"assigns itself to the work item, and starts working immediately\". It pauses for a person on low confidence or irreversible steps. Supervised mode waits for a person and is not this job. Not measured.",
+      "source": "https://support.atlassian.com/jira-service-management-cloud/docs/about-execution-modes-in-request-resolver/"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-15",
+  "version": 1
+}
