@@ -37,7 +37,7 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "A/B, split-URL and multivariate experiences on web pages through the tracking script and visual editor, and server-side experiences through the Full Stack SDKs, with goals, audiences and results in Convert; an agent lists, inspects and creates draft tests over the MCP server or the REST API v2.",
+      "summary": "A/B, split-URL and multivariate experiences on web pages through the tracking script and visual editor, and server-side experiences through the Full Stack SDKs; over the MCP server an agent reads live experience and goal data and creates draft tests for review, with a human confirming activation.",
       "source": "https://www.convert.com/mcp-server"
     }
   ],
