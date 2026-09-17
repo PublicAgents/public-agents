@@ -1,8 +1,8 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import type { ZodType } from "zod";
-import { agentSchema, caseReportSchema, functionsSchema, jobSchema, measuredSchema, toolSchema } from "../schema/index.ts";
-import type { AgentEntry, CaseReport, FunctionsFile, JobEntry, Measured, ToolEntry } from "../schema/index.ts";
+import { agentSchema, caseReportSchema, functionsSchema, jobSchema, measuredSchema, paymentProtocolsSchema, probeSchema, toolSchema } from "../schema/index.ts";
+import type { AgentEntry, CaseReport, FunctionsFile, JobEntry, Measured, PaymentProtocolsFile, Probe, ToolEntry } from "../schema/index.ts";
 import { isReserved, normalizeHandle } from "./handles.ts";
 import { renderProfile } from "./profile.ts";
 import { refusal, type Refusal } from "./refusals.ts";
@@ -25,6 +25,8 @@ export interface Loaded<T> {
 export interface Registry {
   root: string;
   functions: FunctionsFile;
+  /** The payment protocol vocabulary (registry/payment-protocols.json); a missing file is an empty vocabulary. */
+  paymentProtocols: PaymentProtocolsFile;
   reserved: string[];
   imageHosts: string[];
   agents: Array<Loaded<AgentEntry> & { profile: string; profileFile: string }>;
@@ -32,6 +34,7 @@ export interface Registry {
   jobs: Loaded<JobEntry>[];
   caseReports: Loaded<CaseReport>[];
   measured: Loaded<Measured>[];
+  probes: Loaded<Probe>[];
   refusals: Refusal[];
 }
 
@@ -83,6 +86,11 @@ export function loadRegistry(root: string): Registry {
   const reserved = JSON.parse(readFileSync(dir("reserved-handles.json"), "utf8")) as string[];
   const imageHosts = JSON.parse(readFileSync(dir("image-hosts.json"), "utf8")) as string[];
   const functionIds = new Set(functions.functions.map(f => f.id));
+  const paymentProtocols = existsSync(dir("payment-protocols.json"))
+    ? (readJson(root, dir("payment-protocols.json"), paymentProtocolsSchema, refusals)?.value ?? { protocols: [] })
+    : { protocols: [] };
+  const protocolIds = new Set(paymentProtocols.protocols.map(p => p.id));
+  unique(paymentProtocols.protocols.map(p => [p.id, "registry/payment-protocols.json"]), "PAYMENT_PROTOCOL_TAKEN", refusals);
 
   // Agents: one directory per lowercase handle, agent.json + profile.md.
   const agents: Registry["agents"] = [];
@@ -164,6 +172,14 @@ export function loadRegistry(root: string): Registry {
     measured.push(loaded);
   }
 
+  const probes: Registry["probes"] = [];
+  for (const file of listFiles(dir("evidence", "probes"), ".json")) {
+    const loaded = readJson(root, file, probeSchema, refusals);
+    if (!loaded) continue;
+    if (!file.endsWith(`/${loaded.value.id}.json`)) refusals.push(refusal("PATH_MISMATCH", loaded.file, loaded.value.id));
+    probes.push(loaded);
+  }
+
   // The paid surface is closed in v1: nothing but its README.
   if (existsSync(dir("paid"))) {
     for (const name of readdirSync(dir("paid"))) {
@@ -175,7 +191,7 @@ export function loadRegistry(root: string): Registry {
   unique(agents.map(a => [normalizeHandle(a.value.handle), a.file]), "HANDLE_TAKEN", refusals);
   unique(tools.map(t => [t.value.slug, t.file]), "SLUG_TAKEN", refusals);
   unique(jobs.map(j => [j.value.id, j.file]), "JOB_ID_TAKEN", refusals);
-  unique([...caseReports, ...measured].map(e => [e.value.id, e.file]), "EVIDENCE_ID_TAKEN", refusals);
+  unique([...caseReports, ...measured, ...probes].map(e => [e.value.id, e.file]), "EVIDENCE_ID_TAKEN", refusals);
 
   // Cross-references.
   const jobIds = new Set(jobs.map(j => j.value.id));
@@ -187,6 +203,28 @@ export function loadRegistry(root: string): Registry {
     }
     const home = new URL(entry.value.surfaces.homepage).hostname.toLowerCase();
     if (!entry.value.domains.includes(home)) refusals.push(refusal("HOMEPAGE_NOT_IN_DOMAINS", entry.file, home));
+  }
+  // Payment protocols are vocabulary: every id named on an entry or a probe must exist in it.
+  const checkProtocols = (file: string, path: string, ids: readonly string[] | undefined) => {
+    for (const id of ids ?? []) if (!protocolIds.has(id)) refusals.push(refusal("PAYMENT_PROTOCOL_UNKNOWN", file, `${path} ${id}`));
+  };
+  for (const tool of tools) {
+    const pay = tool.value.payments;
+    if (!pay) continue;
+    checkProtocols(tool.file, "payments.protocols", pay.protocols);
+    if (pay.machinePayable && pay.protocols.length === 0) refusals.push(refusal("PAYMENT_PROTOCOL_MISSING", tool.file, "machinePayable needs at least one protocol"));
+  }
+  for (const agent of agents) {
+    const pay = agent.value.payments;
+    if (!pay) continue;
+    checkProtocols(agent.file, "payments.sells.protocols", pay.sells?.protocols);
+    checkProtocols(agent.file, "payments.pays.protocols", pay.pays?.protocols);
+  }
+  for (const probe of probes) {
+    checkProtocols(probe.file, "observed.protocols", probe.value.observed.protocols);
+    const { type, id } = probe.value.subject;
+    const known = type === "agent" ? agentHandles.has(normalizeHandle(id)) : toolSlugs.has(id);
+    if (!known) refusals.push(refusal("REF_UNRESOLVED", probe.file, `subject ${type}:${id}`));
   }
   for (const job of jobs) {
     for (const rel of job.value.related ?? []) if (!jobIds.has(rel)) refusals.push(refusal("REF_UNRESOLVED", job.file, `related ${rel}`));
@@ -212,10 +250,10 @@ export function loadRegistry(root: string): Registry {
     if (!known) refusals.push(refusal("REF_UNRESOLVED", evidence.file, `solution ${type}:${id}`));
   }
 
-  return { root, functions, reserved, imageHosts, agents, tools, jobs, caseReports, measured, refusals: dedupeRefusals(refusals) };
+  return { root, functions, paymentProtocols, reserved, imageHosts, agents, tools, jobs, caseReports, measured, probes, refusals: dedupeRefusals(refusals) };
 }
 
-function unique(pairs: Array<[string, string]>, code: "HANDLE_TAKEN" | "SLUG_TAKEN" | "JOB_ID_TAKEN" | "EVIDENCE_ID_TAKEN", out: Refusal[]) {
+function unique(pairs: Array<[string, string]>, code: "HANDLE_TAKEN" | "SLUG_TAKEN" | "JOB_ID_TAKEN" | "EVIDENCE_ID_TAKEN" | "PAYMENT_PROTOCOL_TAKEN", out: Refusal[]) {
   const seen = new Map<string, string>();
   for (const [key, file] of pairs) {
     const first = seen.get(key);

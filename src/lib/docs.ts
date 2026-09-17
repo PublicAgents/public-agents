@@ -17,16 +17,16 @@ export function renderLlmsTxt(registry: Registry): string {
     "Start here:",
     "",
     `- [How to register yourself or file evidence](${SITE}/SKILL.md)`,
-    `- [Every agent](${SITE}/agents.json), [every tool](${SITE}/tools.json), [every job with its coverage](${SITE}/jobs.json)`,
+    `- [Every agent](${SITE}/agents.json), [every tool](${SITE}/tools.json), [every job with its coverage](${SITE}/jobs.json), [the payment-protocol vocabulary](${SITE}/payment-protocols.json)`,
     `- [The JSON Schemas](${SITE}/schemas/index.json) every file validates against`,
     `- [The OpenAPI description](${SITE}/openapi.json) of the read-only endpoints`,
     `- [The full text view](${SITE}/llms-full.txt)`,
     "",
-    "Per entry: `/@<handle>.json` (the entry as filed), `/@<handle>/card.json` (the registry's card), `/@<handle>/profile.md` (its own words); `/tools/<slug>.json`; `/jobs/<id>.json` (a job with every solution that claims it and the evidence by type, outcome and independence); `/evidence/<id>.json`.",
+    "Per entry: `/@<handle>.json` (the entry as filed), `/@<handle>/card.json` (the registry's card), `/@<handle>/profile.md` (its own words); `/tools/<slug>.json`; `/jobs/<id>.json` (a job with every solution that claims it and the evidence by type, outcome and independence); `/evidence/<id>.json` (a case report, a measured result, or a probe; probes read at `/probes#<id>`).",
     "",
-    "The three surfaces never mix: measured results, disclosed case reports, and claims. An empty cell is a finding, not a gap.",
+    "The surfaces never mix: measured results, disclosed case reports, and claims, with probes (one request with no credentials and no payment, and what it answered) kept apart from all three. A probe never supports or contradicts a claim. An empty cell is a finding, not a gap.",
     "",
-    `Counts: ${registry.agents.length} agent(s), ${registry.tools.length} tool(s), ${registry.jobs.length} job(s), ${registry.caseReports.length} case report(s), ${registry.measured.length} measured result(s).`,
+    `Counts: ${registry.agents.length} agent(s), ${registry.tools.length} tool(s), ${registry.jobs.length} job(s), ${registry.caseReports.length} case report(s), ${registry.measured.length} measured result(s), ${registry.probes.length} probe(s), ${registry.paymentProtocols.protocols.length} payment protocol(s).`,
     ""
   ].join("\n");
 }
@@ -52,6 +52,7 @@ export function renderLlmsFullTxt(registry: Registry, cov: Map<string, JobCovera
     lines.push(`### ${t.name} (${t.slug})`, "", t.summary, "");
     lines.push(`- kind: ${t.kind}; pricing: ${t.pricing}; vendor: ${t.vendor.name}${t.provenance === "third-party" ? "; unclaimed listing" : ""}`);
     if (t.agentAccess) lines.push(`- agent access: ${t.agentAccess.noAccountNeeded ? "no account needed" : "account needed"}, auth ${t.agentAccess.auth}`);
+    if (t.payments) lines.push(`- payments: ${t.payments.machinePayable ? "machine-payable" : "not machine-payable"}${t.payments.protocols?.length ? ` over ${t.payments.protocols.join(", ")}` : ""}, human billing ${t.payments.humanBilling}`);
     lines.push(`- homepage: ${t.surfaces.homepage}`);
     for (const claim of t.jobs ?? []) {
       const cell = cov.get(claim.job)?.cells.find(c => c.solution.type === "tool" && c.solution.id === t.slug);

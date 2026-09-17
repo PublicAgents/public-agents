@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { claim, githubLogin, host, httpsUrl, httpsUrlOrNull, lifecycle, shortText, slug } from "./common.ts";
+import { toolPayments } from "./payments.ts";
 
 /**
  * A tool entry: a product, service, model or framework that claims jobs.
@@ -32,6 +33,8 @@ export const toolSchema = z
         notes: shortText(300).optional()
       })
       .optional(),
+    /** The vendor's claim about paying: absent means nobody looked (src/schema/payments.ts). */
+    payments: toolPayments.optional(),
     surfaces: z.strictObject({
       homepage: httpsUrl,
       docs: httpsUrlOrNull.optional(),

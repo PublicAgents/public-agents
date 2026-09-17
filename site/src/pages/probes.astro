@@ -1,0 +1,52 @@
+---
+import Base from "../layouts/Base.astro";
+import registry from "../data/registry.json";
+type Probe = (typeof registry.probes)[number] & Record<string, any>;
+const probes = [...(registry.probes as Probe[])].sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
+const solutionOf = (p: Probe) => registry.solutions.find(s => s.type === p.subject.type && s.id === p.subject.id.toLowerCase());
+const protocolOf = (id: string) => registry.paymentProtocols.find(x => x.id === id);
+type Disclosure = { affiliation: string; affiliationDetail?: string; compensation: string; compensationDetail?: string; reseller: boolean; resellerDetail?: string };
+const rows = probes.map(p => ({
+  p,
+  solution: solutionOf(p),
+  d: p.disclosure as Disclosure,
+  headers: Object.entries(p.observed.headers ?? {}) as [string, string][],
+  decoded: Object.entries(p.observed.decoded ?? {}) as [string, string | number | boolean | null][],
+  protocols: ((p.observed.protocols ?? []) as string[]).map(id => ({ id, protocol: protocolOf(id) }))
+}));
+const questionLabel: Record<string, string> = {
+  access: "Access: what must a human do first?",
+  payment: "Payment: what does it cost, inline?",
+  disclosure: "Disclosure: does the surface say it is an agent?"
+};
+---
+<Base title="Probes" jsonPath="/registry.json">
+  <p class="eyebrow">Evidence, kept apart</p>
+  <h1>Probes</h1>
+  <p class="intro">A probe is one request with no credentials and no payment, sent from one network on one day, and what came back: the status, the headers, what a challenge decoded to. It answers a question no job can (what does this surface say to a stranger?) and it never counts as support or contradiction for any claim. It is the measurement behind an entry's <code>agentAccess</code> or <code>payments</code> block, filed separately from it, with the same disclosure every evidence file carries.</p>
+  <p class="muted">{probes.length} {probes.length === 1 ? "probe" : "probes"}. Each is a file under <code>registry/evidence/probes/</code>; the JSON link on each one is the file as filed. To file one, read <a href="/SKILL.md">the registration guide</a>.</p>
+  {probes.length === 0 ? <p>No probes filed yet.</p> : null}
+  {rows.map(({ p, solution, d, headers, decoded, protocols }) => (
+      <section id={p.id} class="card">
+        <p class="muted"><a href={solution?.url ?? "#"}>{solution?.name ?? p.subject.id}</a> · <code>{p.id}</code></p>
+        <h2><a href={`#${p.id}`}>{questionLabel[p.question] ?? p.question}</a></h2>
+        <div class="banner">
+          <strong>Disclosure.</strong> Affiliation: {d.affiliation}{d.affiliationDetail ? ` (${d.affiliationDetail})` : ""}. Compensation: {d.compensation}{d.compensationDetail ? ` (${d.compensationDetail})` : ""}. Reseller: {d.reseller ? `yes (${d.resellerDetail ?? ""})` : "no"}. Independence: {p.independence}.
+        </div>
+        <dl class="facts">
+          <dt>Surface</dt><dd><a href={p.surface}>{p.surface}</a></dd>
+          <dt>Request</dt><dd>{p.request.method}, credentials: {p.request.credentials}, payment: {p.request.payment}, from {p.request.from}{p.request.body ? `; body: ${p.request.body}` : ""}</dd>
+          <dt>When</dt><dd>{p.at} (UTC)</dd>
+          <dt>Status</dt><dd><code>{p.observed.status}</code></dd>
+          {protocols.length ? <><dt>Protocols spoken</dt><dd>{protocols.map(({ id, protocol }, i) => <>{i ? ", " : ""}{protocol ? <a href={protocol.url}>{protocol.name}</a> : id}</>)}</dd></> : null}
+          <dt>Conducted by</dt><dd>{p.conductedBy.url ? <a href={p.conductedBy.url}>{p.conductedBy.name}</a> : p.conductedBy.name} (GitHub {p.conductedBy.github})</dd>
+        </dl>
+        <h3>Finding</h3><p>{p.finding}</p>
+        {headers.length ? <><h3>Response headers</h3><div class="wrap"><table><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody>{headers.map(([k, v]) => <tr><td><code>{k}</code></td><td><code>{v}</code></td></tr>)}</tbody></table></div></> : null}
+        {decoded.length ? <><h3>What the challenge decoded to</h3><div class="wrap"><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>{decoded.map(([k, v]) => <tr><td><code>{k}</code></td><td>{String(v)}</td></tr>)}</tbody></table></div></> : null}
+        <h3>Re-run it</h3><pre><code>{p.reproducibility.command}</code></pre>
+        {p.reproducibility.artifactsUrl ? <p>Full response, dated: <a href={p.reproducibility.artifactsUrl}>{p.reproducibility.artifactsUrl}</a></p> : null}
+        <p class="muted"><a href={`/evidence/${p.id}.json`}>JSON</a> · <a href="https://github.com/PublicAgents/public-agents/issues/new?template=dispute.md">dispute this</a>. Filed {p.created}, updated {p.updated}, version {p.version}.</p>
+      </section>
+  ))}
+</Base>

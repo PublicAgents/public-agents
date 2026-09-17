@@ -179,7 +179,7 @@ for (const [dir, info] of dirs) {
 // Evidence: the reporter is the author, on create and on update; a
 // deletion is the base reporter's or an editor's (and code-class
 // besides, docs/TAXONOMY.md, so the operator reviews it too).
-const evidencePath = (path: string) => /^registry\/evidence\/(case-reports|measured)\//.test(path);
+const evidencePath = (path: string) => /^registry\/evidence\/(case-reports|measured|probes)\//.test(path);
 const evidenceRemoval = (path: string) => {
   const gone = readBase(path) as { reporter?: { github: string }; conductedBy?: { github: string } } | undefined;
   const reporter = gone?.reporter?.github ?? gone?.conductedBy?.github;

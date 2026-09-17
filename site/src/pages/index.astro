@@ -6,6 +6,11 @@ const nameForChange = (change: (typeof registry.changes)[number]) => {
   if (change.kind === 'job') return registry.jobs.find(job => job.id === change.id)?.name ?? change.id;
   if (change.kind === 'agent') return registry.agents.find(agent => agent.handle.toLowerCase() === change.id.toLowerCase())?.displayName ?? change.id;
   if (change.kind === 'tool') return registry.tools.find(tool => tool.slug === change.id)?.name ?? change.id;
+  if (change.kind === 'probe') {
+    const probe = registry.probes.find(item => item.id === change.id);
+    const subject = probe && registry.solutions.find(item => item.type === probe.subject.type && item.id === probe.subject.id.toLowerCase());
+    return probe ? `Probe: ${subject?.name ?? probe.subject.id}, ${probe.question}, answered ${probe.observed.status}` : 'Probe';
+  }
   const evidence = registry.evidence.find(item => item.id === change.id);
   if (!evidence) return 'Evidence update';
   const solution = registry.solutions.find(item => item.type === evidence.solution.type && item.id === evidence.solution.id.toLowerCase());

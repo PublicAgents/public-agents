@@ -29,11 +29,21 @@ function urlsOf(value: unknown, out: Set<string>) {
 }
 
 const targets: Array<{ file: string; url: string }> = [];
-for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured]) {
+// Probes carry URLs too (the probed surface and the re-run command), so they
+// answer to the same link discipline as case reports and measured results.
+for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured, ...registry.probes]) {
   if (changed && !changed.has(entry.file)) continue;
   const urls = new Set<string>();
   urlsOf(entry.value, urls);
   for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: entry.file, url });
+}
+// The payment-protocol vocabulary is one file, not a per-entry record; its
+// url/spec/source must stay live like any URL the registry publishes.
+const protocolsFile = "registry/payment-protocols.json";
+if (!changed || changed.has(protocolsFile)) {
+  const urls = new Set<string>();
+  urlsOf(registry.paymentProtocols, urls);
+  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: protocolsFile, url });
 }
 
 const results = await withConcurrency(4, targets.map(target => async () => {
@@ -43,13 +53,14 @@ const results = await withConcurrency(4, targets.map(target => async () => {
   let result = await guardedFetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
   if (!result.ok || result.status >= 500 || result.status === 404) {
     const fallback = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (fallback.ok && (fallback.status < 400 || [401, 403, 405].includes(fallback.status))) result = fallback;
+    if (fallback.ok && (fallback.status < 400 || [401, 402, 403, 405].includes(fallback.status))) result = fallback;
     else if (!result.ok) result = fallback;
   }
   // 405 is a URL that exists and answers a different method (an MCP or
   // API endpoint that takes POST): alive. 401 and 403 are alive too, an
-  // endpoint that wants credentials still answers.
-  const alive = result.ok && (result.status < 400 || [401, 403, 405].includes(result.status));
+  // endpoint that wants credentials still answers. 402 is alive by the
+  // same logic: a payable surface (a probe subject) answers with a price.
+  const alive = result.ok && (result.status < 400 || [401, 402, 403, 405].includes(result.status));
   const dead = !alive;
   return { ...target, dead, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
 }));

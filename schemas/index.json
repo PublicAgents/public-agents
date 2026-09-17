@@ -31,6 +31,16 @@
       "description": "A re-runnable measurement (registry/evidence/measured/<id>.json)"
     },
     {
+      "name": "evidence-probe",
+      "url": "/schemas/evidence-probe.schema.json",
+      "description": "One unauthenticated, unpaid request and what it answered (registry/evidence/probes/<id>.json)"
+    },
+    {
+      "name": "payment-protocols",
+      "url": "/schemas/payment-protocols.schema.json",
+      "description": "The payment protocol vocabulary (registry/payment-protocols.json)"
+    },
+    {
       "name": "well-known",
       "url": "/schemas/well-known.schema.json",
       "description": "The ownership file at https://<domain>/.well-known/public-agents.json"
