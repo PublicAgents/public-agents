@@ -15,14 +15,6 @@ import { loadRegistry } from "../lib/registry.ts";
 import { linkTargets, slash } from "../lib/link-targets.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
-/**
- * Failures that say something about this registry's fetch policy rather than
- * about the page. A cross-host redirect and a page over the byte cap are both
- * live pages a reader can open; the checker cannot follow them, which is a
- * different fact and is reported as one.
- */
-const POLICY_REASONS = new Set(["redirect_forbidden", "too_large", "not_https", "address_forbidden"]);
-
 const args = process.argv.slice(2);
 const all = args.includes("--all");
 const baseIndex = args.indexOf("--base");
@@ -56,26 +48,16 @@ const results = await withConcurrency(4, targets.map(target => async () => {
   // endpoint that wants credentials still answers. 402 is alive by the
   // same logic: a payable surface (a probe subject) answers with a price.
   const alive = result.ok && (result.status < 400 || [401, 402, 403, 405].includes(result.status));
-  // A failure is reported as what it is. A page that answers 200 to a
-  // browser but redirects across hosts, or runs past the byte cap, is not a
-  // dead link: it is a live page this registry's own fetch policy cannot
-  // follow (docs/OWNERSHIP.md). Both still fail the gate, because a citation
-  // the registry cannot verify is a citation the registry cannot verify, but
-  // an author who opens the URL and sees a working page deserves to be told
-  // which of the two they are looking at.
-  const code = alive ? undefined : !result.ok && POLICY_REASONS.has(result.reason) ? "LINK_UNFETCHABLE" : "LINK_DEAD";
-  return { ...target, code, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
+  const dead = !alive;
+  return { ...target, dead, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
 }));
 
-const failed = results.filter(r => r.code);
-for (const r of results) console.log(`  ${r.code ? "\u2717" : "\u2713"} ${r.url} (${r.file}) ${r.code ? r.detail : ""}`);
-if (failed.length === 0) {
-  console.log(`\u2713 ${results.length} link(s) answer`);
+const dead = results.filter(r => r.dead);
+for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.dead ? r.detail : ""}`);
+if (dead.length === 0) {
+  console.log(`✓ ${results.length} link(s) answer`);
   process.exit(0);
 }
-const dead = failed.filter(r => r.code === "LINK_DEAD").length;
-const unfetchable = failed.length - dead;
-const parts = [dead ? `${dead} dead` : "", unfetchable ? `${unfetchable} unfetchable under the fetch policy` : ""].filter(Boolean);
-console.error(`${all ? "!" : "\u2717"} ${failed.length} of ${results.length} link(s) did not answer: ${parts.join(", ")}`);
-for (const r of failed) console.error(`  ${r.code}: ${r.url} in ${r.file}: ${r.detail}`);
+console.error(`${all ? "!" : "✗"} ${dead.length} dead link(s):`);
+for (const r of dead) console.error(`  LINK_DEAD: ${r.url} in ${r.file}: ${r.detail}`);
 process.exit(all ? 0 : 1);
