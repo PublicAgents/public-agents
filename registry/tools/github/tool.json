@@ -38,8 +38,8 @@
   "jobs": [
     {
       "job": "eng.review-pull-requests",
-      "summary": "Copilot code review, the vendor's words: \"Reviews the full changeset across files to flag bugs, security risks, and style issues\" and \"comments directly on the lines that need attention\"; a \"first-pass\" review. Docs add that with Copilot approvals on, it can satisfy a required-approval rule.",
-      "source": "https://github.com/features/copilot/code-review"
+      "summary": "Copilot code review, the vendor's words: it \"reviews your pull requests, identifies issues, and suggests fixes you can apply in a couple of clicks\", \"Available for all paid Copilot plans\". With Copilot approvals enabled, a preview, its review can satisfy a required-approval rule.",
+      "source": "https://docs.github.com/en/copilot/concepts/agents/code-review"
     },
     {
       "job": "eng.implement-scoped-changes",
