@@ -19,13 +19,16 @@ const base = baseIndex >= 0 ? args[baseIndex + 1] : "origin/main";
 const root = process.cwd();
 const registry = loadRegistry(root);
 
+// git prints forward slashes whatever the platform; the loader's paths
+// come from node:path, so they are compared in one spelling.
+const slash = (path: string) => path.replaceAll("\\", "/");
 const changed = all
   ? undefined
-  : new Set(execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean));
+  : new Set(execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean).map(slash));
 
 function urlsOf(value: unknown, out: Set<string>) {
   if (typeof value === "string") {
-    if (/^https:\/\//.test(value)) out.add(value);
+    if (/^https:\/\//i.test(value)) out.add(value);
   } else if (Array.isArray(value)) value.forEach(v => urlsOf(v, out));
   else if (value && typeof value === "object") Object.values(value).forEach(v => urlsOf(v, out));
 }
@@ -34,11 +37,14 @@ const targets: Array<{ file: string; url: string }> = [];
 function add(file: string, urls: Iterable<string>) {
   // https only, because the fetch policy is: a mailto: or http: link in a
   // profile is not a URL this check can answer for, and says so nowhere else.
-  for (const url of urls) if (url.startsWith("https://") && !url.startsWith("https://public-agents.com/schemas/")) targets.push({ file, url });
+  // The scheme is matched the way the renderer matches it and the way a URL
+  // parser reads it, without regard to case, so a link a reader can follow is
+  // never a link this check silently drops.
+  for (const url of urls) if (/^https:\/\//i.test(url) && !/^https:\/\/public-agents\.com\/schemas\//i.test(url)) targets.push({ file, url });
 }
 
 for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured]) {
-  if (!changed || changed.has(entry.file)) {
+  if (!changed || changed.has(slash(entry.file))) {
     const urls = new Set<string>();
     urlsOf(entry.value, urls);
     add(entry.file, urls);
@@ -47,7 +53,7 @@ for (const entry of [...registry.agents, ...registry.tools, ...registry.caseRepo
   // citations behind its quotations live, so a URL named there is named
   // by the entry. It is gated on its own file: editing profile.md alone
   // changes which URLs the entry points a reader at.
-  if ("profile" in entry && (!changed || changed.has(entry.profileFile))) {
+  if ("profile" in entry && (!changed || changed.has(slash(entry.profileFile)))) {
     add(entry.profileFile, profileUrls(entry.profile));
   }
 }
