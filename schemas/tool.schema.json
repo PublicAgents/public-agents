@@ -345,6 +345,15 @@
             "type": "string",
             "format": "uri"
           },
+          "sources": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
           "since": {
             "type": "string",
             "pattern": "^\\d{4}-\\d{2}$"

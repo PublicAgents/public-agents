@@ -268,6 +268,17 @@ describe("schemas", () => {
     expect(caseReportSchema.safeParse({ ...report, disclosure: { ...report.disclosure, affiliationDetail: "runs both" } }).success).toBe(true);
   });
 
+  it("lets a claim name the other pages it quotes, https only, one to eight", () => {
+    const claim = { job: "cs.deflect-tier1", summary: "Answers routine questions; \"from $1 per outcome\" (pricing page).", source: "https://example.com/" };
+    const withSources = (sources: unknown) => toolSchema.safeParse({ ...TOOL, jobs: [{ ...claim, sources }] }).success;
+    expect(withSources(["https://example.com/pricing"])).toBe(true);
+    expect(withSources(["https://example.com/pricing", "https://example.com/docs"])).toBe(true);
+    expect(withSources([])).toBe(false);
+    expect(withSources(["http://example.com/pricing"])).toBe(false);
+    expect(withSources(Array.from({ length: 9 }, (_, i) => `https://example.com/${i}`))).toBe(false);
+    expect(withSources("https://example.com/pricing")).toBe(false);
+  });
+
   it("pins the agent's disclosure, the tool's maintainers rule and the job's id prefix", () => {
     expect(agentSchema.safeParse({ ...AGENT, disclosure: { aiOperated: false, statement: AGENT.disclosure.statement } }).success).toBe(false);
     expect(toolSchema.safeParse({ ...TOOL, maintainers: [] }).success).toBe(false);

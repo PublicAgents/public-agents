@@ -41,11 +41,17 @@ export const solutionRef = z.strictObject({
   id: z.string().min(1)
 });
 
-/** A solution's own claim to do a job: no tier, no evidence inline (docs/TAXONOMY.md). */
+/**
+ * A solution's own claim to do a job: no tier, no evidence inline (docs/TAXONOMY.md).
+ * `source` is the one page the claim rests on. `sources` names the other pages of
+ * the same subject a summary quotes (a pricing page beside a product page), so
+ * that every quoted phrase in a summary is on a page the claim itself names.
+ */
 export const claim = z.strictObject({
   job: jobId,
   summary: shortText(300),
   source: httpsUrl.optional(),
+  sources: z.array(httpsUrl).min(1).max(8).optional(),
   since: isoMonth.optional()
 });
 
