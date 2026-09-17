@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-09 and again 2026-09-16: MCP initialize with no token answers 401 Authentication required (Bearer; resource_metadata on the MCP host, one scope mcp:tools); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: browser OAuth via Opti ID, or a personal token."
+    "notes": "Measured 2026-09-09 and 2026-09-16: MCP initialize with no token answers 401 (Bearer; resource_metadata on MCP host, scope mcp:tools); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: MCP takes browser OAuth via Opti ID; the REST API takes a personal token or OAuth."
   },
   "surfaces": {
     "homepage": "https://www.optimizely.com/",
@@ -42,6 +42,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-16",
+  "updated": "2026-09-17",
   "version": 2
 }
