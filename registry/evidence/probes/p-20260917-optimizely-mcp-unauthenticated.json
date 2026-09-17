@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-optimizely-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "optimizely"
+  },
+  "surface": "https://exp.mcp.opal.optimizely.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "www-authenticate": "Bearer realm=\"exp.mcp.opal.optimizely.com\", resource_metadata=\"https://exp.mcp.opal.optimizely.com/.well-known/oauth-protected-resource\"",
+      "content-type": "application/json",
+      "server": "Google Frontend"
+    },
+    "decoded": {
+      "body": "{\"detail\":\"Authentication required.\"}",
+      "protected-resource-metadata": "200; authorization_servers: https://auth.mcp.opal.optimizely.com; scopes_supported: mcp:tools; bearer_methods_supported: header",
+      "authorization-server-metadata": "200 at https://auth.mcp.opal.optimizely.com/.well-known/oauth-authorization-server; registration_endpoint present; token auth client_secret_basic, client_secret_post, none; PKCE S256; grants authorization_code, refresh_token; scopes_supported openid, profile, email, offline_access, mcp:tools",
+      "rest": "GET https://api.optimizely.com/v2/projects with no Authorization header answers 401 {\"code\": \"invalid_credentials\", \"message\": \"Missing authorization header\"}"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to exp.mcp.opal.optimizely.com/mcp answers 401 with a JSON body (Authentication required.) and a Bearer challenge naming a realm and the protected-resource metadata, which is at the host's root rather than under the /mcp path. The metadata names auth.mcp.opal.optimizely.com as the authorization server and one resource scope, mcp:tools; that server advertises dynamic registration, confidential and public clients, PKCE S256 and five scopes in all. The Web Experimentation REST API answers a keyless GET with 401 invalid_credentials and no challenge. Same shape on 2026-09-09, 2026-09-16 and today. Nothing here measures what either surface does with a credential.",
+  "reproducibility": {
+    "command": "curl -sS -i -X POST https://exp.mcp.opal.optimizely.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/optimizely/2026-09-17/probes-1615Z.txt"
+  },
+  "at": "2026-09-17T16:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
