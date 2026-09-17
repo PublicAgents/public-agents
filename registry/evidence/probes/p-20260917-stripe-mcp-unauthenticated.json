@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-stripe-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "stripe"
+  },
+  "surface": "https://mcp.stripe.com/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "server": "nginx",
+      "pragma": "no-cache",
+      "x-robots-tag": "none"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, with the single parameter resource_metadata=https://mcp.stripe.com/.well-known/oauth-protected-resource, and the value is NOT quoted (kept here rather than under headers, with a comma inserted after Bearer, because the schema's credential rule reads a long token-alphabet run after Bearer as a token; the transcript carries the header as received)",
+      "challenge-syntax": "An auth-param value that contains a colon and slashes must be a quoted-string (RFC 7235 section 2.1); RFC 9728 section 5.1 writes resource_metadata=\"...\" with quotes. Stripe's is bare, so a parser that follows the grammar does not extract it. The probe script's own quoted-string match did not, and reached the same document only because the RFC 9728 default path for this resource is the same URL",
+      "body": "{\"error\":\"Unauthorized. See https://docs.stripe.com/mcp for usage instructions.\"}",
+      "protected-resource-metadata": "200 at https://mcp.stripe.com/.well-known/oauth-protected-resource; resource https://mcp.stripe.com; authorization_servers: https://access.stripe.com/mcp; no scopes_supported and no bearer_methods_supported keys",
+      "authorization-server-metadata": "200 at https://access.stripe.com/.well-known/oauth-authorization-server/mcp; registration_endpoint present (/mcp/oauth2/register); scopes_supported: mcp (one scope); PKCE S256; grants authorization_code, refresh_token; token auth none only (public clients only); a revocation_endpoint",
+      "rest": "not measured from here: the CONNECT to api.stripe.com was answered 502 proxy_upstream_refused by this container's egress proxy, so this run says nothing about what Stripe's REST API answers a keyless GET"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.stripe.com answers 401 with a JSON body pointing at docs.stripe.com/mcp and a Bearer challenge whose one parameter, resource_metadata, carries its URL without quotes. That is outside the header grammar (an auth-param value with a colon in it must be a quoted-string, and RFC 9728 writes the parameter quoted), so a conforming parser does not see the URL; the probe script did not either, and found the metadata only because the RFC 9728 default path is the same URL. The metadata names access.stripe.com/mcp as the authorization server and lists no scopes. That server advertises dynamic registration, one scope (mcp), PKCE S256, two grants, and auth method none as the only token-endpoint method, so every client is a public client. The REST column is empty: this container's egress proxy refused the connection to api.stripe.com, which says nothing about Stripe. Same authorization server as the 2026-09-11 measurement in the entry's notes; the unquoted challenge is recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh stripe https://mcp.stripe.com/ https://api.stripe.com/v1/customers",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/stripe/2026-09-17/probes-1806Z.txt"
+  },
+  "at": "2026-09-17T18:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}

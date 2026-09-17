@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-atlassian-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "atlassian"
+  },
+  "surface": "https://mcp.atlassian.com/v2/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "AtlassianEdge"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, with the single parameter resource_metadata=\"https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp\" (kept here rather than under headers, and with a comma inserted after Bearer, because the schema's credential rule reads a long token-alphabet run after Bearer as a token; the transcript carries the header as received)",
+      "body": "{\"error\":\"invalid_token\"}",
+      "protected-resource-metadata": "200; authorization_servers: https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3 (one path segment under auth.atlassian.com); 34 scopes_supported, 28 of them ending in :agent-interface (jira, confluence, rovo, code, goals, projects, bitbucket, loom, talent, teams, artifacts, capacity-planning and more), plus read:all:twg, write:all:twg, read:me, read:account, offline_access, email; bearer_methods_supported: header",
+      "authorization-server-metadata": "200 at https://auth.atlassian.com/.well-known/oauth-authorization-server/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3; registration_endpoint present (.../dcr/register); PKCE S256; grants authorization_code, client_credentials, refresh_token, token-revoke, jwt-bearer, token-exchange; token auth none, client_secret_post, client_secret_basic, private_key_jwt; client_id_metadata_document_supported true; a pushed_authorization_request_endpoint",
+      "rest": "GET https://api.atlassian.com/oauth/token/accessible-resources with no Authorization header answers 401 {\"code\":401,\"message\":\"Unauthorized\"} with x-failure-category FAILURE_CLIENT_AUTH_MISMATCH"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.atlassian.com/v2/mcp answers 401 with a Bearer challenge naming its protected-resource metadata and a one-word JSON body, invalid_token. The metadata is readable keyless and names one authorization server under auth.atlassian.com with a path segment, and 34 scopes of which 28 end in :agent-interface, mostly one read/write pair per product (Jira, Confluence, Bitbucket, Loom, Rovo and others). That server advertises dynamic registration, public clients (auth method none), PKCE S256, pushed authorization requests, client-id metadata documents, and six grant types including client_credentials and token-exchange. A keyless GET on the platform REST API answers 401. Same shape as the 2026-09-15 measurement in the entry's notes; the scope count and the grant list are recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh atlassian https://mcp.atlassian.com/v2/mcp https://api.atlassian.com/oauth/token/accessible-resources",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/atlassian/2026-09-17/probes-1806Z.txt"
+  },
+  "at": "2026-09-17T18:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
