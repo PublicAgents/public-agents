@@ -30,7 +30,7 @@
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.growthbook.io/mcp answers 401 with a JSON body that tells the client to discover the authorization server through the resource_metadata URL in the challenge. That metadata names api.growthbook.io, which advertises dynamic registration, public clients only (token auth method none, nothing confidential), PKCE S256 and four scopes. The REST API answers a keyless GET with 400 Missing Authorization header and no challenge at all, so the two surfaces refuse differently: the MCP path speaks RFC 9728 and the REST path expects a key it does not advertise how to get. Same shape on 2026-09-09, 2026-09-16 and today. Nothing here measures what either surface does with a credential.",
   "reproducibility": {
-    "command": "curl -sS -i -X POST https://mcp.growthbook.io/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp.sh && sh probe-mcp.sh growthbook https://mcp.growthbook.io/mcp https://api.growthbook.io/api/v1/features",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/growthbook/2026-09-17/probes-1615Z.txt"
   },
   "at": "2026-09-17T16:15Z",

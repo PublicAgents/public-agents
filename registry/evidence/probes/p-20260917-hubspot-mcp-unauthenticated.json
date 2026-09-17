@@ -29,7 +29,7 @@
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.hubspot.com answers 401 with a Bearer challenge that names its protected-resource metadata and nothing else: no realm, no error code, an empty body. The metadata is readable keyless and names mcp.hubspot.com as its own authorization server with an empty scopes_supported. That authorization server advertises PKCE S256, the authorization_code, refresh_token and client_credentials grants, client_secret_post as the only token auth method, and no registration_endpoint, so a client cannot register itself dynamically (which says nothing about whether a registered client exists). A keyless GET on the CRM REST API answers 401. Same shape on the three runs since 2026-09-15. Nothing here measures what the server does with a credential.",
   "reproducibility": {
-    "command": "curl -sS -i -X POST https://mcp.hubspot.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp.sh && sh probe-mcp.sh hubspot https://mcp.hubspot.com/ https://api.hubapi.com/crm/v3/objects/contacts",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/hubspot/2026-09-17/probes-1615Z.txt"
   },
   "at": "2026-09-17T16:15Z",
