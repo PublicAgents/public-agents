@@ -26,12 +26,14 @@
           },
           "url": {
             "type": "string",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "spec": {
             "anyOf": [
               {
                 "type": "string",
+                "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
                 "format": "uri"
               },
               {
@@ -46,6 +48,7 @@
           },
           "source": {
             "type": "string",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "since": {

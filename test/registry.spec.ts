@@ -415,3 +415,39 @@ describe("classify", () => {
     expect(classify([])).toBe("code");
   });
 });
+
+describe("generated schemas", () => {
+  it("carry the https constraint on every URL field that validate enforces it on (issue #99)", async () => {
+    const { z } = await import("zod");
+    const { SCHEMAS } = await import("../src/schema/index.ts");
+    const { httpsUrl } = await import("../src/schema/common.ts");
+    // The runtime check is unchanged by the pattern: the scheme is case-insensitive, the protocol is not.
+    expect(httpsUrl.safeParse("https://example.com/").success).toBe(true);
+    expect(httpsUrl.safeParse("HTTPS://example.com/").success).toBe(true);
+    expect(httpsUrl.safeParse("http://example.com/").success).toBe(false);
+    const HTTPS = /^\^\[Hh\]\[Tt\]\[Tt\]\[Pp\]\[Ss\]:/;
+    const walk = (node: unknown, path: string, out: { format: string[]; pattern: string[]; both: string[] }) => {
+      if (Array.isArray(node)) node.forEach((n, i) => walk(n, `${path}[${i}]`, out));
+      else if (node && typeof node === "object") {
+        const o = node as Record<string, unknown>;
+        const format = o.format === "uri";
+        const pattern = typeof o.pattern === "string" && HTTPS.test(o.pattern);
+        if (format) out.format.push(path);
+        if (pattern) out.pattern.push(path);
+        if (format && pattern) out.both.push(path);
+        for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`, out);
+      }
+    };
+    const counts: Record<string, number> = {};
+    for (const [name, entry] of Object.entries(SCHEMAS)) {
+      const out: { format: string[]; pattern: string[]; both: string[] } = { format: [], pattern: [], both: [] };
+      walk(z.toJSONSchema(entry.schema, { target: "draft-2020-12", unrepresentable: "any" }), name, out);
+      // Every URL field carries both annotations, or the walk names the one that lost either.
+      expect(out.format).toEqual(out.both);
+      expect(out.pattern).toEqual(out.both);
+      counts[name] = out.both.length;
+    }
+    // Pinned per schema, so a field that loses both annotations fails here; a schema that gains a URL field updates this on purpose.
+    expect(counts).toEqual({ agent: 16, tool: 11, job: 0, function: 0, "evidence-case-report": 2, "evidence-measured": 3, "evidence-probe": 3, "payment-protocols": 3, "well-known": 0 });
+  });
+});

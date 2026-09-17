@@ -63,6 +63,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         }
       },
@@ -236,6 +237,7 @@
       "type": "array",
       "items": {
         "type": "string",
+        "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
         "format": "uri"
       }
     },

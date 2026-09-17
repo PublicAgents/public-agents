@@ -63,6 +63,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         }
       },
@@ -90,6 +91,7 @@
         },
         "protocolUrl": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "dataset": {
@@ -172,6 +174,7 @@
       "properties": {
         "artifactsUrl": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "license": {

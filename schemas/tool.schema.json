@@ -55,6 +55,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "kind": {
@@ -157,6 +158,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -183,12 +185,14 @@
       "properties": {
         "homepage": {
           "type": "string",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "docs": {
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -200,6 +204,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -212,6 +217,7 @@
           "type": "array",
           "items": {
             "type": "string",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           }
         },
@@ -219,6 +225,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -230,6 +237,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -241,6 +249,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -252,6 +261,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -343,6 +353,7 @@
           },
           "source": {
             "type": "string",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "since": {
