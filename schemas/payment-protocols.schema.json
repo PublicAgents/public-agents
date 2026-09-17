@@ -26,14 +26,14 @@
           },
           "url": {
             "type": "string",
-            "pattern": "^https:\\/\\/",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "spec": {
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^https:\\/\\/",
+                "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
                 "format": "uri"
               },
               {
@@ -48,7 +48,7 @@
           },
           "source": {
             "type": "string",
-            "pattern": "^https:\\/\\/",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "since": {

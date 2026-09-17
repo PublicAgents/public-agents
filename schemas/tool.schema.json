@@ -55,7 +55,7 @@
         },
         "url": {
           "type": "string",
-          "pattern": "^https:\\/\\/",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "kind": {
@@ -158,7 +158,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -185,14 +185,14 @@
       "properties": {
         "homepage": {
           "type": "string",
-          "pattern": "^https:\\/\\/",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "docs": {
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -204,7 +204,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -217,7 +217,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^https:\\/\\/",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           }
         },
@@ -225,7 +225,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -237,7 +237,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -249,7 +249,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -261,7 +261,7 @@
           "anyOf": [
             {
               "type": "string",
-              "pattern": "^https:\\/\\/",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
               "format": "uri"
             },
             {
@@ -353,7 +353,7 @@
           },
           "source": {
             "type": "string",
-            "pattern": "^https:\\/\\/",
+            "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
           "since": {

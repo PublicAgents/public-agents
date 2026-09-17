@@ -63,7 +63,7 @@
         },
         "url": {
           "type": "string",
-          "pattern": "^https:\\/\\/",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         }
       },
@@ -91,7 +91,7 @@
         },
         "protocolUrl": {
           "type": "string",
-          "pattern": "^https:\\/\\/",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "dataset": {
@@ -174,7 +174,7 @@
       "properties": {
         "artifactsUrl": {
           "type": "string",
-          "pattern": "^https:\\/\\/",
+          "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
           "format": "uri"
         },
         "license": {
