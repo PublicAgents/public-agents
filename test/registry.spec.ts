@@ -307,3 +307,27 @@ describe("classify", () => {
     expect(classify([])).toBe("code");
   });
 });
+
+describe("generated schemas", () => {
+  it("carry the https constraint on every URL field that validate enforces it on (issue #99)", async () => {
+    const { z } = await import("zod");
+    const { SCHEMAS } = await import("../src/schema/index.ts");
+    const walk = (node: unknown, path: string, out: string[]) => {
+      if (Array.isArray(node)) node.forEach((n, i) => walk(n, `${path}[${i}]`, out));
+      else if (node && typeof node === "object") {
+        const o = node as Record<string, unknown>;
+        if (o.format === "uri" && !(typeof o.pattern === "string" && o.pattern.startsWith("^https"))) out.push(path);
+        for (const [k, v] of Object.entries(o)) walk(v, `${path}.${k}`, out);
+      }
+    };
+    const bare: string[] = [];
+    let uris = 0;
+    for (const [name, entry] of Object.entries(SCHEMAS)) {
+      const json = z.toJSONSchema(entry.schema, { target: "draft-2020-12", unrepresentable: "any" });
+      walk(json, name, bare);
+      uris += JSON.stringify(json).split('"format":"uri"').length - 1;
+    }
+    expect(uris).toBeGreaterThan(30);
+    expect(bare).toEqual([]);
+  });
+});

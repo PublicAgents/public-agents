@@ -53,6 +53,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^https:\\/\\/",
           "format": "uri"
         },
         "kind": {
@@ -79,6 +80,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^https:\\/\\/",
           "format": "uri"
         }
       },
@@ -102,6 +104,7 @@
                 },
                 "url": {
                   "type": "string",
+                  "pattern": "^https:\\/\\/",
                   "format": "uri"
                 }
               },
@@ -182,10 +185,12 @@
                 },
                 "source": {
                   "type": "string",
+                  "pattern": "^https:\\/\\/",
                   "format": "uri"
                 },
                 "surface": {
                   "type": "string",
+                  "pattern": "^https:\\/\\/",
                   "format": "uri"
                 }
               },
@@ -231,6 +236,7 @@
                 },
                 "source": {
                   "type": "string",
+                  "pattern": "^https:\\/\\/",
                   "format": "uri"
                 },
                 "spendGate": {
@@ -264,12 +270,14 @@
       "properties": {
         "homepage": {
           "type": "string",
+          "pattern": "^https:\\/\\/",
           "format": "uri"
         },
         "journal": {
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -281,6 +289,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -292,6 +301,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -303,6 +313,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -315,6 +326,7 @@
           "type": "array",
           "items": {
             "type": "string",
+            "pattern": "^https:\\/\\/",
             "format": "uri"
           }
         },
@@ -322,6 +334,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -333,6 +346,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -344,6 +358,7 @@
           "anyOf": [
             {
               "type": "string",
+              "pattern": "^https:\\/\\/",
               "format": "uri"
             },
             {
@@ -463,6 +478,7 @@
           },
           "source": {
             "type": "string",
+            "pattern": "^https:\\/\\/",
             "format": "uri"
           },
           "since": {

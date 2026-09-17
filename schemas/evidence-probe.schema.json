@@ -47,6 +47,7 @@
     },
     "surface": {
       "type": "string",
+      "pattern": "^https:\\/\\/",
       "format": "uri"
     },
     "question": {
@@ -176,6 +177,7 @@
         },
         "url": {
           "type": "string",
+          "pattern": "^https:\\/\\/",
           "format": "uri"
         }
       },
@@ -204,6 +206,7 @@
         },
         "artifactsUrl": {
           "type": "string",
+          "pattern": "^https:\\/\\/",
           "format": "uri"
         }
       },

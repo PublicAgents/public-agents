@@ -26,12 +26,14 @@
           },
           "url": {
             "type": "string",
+            "pattern": "^https:\\/\\/",
             "format": "uri"
           },
           "spec": {
             "anyOf": [
               {
                 "type": "string",
+                "pattern": "^https:\\/\\/",
                 "format": "uri"
               },
               {
@@ -46,6 +48,7 @@
           },
           "source": {
             "type": "string",
+            "pattern": "^https:\\/\\/",
             "format": "uri"
           },
           "since": {

@@ -24,7 +24,8 @@ export const githubLogin = z.string().regex(GITHUB_LOGIN, "a GitHub login");
 export const host = z.string().regex(HOST, "a lowercase host name");
 export const isoDate = z.string().regex(DATE, "YYYY-MM-DD");
 export const isoMonth = z.string().regex(MONTH, "YYYY-MM");
-export const httpsUrl = z.url({ protocol: /^https$/, hostname: z.regexes.domain });
+/** An https URL. The regex check repeats the protocol constraint so the generated JSON Schema carries it as a pattern; zod emits `format: uri` for z.url and drops the protocol, and the meta puts the format back beside the pattern (issue #99). */
+export const httpsUrl = z.url({ protocol: /^https$/, hostname: z.regexes.domain }).regex(/^https:\/\//, "an https URL").meta({ format: "uri" });
 export const httpsUrlOrNull = httpsUrl.nullable();
 export const version = z.number().int().min(1);
 export const shortText = (max: number) => z.string().trim().min(1).max(max);
