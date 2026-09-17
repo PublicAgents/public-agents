@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
 import { profileUrls, renderProfile } from "../src/lib/profile.ts";
+import { linkTargets } from "../src/lib/link-targets.ts";
 import { classify } from "../src/scripts/pr-class.ts";
 import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
 
@@ -317,6 +318,68 @@ describe("profileUrls", () => {
   it("finds a link inside a table cell and a blockquote", () => {
     const markdown = "| a | b |\n| --- | --- |\n| x | [t](https://t.example) |\n\n> quoting [s](https://s.example)\n";
     expect(profileUrls(markdown)).toEqual(["https://t.example", "https://s.example"]);
+  });
+});
+
+describe("linkTargets", () => {
+  // One entry with a live JSON URL and a profile whose citations are
+  // somewhere else: the two halves are gated separately and that is the
+  // whole point of the function.
+  const entry = {
+    file: "registry/tools/x/tool.json",
+    value: { surfaces: { homepage: "https://x.example/" }, $schema: "https://public-agents.com/schemas/tool.schema.json" },
+    profileFile: "registry/tools/x/profile.md",
+    profile: "## Sources\n\nA [quoted page](https://docs.x.example/pricing) and a [desk](mailto:hi@x.example).\n"
+  };
+  const urls = (changed?: Set<string>) => linkTargets([entry], { changed }).map(t => `${t.file} ${t.url}`);
+
+  it("fetches both halves when nothing is gated", () => {
+    expect(urls()).toEqual([
+      "registry/tools/x/tool.json https://x.example/",
+      "registry/tools/x/profile.md https://docs.x.example/pricing"
+    ]);
+  });
+  it("checks a profile when only the profile changed, which is the defect this closes", () => {
+    expect(urls(new Set(["registry/tools/x/profile.md"]))).toEqual([
+      "registry/tools/x/profile.md https://docs.x.example/pricing"
+    ]);
+  });
+  it("checks the JSON when only the JSON changed", () => {
+    expect(urls(new Set(["registry/tools/x/tool.json"]))).toEqual([
+      "registry/tools/x/tool.json https://x.example/"
+    ]);
+  });
+  it("checks nothing when neither half changed", () => {
+    expect(urls(new Set(["docs/TAXONOMY.md"]))).toEqual([]);
+  });
+  it("compares a Windows loader path with git's forward slashes", () => {
+    const windows = { ...entry, file: "registry\\tools\\x\\tool.json", profileFile: "registry\\tools\\x\\profile.md" };
+    const got = linkTargets([windows], { changed: new Set(["registry/tools/x/profile.md"]) });
+    expect(got.map(t => t.url)).toEqual(["https://docs.x.example/pricing"]);
+  });
+  it("keeps an uppercase scheme rather than dropping it silently, in JSON and in a profile alike", () => {
+    const shouty = {
+      file: "registry/tools/y/tool.json",
+      value: { surfaces: { homepage: "HTTPS://y.example/" } },
+      profileFile: "registry/tools/y/profile.md",
+      profile: "A [page](HTTPS://docs.y.example/p) and the schema it cites, [schema](HTTPS://public-agents.com/schemas/tool.schema.json).\n"
+    };
+    expect(linkTargets([shouty]).map(t => t.url)).toEqual(["HTTPS://y.example/", "HTTPS://docs.y.example/p"]);
+  });
+  it("leaves mailto and http alone, and never fetches this registry's own schemas", () => {
+    const mixed = {
+      file: "registry/tools/z/tool.json",
+      value: { a: "http://z.example/", b: "mailto:hi@z.example", c: "https://public-agents.com/schemas/tool.schema.json", d: "https://z.example/live" },
+      profileFile: "registry/tools/z/profile.md",
+      profile: "A [desk](mailto:hi@z.example) and an [old page](http://z.example/old).\n"
+    };
+    expect(linkTargets([mixed]).map(t => t.url)).toEqual(["https://z.example/live"]);
+  });
+  it("checks the payment-protocol vocabulary on its own path", () => {
+    const opts = { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } };
+    expect(linkTargets([], opts).map(t => t.url)).toEqual(["https://x402.example/"]);
+    expect(linkTargets([], { ...opts, changed: new Set(["registry/payment-protocols.json"]) })).toHaveLength(1);
+    expect(linkTargets([], { ...opts, changed: new Set(["docs/TAXONOMY.md"]) })).toHaveLength(0);
   });
 });
 
