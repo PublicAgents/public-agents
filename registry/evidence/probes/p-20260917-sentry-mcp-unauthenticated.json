@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-sentry-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "sentry"
+  },
+  "surface": "https://mcp.sentry.dev/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "server": "cloudflare",
+      "pragma": "no-cache",
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.sentry.dev/.well-known/oauth-protected-resource/mcp\""
+    },
+    "decoded": {
+      "body": "(empty)",
+      "protected-resource-metadata": "200; resource https://mcp.sentry.dev/mcp; authorization_servers: https://mcp.sentry.dev (the MCP host is its own authorization server); scopes_supported: org:read, project:write, team:write, event:write; bearer_methods_supported: header",
+      "authorization-server-metadata": "200 at https://mcp.sentry.dev/.well-known/oauth-authorization-server; registration_endpoint present (/oauth/register); the same four scopes; PKCE S256; grants authorization_code, refresh_token; token auth client_secret_basic, client_secret_post, none; client_id_metadata_document_supported true; authorization_response_iss_parameter_supported true",
+      "rest": "GET https://sentry.io/api/0/projects/ with no Authorization header answers 401 with www-authenticate Bearer realm=\"api\" and the body detail: Authentication credentials were not provided; the response carries rate-limit headers (limit 40, concurrent limit 25)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.sentry.dev/mcp answers 401 with a Bearer challenge (realm OAuth and the protected-resource metadata URL, no error code) and an empty body. The metadata names mcp.sentry.dev as its own authorization server and lists four scopes: org:read, project:write, team:write, event:write; the list has no project:read or event:read, and neither document says what a read of those objects requires. That server advertises dynamic registration, public clients (auth method none), PKCE S256 and two grants. A keyless GET on the sentry.io REST API answers 401 with its own Bearer challenge (realm api) and rate-limit headers even for an unauthenticated caller. Same challenge shape as the 2026-09-11 measurement in the entry's notes; the scope list is recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh sentry https://mcp.sentry.dev/mcp https://sentry.io/api/0/projects/",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/sentry/2026-09-17/probes-1806Z.txt"
+  },
+  "at": "2026-09-17T18:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
