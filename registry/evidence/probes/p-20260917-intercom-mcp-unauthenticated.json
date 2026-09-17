@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-intercom-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "intercom"
+  },
+  "surface": "https://mcp.intercom.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "server": "cloudflare",
+      "www-authenticate": "Bearer realm=\"OAuth\", error=\"invalid_token\", error_description=\"Missing or invalid access token\""
+    },
+    "decoded": {
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"Missing or invalid access token\"}",
+      "protected-resource-metadata": "none found: the challenge names no resource_metadata; GET https://mcp.intercom.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource) answers 404 text/plain, and so does the origin-level https://mcp.intercom.com/.well-known/oauth-protected-resource (checked by hand at 18:16Z, transcript extra-well-known-1816Z.txt beside the artifact)",
+      "authorization-server-metadata": "200 at https://mcp.intercom.com/.well-known/oauth-authorization-server (found by hand at the origin, since no protected-resource document names it): issuer https://mcp.intercom.com; registration_endpoint present (/register); PKCE S256; grants authorization_code, refresh_token; token auth client_secret_basic, client_secret_post, none; no scopes_supported key",
+      "rest": "GET https://api.intercom.io/me with no Authorization header answers 401 with www-authenticate Basic realm=\"intercom.io\" and code missing_authorization; a Cloudflare bot-management cookie set by the MCP host is redacted in the transcript"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.intercom.com/mcp answers 401 with a Bearer challenge (realm OAuth, error invalid_token, a description) that names no resource_metadata, and the same error as JSON. No protected-resource metadata exists at either RFC 9728 path: the resource-specific one and the origin-level one both answer 404, so the discovery chain RFC 9728 describes stops at the first step. The server does publish authorization-server metadata at its origin, which is where the older MCP authorization convention looks: dynamic registration, PKCE S256, two grants, public and confidential clients, and no scope list. The current MCP authorization specification (2025-06-18) requires servers to publish that document and clients to read it; the 2025-03-26 revision looked for the server document at the resource's origin, which is where Intercom's is. A keyless GET on the REST API answers 401 with a Basic challenge, not Bearer. Same challenge shape as the 2026-09-12 measurement in the entry's notes; the absent resource document is recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh intercom https://mcp.intercom.com/mcp https://api.intercom.io/me",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/intercom/2026-09-17/probes-1815Z.txt"
+  },
+  "at": "2026-09-17T18:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
