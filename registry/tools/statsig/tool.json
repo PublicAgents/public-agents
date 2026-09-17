@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-09: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401. The docs MCP at docs.statsig.com/api/mcp answers 200 with no key and a keyless search_docs call returns results. Docs: MCP by OAuth or a Console API key."
+    "notes": "Re-measured 2026-09-17: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401; docs MCP 200 keyless. Docs: MCP by browser OAuth (org must enable Personal Console API Keys) or a Console API key, the same key the REST API takes."
   },
   "surfaces": {
     "homepage": "https://www.statsig.com/",
@@ -38,11 +38,11 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "The MCP server exposes Create_Experiment, Update_Experiment_Entirely, Get_Experiment_Overall_Results and Get_Experiment_Metric_Dimension_Results (with CUPED and confidence options) over the Console API, so an agent can set up an A/B test, run it and read its results.",
+      "summary": "The MCP overview lists 67 tools in 11 categories (counted 2026-09-17), among them Create_Experiment, Update_Experiment_Entirely, Get_Experiment_Overall_Results and Get_Experiment_Metric_Dimension_Results, over the Console API, so an agent can set up an A/B test, run it and read results.",
       "source": "https://docs.statsig.com/integrations/mcp/overview"
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-10",
-  "version": 3
+  "updated": "2026-09-17",
+  "version": 4
 }
