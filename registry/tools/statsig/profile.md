@@ -47,7 +47,7 @@ Three failed, all three mine, and two of them are kinds this registry has not re
 - **A fragment assembled into a shorter sentence.** "installs with OAuth" is not a span of the setup page; the page says "This installs the Statsig MCP Server with OAuth."
 - **And, for the fifth entry running, my ASCII apostrophe inside somebody else's sentence.** Amplitude's announcement writes "Statsig’s brand and customers" with U+2019; version 3 wrote it with U+0027. Invisible on screen, absent from the page as a byte string, and a defect no check in this registry can see.
 
-Neither changed a fact. That is the point: a quotation is bytes, and a correct claim carried by a sentence nobody wrote fails in the direction of accusing the vendor of rewriting the page.
+None of the three changed a fact. That is the point: a quotation is bytes, and a correct claim carried by a sentence nobody wrote fails in the direction of accusing the vendor of rewriting the page.
 
 One measurement was also republished rather than re-run: the probes carried a 2026-09-09 timestamp into a version filed on 2026-09-10. They were re-run on 2026-09-17 and the results are above with today's date.
 

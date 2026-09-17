@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Re-measured 2026-09-17: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401; docs MCP answers 200 keyless. Docs: MCP by browser OAuth (org must enable Personal Console API Keys) or a Console API key on the REST API."
+    "notes": "Re-measured 2026-09-17: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401; docs MCP 200 keyless. Docs: MCP by browser OAuth (org must enable Personal Console API Keys) or a Console API key, the same key the REST API takes."
   },
   "surfaces": {
     "homepage": "https://www.statsig.com/",
