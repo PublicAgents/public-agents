@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 /**
- * Every URL an entry names must answer (docs/OWNERSHIP.md fetch policy
- * applies: https, the address checked, a deadline, a byte cap).
+ * Every URL an entry names must answer, in its JSON and in its
+ * profile.md alike (docs/OWNERSHIP.md fetch policy applies: https, the
+ * address checked, a deadline, a byte cap).
  *
  *   node src/scripts/check-links.ts --changed-only --base <ref>   (a pull request: exit 1 on a dead link)
  *   node src/scripts/check-links.ts --all                         (the nightly audit: report, exit 0)
+ *
+ * Which URLs get fetched is decided in src/lib/link-targets.ts, where it can
+ * be tested without a network or a git repository. This file is the network.
  */
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
+import { linkTargets, slash } from "../lib/link-targets.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
@@ -19,32 +24,14 @@ const registry = loadRegistry(root);
 
 const changed = all
   ? undefined
-  : new Set(execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean));
+  : new Set(execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean).map(slash));
 
-function urlsOf(value: unknown, out: Set<string>) {
-  if (typeof value === "string") {
-    if (/^https:\/\//.test(value)) out.add(value);
-  } else if (Array.isArray(value)) value.forEach(v => urlsOf(v, out));
-  else if (value && typeof value === "object") Object.values(value).forEach(v => urlsOf(v, out));
-}
-
-const targets: Array<{ file: string; url: string }> = [];
 // Probes carry URLs too (the probed surface and the re-run command), so they
 // answer to the same link discipline as case reports and measured results.
-for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured, ...registry.probes]) {
-  if (changed && !changed.has(entry.file)) continue;
-  const urls = new Set<string>();
-  urlsOf(entry.value, urls);
-  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: entry.file, url });
-}
-// The payment-protocol vocabulary is one file, not a per-entry record; its
-// url/spec/source must stay live like any URL the registry publishes.
-const protocolsFile = "registry/payment-protocols.json";
-if (!changed || changed.has(protocolsFile)) {
-  const urls = new Set<string>();
-  urlsOf(registry.paymentProtocols, urls);
-  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: protocolsFile, url });
-}
+const targets = linkTargets(
+  [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured, ...registry.probes],
+  { changed, paymentProtocols: registry.paymentProtocols }
+);
 
 const results = await withConcurrency(4, targets.map(target => async () => {
   // HEAD first; GET only when HEAD failed outright or the server erred,
