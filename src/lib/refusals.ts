@@ -21,6 +21,7 @@ export const REFUSALS = {
   REF_UNRESOLVED: "a reference names something the registry does not have",
   FUNCTION_UNKNOWN: "the job's function is not in registry/functions.json",
   SUPERSEDE_CYCLE: "supersededBy chains must end",
+  RELATED_NOT_SYMMETRIC: "a related edge reads from both ends: the job you name must name you back",
   HOMEPAGE_NOT_IN_DOMAINS: "the homepage's host must be listed in domains",
   PROFILE_MISSING: "an agent or tool directory needs a profile.md (a one-line stub is fine)",
   PROFILE_TOO_LARGE: "profile.md is over 16 KB",

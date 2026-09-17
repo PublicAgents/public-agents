@@ -226,11 +226,22 @@ export function loadRegistry(root: string): Registry {
     const known = type === "agent" ? agentHandles.has(normalizeHandle(id)) : toolSlugs.has(id);
     if (!known) refusals.push(refusal("REF_UNRESOLVED", probe.file, `subject ${type}:${id}`));
   }
+  const byId = new Map(jobs.map(j => [j.value.id, j.value]));
   for (const job of jobs) {
-    for (const rel of job.value.related ?? []) if (!jobIds.has(rel)) refusals.push(refusal("REF_UNRESOLVED", job.file, `related ${rel}`));
+    for (const rel of job.value.related ?? []) {
+      const other = byId.get(rel);
+      if (!other) {
+        refusals.push(refusal("REF_UNRESOLVED", job.file, `related ${rel}`));
+        continue;
+      }
+      // `related` has no vocabulary for direction, so it is read from both
+      // ends: a reader arriving at either job sees the other.
+      if (rel !== job.value.id && !(other.related ?? []).includes(job.value.id)) {
+        refusals.push(refusal("RELATED_NOT_SYMMETRIC", job.file, `related ${rel}: add ${job.value.id} to ${rel}`));
+      }
+    }
     if (job.value.supersededBy && !jobIds.has(job.value.supersededBy)) refusals.push(refusal("REF_UNRESOLVED", job.file, `supersededBy ${job.value.supersededBy}`));
   }
-  const byId = new Map(jobs.map(j => [j.value.id, j.value]));
   for (const job of jobs) {
     const seen = new Set<string>();
     let cursor: string | null | undefined = job.value.supersededBy;

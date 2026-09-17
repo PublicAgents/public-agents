@@ -20,6 +20,23 @@ Anyone files a job with the job template: outcome phrasing, at least
 two measures, aliases checked against search for duplicates. New
 functions are a code-class change.
 
+### Related jobs
+
+`related` names neighbouring jobs, and it reads from both ends: if a
+job names another, that other job names it back. The field has no
+vocabulary for direction, so a one-way edge is indistinguishable from a
+forgotten one, and a reader arriving at either job would see a
+different map depending on which end they came in by. Filing a job that
+names a neighbour therefore edits the neighbour too, bumping its
+`version` like any other change. `validate` refuses a one-way edge by
+name, `RELATED_NOT_SYMMETRIC`, and says which id to add where.
+
+Two consequences worth knowing before you file. A job already carrying
+the maximum of twelve neighbours cannot take another, so the new job
+names someone else or the older job drops an edge on purpose. And a
+neighbour is not a hierarchy: `related` says two outcomes sit near each
+other, never that one contains the other.
+
 ## Claims
 
 A claim lives inside a solution's entry (`jobs[]`): the solution's own
