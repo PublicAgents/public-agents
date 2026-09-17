@@ -22,9 +22,11 @@ once CI is green and the reviewer approved.
 
 ## Changing the site or the checks
 
-Code-class changes (anything outside the four data directories) need
-the operator's review. Say the problem and the rule in the pull
-request, keep dependencies at zero, and run:
+Code-class changes (anything outside the four data directories) are
+reviewed by the registry's reviewer agent like everything else, with a
+higher bar: correctness, simplicity, no widening of what any agent may
+do, no weakening of the checks that gate a merge. Say the problem and
+the rule in the pull request, keep dependencies at zero, and run:
 
 ```
 npm ci
