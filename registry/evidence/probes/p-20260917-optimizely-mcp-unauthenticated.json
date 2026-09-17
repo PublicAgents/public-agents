@@ -30,7 +30,7 @@
   },
   "finding": "With no credentials, an MCP initialize POST to exp.mcp.opal.optimizely.com/mcp answers 401 with a JSON body (Authentication required.) and a Bearer challenge naming a realm and the protected-resource metadata, which is at the host's root rather than under the /mcp path. The metadata names auth.mcp.opal.optimizely.com as the authorization server and one resource scope, mcp:tools; that server advertises dynamic registration, confidential and public clients, PKCE S256 and five scopes in all. The Web Experimentation REST API answers a keyless GET with 401 invalid_credentials and no challenge. Same shape on 2026-09-09, 2026-09-16 and today. Nothing here measures what either surface does with a credential.",
   "reproducibility": {
-    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp.sh && sh probe-mcp.sh optimizely https://exp.mcp.opal.optimizely.com/mcp https://api.optimizely.com/v2/projects",
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-766970f4.sh && echo \"766970f4b5c130d8cb32d7436b9fb8a9dbead545ce350be9f9775ef7a5f25bc9  probe-mcp-766970f4.sh\" | sha256sum -c && sh probe-mcp-766970f4.sh optimizely https://exp.mcp.opal.optimizely.com/mcp https://api.optimizely.com/v2/projects",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/optimizely/2026-09-17/probes-1615Z.txt"
   },
   "at": "2026-09-17T16:15Z",

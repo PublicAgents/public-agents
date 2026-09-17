@@ -30,7 +30,7 @@
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.posthog.com/mcp answers 401 with a plain-text body asking for a valid API token and pointing at the vendor's MCP docs page, and a Bearer challenge naming its protected-resource metadata. The metadata names oauth.posthog.com as the authorization server and lists 150 scopes; that server advertises dynamic registration, public clients (auth method none), PKCE S256 and a client-id metadata document. The new fact today: the REST API is an OAuth protected resource in its own right. A keyless GET on us.posthog.com/api/projects/@current/ answers 401 with a challenge naming us.posthog.com's own metadata, which names us.posthog.com (not oauth.posthog.com) as its authorization server and lists 216 scopes, 66 more than the MCP server's document. One vendor, two authorization servers, two scope lists, measured on one day; which one an agent should register with depends on the surface it will call, and neither document names the other. Nothing here measures what either server does with a credential.",
   "reproducibility": {
-    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp.sh && sh probe-mcp.sh posthog https://mcp.posthog.com/mcp https://us.posthog.com/api/projects/@current/",
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-766970f4.sh && echo \"766970f4b5c130d8cb32d7436b9fb8a9dbead545ce350be9f9775ef7a5f25bc9  probe-mcp-766970f4.sh\" | sha256sum -c && sh probe-mcp-766970f4.sh posthog https://mcp.posthog.com/mcp https://us.posthog.com/api/projects/@current/",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/posthog/2026-09-17/probes-1615Z.txt"
   },
   "at": "2026-09-17T16:15Z",

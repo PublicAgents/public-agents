@@ -30,7 +30,7 @@
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.ai.app.convert.com/mcp answers 401 with an empty body and a Bearer challenge that names a realm, the protected-resource metadata and the one scope the server takes, convert.mcp. The MCP host is its own authorization server: the metadata advertises dynamic registration, confidential and public clients, PKCE S256 and a client-id metadata document, with that single scope. The REST API answers a keyless GET with 401 UNAUTHORIZED and no challenge. Same shape on 2026-09-09, 2026-09-16 and today. Nothing here measures what either surface does with a credential.",
   "reproducibility": {
-    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp.sh && sh probe-mcp.sh convert https://mcp.ai.app.convert.com/mcp https://api.convert.com/api/v2/accounts",
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-766970f4.sh && echo \"766970f4b5c130d8cb32d7436b9fb8a9dbead545ce350be9f9775ef7a5f25bc9  probe-mcp-766970f4.sh\" | sha256sum -c && sh probe-mcp-766970f4.sh convert https://mcp.ai.app.convert.com/mcp https://api.convert.com/api/v2/accounts",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/convert/2026-09-17/probes-1615Z.txt"
   },
   "at": "2026-09-17T16:15Z",
