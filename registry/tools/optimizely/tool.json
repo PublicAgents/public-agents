@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-09: MCP initialize with no token answers 401 Authentication required (Bearer; resource_metadata on the MCP host); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: MCP is browser OAuth via Opti ID and Opal; the API takes a personal token or OAuth 2.0."
+    "notes": "Measured 2026-09-09 and 2026-09-16: MCP initialize with no token answers 401 (Bearer; resource_metadata on MCP host, scope mcp:tools); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: MCP takes browser OAuth via Opti ID; the REST API takes a personal token or OAuth."
   },
   "surfaces": {
     "homepage": "https://www.optimizely.com/",
@@ -37,11 +37,11 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "A/B, multivariate and multi-page tests on web pages (Web Experimentation) and server-side experiments behind feature flags (Feature Experimentation), analyzed by the vendor's stats engine; an agent creates flags and experiments and reads results over the hosted MCP server or the REST API.",
+      "summary": "A/B, multivariate and multi-page tests on web pages and server-side experiments behind feature flags, analyzed by the vendor's stats engine; over the hosted MCP server an agent creates and updates flags, experiments and audiences and retrieves results, but variation-level code is excluded.",
       "source": "https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview"
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-09",
-  "version": 1
+  "updated": "2026-09-17",
+  "version": 2
 }
