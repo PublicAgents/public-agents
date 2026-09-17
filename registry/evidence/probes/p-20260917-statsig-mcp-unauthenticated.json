@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-statsig-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "statsig"
+  },
+  "surface": "https://api.statsig.com/v1/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "Bearer realm=\"statsig\", resource=\"https://api.statsig.com/v1/mcp\", resource_metadata=\"https://api.statsig.com/.well-known/oauth-protected-resource/v1/mcp\""
+    },
+    "decoded": {
+      "body": "{\"statusCode\":401,\"message\":\"This endpoint only accepts an active CONSOLE key, but an invalid key was sent. Key: \",\"error\":\"Unauthorized\"}",
+      "console-api": "GET https://statsigapi.net/console/v1/experiments with no key answers 401",
+      "docs-mcp": "POST initialize to https://docs.statsig.com/api/mcp with no key answers 200"
+    }
+  },
+  "finding": "Statsig's product MCP server refuses an unauthenticated initialize with 401 and says in the body that the endpoint accepts only an active Console key; the Console REST API answers 401 keyless as well. The documentation MCP server at docs.statsig.com/api/mcp answers 200 to the same keyless initialize, so the vendor runs one open surface and one closed one under the same brand, and an entry that records a single access answer for Statsig is recording the wrong thing. Measured three times now (2026-09-09, 2026-09-17 06:00Z, 2026-09-17 12:14Z) with the same result. No credential was sent, so nothing here measures what the product server does with one.",
+  "reproducibility": {
+    "command": "curl -sS -i -X POST https://api.statsig.com/v1/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/statsig/2026-09-17/probes-1215Z.txt"
+  },
+  "at": "2026-09-17T12:14Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
