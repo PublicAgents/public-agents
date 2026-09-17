@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
+import { coverage } from "../src/lib/coverage.ts";
 import { renderProfile } from "../src/lib/profile.ts";
 import { classify } from "../src/scripts/pr-class.ts";
 import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
@@ -88,6 +89,20 @@ describe("loadRegistry", () => {
     expect(loaded.refusals).toEqual([]);
     expect(loaded.agents[0].value.handle).toBe("Prior");
     expect(loaded.jobs[0].value.id).toBe("cs.deflect-tier1");
+  });
+
+  it("carries a claim's sources through to the coverage cell", () => {
+    const claim = { job: "cs.deflect-tier1", summary: "Answers routine questions; \"from $1 per outcome\" (pricing page).", source: "https://example.com/", sources: ["https://example.com/pricing"] };
+    const root = registry({
+      "registry/jobs/cs/cs.deflect-tier1.json": JOB,
+      "registry/tools/exampleproduct/tool.json": { ...TOOL, jobs: [claim] },
+      "registry/tools/exampleproduct/profile.md": "Stub.\n"
+    });
+    const loaded = loadRegistry(root);
+    expect(loaded.refusals).toEqual([]);
+    const cell = coverage(loaded).get("cs.deflect-tier1")?.cells.find(c => c.solution.type === "tool" && c.solution.id === "exampleproduct");
+    expect(cell?.type).toBe("claim");
+    expect(cell?.claim).toEqual({ summary: claim.summary, source: claim.source, sources: claim.sources });
   });
 
   it("refuses by name: paths, uniqueness, reserved handles, references, profiles, the paid surface", () => {
