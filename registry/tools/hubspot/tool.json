@@ -39,12 +39,12 @@
   "jobs": [
     {
       "job": "sales.draft-outreach",
-      "summary": "Breeze Prospecting Agent, the vendor's words: it uses \"CRM data and real-time signals to craft personalized outreach\"; \"Reps review the agent's research and drafted outreach, then approve before anything sends.\" \"available at the Starter, Professional, and Enterprise editions\". Not measured.",
+      "summary": "Breeze Prospecting Agent, this page's words: it uses \"CRM data and real-time signals to craft personalized outreach\"; \"Reps review the agent's research and drafted outreach, then approve before anything sends.\" Metered per lead; editions are on the product page cited in the profile. Not measured.",
       "source": "https://www.hubspot.com/products/artificial-intelligence/use-cases/send-personalized-sales-outreach"
     },
     {
       "job": "cs.deflect-tier1",
-      "summary": "Breeze customer agent, the vendor's words: it \"resolves questions, takes action in your CRM, and hands off to your team with full context\", priced \"at $0.50 per resolution\", a resolution being no handoff \"for 72 hours\". The page's 70% is a customer-outcome figure, not that metric.",
+      "summary": "Breeze customer agent, the vendor's words: it \"resolves questions, takes action in your CRM, and hands off to your team\", priced \"at $0.50 per resolution\", a resolution being no handoff \"for 72 hours\" or the agent qualifying \"a lead\". The 70% is a customer-outcome figure, not that metric.",
       "source": "https://www.hubspot.com/products/artificial-intelligence/ai-customer-service-agent"
     }
   ],
