@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-hubspot-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "hubspot"
+  },
+  "surface": "https://mcp.hubspot.com/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, with the single parameter resource_metadata=\"https://mcp.hubspot.com/.well-known/oauth-protected-resource\" (kept here rather than under headers, and with a comma inserted after Bearer, because the schema's credential rule reads a long token-alphabet run after Bearer as a token; the transcript carries the header as received)",
+      "body": "(empty)",
+      "protected-resource-metadata": "200; authorization_servers: https://mcp.hubspot.com; scopes_supported: [] (empty); resource_documentation: https://developers.hubspot.com/mcp",
+      "authorization-server-metadata": "200 at https://mcp.hubspot.com/.well-known/oauth-authorization-server; PKCE S256; grants authorization_code, refresh_token, client_credentials; token auth client_secret_post only; NO registration_endpoint; scopes_supported empty",
+      "rest": "GET https://api.hubapi.com/crm/v3/objects/contacts with no Authorization header answers 401"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.hubspot.com answers 401 with a Bearer challenge that names its protected-resource metadata and nothing else: no realm, no error code, an empty body. The metadata is readable keyless and names mcp.hubspot.com as its own authorization server with an empty scopes_supported. That authorization server advertises PKCE S256, the authorization_code, refresh_token and client_credentials grants, client_secret_post as the only token auth method, and no registration_endpoint, so a client cannot register itself dynamically (which says nothing about whether a registered client exists). A keyless GET on the CRM REST API answers 401. Same shape on the three runs since 2026-09-15. Nothing here measures what the server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-766970f4.sh && echo \"766970f4b5c130d8cb32d7436b9fb8a9dbead545ce350be9f9775ef7a5f25bc9  probe-mcp-766970f4.sh\" | sha256sum -c && sh probe-mcp-766970f4.sh hubspot https://mcp.hubspot.com/ https://api.hubapi.com/crm/v3/objects/contacts",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/hubspot/2026-09-17/probes-1615Z.txt"
+  },
+  "at": "2026-09-17T16:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}

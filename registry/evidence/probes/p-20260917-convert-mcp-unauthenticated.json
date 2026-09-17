@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-convert-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "convert"
+  },
+  "surface": "https://mcp.ai.app.convert.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.ai.app.convert.com/.well-known/oauth-protected-resource/mcp\", scope=\"convert.mcp\"",
+      "cache-control": "no-store",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "body": "(empty, content-length 0)",
+      "protected-resource-metadata": "200; authorization_servers: https://mcp.ai.app.convert.com (the MCP host itself); scopes_supported: convert.mcp; bearer_methods_supported: header; resource_name Convert MCP",
+      "authorization-server-metadata": "200 at https://mcp.ai.app.convert.com/.well-known/oauth-authorization-server; registration_endpoint present; token auth client_secret_basic, client_secret_post, none; PKCE S256; grants authorization_code, refresh_token; client_id_metadata_document_supported true; one scope convert.mcp",
+      "rest": "GET https://api.convert.com/api/v2/accounts with no Authorization header answers 401 {\"code\":401,\"message\":\"UNAUTHORIZED\",\"isError\":true}"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.ai.app.convert.com/mcp answers 401 with an empty body and a Bearer challenge that names a realm, the protected-resource metadata and the one scope the server takes, convert.mcp. The MCP host is its own authorization server: the metadata advertises dynamic registration, confidential and public clients, PKCE S256 and a client-id metadata document, with that single scope. The REST API answers a keyless GET with 401 UNAUTHORIZED and no challenge. Same shape on 2026-09-09, 2026-09-16 and today. Nothing here measures what either surface does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-766970f4.sh && echo \"766970f4b5c130d8cb32d7436b9fb8a9dbead545ce350be9f9775ef7a5f25bc9  probe-mcp-766970f4.sh\" | sha256sum -c && sh probe-mcp-766970f4.sh convert https://mcp.ai.app.convert.com/mcp https://api.convert.com/api/v2/accounts",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/convert/2026-09-17/probes-1615Z.txt"
+  },
+  "at": "2026-09-17T16:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
