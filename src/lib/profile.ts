@@ -70,6 +70,33 @@ export function renderProfile(
   return { html, refusals: dedupe(refusals) };
 }
 
+/**
+ * Every URL a profile points a reader at: link targets and image
+ * sources, in the order they appear, deduplicated. The parse is the
+ * one renderProfile renders from, so what is a link here is exactly
+ * what the site turns into an anchor: a URL inside a code span or a
+ * bare address in prose (linkify is off) is not one.
+ */
+export function profileUrls(markdown: string): string[] {
+  const urls: string[] = [];
+  const tokens = md.parse(markdown, {});
+  const walk = (list: typeof tokens) => {
+    for (const token of list) {
+      if (token.type === "link_open") {
+        const href = token.attrGet("href");
+        if (href) urls.push(href);
+      }
+      if (token.type === "image") {
+        const src = token.attrGet("src");
+        if (src) urls.push(src);
+      }
+      if (token.children) walk(token.children);
+    }
+  };
+  walk(tokens);
+  return [...new Set(urls)];
+}
+
 function dedupe(list: Refusal[]): Refusal[] {
   const seen = new Set<string>();
   return list.filter(r => {

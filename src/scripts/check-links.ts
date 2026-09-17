@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 /**
- * Every URL an entry names must answer (docs/OWNERSHIP.md fetch policy
- * applies: https, the address checked, a deadline, a byte cap).
+ * Every URL an entry names must answer, in its JSON and in its
+ * profile.md alike (docs/OWNERSHIP.md fetch policy applies: https, the
+ * address checked, a deadline, a byte cap).
  *
  *   node src/scripts/check-links.ts --changed-only --base <ref>   (a pull request: exit 1 on a dead link)
  *   node src/scripts/check-links.ts --all                         (the nightly audit: report, exit 0)
  */
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
+import { profileUrls } from "../lib/profile.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
@@ -29,11 +31,25 @@ function urlsOf(value: unknown, out: Set<string>) {
 }
 
 const targets: Array<{ file: string; url: string }> = [];
+function add(file: string, urls: Iterable<string>) {
+  // https only, because the fetch policy is: a mailto: or http: link in a
+  // profile is not a URL this check can answer for, and says so nowhere else.
+  for (const url of urls) if (url.startsWith("https://") && !url.startsWith("https://public-agents.com/schemas/")) targets.push({ file, url });
+}
+
 for (const entry of [...registry.agents, ...registry.tools, ...registry.caseReports, ...registry.measured]) {
-  if (changed && !changed.has(entry.file)) continue;
-  const urls = new Set<string>();
-  urlsOf(entry.value, urls);
-  for (const url of urls) if (!url.startsWith("https://public-agents.com/schemas/")) targets.push({ file: entry.file, url });
+  if (!changed || changed.has(entry.file)) {
+    const urls = new Set<string>();
+    urlsOf(entry.value, urls);
+    add(entry.file, urls);
+  }
+  // The profile is the other half of an entry and it is where the
+  // citations behind its quotations live, so a URL named there is named
+  // by the entry. It is gated on its own file: editing profile.md alone
+  // changes which URLs the entry points a reader at.
+  if ("profile" in entry && (!changed || changed.has(entry.profileFile))) {
+    add(entry.profileFile, profileUrls(entry.profile));
+  }
 }
 
 const results = await withConcurrency(4, targets.map(target => async () => {

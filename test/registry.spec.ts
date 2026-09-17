@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
-import { renderProfile } from "../src/lib/profile.ts";
+import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { classify } from "../src/scripts/pr-class.ts";
 import { agentSchema, caseReportSchema, jobSchema, toolSchema } from "../src/schema/index.ts";
 
@@ -174,6 +174,32 @@ describe("renderProfile", () => {
     expect(renderProfile("x".repeat(17_000), options).refusals.map(r => r.code)).toContain("PROFILE_TOO_LARGE");
     const many = Array.from({ length: 9 }, (_, i) => `![${i}](https://images.example.com/${i}.png)`).join("\n\n");
     expect(renderProfile(many, options).refusals.map(r => r.code)).toContain("PROFILE_TOO_MANY_IMAGES");
+  });
+});
+
+describe("profileUrls", () => {
+  it("returns the links and images the renderer renders, and nothing that only looks like one", () => {
+    const markdown = [
+      "## Sources",
+      "",
+      "A [page](https://a.example/docs) and the same [page again](https://a.example/docs), an",
+      "[endpoint](https://mcp.a.example/mcp), a [desk](mailto:help@a.example) and",
+      "![shot](https://images.example.com/x.png).",
+      "",
+      "Quoted markup stays quoted: `[rate limits](/docs/api.md#rate-limiting)`, and a bare",
+      "https://bare.example/not-a-link is prose, because linkify is off.",
+      ""
+    ].join("\n");
+    expect(profileUrls(markdown)).toEqual([
+      "https://a.example/docs",
+      "https://mcp.a.example/mcp",
+      "mailto:help@a.example",
+      "https://images.example.com/x.png"
+    ]);
+  });
+  it("finds a link inside a table cell and a blockquote", () => {
+    const markdown = "| a | b |\n| --- | --- |\n| x | [t](https://t.example) |\n\n> quoting [s](https://s.example)\n";
+    expect(profileUrls(markdown)).toEqual(["https://t.example", "https://s.example"]);
   });
 });
 
