@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-datadog-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "datadog"
+  },
+  "surface": "https://mcp.datadoghq.com/v1/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "decoded": {
+      "challenge": "none: the 401 carries no www-authenticate header",
+      "body": "{\"errors\":[\"Unauthorized\"]}",
+      "protected-resource-metadata": "200 at https://mcp.datadoghq.com/.well-known/oauth-protected-resource/v1/mcp (the RFC 9728 path for the resource; nothing named it); resource https://mcp.datadoghq.com/v1/mcp; authorization_servers: https://mcp.datadoghq.com/v1/mcp (the resource names itself); bearer_methods_supported: header; no scopes_supported",
+      "authorization-server-metadata": "200 at https://mcp.datadoghq.com/.well-known/oauth-authorization-server/v1/mcp; issuer https://mcp.datadoghq.com/v1/mcp; authorization, token and registration endpoints all on app.datadoghq.com (oauth2/v1/authorize, api/v2/oauth2/token, api/v2/oauth2/register); oauth_version 2.1; pkce_required true, S256; scopes_supported mcp_all (one scope); grants authorization_code, refresh_token, jwt-bearer with the id-jag grant profile; token auth none only",
+      "rest": "GET https://api.datadoghq.com/api/v1/validate with no Authorization header answers 403 (HTTP/1.1, not 401) with {\"errors\":[\"Forbidden\"]} and no www-authenticate"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.datadoghq.com/v1/mcp (the US1 endpoint the vendor documents) answers 401 with a one-word JSON error and no www-authenticate header at all, so nothing in the response tells a client where to authenticate; the RFC 9728 default path answers anyway. That document names the resource as its own authorization server, and the server document then points every endpoint at app.datadoghq.com: authorize, token and dynamic registration. It declares oauth_version 2.1, requires PKCE, lists one scope (mcp_all), accepts public clients only (none is the sole token-auth method), and supports the jwt-bearer grant with the id-jag profile. A keyless GET on the REST API's key-validation endpoint answers 403, not 401, with no challenge. Same 401 as the 2026-09-12 measurement in the entry's notes; the missing challenge header and the single all-or-nothing scope are recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh datadog https://mcp.datadoghq.com/v1/mcp https://api.datadoghq.com/api/v1/validate",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/datadog/2026-09-17/probes-1815Z.txt"
+  },
+  "at": "2026-09-17T18:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-vercel-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "vercel"
+  },
+  "surface": "https://mcp.vercel.com/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "server": "Vercel",
+      "x-vercel-cache": "MISS",
+      "www-authenticate": "Bearer error=\"invalid_token\", error_description=\"No authorization provided\", resource_metadata=\"https://mcp.vercel.com/.well-known/oauth-protected-resource\""
+    },
+    "decoded": {
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"No authorization provided\"}",
+      "protected-resource-metadata": "200; resource https://mcp.vercel.com/; resource_name Vercel MCP; authorization_servers: https://vercel.com; scopes_supported: openid (one scope); resource_documentation https://vercel.com/docs/mcp/vercel-mcp; organization, description and logo fields present",
+      "authorization-server-metadata": "200 at https://vercel.com/.well-known/oauth-authorization-server (an OpenID provider document as well: jwks_uri, claims_supported, id_token_signing_alg RS256); registration_endpoint present (api.vercel.com/login/oauth/register); scopes_supported openid, email, profile, offline_access; PKCE S256; grants authorization_code, client_credentials, refresh_token, device_code; token auth client_secret_basic, client_secret_post, client_secret_jwt, private_key_jwt (no public-client method); response_modes_supported web_message.opener only; a session cookie set on the GET is redacted in the transcript",
+      "rest": "GET https://api.vercel.com/v2/user with no Authorization header answers 403 (not 401) with code forbidden, message: The request is missing an authentication token, missingToken true, and no www-authenticate"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.vercel.com answers 401 with a Bearer challenge (error invalid_token, a description, the protected-resource metadata URL, no realm) and the same error as JSON. The metadata names vercel.com as the authorization server with one scope, openid, and carries a resource name, documentation link and description. vercel.com's server document doubles as an OpenID provider document and advertises dynamic registration at api.vercel.com, PKCE S256, four grants including client_credentials and device_code, and four confidential token-auth methods with no public-client method (none is absent), which is the opposite of Stripe's server the same afternoon. Its only response mode is web_message.opener, a browser-window mode. A keyless GET on the REST API answers 403 rather than 401, with a body saying the authentication token is missing and no challenge header. Same challenge shape as the 2026-09-12 measurement in the entry's notes; the grant and auth-method lists are recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh vercel https://mcp.vercel.com https://api.vercel.com/v2/user",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/vercel/2026-09-17/probes-1814Z.txt"
+  },
+  "at": "2026-09-17T18:14Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}

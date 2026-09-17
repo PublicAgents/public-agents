@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260917-ashby-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "ashby"
+  },
+  "surface": "https://mcp.ashbyhq.com/mcp/v1",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, with two parameters, resource_metadata=\"https://mcp.ashbyhq.com/.well-known/oauth-protected-resource\" and scope=\"openid mcp offline_access\" (kept here rather than under headers, and with a comma inserted after Bearer, because the schema's credential rule reads a long token-alphabet run after Bearer as a token; the transcript carries the header as received)",
+      "body": "{\"error\":\"Unauthorized\"}",
+      "protected-resource-metadata": "200; resource https://mcp.ashbyhq.com/mcp/v1; authorization_servers: https://mcp-auth.ashbyhq.com/oidc; scopes_supported: openid, mcp, offline_access; bearer_methods_supported: header",
+      "authorization-server-metadata": "200 at https://mcp-auth.ashbyhq.com/.well-known/oauth-authorization-server/oidc; issuer https://mcp-auth.ashbyhq.com/oidc; registration_endpoint present (/oidc/reg); the same three scopes; PKCE S256; grants implicit, authorization_code, refresh_token; token auth client_secret_basic, client_secret_jwt, client_secret_post, private_key_jwt, none",
+      "rest": "GET https://api.ashbyhq.com/candidate.list with no Authorization header answers 401 with an empty text/plain body and no www-authenticate (the vendor documents this API as POST with Basic auth; a GET was sent because the probe script makes one keyless GET)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.ashbyhq.com/mcp/v1 answers 401 with a Bearer challenge naming its protected-resource metadata and the scope it wants (openid mcp offline_access), and a one-word JSON error. The metadata names a dedicated OIDC issuer, mcp-auth.ashbyhq.com/oidc, with the same three scopes. That server advertises dynamic registration, PKCE S256, five token-auth methods including none, and three grants of which one is implicit, the grant OAuth 2.1 removes; whether the MCP flow can use it is not something this probe measures. A keyless GET on the REST API answers 401 with an empty body and no challenge. Same challenge as the 2026-09-13 measurement in the entry's notes; the issuer and the grant list are recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh ashby https://mcp.ashbyhq.com/mcp/v1 https://api.ashbyhq.com/candidate.list",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/ashby/2026-09-17/probes-1815Z.txt"
+  },
+  "at": "2026-09-17T18:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-17",
+  "updated": "2026-09-17",
+  "version": 1
+}
