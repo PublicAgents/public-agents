@@ -77,7 +77,8 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
  */
 export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: TargetMethod): boolean {
   if (result.ok) return statusAnswers(result.status, method);
-  if (result.reason === "too_large" && result.status !== undefined) return statusAnswers(result.status, method);
+  // A capped 3xx never reaches here from guardedFetch (it follows or refuses the redirect first); a transport that reports one without its Location is not an answer.
+  if (result.reason === "too_large" && result.status !== undefined && !(result.status >= 300 && result.status < 400)) return statusAnswers(result.status, method);
   return endpoint && result.reason === "redirect_forbidden";
 }
 

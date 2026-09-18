@@ -27,7 +27,7 @@ export interface TransportRequest {
 export type TransportResponse =
   | { kind: "response"; status: number; headers: Record<string, string>; body: string }
   /** The status line arrived before the cap did; a transport that has it says so, since the answer's status is a fact even when its body is not read. */
-  | { kind: "too_large"; status?: number }
+  | { kind: "too_large"; status?: number; headers?: Record<string, string> }
   | { kind: "timeout" }
   | { kind: "error"; detail: string };
 
@@ -122,7 +122,9 @@ export const httpsTransport: Transport = req =>
           if (total > req.maxBytes) {
             response.destroy();
             request.destroy();
-            resolve({ kind: "too_large", status: response.statusCode });
+            const headers: Record<string, string> = {};
+            for (const [key, value] of Object.entries(response.headers)) if (typeof value === "string") headers[key.toLowerCase()] = value;
+            resolve({ kind: "too_large", status: response.statusCode, headers });
             return;
           }
           chunks.push(chunk);
@@ -150,6 +152,12 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
   const maxBytes = options.maxBytes ?? 64 * 1024;
   const maxRedirects = options.maxRedirects ?? 2;
   let current = url;
+  // A POST is sent once, to the URL asked for. Whatever it redirects to is
+  // fetched with a GET and no body, the way a browser follows a 301, 302 or
+  // 303: the redirected path is not a place to repeat a request that could
+  // change state, and a surface that answers a POST with a redirect to a
+  // page is pointing at a page.
+  let method: "GET" | "HEAD" | "POST" = options.method ?? "GET";
   for (let hop = 0; ; hop += 1) {
     let parsed: URL;
     try {
@@ -169,30 +177,35 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
       const why = forbiddenAddress(address);
       if (why) return { ok: false, reason: "address_forbidden", detail: `${parsed.hostname} resolves to ${address} (${why})` };
     }
-    const body = options.method === "POST" ? (options.body ?? "") : undefined;
+    const body = method === "POST" ? (options.body ?? "") : undefined;
     const response = await transport({
       url: parsed,
       address: addresses[0],
-      method: options.method ?? "GET",
+      method,
       headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*", ...(body === undefined ? {} : { "content-type": "application/json" }) },
       ...(body === undefined ? {} : { body }),
       timeoutMs,
       maxBytes
     });
     if (response.kind === "timeout") return { ok: false, reason: "timeout", detail: current };
-    if (response.kind === "too_large") {
-      return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes${response.status === undefined ? "" : ` (HTTP ${response.status})`}`, ...(response.status === undefined ? {} : { status: response.status }) };
-    }
     if (response.kind === "error") return { ok: false, reason: "network", detail: `${current}: ${response.detail}` };
-    if (response.status >= 300 && response.status < 400) {
-      const location = response.headers.location;
+    // A redirect is a redirect whether or not its body fit under the cap:
+    // where it points is in the headers, which arrived, and the same
+    // host, hop and Location rules apply before anything counts.
+    const status = response.status;
+    if (status !== undefined && status >= 300 && status < 400) {
+      const location = response.headers?.location;
       if (!location) return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect without location` };
       const next = new URL(location, current);
       if (next.hostname !== parsed.hostname || hop + 1 > maxRedirects) {
         return { ok: false, reason: "redirect_forbidden", detail: `${current} -> ${next.toString()}` };
       }
       current = next.toString();
+      if (method === "POST") method = "GET";
       continue;
+    }
+    if (response.kind === "too_large") {
+      return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes${status === undefined ? "" : ` (HTTP ${status})`}`, ...(status === undefined ? {} : { status }) };
     }
     return { ok: true, status: response.status, body: response.body, url: current, contentType: response.headers["content-type"] ?? "" };
   }

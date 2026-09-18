@@ -59,7 +59,7 @@ describe("linkAnswers", () => {
   });
   it("judges a body that outgrew the cap by the status line that arrived before it", () => {
     const capped = (status?: number): GuardedResult => ({ ok: false, reason: "too_large", detail: "https://a.example/: over 16384 bytes", ...(status === undefined ? {} : { status }) });
-    for (const status of [200, 301, 401, 403]) {
+    for (const status of [200, 401, 403]) {
       expect(linkAnswers(capped(status), false)).toBe(true);
       expect(linkAnswers(capped(status), true)).toBe(true);
     }
@@ -67,6 +67,12 @@ describe("linkAnswers", () => {
     // The 4xx-but-not-404 table follows the method, capped or not.
     expect(linkAnswers(capped(400), false, "POST")).toBe(true);
     expect(linkAnswers(capped(400), false)).toBe(false);
+    // A capped redirect whose Location was never read is not an answer, endpoint or not, POST or not.
+    for (const status of [301, 302, 303, 307]) {
+      expect(linkAnswers(capped(status), false)).toBe(false);
+      expect(linkAnswers(capped(status), true)).toBe(false);
+      expect(linkAnswers(capped(status), false, "POST")).toBe(false);
+    }
     // A transport that did not keep the status says nothing the check can read.
     expect(linkAnswers(capped(), false)).toBe(false);
     expect(linkAnswers(capped(), true)).toBe(false);
