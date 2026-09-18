@@ -12,13 +12,17 @@
   ],
   "aliases": [
     "AI code review",
-    "PR review"
+    "PR review",
+    "automated code review",
+    "diff review",
+    "code review automation",
+    "merge request review"
   ],
   "related": [
     "proc.verify-vendor-claims"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }

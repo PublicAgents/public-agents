@@ -11,7 +11,11 @@
   ],
   "aliases": [
     "cash forecasting",
-    "treasury forecast"
+    "treasury forecast",
+    "cash flow forecasting",
+    "thirteen week cash flow",
+    "liquidity forecasting",
+    "cash position projection"
   ],
   "related": [
     "fin.collect-overdue-receivables",
@@ -21,6 +25,6 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }

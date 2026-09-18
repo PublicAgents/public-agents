@@ -12,13 +12,17 @@
   ],
   "aliases": [
     "internal search",
-    "knowledge assistant"
+    "knowledge assistant",
+    "internal knowledge retrieval",
+    "company wiki lookup",
+    "knowledge base question answering",
+    "internal documentation search"
   ],
   "related": [
     "eng.retrieve-reference-context"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }
