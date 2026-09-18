@@ -16,15 +16,18 @@ export interface TransportRequest {
   url: URL;
   /** The address that passed the check; the connection goes here, with the host name for SNI and the Host header. */
   address: string;
-  method: "GET" | "HEAD";
+  method: "GET" | "HEAD" | "POST";
   headers: Record<string, string>;
+  /** Sent with a POST; the content-type header travels beside it. */
+  body?: string;
   timeoutMs: number;
   maxBytes: number;
 }
 
 export type TransportResponse =
   | { kind: "response"; status: number; headers: Record<string, string>; body: string }
-  | { kind: "too_large" }
+  /** The status line arrived before the cap did; a transport that has it says so, since the answer's status is a fact even when its body is not read. */
+  | { kind: "too_large"; status?: number }
   | { kind: "timeout" }
   | { kind: "error"; detail: string };
 
@@ -37,13 +40,16 @@ export interface GuardedFetchOptions {
   maxBytes?: number;
   maxRedirects?: number;
   userAgent?: string;
-  method?: "GET" | "HEAD";
+  method?: "GET" | "HEAD" | "POST";
   accept?: string;
+  /** A POST body; sent as application/json. */
+  body?: string;
 }
 
 export type GuardedResult =
   | { ok: true; status: number; body: string; url: string; contentType: string }
-  | { ok: false; reason: "not_https" | "address_forbidden" | "unresolvable" | "timeout" | "too_large" | "redirect_forbidden" | "network"; detail: string };
+  /** `status` rides only on `too_large`: the answer's status line, read before the body outgrew the cap. */
+  | { ok: false; reason: "not_https" | "address_forbidden" | "unresolvable" | "timeout" | "too_large" | "redirect_forbidden" | "network"; detail: string; status?: number };
 
 const PRIVATE_V4 = [
   [/^0\./, "this network"],
@@ -97,7 +103,7 @@ export const httpsTransport: Transport = req =>
         port: req.url.port || 443,
         path: `${req.url.pathname}${req.url.search}`,
         method: req.method,
-        headers: { ...req.headers, host: req.url.host },
+        headers: { ...req.headers, host: req.url.host, ...(req.body === undefined ? {} : { "content-length": String(Buffer.byteLength(req.body)) }) },
         lookup: (_host, options, callback) => {
           // The pinned address: whatever the name says now, this socket
           // goes where the check looked. Node asks with { all: true } when
@@ -116,7 +122,7 @@ export const httpsTransport: Transport = req =>
           if (total > req.maxBytes) {
             response.destroy();
             request.destroy();
-            resolve({ kind: "too_large" });
+            resolve({ kind: "too_large", status: response.statusCode });
             return;
           }
           chunks.push(chunk);
@@ -134,7 +140,7 @@ export const httpsTransport: Transport = req =>
       resolve({ kind: "timeout" });
     });
     request.on("error", error => resolve({ kind: "error", detail: String(error).slice(0, 200) }));
-    request.end();
+    request.end(req.body);
   });
 
 export async function guardedFetch(url: string, options: GuardedFetchOptions = {}): Promise<GuardedResult> {
@@ -163,16 +169,20 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
       const why = forbiddenAddress(address);
       if (why) return { ok: false, reason: "address_forbidden", detail: `${parsed.hostname} resolves to ${address} (${why})` };
     }
+    const body = options.method === "POST" ? (options.body ?? "") : undefined;
     const response = await transport({
       url: parsed,
       address: addresses[0],
       method: options.method ?? "GET",
-      headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*" },
+      headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*", ...(body === undefined ? {} : { "content-type": "application/json" }) },
+      ...(body === undefined ? {} : { body }),
       timeoutMs,
       maxBytes
     });
     if (response.kind === "timeout") return { ok: false, reason: "timeout", detail: current };
-    if (response.kind === "too_large") return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes` };
+    if (response.kind === "too_large") {
+      return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes${response.status === undefined ? "" : ` (HTTP ${response.status})`}`, ...(response.status === undefined ? {} : { status: response.status }) };
+    }
     if (response.kind === "error") return { ok: false, reason: "network", detail: `${current}: ${response.detail}` };
     if (response.status >= 300 && response.status < 400) {
       const location = response.headers.location;

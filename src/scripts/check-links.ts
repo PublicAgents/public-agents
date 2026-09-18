@@ -36,20 +36,29 @@ const targets = linkTargets(
 );
 
 const results = await withConcurrency(4, targets.map(target => async () => {
-  // HEAD first; GET only when HEAD failed outright or the server erred,
-  // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
-  // overwritten by a fallback that fares worse.
-  let result = await guardedFetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
-  if (!result.ok || result.status >= 500 || result.status === 404) {
-    const fallback = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (fallback.ok && (fallback.status < 400 || [401, 402, 403, 405].includes(fallback.status))) result = fallback;
-    else if (!result.ok) result = fallback;
+  let result;
+  if (target.method === "POST") {
+    // A probe's surface that its record measured with a POST is asked
+    // with one: an empty JSON object, no session, nothing that could be a
+    // credential. Some servers answer nothing else (issue #107).
+    result = await guardedFetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+  } else {
+    // HEAD first; GET only when HEAD failed outright or the server erred,
+    // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
+    // overwritten by a fallback that fares worse.
+    result = await guardedFetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
+    if (!result.ok || result.status >= 500 || result.status === 404) {
+      const fallback = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+      if (linkAnswers(fallback, target.endpoint)) result = fallback;
+      else if (!result.ok) result = fallback;
+    }
   }
   // Which answers count as alive is decided in src/lib/links.ts, where it
-  // is tested: the status table, and the one exception for a machine
-  // endpoint (surfaces.mcp, surfaces.api) that answers a browser's GET with
-  // a redirect to its documentation on another host.
-  const alive = linkAnswers(result, target.endpoint);
+  // is tested: the status table, the wider table for a URL asked with a
+  // POST, a capped body judged by its status line, and the one exception
+  // for a machine endpoint (surfaces.mcp, surfaces.api) that answers a
+  // browser's GET with a redirect to its documentation on another host.
+  const alive = linkAnswers(result, target.endpoint, target.method);
   return { ...target, dead: !alive, detail: linkDetail(result, alive) };
 }));
 

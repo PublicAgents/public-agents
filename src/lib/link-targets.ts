@@ -1,4 +1,4 @@
-import { canonicalUrl, endpointsOf } from "./links.ts";
+import { canonicalUrl, endpointsOf, probeSurfaceOf, type TargetMethod } from "./links.ts";
 import { profileUrls } from "./profile.ts";
 
 /**
@@ -23,6 +23,13 @@ export interface LinkTarget {
    * parser reads as equal (case of the scheme and host, a trailing slash).
    */
   endpoint: boolean;
+  /**
+   * Present only on a probe's own `surface` when the record's
+   * `request.method` is POST: `check-links` asks that URL with a POST
+   * rather than its HEAD-then-GET pair (src/lib/links.ts says why and
+   * which answers count). Absent everywhere else.
+   */
+  method?: TargetMethod;
 }
 
 /** The shape this needs from a loaded entry; the registry's entries satisfy it. */
@@ -79,8 +86,12 @@ export interface TargetOptions {
 export function linkTargets(entries: Iterable<TargetSource>, options: TargetOptions = {}): LinkTarget[] {
   const { changed, paymentProtocols, paymentProtocolsFile = "registry/payment-protocols.json" } = options;
   const targets: LinkTarget[] = [];
-  const add = (file: string, urls: Iterable<string>, endpoints: ReadonlySet<string> = new Set()) => {
-    for (const url of urls) if (keep(url)) targets.push({ file, url, endpoint: endpoints.has(canonicalUrl(url)) });
+  const add = (file: string, urls: Iterable<string>, endpoints: ReadonlySet<string> = new Set(), surface?: { url: string; method: TargetMethod }) => {
+    for (const url of urls) {
+      if (!keep(url)) continue;
+      const canonical = canonicalUrl(url);
+      targets.push({ file, url, endpoint: endpoints.has(canonical), ...(surface && surface.url === canonical ? { method: surface.method } : {}) });
+    }
   };
   const wanted = (file: string) => !changed || changed.has(slash(file));
 
@@ -89,7 +100,8 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
     if (wanted(entry.file)) {
       const urls = new Set<string>();
       urlsOf(entry.value, urls);
-      add(entry.file, urls, endpoints);
+      // A probe's surface carries the record's method; every other URL in the record is a page.
+      add(entry.file, urls, endpoints, probeSurfaceOf(entry.value));
     }
     // The profile is the other half of an entry and it is where the citations
     // behind its quotations live, so a URL named there is named by the entry.

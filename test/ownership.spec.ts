@@ -17,6 +17,26 @@ function fetchOf(routes: Record<string, { status?: number; body?: string; header
 }
 
 describe("guardedFetch", () => {
+  it("sends a POST with its JSON body and keeps the status of an answer that outgrew the cap", async () => {
+    const seen: Array<{ method: string; body?: string; headers: Record<string, string> }> = [];
+    const transport: Transport = async req => {
+      seen.push({ method: req.method, body: req.body, headers: req.headers });
+      if (req.method === "POST") return { kind: "response", status: 406, headers: {}, body: "" };
+      return { kind: "too_large", status: 200 };
+    };
+    const posted = await guardedFetch("https://a.example/mcp", { resolve: resolvePublic, transport, method: "POST", body: "{}" });
+    expect(posted).toMatchObject({ ok: true, status: 406 });
+    expect(seen[0]).toMatchObject({ method: "POST", body: "{}", headers: { "content-type": "application/json" } });
+    const capped = await guardedFetch("https://a.example/big", { resolve: resolvePublic, transport, maxBytes: 16 });
+    expect(capped).toMatchObject({ ok: false, reason: "too_large", status: 200 });
+    expect((capped as { detail: string }).detail).toContain("(HTTP 200)");
+    // A GET or HEAD carries no body and no content-type; a transport that drops the status on a cap leaves the result without one.
+    expect(seen[1].body).toBeUndefined();
+    expect(seen[1].headers["content-type"]).toBeUndefined();
+    const bare = await guardedFetch("https://a.example/", { resolve: resolvePublic, transport: fetchOf({ "https://a.example/": { body: "x".repeat(20) } }), maxBytes: 16 });
+    expect(bare).toMatchObject({ ok: false, reason: "too_large" });
+    expect("status" in bare).toBe(false);
+  });
   it("refuses http, private addresses, cross-host redirects and oversized bodies", async () => {
     expect((await guardedFetch("http://a.example/", { resolve: resolvePublic })).ok).toBe(false);
     const priv = await guardedFetch("https://a.example/", { resolve: async () => ["10.0.0.5"], transport: fetchOf({}) });
