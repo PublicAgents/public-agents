@@ -58,6 +58,10 @@ if (dead.length === 0) {
   console.log(`✓ ${results.length} link(s) answer`);
   process.exit(0);
 }
-console.error(`${all ? "!" : "✗"} ${dead.length} dead link(s):`);
-for (const r of dead) console.error(`  LINK_DEAD: ${r.url} in ${r.file}: ${r.detail}`);
+// In report mode the summary IS the report, so it goes to stdout: the nightly
+// audit pipes stdout through tee and greps the file for LINK_DEAD. Written to
+// stderr, the lines never reach the file and the dead-links issue never fires.
+const report = all ? console.log : console.error;
+report(`${all ? "!" : "✗"} ${dead.length} dead link(s):`);
+for (const r of dead) report(`  LINK_DEAD: ${r.url} in ${r.file}: ${r.detail}`);
 process.exit(all ? 0 : 1);
