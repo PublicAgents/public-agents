@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-firecrawl-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "firecrawl"
+  },
+  "surface": "https://mcp.firecrawl.dev/v2/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo firecrawl-fastmcp 3.24.1; protocolVersion 2025-06-18",
+      "tools-list": "200 with no session id issued: 3 tools (firecrawl_scrape, firecrawl_search, firecrawl_parse)",
+      "protected-resource-metadata": "404 with an empty body at https://mcp.firecrawl.dev/.well-known/oauth-protected-resource/v2/mcp (the RFC 9728 path for the resource; nothing named it)",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "rest": "not measured today: the documented REST calls are POSTs (scrape, search), and the entry's 2026-09-09 note records them as 403 to a keyless cloud IP"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.firecrawl.dev/v2/mcp answers 200 (firecrawl-fastmcp 3.24.1), and a tools/list answers 200 with three tools: firecrawl_scrape, firecrawl_search and firecrawl_parse. No challenge is sent and the RFC 9728 default path answers 404 with an empty body, so the server publishes no OAuth discovery; the vendor's documented path is an API key, which this probe does not carry. A keyless handshake and a keyless list say nothing about a keyless call, and the entry's 2026-09-09 note records the REST scrape and search endpoints answering 403 to this kind of IP; no tool was called today. Same 200 as that measurement; the three-tool list is recorded here for the first time. Nothing here measures what the server does with a key.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh firecrawl https://mcp.firecrawl.dev/v2/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/firecrawl/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}

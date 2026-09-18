@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-deepwiki-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "deepwiki"
+  },
+  "surface": "https://mcp.deepwiki.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo DeepWiki 2.14.3; protocolVersion 2025-06-18; the server's instructions text names 22 tools, 19 of them marked \"(private mode only)\" (list_available_repos, generate_wiki and 17 devin_* management tools)",
+      "tools-list": "200 on the same session with no session id issued: 3 tools (ask_question, read_wiki_contents, read_wiki_structure); none of the 19 private-mode tools is listed",
+      "protected-resource-metadata": "404 (\"Not Found\", text/plain) at https://mcp.deepwiki.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource; nothing named it)",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "rest": "not measured: the entry names no REST base URL"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.deepwiki.com/mcp answers 200 (DeepWiki 2.14.3), and a tools/list on the same connection answers 200 with three tools: ask_question, read_wiki_contents and read_wiki_structure. The server's own instructions text, returned in the initialize result, names 22 tools, and marks 19 of them \"(private mode only)\": listing and generating private wikis, and 17 devin_* tools that manage Devin sessions, automations, playbooks, reviews, billing tags and users. None of the 19 appears in the keyless list, so the keyless surface is 3 of the 22 the server describes, and the private surface is the Devin product rather than documentation. No challenge is sent on the 200, and the RFC 9728 default path answers 404, so how a client enters private mode is not published here. Same 200 and same three tools as the 2026-09-08 measurement in the entry's notes; the 19 private-mode tools in the instructions text are new since that read and recorded here for the first time. Nothing here measures what the server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh deepwiki https://mcp.deepwiki.com/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/deepwiki/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
