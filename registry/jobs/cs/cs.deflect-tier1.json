@@ -14,10 +14,13 @@
   "aliases": [
     "L1 self-service",
     "ticket deflection",
-    "AI first response"
+    "AI first response",
+    "support chatbot",
+    "automated tier-1 support",
+    "unattended support resolution"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }
