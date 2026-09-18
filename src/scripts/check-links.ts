@@ -7,12 +7,14 @@
  *   node src/scripts/check-links.ts --changed-only --base <ref>   (a pull request: exit 1 on a dead link)
  *   node src/scripts/check-links.ts --all                         (the nightly audit: report, exit 0)
  *
- * Which URLs get fetched is decided in src/lib/link-targets.ts, where it can
- * be tested without a network or a git repository. This file is the network.
+ * Which URLs get fetched is decided in src/lib/link-targets.ts, and which
+ * answers count as alive in src/lib/links.ts, where both can be tested
+ * without a network or a git repository. This file is the network.
  */
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
 import { linkTargets, slash } from "../lib/link-targets.ts";
+import { linkAnswers, linkDetail } from "../lib/links.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
@@ -43,17 +45,16 @@ const results = await withConcurrency(4, targets.map(target => async () => {
     if (fallback.ok && (fallback.status < 400 || [401, 402, 403, 405].includes(fallback.status))) result = fallback;
     else if (!result.ok) result = fallback;
   }
-  // 405 is a URL that exists and answers a different method (an MCP or
-  // API endpoint that takes POST): alive. 401 and 403 are alive too, an
-  // endpoint that wants credentials still answers. 402 is alive by the
-  // same logic: a payable surface (a probe subject) answers with a price.
-  const alive = result.ok && (result.status < 400 || [401, 402, 403, 405].includes(result.status));
-  const dead = !alive;
-  return { ...target, dead, detail: result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}` };
+  // Which answers count as alive is decided in src/lib/links.ts, where it
+  // is tested: the status table, and the one exception for a machine
+  // endpoint (surfaces.mcp, surfaces.api) that answers a browser's GET with
+  // a redirect to its documentation on another host.
+  const alive = linkAnswers(result, target.endpoint);
+  return { ...target, dead: !alive, detail: linkDetail(result, alive) };
 }));
 
 const dead = results.filter(r => r.dead);
-for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.dead ? r.detail : ""}`);
+for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.detail}`);
 if (dead.length === 0) {
   console.log(`✓ ${results.length} link(s) answer`);
   process.exit(0);

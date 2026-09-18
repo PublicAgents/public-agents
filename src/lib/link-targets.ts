@@ -1,3 +1,4 @@
+import { canonicalUrl, endpointsOf } from "./links.ts";
 import { profileUrls } from "./profile.ts";
 
 /**
@@ -13,6 +14,15 @@ import { profileUrls } from "./profile.ts";
 export interface LinkTarget {
   file: string;
   url: string;
+  /**
+   * The URL is one the entry declares as `surfaces.mcp` or `surfaces.api`:
+   * a server an agent POSTs to, not a page. `check-links` reads an answer
+   * from such a URL differently (src/lib/links.ts). The flag follows the
+   * URL, not the file that names it: the same endpoint quoted in the
+   * entry's profile.md is the same server, in whatever spelling the URL
+   * parser reads as equal (case of the scheme and host, a trailing slash).
+   */
+  endpoint: boolean;
 }
 
 /** The shape this needs from a loaded entry; the registry's entries satisfy it. */
@@ -69,16 +79,17 @@ export interface TargetOptions {
 export function linkTargets(entries: Iterable<TargetSource>, options: TargetOptions = {}): LinkTarget[] {
   const { changed, paymentProtocols, paymentProtocolsFile = "registry/payment-protocols.json" } = options;
   const targets: LinkTarget[] = [];
-  const add = (file: string, urls: Iterable<string>) => {
-    for (const url of urls) if (keep(url)) targets.push({ file, url });
+  const add = (file: string, urls: Iterable<string>, endpoints: ReadonlySet<string> = new Set()) => {
+    for (const url of urls) if (keep(url)) targets.push({ file, url, endpoint: endpoints.has(canonicalUrl(url)) });
   };
   const wanted = (file: string) => !changed || changed.has(slash(file));
 
   for (const entry of entries) {
+    const endpoints = endpointsOf(entry.value);
     if (wanted(entry.file)) {
       const urls = new Set<string>();
       urlsOf(entry.value, urls);
-      add(entry.file, urls);
+      add(entry.file, urls, endpoints);
     }
     // The profile is the other half of an entry and it is where the citations
     // behind its quotations live, so a URL named there is named by the entry.
@@ -86,7 +97,7 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
     // the entry points a reader at, and gating that on the JSON meant a
     // profile-only pull request checked nothing at all.
     if (entry.profile !== undefined && entry.profileFile !== undefined && wanted(entry.profileFile)) {
-      add(entry.profileFile, profileUrls(entry.profile));
+      add(entry.profileFile, profileUrls(entry.profile), endpoints);
     }
   }
 
