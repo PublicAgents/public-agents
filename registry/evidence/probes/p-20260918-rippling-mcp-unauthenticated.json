@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-rippling-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "rippling"
+  },
+  "surface": "https://mcp.rippling.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "79",
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.rippling.com/.well-known/oauth-protected-resource/mcp\", error=\"invalid_token\", error_description=\"Missing or invalid access token\""
+    },
+    "decoded": {
+      "challenge": "the Bearer scheme; realm OAuth; resource_metadata https://mcp.rippling.com/.well-known/oauth-protected-resource/mcp; error invalid_token; error_description \"Missing or invalid access token\"",
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"Missing or invalid access token\"}",
+      "protected-resource-metadata": "403 at the URL the challenge names, as a Cloudflare block page in HTML (\"Attention Required!\", \"Sorry, you have been blocked\", \"You are unable to access mcp.rippling.com\"), to this datacenter IP with curl; no JSON document was readable",
+      "authorization-server-metadata": "not reachable from here: the resource document is blocked, so no authorization server is named",
+      "rest": "not measured: the entry names no REST base URL, and this probe stayed on the MCP surface the vendor documents"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.rippling.com/mcp answers 401 with a complete challenge: the Bearer scheme, realm OAuth, a resource_metadata URL, error invalid_token and a description. The URL it names answers 403 to this datacenter IP as a Cloudflare block page in HTML rather than a JSON document, so the discovery chain the challenge starts ends at its first link: no resource document, therefore no authorization server, registration endpoint or scope list can be read from here. Whether a client on a residential network reads the document is not measured today; the 2026-09-13 note in the entry recorded the same 403 in a browser as well as in curl. No REST request was made: the entry names no API base, and this probe stays on the surface the vendor documents. Same 401 and same 403 as the 2026-09-13 measurement, now on the record with the challenge's exact parameters. Nothing here measures what the server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh rippling https://mcp.rippling.com/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/rippling/2026-09-18/probes-0608Z.txt"
+  },
+  "at": "2026-09-18T06:08Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}

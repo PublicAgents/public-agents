@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-onfleet-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "onfleet"
+  },
+  "surface": "https://mcp.onfleet.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "144"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, resource_metadata=\"https://mcp.onfleet.com/.well-known/oauth-protected-resource\" (the comma after the scheme is the record's, not the header's: the schema's credential rule refuses the verbatim value, and the transcript has it as sent); no realm, no scope, no error parameter",
+      "body": "{\"ok\":false,\"data\":null,\"error\":{\"code\":\"E_UNAUTHORIZED\",\"message\":\"unauthorized\"},\"meta\":{\"request_id\":...}} (the request id is a per-request UUID, left out here; the transcript has it as delivered)",
+      "protected-resource-metadata": "200 at the origin-level URL the challenge names (https://mcp.onfleet.com/.well-known/oauth-protected-resource, not the resource-specific /mcp path); resource https://mcp.onfleet.com (the origin, not the /mcp endpoint); authorization_servers: https://mcp.onfleet.com; bearer_methods_supported: header; no scopes_supported",
+      "authorization-server-metadata": "200 at https://mcp.onfleet.com/.well-known/oauth-authorization-server; issuer https://mcp.onfleet.com; registration and authorization endpoints on mcp.onfleet.com (oauth/register, oauth/authorize); token endpoint and jwks_uri on auth.us.prod.onfleet.com; response_types code; grants authorization_code, refresh_token; token auth none only; PKCE S256; no scopes_supported",
+      "rest": "GET https://onfleet.com/api/v2/organization with no Authorization header answers 401 with code InvalidCredentials, error 1102, \"The API key provided is invalid.\", no www-authenticate; the error body echoes the caller's IP address and a request id"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.onfleet.com/mcp answers 401 with a challenge naming a protected-resource document at the origin-level well-known path, and both metadata documents answer 200. The resource document names the origin, mcp.onfleet.com, as the resource rather than the /mcp endpoint, and names the same origin as its authorization server. That server publishes its registration and authorization endpoints on mcp.onfleet.com and its token endpoint and JWKS on a separate host, auth.us.prod.onfleet.com; it accepts public clients only (none is the sole token-auth method), requires PKCE S256, and lists no scopes in either document. The server is on no vendor page the entry cites (as of the 2026-09-14 read); this probe records what it publishes, not what the vendor intends. A keyless GET on the documented REST API answers 401 with the vendor's InvalidCredentials code and no challenge; the error body echoes the caller's IP. Same 401, discovery chain and REST status as the 2026-09-14 note; the origin-level resource id, the split token host and the absent scope lists are new here. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh onfleet https://mcp.onfleet.com/mcp https://onfleet.com/api/v2/organization",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/onfleet/2026-09-18/probes-0608Z.txt"
+  },
+  "at": "2026-09-18T06:08Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
