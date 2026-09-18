@@ -41,7 +41,10 @@ other, never that one contains the other.
 
 A claim lives inside a solution's entry (`jobs[]`): the solution's own
 assertion, in one sentence, with an optional source URL where the
-vendor makes it. A claim carries no tier and no evidence inline.
+vendor makes it. When the sentence quotes a second page of the same
+vendor (a pricing page beside the product page), `sources` names it, so
+every quoted phrase is on a page the claim itself names. A claim
+carries no tier and no evidence inline.
 
 ## Evidence
 

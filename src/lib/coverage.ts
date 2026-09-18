@@ -34,7 +34,7 @@ export interface EvidenceCell {
 
 export interface Cell {
   solution: SolutionRef;
-  claim: { summary: string; source?: string; since?: string } | null;
+  claim: { summary: string; source?: string; sources?: string[]; since?: string } | null;
   /** The strongest type present: measured > case-report > claim. */
   type: EvidenceType;
   evidence: EvidenceCell[];
@@ -116,7 +116,7 @@ export function coverage(registry: Registry): Map<string, JobCoverage> {
     for (const claim of entry.jobs ?? []) {
       const cell = cellFor(claim.job, key);
       if (!cell) continue;
-      cell.claim = { summary: claim.summary, ...(claim.source ? { source: claim.source } : {}), ...(claim.since ? { since: claim.since } : {}) };
+      cell.claim = { summary: claim.summary, ...(claim.source ? { source: claim.source } : {}), ...(claim.sources ? { sources: claim.sources } : {}), ...(claim.since ? { since: claim.since } : {}) };
       if (cell.type === "none") cell.type = "claim";
     }
   };

@@ -481,6 +481,16 @@
             "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
             "format": "uri"
           },
+          "sources": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[Hh][Tt][Tt][Pp][Ss]:\\/\\/",
+              "format": "uri"
+            }
+          },
           "since": {
             "type": "string",
             "pattern": "^\\d{4}-\\d{2}$"
