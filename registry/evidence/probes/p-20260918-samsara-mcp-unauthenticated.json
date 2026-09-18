@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-samsara-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "samsara"
+  },
+  "surface": "https://mcp.samsara.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "24",
+      "www-authenticate": "Bearer realm=\"mcp\""
+    },
+    "decoded": {
+      "challenge": "the Bearer scheme; realm mcp; no resource_metadata, no scope, no error parameter",
+      "body": "{\"error\":\"unauthorized\"}",
+      "protected-resource-metadata": "404 (\"404 page not found\", text/plain) at https://mcp.samsara.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource; nothing named it)",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "rest": "GET https://api.samsara.com/fleet/vehicles with no Authorization header answers 401 with a JSON body whose message is \"invalid token\" plus a request id, and no www-authenticate"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.samsara.com/mcp answers 401 with a minimal challenge, the Bearer scheme and realm \"mcp\", and nothing else: no resource_metadata parameter, no scope, no error code. The RFC 9728 default path for the resource answers 404 in plain text, so there is no protected-resource document and therefore no authorization server, registration endpoint or scope list to read; a client following the current MCP authorization specification has nowhere to go from this response. The server is on none of the vendor's documentation pages the entry cites (as of the 2026-09-14 read); this probe records that it exists and refuses, not what it is for. A keyless GET on the documented REST API (fleet/vehicles) answers 401 with the JSON message \"invalid token\" and no challenge header. Same 401, same 404 and same REST status as the 2026-09-14 measurement in the entry's notes. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh samsara https://mcp.samsara.com/mcp https://api.samsara.com/fleet/vehicles",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/samsara/2026-09-18/probes-0608Z.txt"
+  },
+  "at": "2026-09-18T06:08Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-docusign-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "docusign"
+  },
+  "surface": "https://mcp.docusign.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 403,
+    "headers": {
+      "content-type": "text/plain",
+      "content-length": "19",
+      "ratelimit-limit": "800"
+    },
+    "decoded": {
+      "challenge": "none: the 403 carries no www-authenticate header",
+      "body": "RBAC: access denied",
+      "protected-resource-metadata": "403 with the same 19-byte plain-text body at https://mcp.docusign.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource; nothing named it): the access gate covers the discovery path as well as the server",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "tool-catalog": "GET https://mcp.docusign.com/tools with no credentials answers 200: a 47,958-byte JSON-RPC result (jsonrpc 2.0, id 1) listing 22 tools, each with description, title, input schema and annotations (cancelWorkflowInstance, createEnvelope, getAccount, getAgreementDetails, getAllAgreements, getEnvelope, getEnvelopes, getTemplates, getUser, getUserInfo, getUsers, getWorkflowInstance, getWorkflowInstancesList, getWorkflowTriggerRequirements, getWorkflowsList, listRecipients, pauseNewWorkflowInstances, resumeWorkflow, sendReminder, triggerWorkflow, updateEnvelope, updateEnvelopeRecipients); read by hand at 06:08Z and transcribed beside the artifact as tools-catalog-0608Z.txt",
+      "rest": "GET https://account.docusign.com/oauth/userinfo with no Authorization header answers 400 (not 401) with a JSON body whose error is internal_server_error and a reference id, and no www-authenticate",
+      "artifact-redactions": "the vendor's per-request trace id (x-docusign-tracetoken, and the same value as reference_id in the userinfo body) is replaced by a labelled placeholder in both published files after the run, because the publish door reads it as a key; nothing else was changed"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.docusign.com/mcp answers 403 with the 19-byte plain-text body \"RBAC: access denied\" and no www-authenticate header: the refusal names no realm, no metadata URL and no way in. The RFC 9728 default path for the resource answers the same 403 with the same body, so the access gate sits in front of the discovery document as well as the server, and a client following the current MCP authorization specification finds nothing to read. The one thing the host serves keyless is its tool catalog: GET /tools answers 200 with a JSON-RPC result of 22 tools (envelopes, templates, recipients, users, Maestro workflow instances), each with a description, an input schema and annotations. A keyless GET on the account server's userinfo endpoint answers 400 with an internal_server_error body, not the 401 a missing token usually earns. Same 403 and same public catalog as the 2026-09-13 measurement in the entry's notes; the gated discovery path and the userinfo status are recorded here for the first time. Nothing here measures what the server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh docusign https://mcp.docusign.com/mcp https://account.docusign.com/oauth/userinfo",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/docusign/2026-09-18/probes-0607Z.txt"
+  },
+  "at": "2026-09-18T06:07Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
