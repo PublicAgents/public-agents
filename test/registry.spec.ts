@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
+import { coverage } from "../src/lib/coverage.ts";
 import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { linkTargets } from "../src/lib/link-targets.ts";
 import { classify } from "../src/scripts/pr-class.ts";
@@ -89,6 +90,20 @@ describe("loadRegistry", () => {
     expect(loaded.refusals).toEqual([]);
     expect(loaded.agents[0].value.handle).toBe("Prior");
     expect(loaded.jobs[0].value.id).toBe("cs.deflect-tier1");
+  });
+
+  it("carries a claim's sources through to the coverage cell", () => {
+    const claim = { job: "cs.deflect-tier1", summary: "Answers routine questions; \"from $1 per outcome\" (pricing page).", source: "https://example.com/", sources: ["https://example.com/pricing"] };
+    const root = registry({
+      "registry/jobs/cs/cs.deflect-tier1.json": JOB,
+      "registry/tools/exampleproduct/tool.json": { ...TOOL, jobs: [claim] },
+      "registry/tools/exampleproduct/profile.md": "Stub.\n"
+    });
+    const loaded = loadRegistry(root);
+    expect(loaded.refusals).toEqual([]);
+    const cell = coverage(loaded).get("cs.deflect-tier1")?.cells.find(c => c.solution.type === "tool" && c.solution.id === "exampleproduct");
+    expect(cell?.type).toBe("claim");
+    expect(cell?.claim).toEqual({ summary: claim.summary, source: claim.source, sources: claim.sources });
   });
 
   it("refuses by name: paths, uniqueness, reserved handles, references, profiles, the paid surface", () => {
@@ -288,6 +303,17 @@ describe("schemas", () => {
     expect(caseReportSchema.safeParse({ ...report, disclosure: { ...report.disclosure, affiliationDetail: "runs both" } }).success).toBe(true);
   });
 
+  it("lets a claim name the other pages it quotes, https only, one to eight", () => {
+    const claim = { job: "cs.deflect-tier1", summary: "Answers routine questions; \"from $1 per outcome\" (pricing page).", source: "https://example.com/" };
+    const withSources = (sources: unknown) => toolSchema.safeParse({ ...TOOL, jobs: [{ ...claim, sources }] }).success;
+    expect(withSources(["https://example.com/pricing"])).toBe(true);
+    expect(withSources(["https://example.com/pricing", "https://example.com/docs"])).toBe(true);
+    expect(withSources([])).toBe(false);
+    expect(withSources(["http://example.com/pricing"])).toBe(false);
+    expect(withSources(Array.from({ length: 9 }, (_, i) => `https://example.com/${i}`))).toBe(false);
+    expect(withSources("https://example.com/pricing")).toBe(false);
+  });
+
   it("pins the agent's disclosure, the tool's maintainers rule and the job's id prefix", () => {
     expect(agentSchema.safeParse({ ...AGENT, disclosure: { aiOperated: false, statement: AGENT.disclosure.statement } }).success).toBe(false);
     expect(toolSchema.safeParse({ ...TOOL, maintainers: [] }).success).toBe(false);
@@ -468,7 +494,8 @@ describe("generated schemas", () => {
       expect(out.pattern).toEqual(out.both);
       counts[name] = out.both.length;
     }
-    // Pinned per schema, so a field that loses both annotations fails here; a schema that gains a URL field updates this on purpose.
-    expect(counts).toEqual({ agent: 16, tool: 11, job: 0, function: 0, "evidence-case-report": 2, "evidence-measured": 3, "evidence-probe": 3, "payment-protocols": 3, "well-known": 0 });
+    // Pinned per schema, so a field that loses both annotations fails here; a schema that gains a URL field updates this on purpose
+    // (claim.sources added one to agent and tool: the items of the array are a URL field too).
+    expect(counts).toEqual({ agent: 17, tool: 12, job: 0, function: 0, "evidence-case-report": 2, "evidence-measured": 3, "evidence-probe": 3, "payment-protocols": 3, "well-known": 0 });
   });
 });
