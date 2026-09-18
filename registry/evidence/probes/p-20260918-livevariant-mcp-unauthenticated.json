@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-livevariant-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "livevariant"
+  },
+  "surface": "https://livevariant.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "3969",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "initialize": "200 application/json: protocolVersion 2025-06-18, capabilities tools and resources (both listChanged), serverInfo livevariant 0.1.5 with three icons, and an instructions text that says creating a test needs no account, a test is its config encoded into its URLs, and build_test returns a stats secret exactly once. An Mcp-Session-Id header was issued and is redacted in the transcript",
+      "tools-list": "tools/list on the same session answers 200 with 9 tools: build_test, inspect_test, generate_priors, get_stats, get_test_status, list_tests, register_test, upload_image, variant_brief (counted by hand from the parsed result at 12:16Z, 30,763 bytes; the script's inputSchema count over the whole response says 9 as well)",
+      "challenge": "none: initialize answered 200 and no www-authenticate header appears on any response",
+      "protected-resource-metadata": "both well-known URIs answer 404 text/plain (path-aware and root forms), which is consistent with a server that authenticates nothing",
+      "authorization-server-metadata": "not looked for: no document named one",
+      "rest": "GET https://livevariant.com/openapi.json with no Authorization header answers 200 with an OpenAPI 3.1.0 document whose description says there are no accounts and no API keys, that reading results needs the stats secret generated when the test was built, and that the endpoints mirror the MCP tools of the same names",
+      "not-measured": "no tool was called and no test was built, so nothing here says what a keyless tools/call does or whether the stats secret gates get_stats as the instructions say"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to livevariant.com/mcp answers 200 and tools/list on the same session lists 9 tools: build_test, inspect_test, generate_priors, get_stats, get_test_status, list_tests, register_test, upload_image and variant_brief. No response carries a www-authenticate header and neither well-known URI serves a protected-resource document, which is consistent with the server's own instructions text and its OpenAPI description: no accounts, no API keys, a test is its config encoded into its URLs, and the only secret is a per-test stats secret handed out once at creation. The entry's auth is none and its noAccountNeeded is true; this run reproduces the keyless surface as far as listing tools. No tool was called and no test was built, so whether a keyless tools/call succeeds, and whether get_stats refuses without the secret, are not measured here.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh livevariant https://livevariant.com/mcp https://livevariant.com/openapi.json",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/livevariant/2026-09-18/probes-1215Z.txt"
+  },
+  "at": "2026-09-18T12:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
