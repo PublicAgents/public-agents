@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 12:25Z, no credentials: GET mcp.docusign.com/tools answers 200 with the full 22-tool catalog and schemas; POST mcp.docusign.com/mcp answers 403 \"RBAC: access denied\", plain text, no www-authenticate, so the refusal names no way in. OAuth: Confidential Auth Code Grant only."
+    "notes": "Measured 2026-09-18 12:04Z, no credentials: POST mcp.docusign.com/mcp answers 403 \"RBAC: access denied\", no www-authenticate; the root well-known URI serves the OAuth resource document (the path-aware form 403s); GET /tools serves the 22-tool catalog. OAuth: Confidential Auth Code Grant only."
   },
   "surfaces": {
     "homepage": "https://www.docusign.com/",
@@ -41,6 +41,14 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://ecom.docusign.com/plans-and-pricing/esignature",
+    "notes": "Read 2026-09-18: plans are bought on the vendor's checkout (Personal $11/month, Standard $30/user/month, Business Pro $45/user/month, annual commitments); the page names no payment method for the subscription itself. The MCP server carries no price of its own and speaks no 402 protocol."
+  }
 }
