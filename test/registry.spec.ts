@@ -397,18 +397,20 @@ describe("linkTargets", () => {
   it("marks surfaces.mcp and surfaces.api as endpoints wherever the entry names them, and nothing else", () => {
     const e = {
       file: "registry/tools/w/tool.json",
-      value: { surfaces: { homepage: "https://w.example/", docs: "https://docs.w.example/", mcp: "https://mcp.w.example/", api: "https://api.w.example/v1" } },
+      // The JSON spells the endpoint without a trailing slash and in capitals; the profile spells it the other way. Same server.
+      value: { surfaces: { homepage: "https://w.example/", docs: "https://docs.w.example/", mcp: "HTTPS://mcp.w.example", api: "https://api.w.example/v1" } },
       profileFile: "registry/tools/w/profile.md",
-      profile: "Measured at [the server](https://mcp.w.example/) and read on [the docs](https://docs.w.example/).\n"
+      profile: "Measured at [the server](https://mcp.w.example/) and read on [the docs](https://docs.w.example/), not [v1's parent](https://api.w.example/).\n"
     };
     const got = linkTargets([e]).map(t => `${t.endpoint ? "endpoint" : "page"} ${t.url}`);
     expect(got).toEqual([
       "page https://w.example/",
       "page https://docs.w.example/",
-      "endpoint https://mcp.w.example/",
+      "endpoint HTTPS://mcp.w.example",
       "endpoint https://api.w.example/v1",
       "endpoint https://mcp.w.example/",
-      "page https://docs.w.example/"
+      "page https://docs.w.example/",
+      "page https://api.w.example/"
     ]);
     const vocabulary = linkTargets([], { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } });
     expect(vocabulary.map(t => t.endpoint)).toEqual([false]);

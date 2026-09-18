@@ -1,4 +1,4 @@
-import { endpointsOf } from "./links.ts";
+import { canonicalUrl, endpointsOf } from "./links.ts";
 import { profileUrls } from "./profile.ts";
 
 /**
@@ -19,7 +19,8 @@ export interface LinkTarget {
    * a server an agent POSTs to, not a page. `check-links` reads an answer
    * from such a URL differently (src/lib/links.ts). The flag follows the
    * URL, not the file that names it: the same endpoint quoted in the
-   * entry's profile.md is the same server.
+   * entry's profile.md is the same server, in whatever spelling the URL
+   * parser reads as equal (case of the scheme and host, a trailing slash).
    */
   endpoint: boolean;
 }
@@ -79,7 +80,7 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
   const { changed, paymentProtocols, paymentProtocolsFile = "registry/payment-protocols.json" } = options;
   const targets: LinkTarget[] = [];
   const add = (file: string, urls: Iterable<string>, endpoints: ReadonlySet<string> = new Set()) => {
-    for (const url of urls) if (keep(url)) targets.push({ file, url, endpoint: endpoints.has(url) });
+    for (const url of urls) if (keep(url)) targets.push({ file, url, endpoint: endpoints.has(canonicalUrl(url)) });
   };
   const wanted = (file: string) => !changed || changed.has(slash(file));
 

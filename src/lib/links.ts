@@ -4,12 +4,30 @@
  */
 import type { GuardedResult } from "./net.ts";
 
-/** The machine endpoints of an entry (`surfaces.mcp`, `surfaces.api`): URLs an agent POSTs to, not pages. */
+/**
+ * One spelling for one URL, so that two references to the same endpoint
+ * compare equal: `HTTPS://Mcp.Example` and `https://mcp.example/` are the
+ * same server to a fetch and must be the same to this policy. A string the
+ * URL parser refuses is returned as it came; it will not match anything
+ * and the fetch refuses it on its own terms.
+ */
+export function canonicalUrl(url: string): string {
+  try {
+    return new URL(url).href;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * The machine endpoints of an entry (`surfaces.mcp`, `surfaces.api`): URLs an
+ * agent POSTs to, not pages. Canonical spellings; compare with `canonicalUrl`.
+ */
 export function endpointsOf(value: unknown): Set<string> {
   const out = new Set<string>();
   const surfaces = (value as { surfaces?: { mcp?: unknown; api?: unknown } } | undefined)?.surfaces;
   // The scheme is matched without regard to case, the way link-targets reads it: an entry may carry `HTTPS://` and validate.
-  for (const v of [surfaces?.mcp, surfaces?.api]) if (typeof v === "string" && /^https:\/\//i.test(v)) out.add(v);
+  for (const v of [surfaces?.mcp, surfaces?.api]) if (typeof v === "string" && /^https:\/\//i.test(v)) out.add(canonicalUrl(v));
   return out;
 }
 

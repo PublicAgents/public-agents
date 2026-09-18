@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { endpointsOf, linkAnswers, linkDetail } from "../src/lib/links.ts";
+import { canonicalUrl, endpointsOf, linkAnswers, linkDetail } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -8,11 +8,20 @@ const refused = (reason: Extract<GuardedResult, { ok: false }>["reason"], detail
 describe("endpointsOf", () => {
   it("names surfaces.mcp and surfaces.api, nothing else", () => {
     const entry = { surfaces: { homepage: "https://a.example/", docs: "https://a.example/docs", mcp: "https://mcp.a.example", api: "https://api.a.example/v1", source: "https://github.com/a/a" } };
-    expect([...endpointsOf(entry)]).toEqual(["https://mcp.a.example", "https://api.a.example/v1"]);
+    expect([...endpointsOf(entry)]).toEqual(["https://mcp.a.example/", "https://api.a.example/v1"]);
     expect(endpointsOf({ surfaces: { mcp: null, api: "http://api.a.example" } }).size).toBe(0);
-    expect([...endpointsOf({ surfaces: { mcp: "HTTPS://mcp.a.example" } })]).toEqual(["HTTPS://mcp.a.example"]);
+    // Canonical spellings: an uppercase scheme or host and a missing trailing slash name the same server.
+    expect([...endpointsOf({ surfaces: { mcp: "HTTPS://Mcp.A.Example" } })]).toEqual(["https://mcp.a.example/"]);
     expect(endpointsOf({}).size).toBe(0);
     expect(endpointsOf(undefined).size).toBe(0);
+  });
+});
+
+describe("canonicalUrl", () => {
+  it("reads equal spellings as one string and leaves what the parser refuses alone", () => {
+    for (const spelling of ["https://mcp.a.example", "HTTPS://mcp.a.example/", "https://MCP.A.EXAMPLE"]) expect(canonicalUrl(spelling)).toBe("https://mcp.a.example/");
+    expect(canonicalUrl("https://a.example/v1")).not.toBe(canonicalUrl("https://a.example/v1/"));
+    expect(canonicalUrl("not a url")).toBe("not a url");
   });
 });
 
