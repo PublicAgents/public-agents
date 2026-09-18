@@ -12,13 +12,17 @@
   ],
   "aliases": [
     "reply suggestions",
-    "agent assist"
+    "agent assist",
+    "suggested responses",
+    "response drafting",
+    "agent copilot",
+    "reply composer"
   ],
   "related": [
     "mkt.localize-content"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }

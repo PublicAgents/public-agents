@@ -12,7 +12,11 @@
   ],
   "aliases": [
     "three-way match",
-    "AP automation"
+    "AP automation",
+    "invoice matching",
+    "purchase order matching",
+    "supplier invoice matching",
+    "invoice exception handling"
   ],
   "related": [
     "fin.pay-supplier-bills",
@@ -20,6 +24,6 @@
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }

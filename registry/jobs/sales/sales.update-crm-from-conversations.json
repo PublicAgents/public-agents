@@ -11,10 +11,14 @@
   ],
   "aliases": [
     "CRM hygiene",
-    "CRM automation"
+    "CRM automation",
+    "automatic record updates",
+    "crm data entry",
+    "pipeline updates from calls",
+    "deal stage updates"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }

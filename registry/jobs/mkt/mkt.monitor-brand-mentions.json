@@ -12,13 +12,17 @@
   ],
   "aliases": [
     "social listening",
-    "brand monitoring"
+    "brand monitoring",
+    "media mention tracking",
+    "brand reputation monitoring",
+    "mention sentiment analysis",
+    "brand mention alerts"
   ],
   "related": [
     "mkt.improve-search-visibility"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-18",
+  "version": 3
 }

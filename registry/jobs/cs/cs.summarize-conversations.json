@@ -11,10 +11,14 @@
   ],
   "aliases": [
     "case summary",
-    "wrap-up notes"
+    "wrap-up notes",
+    "chat summarization",
+    "conversation summarization",
+    "handoff summary",
+    "support conversation recap"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }
