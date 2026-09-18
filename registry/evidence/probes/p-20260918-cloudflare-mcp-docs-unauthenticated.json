@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-cloudflare-mcp-docs-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "cloudflare-mcp"
+  },
+  "surface": "https://docs.mcp.cloudflare.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo docs-ai-search 0.4.13; protocolVersion 2025-06-18",
+      "tools-list": "200 with no session id issued: 2 tools (search_cloudflare_documentation, migrate_pages_to_workers_guide)",
+      "protected-resource-metadata": "404 (\"Not Found\") at https://docs.mcp.cloudflare.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource; nothing named it)",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "rest": "not measured: the entry names no REST base URL; the Documentation server is the one keyless server of the vendor's set, and the account-scoped servers were not probed today"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to docs.mcp.cloudflare.com/mcp (the vendor's Documentation server, the entry's stated keyless surface) answers 200 (docs-ai-search 0.4.13), and a tools/list answers 200 with two tools: search_cloudflare_documentation and migrate_pages_to_workers_guide. No challenge is sent and the RFC 9728 default path answers 404, which is consistent with a server that has no authenticated mode. This probe measures the Documentation server only; the vendor's account-scoped servers (Workers bindings, observability and the rest) were measured on 2026-09-12 in the entry's notes and are not re-run today. Same 200 and same two tools as that 2026-09-12 measurement. Nothing here measures what a tool call returns.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh cloudflare-mcp https://docs.mcp.cloudflare.com/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/cloudflare-mcp/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}

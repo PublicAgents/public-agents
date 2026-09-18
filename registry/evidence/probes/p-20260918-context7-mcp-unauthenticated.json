@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-context7-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "context7"
+  },
+  "surface": "https://mcp.context7.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "access-control-allow-headers": "Content-Type, MCP-Session-Id, MCP-Protocol-Version, Mcp-Method, Mcp-Name, X-Context7-API-Key, Context7-API-Key, X-API-Key, Authorization"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer, resource_metadata=\"https://mcp.context7.com/.well-known/oauth-protected-resource\", sent on the 200 (the comma after the scheme is the record's, not the header's: the schema's credential rule refuses the verbatim value; the transcript has it as sent)",
+      "initialize": "200, SSE; serverInfo Context7 4.1.1 with websiteUrl, description and an icon; protocolVersion 2025-06-18",
+      "tools-list": "200 with no session id issued: 2 tools (resolve-library-id, query-docs); the same challenge header rides on this 200 too",
+      "protected-resource-metadata": "200 at the origin-level URL the challenge names; resource https://mcp.context7.com; authorization_servers: https://clerk.context7.com and https://context7.com (two); scopes_supported profile, email; bearer_methods_supported header",
+      "authorization-server-metadata": "200 at https://clerk.context7.com/.well-known/oauth-authorization-server (the first server named; the second was not fetched); issuer clerk.context7.com; registration, authorization and token endpoints on clerk.context7.com; scopes openid, profile, email, public_metadata, private_metadata, offline_access; grants authorization_code, refresh_token, device_code; token auth client_secret_basic, none, client_secret_post; PKCE S256",
+      "rest": "GET https://context7.com/api/v2/libs/search?query=astro with no Authorization header answers 200 with a JSON results list (the first result /withastro/docs)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.context7.com/mcp answers 200 (Context7 4.1.1) and a tools/list answers 200 with two tools, resolve-library-id and query-docs. Both 200s carry a www-authenticate header naming a protected-resource document, which is a challenge on a success: the server serves the keyless caller and tells it where to authenticate at the same time, and the CORS allow-list names four API-key header spellings beside Authorization. The resource document names two authorization servers, clerk.context7.com and context7.com, and lists two scopes; the Clerk server publishes registration, the device-code grant and public clients (none), with six scopes of its own. Which server an agent should use, and what a credential changes in the two tools, is not published here and not measured. A keyless GET on the documented library-search API answers 200. Same 200s as the 2026-09-08 measurement in the entry's notes; the challenge on the 200, the two-server resource document and the Clerk metadata are recorded here for the first time. Nothing here measures what either server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh context7 https://mcp.context7.com/mcp \"https://context7.com/api/v2/libs/search?query=astro\"",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/context7/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
