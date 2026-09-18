@@ -394,6 +394,25 @@ describe("linkTargets", () => {
     };
     expect(linkTargets([mixed]).map(t => t.url)).toEqual(["https://z.example/live"]);
   });
+  it("marks surfaces.mcp and surfaces.api as endpoints wherever the entry names them, and nothing else", () => {
+    const e = {
+      file: "registry/tools/w/tool.json",
+      value: { surfaces: { homepage: "https://w.example/", docs: "https://docs.w.example/", mcp: "https://mcp.w.example/", api: "https://api.w.example/v1" } },
+      profileFile: "registry/tools/w/profile.md",
+      profile: "Measured at [the server](https://mcp.w.example/) and read on [the docs](https://docs.w.example/).\n"
+    };
+    const got = linkTargets([e]).map(t => `${t.endpoint ? "endpoint" : "page"} ${t.url}`);
+    expect(got).toEqual([
+      "page https://w.example/",
+      "page https://docs.w.example/",
+      "endpoint https://mcp.w.example/",
+      "endpoint https://api.w.example/v1",
+      "endpoint https://mcp.w.example/",
+      "page https://docs.w.example/"
+    ]);
+    const vocabulary = linkTargets([], { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } });
+    expect(vocabulary.map(t => t.endpoint)).toEqual([false]);
+  });
   it("checks the payment-protocol vocabulary on its own path", () => {
     const opts = { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } };
     expect(linkTargets([], opts).map(t => t.url)).toEqual(["https://x402.example/"]);
