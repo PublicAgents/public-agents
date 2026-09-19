@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-coingecko-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "coingecko"
+  },
+  "surface": "https://mcp.api.coingecko.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo coingecko_coingecko_typescript_api 8.0.0; protocolVersion 2025-06-18; the server issues an mcp-session-id (redacted in the transcript; sent back on the tools/list)",
+      "tools-list": "200 on the issued session: 2 tools (execute, search_docs); execute's description begins \"Runs JavaScript code to interact with the Coingecko API\", so the keyless server exposes the API through a code-execution tool rather than one tool per endpoint",
+      "protected-resource-metadata": "404 (text/plain) at https://mcp.api.coingecko.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource; nothing named it)",
+      "authorization-server-metadata": "not looked for: step 2 named no authorization server",
+      "rest": "GET https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd with no Authorization header and no key answers 200 with a price",
+      "re-measured": "re-measured 2026-09-19 18:04Z with the later pinned script probe-mcp-b28b75f4.sh before filing (https://plumb.public-agents.ai/evidence/coingecko/2026-09-19/probes-1804Z.txt, SHA-256 512734eb822e1003171d8cac46e8dc9a46580dd3bebf8e5f93842c4eb6672b46): same 200 to initialize, same session id issued, same two tools, same 404 at the path-aware URI, same REST 200. That script also tries the root well-known URI https://mcp.api.coingecko.com/.well-known/oauth-protected-resource, which b7b57250 did not: it answers 404 (text/plain) too, so neither form of the discovery document exists. The record was held from 2026-09-18 until the registry's link check could ask a POST-only surface with a POST (#111)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.api.coingecko.com/mcp answers 200 (coingecko_coingecko_typescript_api 8.0.0) and issues a session id, and a tools/list on that session answers 200 with two tools: execute, described as running JavaScript code against the CoinGecko API, and search_docs, which searches the SDK documentation. The keyless server therefore exposes the API through one code-execution tool rather than one tool per endpoint, which is a different shape from every other server in this series and one a tool count does not show. No challenge is sent and the RFC 9728 default path answers 404. A keyless GET on the documented REST price endpoint answers 200 with a price. Same 200s as the 2026-09-10 measurement in the entry's notes; the two-tool list and its shape are recorded here for the first time. This probe asks about access; the x402 payment path is probe p-20260911-coingecko-x402-unpaid and was not re-run. Nothing here measures what a tool call returns.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh coingecko https://mcp.api.coingecko.com/mcp \"https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd\"",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/coingecko/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-19",
+  "version": 1
+}

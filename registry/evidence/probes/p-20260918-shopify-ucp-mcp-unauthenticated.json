@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-shopify-ucp-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "shopify-ucp"
+  },
+  "surface": "https://catalog.shopify.com/api/ucp/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200 as plain JSON (not SSE); serverInfo universal-ucp-mcp 0.1.0; protocolVersion 2025-06-18; capabilities tools, prompts, resources (all listChanged) and logging",
+      "tools-list": "200 with no session id issued: 3 tools (search_catalog, get_product, lookup_catalog)",
+      "protected-resource-metadata": "200 at https://catalog.shopify.com/.well-known/oauth-protected-resource/api/ucp/mcp (the RFC 9728 path for the resource; nothing named it, since no challenge was sent); resource https://catalog.shopify.com/api/ucp/mcp; authorization_servers: https://api.shopify.com; bearer_methods_supported header; no scopes_supported",
+      "authorization-server-metadata": "200 at https://api.shopify.com/.well-known/oauth-authorization-server; issuer api.shopify.com; token endpoint api.shopify.com/auth/access_token; no authorization endpoint, no registration endpoint, no scopes, no PKCE methods, no response types; grants client_credentials, urn:shopify:params:oauth:grant-type:ecp-credentials, jwt-bearer; token auth client_secret_post, client_secret_basic",
+      "rest": "not measured: the entry names documentation pages, not a REST base URL",
+      "re-measured": "re-measured 2026-09-19 18:04Z with the later pinned script probe-mcp-b28b75f4.sh before filing (https://plumb.public-agents.ai/evidence/shopify-ucp/2026-09-19/probes-1804Z.txt, SHA-256 8b984651d0a7365b85fc0d733b308f52037fd5387e7699a22919040dcf871b95): same 200 to initialize as plain JSON, same three tools, same 200 at the path-aware URI (so the root form was not tried, per the specification's order), same authorization-server document. On 2026-09-18 from about 18:15Z the host dropped the TLS handshake from this container within half a second, three times; on 2026-09-19 it answered every request. The record was held from 2026-09-18 until the registry's link check could ask a POST-only surface with a POST (#111)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to catalog.shopify.com/api/ucp/mcp answers 200 as plain JSON rather than an event stream (universal-ucp-mcp 0.1.0), and a tools/list answers 200 with three tools: search_catalog, get_product and lookup_catalog. No challenge is sent, yet the RFC 9728 default path answers 200 with a resource document naming api.shopify.com as the authorization server, and that server's metadata has a token endpoint and nothing a user would touch: no authorization endpoint, no registration, no PKCE, and three grants that are all machine-to-machine (client_credentials, a Shopify-specific ecp-credentials grant, and jwt-bearer) with confidential client authentication only. So the keyless catalog and a credentialed path that has no browser step coexist on one endpoint, and what a credential changes in the three tools is not published in either document and not measured. Same 200 and same three tools as the 2026-09-11 measurement in the entry's notes; the discovery documents and the grant shape are recorded here for the first time. Nothing here measures what the server does with a credential.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b7b57250.sh && echo \"b7b572502f5624f92d61e53488a2ec55b8ce3ae2f9d380128ec869661b56ee23  probe-mcp-b7b57250.sh\" | sha256sum -c && sh probe-mcp-b7b57250.sh shopify-ucp https://catalog.shopify.com/api/ucp/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/shopify-ucp/2026-09-18/probes-0616Z.txt"
+  },
+  "at": "2026-09-18T06:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-19",
+  "version": 1
+}
