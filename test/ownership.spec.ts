@@ -55,6 +55,49 @@ describe("guardedFetch", () => {
     expect(await guardedFetch("https://a.example/big-home", { resolve: resolvePublic, transport })).toMatchObject({ ok: true, status: 200, url: "https://a.example/docs" });
     expect(await guardedFetch("https://a.example/big-nowhere", { resolve: resolvePublic, transport })).toMatchObject({ ok: false, reason: "redirect_forbidden" });
   });
+  it("keeps the POST and its body through a 307 or 308, drops to GET on a 301, 302 or 303, and refuses a 307 off-host without replaying", async () => {
+    const seen: Array<{ url: string; method: string; body?: string; contentType?: string }> = [];
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      seen.push({ url: req.url.toString(), method: req.method, body: req.body, contentType: req.headers["content-type"] });
+      if (req.url.pathname === "/moved-307") return { kind: "response", status: 307, headers: { location: "/mcp" }, body: "" };
+      if (req.url.pathname === "/moved-308") return { kind: "too_large", status: 308, headers: { location: "/mcp" } };
+      if (req.url.pathname === "/moved-301") return { kind: "response", status: 301, headers: { location: "/mcp" }, body: "" };
+      if (req.url.pathname === "/moved-away") return { kind: "response", status: 307, headers: { location: "https://b.example/mcp" }, body: "" };
+      if (req.url.pathname === "/mcp") return { kind: "response", status: req.method === "POST" ? 406 : 404, headers: {}, body: "" };
+      return { kind: "response", status: 200, headers: {}, body: "" };
+    };
+    const post = { resolve: resolvePublic, transport, method: "POST" as const, body: "{}" };
+    expect(await guardedFetch("https://a.example/moved-307", post)).toMatchObject({ ok: true, status: 406, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-308", post)).toMatchObject({ ok: true, status: 406, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-301", post)).toMatchObject({ ok: true, status: 404, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-away", post)).toMatchObject({ ok: false, reason: "redirect_forbidden", detail: "https://a.example/moved-away -> https://b.example/mcp" });
+    expect(seen.map(s => `${s.method} ${s.url} ${s.body ?? "-"} ${s.contentType ?? "-"}`)).toEqual([
+      "POST https://a.example/moved-307 {} application/json",
+      "POST https://a.example/mcp {} application/json",
+      "POST https://a.example/moved-308 {} application/json",
+      "POST https://a.example/mcp {} application/json",
+      "POST https://a.example/moved-301 {} application/json",
+      "GET https://a.example/mcp - -",
+      "POST https://a.example/moved-away {} application/json"
+    ]);
+  });
+  it("refuses a redirect whose Location the parser rejects as that target's result, small or capped, without ending the run", async () => {
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      if (req.url.pathname === "/bad-host") return { kind: "response", status: 302, headers: { location: "https://exa mple.com/x" }, body: "" };
+      if (req.url.pathname === "/bad-port") return { kind: "response", status: 301, headers: { location: "https://a.example:99999/" }, body: "" };
+      if (req.url.pathname === "/bad-capped") return { kind: "too_large", status: 302, headers: { location: "http://[::1" } };
+      return { kind: "response", status: 200, headers: {}, body: "fine" };
+    };
+    const fetch = (path: string) => guardedFetch(`https://a.example${path}`, { resolve: resolvePublic, transport, method: "POST", body: "{}" });
+    // The three run beside a good target, the way check-links runs them, and every one settles with its own result.
+    const results = await Promise.all([fetch("/bad-host"), fetch("/fine"), fetch("/bad-port"), fetch("/bad-capped")]);
+    expect(results[1]).toMatchObject({ ok: true, status: 200 });
+    for (const bad of [results[0], results[2], results[3]]) {
+      expect(bad).toMatchObject({ ok: false, reason: "redirect_forbidden" });
+      expect((bad as { detail: string }).detail).toContain("the parser refuses");
+    }
+    expect((results[0] as { detail: string }).detail).toBe("https://a.example/bad-host: redirect to a location the parser refuses (https://exa mple.com/x)");
+  });
   it("refuses http, private addresses, cross-host redirects and oversized bodies", async () => {
     expect((await guardedFetch("http://a.example/", { resolve: resolvePublic })).ok).toBe(false);
     const priv = await guardedFetch("https://a.example/", { resolve: async () => ["10.0.0.5"], transport: fetchOf({}) });

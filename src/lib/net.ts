@@ -152,11 +152,14 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
   const maxBytes = options.maxBytes ?? 64 * 1024;
   const maxRedirects = options.maxRedirects ?? 2;
   let current = url;
-  // A POST is sent once, to the URL asked for. Whatever it redirects to is
-  // fetched with a GET and no body, the way a browser follows a 301, 302 or
-  // 303: the redirected path is not a place to repeat a request that could
-  // change state, and a surface that answers a POST with a redirect to a
-  // page is pointing at a page.
+  // A POST is sent to the URL asked for. What a 301, 302 or 303 points at
+  // is fetched with a GET and no body, the way a browser follows those: the
+  // redirected path is not a place to repeat a request that could change
+  // state, and a surface that answers a POST with a redirect to a page is
+  // pointing at a page. A 307 or 308 is defined to keep the method and the
+  // body (RFC 9110 15.4.8 and 15.4.9), so the POST is sent again, body and
+  // all, to the relocated surface: it is the same request the record made,
+  // one hop over, under the same host and hop rules as any redirect.
   let method: "GET" | "HEAD" | "POST" = options.method ?? "GET";
   for (let hop = 0; ; hop += 1) {
     let parsed: URL;
@@ -196,12 +199,19 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
     if (status !== undefined && status >= 300 && status < 400) {
       const location = response.headers?.location;
       if (!location) return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect without location` };
-      const next = new URL(location, current);
+      // The Location is the server's string; one the parser refuses is a
+      // refused redirect for this target, not an exception for the run.
+      let next: URL;
+      try {
+        next = new URL(location, current);
+      } catch {
+        return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect to a location the parser refuses (${location.slice(0, 80)})` };
+      }
       if (next.hostname !== parsed.hostname || hop + 1 > maxRedirects) {
         return { ok: false, reason: "redirect_forbidden", detail: `${current} -> ${next.toString()}` };
       }
       current = next.toString();
-      if (method === "POST") method = "GET";
+      if (method === "POST" && status !== 307 && status !== 308) method = "GET";
       continue;
     }
     if (response.kind === "too_large") {
