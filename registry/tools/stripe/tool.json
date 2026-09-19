@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": "https://stripe.com/pricing",
+    "notes": "Read 2026-09-19: the MCP server and API keys carry no price of their own and speak no 402 protocol. Stripe's fees are netted from each processed charge before payout (docs.stripe.com/payouts) and disputes debit the balance, so no bill is issued for the tool itself: 'none' is the nearest enum value."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-11 23:40Z, no credentials: MCP initialize at mcp.stripe.com answers 401 with a Bearer challenge; its metadata names access.stripe.com/mcp as the OAuth server. Vendor: OAuth where the client supports it, else a restricted API key as bearer; connected accounts need the key path."
+    "notes": "Measured 2026-09-11 and again 2026-09-19, no credentials: MCP initialize at mcp.stripe.com answers 401; the Bearer challenge's resource_metadata value is unquoted (outside RFC 7235 grammar); the metadata names access.stripe.com/mcp as the OAuth server. OAuth, or a restricted API key as bearer."
   },
   "surfaces": {
     "homepage": "https://stripe.com/",
@@ -58,6 +66,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-19",
+  "version": 3
 }
