@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-project44-rest-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "project44"
+  },
+  "surface": "https://na12.api.project44.com/api/v4/oauth2/client-applications",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "306",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Basic realm=\"project44 Security Realm\", Bearer realm=\"project44 Security Realm\": two schemes in one header, each with a realm and nothing else (no scope, no error, no resource_metadata)",
+      "body": "JSON: httpStatusCode 401, errorMessage \"Authorization failed.\", one error from source \"API Gateway\" saying credentials could not be verified, and a supportReferenceId (a per-request id, replaced by a labelled placeholder in the transcript after the run)",
+      "token-endpoint": "GET https://na12.api.project44.com/api/v4/oauth2/token answers 405 application/json, \"Request method 'GET' is not supported\", with no www-authenticate: the endpoint exists and takes another method, and a GET is not treated as an authentication failure",
+      "developer-portal": "GET https://developers.project44.com/ answers 200 text/html to this run; the registry's link checker, run from this container at 12:07Z today, recorded HTTP 404 for the same URL. Explained at 12:40Z: the portal's edge (Caddy behind CloudFront, x-cache Error from cloudfront) answers 404 to a HEAD request that carries no accept-encoding header and 200 to a HEAD that does, whatever the user agent; GET answers 200 either way. The checker sends HEAD without that header, and its GET fallback is refused by its own 16 KB byte cap because the page is larger, so the HEAD's 404 stands. Two facts, one the vendor's and one the checker's",
+      "mcp": "none: the entry lists no MCP server and mcp.project44.com had no address record on 2026-09-13, so no MCP request was made",
+      "artifact-redactions": "two Cloudflare __cf_bm session cookies and two supportReferenceId values are replaced by labelled placeholders in the transcript after the run; nothing else was changed"
+    }
+  },
+  "finding": "project44 publishes no MCP server, so this probe is REST only. With no credentials, GET api/v4/oauth2/client-applications on the na12 API host answers 401 with a www-authenticate header that offers two schemes, Basic and Bearer, each naming the same realm and nothing else: no scope, no error code, no metadata URL. The body is a gateway error with a per-request support reference. A GET on the oauth2/token endpoint answers 405, not 401, so the token endpoint is reachable and simply takes another method. The two-scheme challenge matches the vendor's own authentication guide, cited in the entry: Basic to manage client applications and mint tokens, Bearer everywhere else. Same 401 and same header as the entry's 2026-09-13 note. The developer portal answered 200 to this run and 404 to the registry's link checker eight minutes earlier: its edge answers 404 to a HEAD without an accept-encoding header, and the checker's GET fallback is refused by its own byte cap, so the 404 stands. Nothing here measures what a client-credentials token can read.",
+  "reproducibility": {
+    "command": "for u in https://na12.api.project44.com/api/v4/oauth2/client-applications https://na12.api.project44.com/api/v4/oauth2/token https://developers.project44.com/; do curl -sS -i -m 25 \"$u\" | head -c 4000; echo; done",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/project44/2026-09-18/probes-1215Z.txt"
+  },
+  "at": "2026-09-18T12:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}

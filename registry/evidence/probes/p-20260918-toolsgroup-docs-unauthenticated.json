@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-toolsgroup-docs-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "toolsgroup"
+  },
+  "surface": "https://docs.toolsgroup.com/",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 403,
+    "headers": {
+      "content-type": "text/html; charset=UTF-8",
+      "content-length": "5516",
+      "cf-mitigated": "challenge",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "body": "a Cloudflare managed challenge page (\"Just a moment...\"), 5,516 bytes, with cf-mitigated: challenge: the documentation host asks the client to execute a browser challenge before serving anything, to this datacenter IP with this user agent",
+      "support-site": "GET https://support.toolsgroup.com/ answers the same 403 managed challenge",
+      "llms-txt": "GET https://www.toolsgroup.com/llms.txt answers 200 text/plain: a hand-written company summary (key facts, platform, demand planning, supply planning sections) that names products and no API, endpoint, credential or MCP server",
+      "challenge": "none in the HTTP sense: the 403 carries no www-authenticate header; the gate is the CDN's bot challenge, not the application's authentication",
+      "mcp": "none: the entry lists no MCP server and mcp.toolsgroup.com had no address record on 2026-09-13, so no MCP request was made",
+      "api": "none: the entry lists no API surface and the vendor publishes no API reference the registry could find, so there is no endpoint to probe"
+    }
+  },
+  "finding": "ToolsGroup publishes no MCP server and no API reference, so the only machine-readable surface to measure is the documentation itself, and it does not answer a machine. With no credentials and no cookies, GET docs.toolsgroup.com/ answers 403 with a Cloudflare managed challenge (cf-mitigated: challenge) and no www-authenticate header, and the support site answers the same; the gate is the CDN's browser check, applied to this datacenter IP and user agent, not the vendor's authentication. The one surface that answers is the marketing site's llms.txt, a hand-written summary that names products and no endpoint. Same challenge and same llms.txt as the entry's 2026-09-13 note. The finding is that every cell is empty: an agent arriving from a cloud network cannot read this vendor's documentation, let alone call an API it does not publish.",
+  "reproducibility": {
+    "command": "for u in https://docs.toolsgroup.com/ https://support.toolsgroup.com/ https://www.toolsgroup.com/llms.txt; do curl -sS -i -m 25 \"$u\" | head -c 3000; echo; done",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/toolsgroup/2026-09-18/probes-1215Z.txt"
+  },
+  "at": "2026-09-18T12:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-18",
+  "version": 1
+}
