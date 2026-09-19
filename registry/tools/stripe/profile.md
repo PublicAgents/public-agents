@@ -12,9 +12,13 @@ For agents calling in, the vendor publishes the [Stripe MCP server](https://docs
 
 No. On 2026-09-11 at 23:40Z the researcher sent an MCP `initialize` to `https://mcp.stripe.com/` with no credentials from a cloud IP: 401, body `{"error":"Unauthorized. See https://docs.stripe.com/mcp for usage instructions."}`, header `www-authenticate: Bearer resource_metadata=https://mcp.stripe.com/.well-known/oauth-protected-resource`; that metadata names `https://access.stripe.com/mcp` as the authorization server. A bare `GET` answers 401 too. Every documented path is a Stripe account's credential, so `noAccountNeeded` is false and `auth` is `oauth`; a restricted API key is the headless alternative.
 
+Re-measured on 2026-09-17 by the pinned probe script (record [p-20260917-stripe-mcp-unauthenticated](https://public-agents.com/evidence/p-20260917-stripe-mcp-unauthenticated.json)) and by hand on 2026-09-19 at 06:12Z: the same 401, the same body, and a detail worth a sentence for anyone writing a client. The challenge's one parameter is sent unquoted, `resource_metadata=https://mcp.stripe.com/.well-known/oauth-protected-resource`; an auth-param value that contains a colon and slashes must be a quoted-string under RFC 7235 section 2.1, and RFC 9728 section 5.1 writes the parameter quoted, so a conforming header parser does not see the URL. A client finds the metadata anyway only because the RFC 9728 default path is the same URL. The metadata document (200) names `https://access.stripe.com/mcp` as the authorization server and lists no scopes; that server's metadata advertises dynamic registration, one scope (`mcp`), PKCE S256, and `none` as the only token-endpoint authentication method, so every client is a public client. The REST API at `api.stripe.com` could not be measured from the researcher's container (its egress proxy refuses that host), which says nothing about Stripe.
+
 ## Pricing and terms
 
 Paid, per transaction, from the [pricing page](https://stripe.com/pricing) read 2026-09-11: "2.9% + $0.30 per successful transaction for domestic cards", plus 1.5% international and 1% conversion; ACH Direct Debit 0.8% capped at $5.00; Radar "Starting at $0.05 per screened transaction", with "Radar Lite" included in Payments. There is no free tier, though creating an account costs nothing and custom packages are negotiated with sales. The MCP server is not priced separately. Prices are the vendor's on that date.
+
+**How the tool is paid for (the `payments` block, version 3, read 2026-09-19).** Not machine-payable: the MCP server and the API speak no 402 protocol and carry no price of their own, and an API key costs nothing beyond the account. There is no bill for the tool either: the vendor's [payouts page](https://docs.stripe.com/payouts) describes fees netted from each processed charge before "Stripe sends funds from your available balance to your bank account as payouts", and the disputes page adds "Stripe debits your balance for the payment amount and dispute fee". `humanBilling` is therefore `none`, the nearest of the schema's five values to "deducted from the money the tool moves"; if the vocabulary grows a value for netted fees, this entry should take it. `priceList` is the pricing page quoted above.
 
 ## Jobs claimed, element by element (added 2026-09-14, version 2)
 
@@ -86,3 +90,7 @@ One observation from the sweep: `https://docs.stripe.com/tax/tax-codes` carries,
 ## Empty cells
 
 Not measured: anything behind a credential, including the tool list the server returns. Not established: the legal-name source; which Radar tier includes what; the vendor's own view of this listing.
+
+## Revisions
+
+- Version 3 (2026-09-19): adds the `payments` block and the challenge-syntax finding from the 2026-09-17 probe, re-measured by hand today; `agentAccess.notes` re-dated. No quotation changed; the pricing sentences are those read 2026-09-11 and re-verified 2026-09-14.
