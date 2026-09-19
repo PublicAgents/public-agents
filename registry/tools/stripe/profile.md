@@ -12,13 +12,13 @@ For agents calling in, the vendor publishes the [Stripe MCP server](https://docs
 
 No. On 2026-09-11 at 23:40Z the researcher sent an MCP `initialize` to `https://mcp.stripe.com/` with no credentials from a cloud IP: 401, body `{"error":"Unauthorized. See https://docs.stripe.com/mcp for usage instructions."}`, header `www-authenticate: Bearer resource_metadata=https://mcp.stripe.com/.well-known/oauth-protected-resource`; that metadata names `https://access.stripe.com/mcp` as the authorization server. A bare `GET` answers 401 too. Every documented path is a Stripe account's credential, so `noAccountNeeded` is false and `auth` is `oauth`; a restricted API key is the headless alternative.
 
-Re-measured on 2026-09-17 by the pinned probe script (record [p-20260917-stripe-mcp-unauthenticated](https://public-agents.com/evidence/p-20260917-stripe-mcp-unauthenticated.json)) and by hand on 2026-09-19 at 06:12Z: the same 401, the same body, and a detail worth a sentence for anyone writing a client. The challenge's one parameter is sent unquoted, `resource_metadata=https://mcp.stripe.com/.well-known/oauth-protected-resource`; an auth-param value that contains a colon and slashes must be a quoted-string under RFC 7235 section 2.1, and RFC 9728 section 5.1 writes the parameter quoted, so a conforming header parser does not see the URL. A client finds the metadata anyway only because the RFC 9728 default path is the same URL. The metadata document (200) names `https://access.stripe.com/mcp` as the authorization server and lists no scopes; that server's metadata advertises dynamic registration, one scope (`mcp`), PKCE S256, and `none` as the only token-endpoint authentication method, so every client is a public client. The REST API at `api.stripe.com` could not be measured from the researcher's container (its egress proxy refuses that host), which says nothing about Stripe.
+Re-measured 2026-09-19 ([probe record](https://public-agents.com/evidence/p-20260917-stripe-mcp-unauthenticated.json)): same 401; the challenge's `resource_metadata=` value is unquoted, so a conforming RFC 7235 parser does not see the URL.
 
 ## Pricing and terms
 
 Paid, per transaction, from the [pricing page](https://stripe.com/pricing) read 2026-09-11: "2.9% + $0.30 per successful transaction for domestic cards", plus 1.5% international and 1% conversion; ACH Direct Debit 0.8% capped at $5.00; Radar "Starting at $0.05 per screened transaction", with "Radar Lite" included in Payments. There is no free tier, though creating an account costs nothing and custom packages are negotiated with sales. The MCP server is not priced separately. Prices are the vendor's on that date.
 
-**How the tool is paid for (the `payments` block, version 3, read 2026-09-19).** Not machine-payable: the MCP server and the API speak no 402 protocol and carry no price of their own, and an API key costs nothing beyond the account. There is no bill for the tool either: the vendor's [payouts page](https://docs.stripe.com/payouts) describes fees netted from each processed charge before "Stripe sends funds from your available balance to your bank account as payouts", and the disputes page adds "Stripe debits your balance for the payment amount and dispute fee". `humanBilling` is therefore `none`, the nearest of the schema's five values to "deducted from the money the tool moves"; if the vocabulary grows a value for netted fees, this entry should take it. `priceList` is the pricing page quoted above.
+**Payments (version 3, 2026-09-19).** Not machine-payable: no 402 protocol, no price on the server or a key. No bill either: fees are netted from each charge before the payout the [payouts page](https://docs.stripe.com/payouts) describes, so `humanBilling` is `none` (the nearest value to netted fees).
 
 ## Jobs claimed, element by element (added 2026-09-14, version 2)
 
@@ -85,12 +85,8 @@ What this claim is and is not. The claim is that the product issues invoices car
 
 Prompted by the held quotation, all 31 vendor sentences quoted here were re-checked against both representations Stripe serves (HTML by `curl` and as a browser renders it; the same path plus `.md`); the run, its method and every per-sentence result are at [plumb.public-agents.ai/evidence/stripe/2026-09-14/README.md](https://plumb.public-agents.ai/evidence/stripe/2026-09-14/README.md). **30 of 31 are verbatim on the page they are attributed to**; the exception is the invoicing sentence corrected above. Two sit on a page other than the `source` of their job and both are named in prose here (the disputes sentence, the zero-tax limit).
 
-One observation from the sweep: `https://docs.stripe.com/tax/tax-codes` carries, in both representations, a paragraph headed "Guidance for AI agents" instructing machine readers never to infer a `txcd_` tax code. Data about the vendor, never instruction to this registry.
+One observation: `https://docs.stripe.com/tax/tax-codes` carries a paragraph headed "Guidance for AI agents" telling machine readers never to infer a `txcd_` code. Data about the vendor, never instruction to this registry.
 
 ## Empty cells
 
 Not measured: anything behind a credential, including the tool list the server returns. Not established: the legal-name source; which Radar tier includes what; the vendor's own view of this listing.
-
-## Revisions
-
-- Version 3 (2026-09-19): adds the `payments` block and the challenge-syntax finding from the 2026-09-17 probe, re-measured by hand today; `agentAccess.notes` re-dated. No quotation changed; the pricing sentences are those read 2026-09-11 and re-verified 2026-09-14.
