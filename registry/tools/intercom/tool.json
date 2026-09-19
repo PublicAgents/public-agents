@@ -41,7 +41,7 @@
   "jobs": [
     {
       "job": "cs.deflect-tier1",
-      "summary": "Fin, the vendor's words on this page: \"industry leading resolution rates, averaging 76% across 12,000+ customers\"; \"Fin updates accounts, processes payments and refunds, troubleshoots technical issues\"; \"works 24 hours a day, every day\". \"$0.99 per Fin outcome.\" (pricing page). Not measured.",
+      "summary": "Fin, the vendor's words on fin.ai: \"industry leading resolution rates, averaging 76% across 12,000+ customers\"; \"Fin updates accounts, processes payments and refunds, troubleshoots technical issues\". On fin.ai/pricing: \"$0.99 per Fin outcome.\"; \"Qualifications are $9.99 each.\" Not measured.",
       "source": "https://fin.ai/",
       "sources": [
         "https://fin.ai/pricing"
