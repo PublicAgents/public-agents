@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260918-bitrefill-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "bitrefill"
+  },
+  "surface": "https://api.bitrefill.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "text/plain; charset=utf-8",
+      "content-length": "12",
+      "ratelimit-limit": "60"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer error=\"invalid_token\", error_description=\"Invalid token\": an RFC 6750 error with no realm, no scope and no resource_metadata parameter",
+      "body": "Unauthorized (12 bytes, text/plain)",
+      "rate-limit": "ratelimit-limit 60 with ratelimit-policy 60;w=30 on the refusal itself: the unauthenticated 401 is metered at 60 per 30 seconds",
+      "protected-resource-metadata": "nothing named in the challenge, so both well-known URIs were tried in the order the MCP authorization specification (2025-11-25) prescribes: the path-aware form https://api.bitrefill.com/.well-known/oauth-protected-resource/mcp answers 404 (an HTML not-found page); the root form https://api.bitrefill.com/.well-known/oauth-protected-resource answers 200 with a document whose resource is the origin https://api.bitrefill.com/ (not the /mcp endpoint), authorization_servers [https://api.bitrefill.com/oauth/mcp], scopes_supported mcp and cli, resource_documentation the vendor's account page for the MCP server (behind a sign-in)",
+      "authorization-server-metadata": "GET https://api.bitrefill.com/.well-known/oauth-authorization-server/oauth/mcp answers 200: issuer https://api.bitrefill.com/oauth/mcp (matches the URL it was read from), authorization, token, revocation and registration endpoints under /oauth/mcp, response type code, PKCE S256, token endpoint auth methods client_secret_post and none, grants authorization_code, refresh_token and client_credentials, client_id_metadata_document_supported true, authorization_response_iss_parameter_supported true. Dynamic registration and a public-client method are both advertised; neither was exercised",
+      "rest": "GET https://api.bitrefill.com/v2/ping with no Authorization header answers 401 application/json {\"message\":\"Authorization token not found\",\"status\":\"no_token\"} with no www-authenticate header, the same body the entry's 2026-09-11 note recorded",
+      "not-measured": "the x402 storefront paths (402 with a PAYMENT-REQUIRED header on 2026-09-11, in the entry) were not requested by this run; a payment-question probe is a separate record",
+      "re-measured": "re-measured 2026-09-19 18:04Z with the same pinned script before filing (https://plumb.public-agents.ai/evidence/bitrefill/2026-09-19/probes-1804Z.txt, SHA-256 cf430ad5ad44f863e10b568ca771b9f26a85a1dbc08791c96cec87ab50466920): every status, header and document the same as on 2026-09-18 (401 with the invalid_token challenge, path-aware 404, root 200, authorization-server 200, REST 401 no_token); only the rate-limit counters differ. The record was held from 2026-09-18 until the registry's link check could ask a POST-only surface with a POST (#111)"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to api.bitrefill.com/mcp answers 401 with a Bearer challenge carrying only error=\"invalid_token\": no realm, no scope and no metadata URL, so discovery falls to the well-known URIs. The path-aware one answers 404. The root one answers 200 with a protected-resource document that identifies the whole origin as the resource, names one authorization server under /oauth/mcp and lists two scopes, mcp and cli. That server's metadata is complete and self-consistent: its issuer matches its location, it advertises dynamic registration, a public-client token method and three grants including client_credentials, and PKCE S256. The REST API refuses a keyless ping with a JSON no_token body and no challenge at all. Same 401 and same REST refusal as the entry's 2026-09-11 note; the discovery chain, which lives only at the root well-known URI, is recorded here for the first time, and only because the script now tries both forms. Nothing here measures what the server does with a credential, and the x402 paths were not requested.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh bitrefill https://api.bitrefill.com/mcp https://api.bitrefill.com/v2/ping",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/bitrefill/2026-09-18/probes-1215Z.txt"
+  },
+  "at": "2026-09-18T12:15Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-18",
+  "updated": "2026-09-19",
+  "version": 1
+}
