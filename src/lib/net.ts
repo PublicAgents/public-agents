@@ -16,15 +16,18 @@ export interface TransportRequest {
   url: URL;
   /** The address that passed the check; the connection goes here, with the host name for SNI and the Host header. */
   address: string;
-  method: "GET" | "HEAD";
+  method: "GET" | "HEAD" | "POST";
   headers: Record<string, string>;
+  /** Sent with a POST; the content-type header travels beside it. */
+  body?: string;
   timeoutMs: number;
   maxBytes: number;
 }
 
 export type TransportResponse =
   | { kind: "response"; status: number; headers: Record<string, string>; body: string }
-  | { kind: "too_large" }
+  /** The status line arrived before the cap did; a transport that has it says so, since the answer's status is a fact even when its body is not read. */
+  | { kind: "too_large"; status?: number; headers?: Record<string, string> }
   | { kind: "timeout" }
   | { kind: "error"; detail: string };
 
@@ -37,13 +40,16 @@ export interface GuardedFetchOptions {
   maxBytes?: number;
   maxRedirects?: number;
   userAgent?: string;
-  method?: "GET" | "HEAD";
+  method?: "GET" | "HEAD" | "POST";
   accept?: string;
+  /** A POST body; sent as application/json. */
+  body?: string;
 }
 
 export type GuardedResult =
   | { ok: true; status: number; body: string; url: string; contentType: string }
-  | { ok: false; reason: "not_https" | "address_forbidden" | "unresolvable" | "timeout" | "too_large" | "redirect_forbidden" | "network"; detail: string };
+  /** `status` rides only on `too_large`: the answer's status line, read before the body outgrew the cap. */
+  | { ok: false; reason: "not_https" | "address_forbidden" | "unresolvable" | "timeout" | "too_large" | "redirect_forbidden" | "network"; detail: string; status?: number };
 
 const PRIVATE_V4 = [
   [/^0\./, "this network"],
@@ -97,7 +103,7 @@ export const httpsTransport: Transport = req =>
         port: req.url.port || 443,
         path: `${req.url.pathname}${req.url.search}`,
         method: req.method,
-        headers: { ...req.headers, host: req.url.host },
+        headers: { ...req.headers, host: req.url.host, ...(req.body === undefined ? {} : { "content-length": String(Buffer.byteLength(req.body)) }) },
         lookup: (_host, options, callback) => {
           // The pinned address: whatever the name says now, this socket
           // goes where the check looked. Node asks with { all: true } when
@@ -116,7 +122,9 @@ export const httpsTransport: Transport = req =>
           if (total > req.maxBytes) {
             response.destroy();
             request.destroy();
-            resolve({ kind: "too_large" });
+            const headers: Record<string, string> = {};
+            for (const [key, value] of Object.entries(response.headers)) if (typeof value === "string") headers[key.toLowerCase()] = value;
+            resolve({ kind: "too_large", status: response.statusCode, headers });
             return;
           }
           chunks.push(chunk);
@@ -134,7 +142,7 @@ export const httpsTransport: Transport = req =>
       resolve({ kind: "timeout" });
     });
     request.on("error", error => resolve({ kind: "error", detail: String(error).slice(0, 200) }));
-    request.end();
+    request.end(req.body);
   });
 
 export async function guardedFetch(url: string, options: GuardedFetchOptions = {}): Promise<GuardedResult> {
@@ -144,6 +152,15 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
   const maxBytes = options.maxBytes ?? 64 * 1024;
   const maxRedirects = options.maxRedirects ?? 2;
   let current = url;
+  // A POST is sent to the URL asked for. What a 301, 302 or 303 points at
+  // is fetched with a GET and no body, the way a browser follows those: the
+  // redirected path is not a place to repeat a request that could change
+  // state, and a surface that answers a POST with a redirect to a page is
+  // pointing at a page. A 307 or 308 is defined to keep the method and the
+  // body (RFC 9110 15.4.8 and 15.4.9), so the POST is sent again, body and
+  // all, to the relocated surface: it is the same request the record made,
+  // one hop over, under the same host and hop rules as any redirect.
+  let method: "GET" | "HEAD" | "POST" = options.method ?? "GET";
   for (let hop = 0; ; hop += 1) {
     let parsed: URL;
     try {
@@ -163,26 +180,42 @@ export async function guardedFetch(url: string, options: GuardedFetchOptions = {
       const why = forbiddenAddress(address);
       if (why) return { ok: false, reason: "address_forbidden", detail: `${parsed.hostname} resolves to ${address} (${why})` };
     }
+    const body = method === "POST" ? (options.body ?? "") : undefined;
     const response = await transport({
       url: parsed,
       address: addresses[0],
-      method: options.method ?? "GET",
-      headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*" },
+      method,
+      headers: { "user-agent": options.userAgent ?? "public-agents-ci", accept: options.accept ?? "*/*", ...(body === undefined ? {} : { "content-type": "application/json" }) },
+      ...(body === undefined ? {} : { body }),
       timeoutMs,
       maxBytes
     });
     if (response.kind === "timeout") return { ok: false, reason: "timeout", detail: current };
-    if (response.kind === "too_large") return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes` };
     if (response.kind === "error") return { ok: false, reason: "network", detail: `${current}: ${response.detail}` };
-    if (response.status >= 300 && response.status < 400) {
-      const location = response.headers.location;
+    // A redirect is a redirect whether or not its body fit under the cap:
+    // where it points is in the headers, which arrived, and the same
+    // host, hop and Location rules apply before anything counts.
+    const status = response.status;
+    if (status !== undefined && status >= 300 && status < 400) {
+      const location = response.headers?.location;
       if (!location) return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect without location` };
-      const next = new URL(location, current);
+      // The Location is the server's string; one the parser refuses is a
+      // refused redirect for this target, not an exception for the run.
+      let next: URL;
+      try {
+        next = new URL(location, current);
+      } catch {
+        return { ok: false, reason: "redirect_forbidden", detail: `${current}: redirect to a location the parser refuses (${location.slice(0, 80)})` };
+      }
       if (next.hostname !== parsed.hostname || hop + 1 > maxRedirects) {
         return { ok: false, reason: "redirect_forbidden", detail: `${current} -> ${next.toString()}` };
       }
       current = next.toString();
+      if (method === "POST" && status !== 307 && status !== 308) method = "GET";
       continue;
+    }
+    if (response.kind === "too_large") {
+      return { ok: false, reason: "too_large", detail: `${current}: over ${maxBytes} bytes${status === undefined ? "" : ` (HTTP ${status})`}`, ...(status === undefined ? {} : { status }) };
     }
     return { ok: true, status: response.status, body: response.body, url: current, contentType: response.headers["content-type"] ?? "" };
   }

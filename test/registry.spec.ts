@@ -441,6 +441,28 @@ describe("linkTargets", () => {
     const vocabulary = linkTargets([], { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } });
     expect(vocabulary.map(t => t.endpoint)).toEqual([false]);
   });
+  it("gives a probe's own surface the record's POST and every other URL of the record none", () => {
+    const probe = {
+      file: "registry/evidence/probes/p-1.json",
+      // The record spells its surface without a trailing slash in one place and with one in another: one server, so the method follows the URL.
+      value: {
+        id: "p-1",
+        surface: "https://mcp.p.example/mcp",
+        request: { method: "POST", credentials: "none", payment: "none", from: "x" },
+        conductedBy: { url: "https://plumb.example/" },
+        reproducibility: { command: "sh probe.sh https://mcp.p.example/mcp", artifactsUrl: "https://plumb.example/e/1.txt" }
+      }
+    };
+    const got = linkTargets([probe]).map(t => `${t.method ?? "page"} ${t.url}`);
+    expect(got).toEqual(["POST https://mcp.p.example/mcp", "page https://plumb.example/", "page https://plumb.example/e/1.txt"]);
+    // No key at all on an ordinary target, so nothing downstream has to read `undefined`.
+    expect(Object.keys(linkTargets([probe])[1])).toEqual(["file", "url", "endpoint"]);
+    // A probe measured with a GET keeps the checker's own pair, and so does a tool entry however it names its endpoint.
+    const asGet = { ...probe, value: { ...probe.value, request: { ...probe.value.request, method: "GET" } } };
+    expect(linkTargets([asGet]).every(t => t.method === undefined)).toBe(true);
+    const tool = { file: "registry/tools/t/tool.json", value: { surfaces: { mcp: "https://mcp.p.example/mcp" } } };
+    expect(linkTargets([tool]).map(t => `${t.endpoint} ${t.method}`)).toEqual(["true undefined"]);
+  });
   it("checks the payment-protocol vocabulary on its own path", () => {
     const opts = { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } };
     expect(linkTargets([], opts).map(t => t.url)).toEqual(["https://x402.example/"]);

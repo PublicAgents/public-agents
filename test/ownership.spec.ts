@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { forbiddenAddress, guardedFetch, type Transport } from "../src/lib/net.ts";
+import { forbiddenAddress, guardedFetch, type Transport, type TransportResponse } from "../src/lib/net.ts";
 import { decideWithProof, fetchProof, parseTxtRecord, updateNeedsProof } from "../src/lib/ownership.ts";
 
 const resolvePublic = async () => ["93.184.216.34"];
@@ -17,6 +17,87 @@ function fetchOf(routes: Record<string, { status?: number; body?: string; header
 }
 
 describe("guardedFetch", () => {
+  it("sends a POST with its JSON body and keeps the status of an answer that outgrew the cap", async () => {
+    const seen: Array<{ method: string; body?: string; headers: Record<string, string> }> = [];
+    const transport: Transport = async req => {
+      seen.push({ method: req.method, body: req.body, headers: req.headers });
+      if (req.method === "POST") return { kind: "response", status: 406, headers: {}, body: "" };
+      return { kind: "too_large", status: 200 };
+    };
+    const posted = await guardedFetch("https://a.example/mcp", { resolve: resolvePublic, transport, method: "POST", body: "{}" });
+    expect(posted).toMatchObject({ ok: true, status: 406 });
+    expect(seen[0]).toMatchObject({ method: "POST", body: "{}", headers: { "content-type": "application/json" } });
+    const capped = await guardedFetch("https://a.example/big", { resolve: resolvePublic, transport, maxBytes: 16 });
+    expect(capped).toMatchObject({ ok: false, reason: "too_large", status: 200 });
+    expect((capped as { detail: string }).detail).toContain("(HTTP 200)");
+    // A GET or HEAD carries no body and no content-type; a transport that drops the status on a cap leaves the result without one.
+    expect(seen[1].body).toBeUndefined();
+    expect(seen[1].headers["content-type"]).toBeUndefined();
+    const bare = await guardedFetch("https://a.example/", { resolve: resolvePublic, transport: fetchOf({ "https://a.example/": { body: "x".repeat(20) } }), maxBytes: 16 });
+    expect(bare).toMatchObject({ ok: false, reason: "too_large" });
+    expect("status" in bare).toBe(false);
+  });
+  it("follows a redirect with a GET after a POST, and reads a capped redirect by its Location like any other", async () => {
+    const seen: Array<{ url: string; method: string; body?: string }> = [];
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      seen.push({ url: req.url.toString(), method: req.method, body: req.body });
+      if (req.url.pathname === "/mcp") return { kind: "response", status: 303, headers: { location: "/docs" }, body: "" };
+      if (req.url.pathname === "/big-away") return { kind: "too_large", status: 302, headers: { location: "https://b.example/" } };
+      if (req.url.pathname === "/big-home") return { kind: "too_large", status: 301, headers: { location: "/docs" } };
+      if (req.url.pathname === "/big-nowhere") return { kind: "too_large", status: 302 };
+      return { kind: "response", status: 200, headers: {}, body: "docs" };
+    };
+    const posted = await guardedFetch("https://a.example/mcp", { resolve: resolvePublic, transport, method: "POST", body: "{}" });
+    expect(posted).toMatchObject({ ok: true, status: 200, url: "https://a.example/docs" });
+    expect(seen.map(s => `${s.method} ${s.url} ${s.body ?? "-"}`)).toEqual(["POST https://a.example/mcp {}", "GET https://a.example/docs -"]);
+    // An oversized off-host redirect is refused exactly as a small one is; on-host it is followed; without a Location it is refused.
+    expect(await guardedFetch("https://a.example/big-away", { resolve: resolvePublic, transport })).toMatchObject({ ok: false, reason: "redirect_forbidden", detail: "https://a.example/big-away -> https://b.example/" });
+    expect(await guardedFetch("https://a.example/big-home", { resolve: resolvePublic, transport })).toMatchObject({ ok: true, status: 200, url: "https://a.example/docs" });
+    expect(await guardedFetch("https://a.example/big-nowhere", { resolve: resolvePublic, transport })).toMatchObject({ ok: false, reason: "redirect_forbidden" });
+  });
+  it("keeps the POST and its body through a 307 or 308, drops to GET on a 301, 302 or 303, and refuses a 307 off-host without replaying", async () => {
+    const seen: Array<{ url: string; method: string; body?: string; contentType?: string }> = [];
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      seen.push({ url: req.url.toString(), method: req.method, body: req.body, contentType: req.headers["content-type"] });
+      if (req.url.pathname === "/moved-307") return { kind: "response", status: 307, headers: { location: "/mcp" }, body: "" };
+      if (req.url.pathname === "/moved-308") return { kind: "too_large", status: 308, headers: { location: "/mcp" } };
+      if (req.url.pathname === "/moved-301") return { kind: "response", status: 301, headers: { location: "/mcp" }, body: "" };
+      if (req.url.pathname === "/moved-away") return { kind: "response", status: 307, headers: { location: "https://b.example/mcp" }, body: "" };
+      if (req.url.pathname === "/mcp") return { kind: "response", status: req.method === "POST" ? 406 : 404, headers: {}, body: "" };
+      return { kind: "response", status: 200, headers: {}, body: "" };
+    };
+    const post = { resolve: resolvePublic, transport, method: "POST" as const, body: "{}" };
+    expect(await guardedFetch("https://a.example/moved-307", post)).toMatchObject({ ok: true, status: 406, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-308", post)).toMatchObject({ ok: true, status: 406, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-301", post)).toMatchObject({ ok: true, status: 404, url: "https://a.example/mcp" });
+    expect(await guardedFetch("https://a.example/moved-away", post)).toMatchObject({ ok: false, reason: "redirect_forbidden", detail: "https://a.example/moved-away -> https://b.example/mcp" });
+    expect(seen.map(s => `${s.method} ${s.url} ${s.body ?? "-"} ${s.contentType ?? "-"}`)).toEqual([
+      "POST https://a.example/moved-307 {} application/json",
+      "POST https://a.example/mcp {} application/json",
+      "POST https://a.example/moved-308 {} application/json",
+      "POST https://a.example/mcp {} application/json",
+      "POST https://a.example/moved-301 {} application/json",
+      "GET https://a.example/mcp - -",
+      "POST https://a.example/moved-away {} application/json"
+    ]);
+  });
+  it("refuses a redirect whose Location the parser rejects as that target's result, small or capped, without ending the run", async () => {
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      if (req.url.pathname === "/bad-host") return { kind: "response", status: 302, headers: { location: "https://exa mple.com/x" }, body: "" };
+      if (req.url.pathname === "/bad-port") return { kind: "response", status: 301, headers: { location: "https://a.example:99999/" }, body: "" };
+      if (req.url.pathname === "/bad-capped") return { kind: "too_large", status: 302, headers: { location: "http://[::1" } };
+      return { kind: "response", status: 200, headers: {}, body: "fine" };
+    };
+    const fetch = (path: string) => guardedFetch(`https://a.example${path}`, { resolve: resolvePublic, transport, method: "POST", body: "{}" });
+    // The three run beside a good target, the way check-links runs them, and every one settles with its own result.
+    const results = await Promise.all([fetch("/bad-host"), fetch("/fine"), fetch("/bad-port"), fetch("/bad-capped")]);
+    expect(results[1]).toMatchObject({ ok: true, status: 200 });
+    for (const bad of [results[0], results[2], results[3]]) {
+      expect(bad).toMatchObject({ ok: false, reason: "redirect_forbidden" });
+      expect((bad as { detail: string }).detail).toContain("the parser refuses");
+    }
+    expect((results[0] as { detail: string }).detail).toBe("https://a.example/bad-host: redirect to a location the parser refuses (https://exa mple.com/x)");
+  });
   it("refuses http, private addresses, cross-host redirects and oversized bodies", async () => {
     expect((await guardedFetch("http://a.example/", { resolve: resolvePublic })).ok).toBe(false);
     const priv = await guardedFetch("https://a.example/", { resolve: async () => ["10.0.0.5"], transport: fetchOf({}) });
