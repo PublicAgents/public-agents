@@ -12,10 +12,22 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.coingecko.com/en/api/pricing",
+    "notes": "Measured 2026-09-11 and 2026-09-19, no payment made: the x402 path answers 402 (x402Version 2, scheme exact, 10000 units of USDC, $0.01, Base or Solana). Keyed plans are subscriptions paid by card ('Pay with Visa, Mastercard, AMEX, JCB') or crypto; pricing page read on screen 2026-09-19."
+  },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-10: keyless REST simple/price 200 with no key; keyless MCP initialize at mcp.api.coingecko.com 200; unpaid GET on an x402 path 402 with a v2 PAYMENT-REQUIRED header (USDC on Base or Solana, 10000 units); Pro host 401 without a key. Docs: keyless about 10-30 calls/min per IP."
+    "notes": "Measured 2026-09-10, 09-18 and 09-19: keyless REST simple/price 200; keyless MCP initialize 200, tools/list 200 with two tools (execute runs JavaScript against the API; search_docs); no discovery document at either well-known URI; unpaid x402 GET 402 ($0.01 USDC, Base or Solana); Pro host 401."
   },
   "surfaces": {
     "homepage": "https://www.coingecko.com/",
@@ -46,6 +58,6 @@
     }
   ],
   "created": "2026-09-10",
-  "updated": "2026-09-11",
-  "version": 3
+  "updated": "2026-09-19",
+  "version": 4
 }
