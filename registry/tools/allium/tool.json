@@ -1,0 +1,63 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "allium",
+  "name": "Allium",
+  "kind": "service",
+  "status": "active",
+  "summary": "Blockchain data (historical SQL over 150+ chains, realtime prices, balances, transactions and PnL, Hyperliquid) for institutions and, per the vendor, for AI agents. Three documented agent paths: a hosted MCP server (OAuth sign-in or an API key from a free account), REST APIs keyed from the same account, and a machine-payments host, agents.allium.so, where every priced endpoint is paid per call with no API key, registration or subscription; an agent skill package and a CLI drive the paid path.",
+  "vendor": {
+    "name": "Allium Labs, Inc.",
+    "url": "https://www.allium.so/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "mpp",
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "unknown",
+    "priceList": "https://docs.allium.so/ai/machine-payments/endpoints-pricing",
+    "notes": "Measured 09-11 and 09-20 2026, unpaid: priced endpoints answer an unpaid request with an MPP (Tempo) challenge and an x402 v2 document together, USDC at the documented per-call price on Base, Solana, X Layer and Polygon. Account paths use credit pools; how credits are bought is unpublished."
+  },
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "other",
+    "notes": "Measured 2026-09-11 and 2026-09-20, no credentials: mcp.allium.so initialize 200, tools/list 200 (46 tools on 09-20, each tagged auth_api_key), every tool call Not authenticated; mcp-oauth.allium.so 401 with resource_metadata; agents.allium.so free supported-chains 200, priced endpoints 402."
+  },
+  "surfaces": {
+    "homepage": "https://www.allium.so/",
+    "docs": "https://docs.allium.so/",
+    "llmsTxt": "https://docs.allium.so/llms.txt",
+    "skills": [
+      "https://docs.allium.so/ai/machine-payments/agent-skills"
+    ],
+    "mcp": "https://docs.allium.so/ai/mcp/overview",
+    "api": "https://docs.allium.so/ai/machine-payments/endpoints-pricing",
+    "source": "https://github.com/Allium-Science/allium-cli"
+  },
+  "social": {
+    "github": "allium-labs"
+  },
+  "domains": [
+    "allium.so",
+    "www.allium.so"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.supply-market-data",
+      "summary": "Vendor's llms.txt and pricing page: audit-grade historical and real-time blockchain data (token prices latest, at a timestamp and as history; balances, holdings, PnL) for analytics, accounting and reporting, over SQL, REST, MCP and the paid path. Vendor's claim; freshness and coverage not measured.",
+      "source": "https://www.allium.so/llms.txt"
+    }
+  ],
+  "created": "2026-09-11",
+  "updated": "2026-09-20",
+  "version": 1
+}
