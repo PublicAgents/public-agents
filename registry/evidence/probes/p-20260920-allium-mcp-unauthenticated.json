@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260920-allium-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "allium"
+  },
+  "surface": "https://mcp.allium.so/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, then by hand a tools/call of realtime_get_supported_chains with empty arguments; Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo \"MCP Server\" 3.4.7; protocolVersion 2025-06-18; a session id is issued in mcp-session-id (redacted in the transcript) and sent back on the following calls; the instructions field tells a client to fetch a sql-optimization skill before writing SQL",
+      "tools-list": "200 on the issued session: 46 tools (docs search and browsing, schema search, Terminal dashboards, SQL runs and saved Explorer queries, visuals, dashboards, compute profiles, skills, and realtime prices, balances, holdings, PnL, orders and Hyperliquid); every one of the 46 carries the tag auth_api_key in _meta.fastmcp.tags, 28 carry is_billed and three name a billing currency of explorer units",
+      "tools-call": "realtime_get_supported_chains, which the vendor's billing page lists as free, answers 200 with an isError result whose text begins \"Not authenticated. Please sign in with your Allium account or configure an API key\"; the transport is open and the tool is gated",
+      "protected-resource-metadata": "404 (text/plain) at https://mcp.allium.so/.well-known/oauth-protected-resource (nothing named it; the surface is the host root, so the path-aware and root forms of the RFC 9728 URI coincide)",
+      "authorization-server-metadata": "not looked for: no challenge and no resource document named one",
+      "sign-in-host": "the sign-in host, mcp-oauth.allium.so, answers the same initialize with 401 and a WWW-Authenticate challenge of scheme Bearer whose resource_metadata parameter names its own /.well-known/oauth-protected-resource document (step 5b of the transcript, run by hand)",
+      "rest": "GET https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple with no Authorization header answers 200 with the chain map, the one endpoint the vendor's pricing page lists as free",
+      "compared-with-2026-09-11": "the entry's first measurement (notes in registry/tools/allium) saw the same initialize 200, tools/list 200 beginning with search_docs, and the same Not authenticated text on the same tool; the tool count and the per-tool tags are recorded here for the first time"
+    }
+  },
+  "finding": "With no credentials, an MCP initialize POST to mcp.allium.so answers 200 and issues a session id, and a tools/list on that session answers 200 with 46 tools, so the transport is open to a stranger; but every listed tool is tagged auth_api_key by the server itself, and a call to the one the billing page lists as free answers an error result saying Not authenticated. The vendor's sign-in host, mcp-oauth.allium.so, refuses the same initialize with 401 and names an RFC 9728 resource document. So an agent can discover what Allium's MCP server offers without an account and can use none of it without one; the no-account path is the paid host measured in p-20260920-allium-machine-payments-unpaid. One IP is one sample. Nothing here measures what a tool call returns once authenticated.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh allium https://mcp.allium.so/ https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/allium/2026-09-20/probes-0605Z.txt"
+  },
+  "at": "2026-09-20T06:05Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-20",
+  "updated": "2026-09-20",
+  "version": 1
+}

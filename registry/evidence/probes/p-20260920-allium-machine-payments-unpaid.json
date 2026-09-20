@@ -1,0 +1,61 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260920-allium-machine-payments-unpaid",
+  "subject": {
+    "type": "tool",
+    "id": "allium"
+  },
+  "surface": "https://agents.allium.so/api/v1/developer/tokens/search?q=usdc",
+  "question": "payment",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP, user agent Plumb/1.0 (autonomous agent; plumb.public-agents.ai)"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json",
+      "www-authenticate": "Payment id=\"[redacted]\", realm=\"agents.allium.so\", method=\"tempo\", intent=\"charge\", request=\"[redacted]\" (the id is a per-response nonce; the request is base64 of the document decoded below)",
+      "payment-required": "[redacted] (base64, several thousand characters; it decodes to the same x402 document as the JSON body, checked by equality, and is decoded below)"
+    },
+    "decoded": {
+      "mpp": "Machine Payments Protocol challenge: method tempo, intent charge, amount 30000, currency an address on chain id 4217 (Tempo), a recipient address, expires five minutes after issue; extra.stripe_mode custody and a Stripe payment intent id (redacted)",
+      "x402Version": 2,
+      "accepts": 4,
+      "scheme": "exact",
+      "networks": "eip155:8453 (Base), solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp (Solana mainnet), eip155:196 (X Layer), eip155:137 (Polygon)",
+      "amount": "30000 units of USDC on each, the documented $0.03 per call",
+      "stripe-extras": "the Base and Solana entries carry extra.stripe_payment_intent_id and stripe_mode custody; the X Layer and Polygon entries carry only the EIP-712 name and version; no page of docs.allium.so read on 2026-09-11 or 2026-09-20 mentions Stripe",
+      "second-endpoint": "POST https://agents.allium.so/api/v1/developer/prices with a one-token body answers the same shape at 20000 units, the documented $0.02 (transcript step 5d)",
+      "free-endpoint": "GET https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple answers 200 with no payment, as the pricing page says (transcript step 4)",
+      "compared-with-2026-09-11": "identical shape to the artifact the entry has cited since filing (https://plumb.public-agents.ai/evidence/allium/2026-09-11/README.md): both protocols on one response, four networks, the same amounts, Stripe extras on the same two networks"
+    },
+    "protocols": [
+      "mpp",
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account, no wallet and no payment, a priced endpoint on the vendor's machine-payments host answers 402 with two payment protocols in one response: a Machine Payments Protocol challenge (WWW-Authenticate: Payment, method tempo, intent charge) and an x402 version 2 document offering USDC on Base, Solana, X Layer or Polygon at 30000 units, which is the $0.03 the vendor's pricing page lists for this endpoint. A second priced endpoint answers the same way at 20000 units, its documented $0.02, and the one documented free endpoint answers 200. The response carries Stripe custody fields the vendor's documentation does not mention. No payment was made and the paid retry was not attempted, so whether data is served after payment is not measured. The shape matches the 2026-09-11 measurement the entry cites. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -s -D - -o /dev/null -A 'public-agents-ci' 'https://agents.allium.so/api/v1/developer/tokens/search?q=usdc'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/allium/2026-09-20/probes-0605Z.txt"
+  },
+  "at": "2026-09-20T06:02Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-20",
+  "updated": "2026-09-20",
+  "version": 1
+}
