@@ -12,10 +12,17 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "notes": "2026-09-20: no surface read speaks a 402 payment protocol; the MCP server and the REST API refuse a stranger with 401 OAuth, not with a price. How a human pays is not stated: the pricing page says you add payment details without naming a method, and the billing help articles answer 404."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-12 06:03Z, no credentials: MCP initialize at mcp.intercom.com/mcp answers 401, Bearer realm OAuth, invalid_token; api.intercom.io answers 401 missing_authorization. Vendor: authenticated remote MCP; REST and Fin Agent API by access token; Fin Agent API access on request."
+    "notes": "Re-measured 2026-09-20 18:12Z, no credentials: MCP initialize at mcp.intercom.com/mcp still 401, Bearer realm OAuth, invalid_token; api.intercom.io 401. Neither RFC 9728 well-known path exists (404); /.well-known/oauth-authorization-server at the origin answers 200. Fin Agent API access on request."
   },
   "surfaces": {
     "homepage": "https://www.intercom.com/",
@@ -49,6 +56,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-19",
-  "version": 2
+  "updated": "2026-09-20",
+  "version": 3
 }
