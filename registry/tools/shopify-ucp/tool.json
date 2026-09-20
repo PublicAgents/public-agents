@@ -5,17 +5,24 @@
   "name": "Shopify agentic commerce (UCP MCP servers)",
   "kind": "service",
   "status": "active",
-  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Catalog search needs no account (measured). Whether anonymous agents can build checkouts is unresolved: the vendor's pages disagree and it was not measured. Placing the order needs a permissioned token.",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Catalog search and, measured 2026-09-20 at one merchant, creating a checkout need no account; two vendor pages still say checkout needs authentication. Placing the order needs a permissioned token.",
   "vendor": {
     "name": "Shopify Inc.",
     "url": "https://www.shopify.com/",
     "kind": "organization"
   },
   "pricing": "unknown",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "notes": "2026-09-20: no page read prices agent access to these servers and no 402 protocol is spoken; the tiers gate on identification and rate limits. The money here is the buyer's purchase at the merchant, which this block does not model. Any cost behind the Token tier's credential was not established."
+  },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-11 12:12Z, no credentials: catalog.shopify.com/api/ucp/mcp initialize 200, tools/list 200 (3 tools), search_catalog 200 with 10 products when the request names a hosted UCP agent profile, 422 invalid_profile_url without one; a merchant endpoint listed 13 tools (listed, not called)."
+    "notes": "Measured 2026-09-20 12:15Z, no credentials or signature, at a merchant endpoint: initialize 200, tools/list 200 (13 tools), create_checkout with an impossible variant id reached merchandise validation, not an auth refusal. 2026-09-11: catalog search 200 with a hosted agent profile, 422 without."
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
@@ -46,6 +53,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 2
+  "updated": "2026-09-20",
+  "version": 3
 }
