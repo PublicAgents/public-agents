@@ -5,7 +5,7 @@
   "name": "Shopify agentic commerce (UCP MCP servers)",
   "kind": "service",
   "status": "active",
-  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a free Dev Dashboard credential), Signed (RFC 9421 signatures, no key) and Anonymous (nothing). Catalog search and, measured 2026-09-20 at one merchant, creating a checkout need no account; two vendor pages still say checkout needs authentication. Placing the order needs a permissioned token.",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a Dev Dashboard credential), Signed (RFC 9421 signatures) and Anonymous (nothing). Catalog search needs no account (measured). Measured 2026-09-20 at one merchant: of 13 tools only complete_checkout and get_order refuse an anonymous caller; no valid checkout was attempted.",
   "vendor": {
     "name": "Shopify Inc.",
     "url": "https://www.shopify.com/",
@@ -22,7 +22,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-20 12:15Z, no credentials or signature, at a merchant endpoint: initialize 200, tools/list 200 (13 tools), create_checkout with an impossible variant id reached merchandise validation, not an auth refusal. 2026-09-11: catalog search 200 with a hosted agent profile, 422 without."
+    "notes": "Measured 2026-09-20 18:04Z at one merchant's endpoint, no credential or signature: 11 of 13 tools take an anonymous call and answer an argument error; complete_checkout and get_order answer 403 AuthenticationRequired. No valid call made. 2026-09-11: catalog search 200 with a profile, 422 without."
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
