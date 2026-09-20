@@ -15,6 +15,8 @@ Yes. On 2026-09-11 at 23:06Z the researcher called `https://knowledge-mcp.global
 - `tools/call` of `aws___search_documentation` with the phrase "S3 bucket versioning": 200, ranked results with titles, context and URLs.
 - A bare `GET` of the endpoint: 302 to the README on GitHub (it is not a browsable page; the endpoint takes POST).
 
+Re-measured on 2026-09-20 at 06:03Z with the same two requests and no credentials: `initialize` 200, server `AWSKnowledgeMCP` 1.0.0, session id issued; `tools/list` 200 with the same five `aws___` tools. The search call was not repeated. The entry's `updated` date moves to this re-measurement; nothing else in the entry changed.
+
 The vendor's surfaces say the same in three places: the server page ("The Knowledge MCP server does not require authentication but is subject to rate limits"; FAQ 3, "No. You can get started with the Knowledge MCP server without an AWS account"), the GA announcement quoted above, and the July 2025 preview announcement. The rate limits are not published as numbers.
 
 Two things the vendor's pages do not say, found on the call: the tool names on the wire carry an `aws___` prefix (a call to `search_documentation` as documented answers "Unknown tool"), and the session id is issued on `initialize` and expected on the following calls.

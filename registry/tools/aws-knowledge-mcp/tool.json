@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-11 23:06Z from a cloud IP, no credentials: MCP initialize 200 (server AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, a search_documentation call 200 with ranked results. Tool names carry an aws___ prefix the README omits. Rate limits are not published as numbers."
+    "notes": "Measured 2026-09-11 23:06Z and again 2026-09-20 06:03Z from a cloud IP, no credentials: MCP initialize 200 (server AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, a search_documentation call 200 (09-11). Tool names carry an aws___ prefix the README omits. Rate limits not published."
   },
   "surfaces": {
     "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
@@ -41,6 +41,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
+  "updated": "2026-09-20",
   "version": 1
 }
