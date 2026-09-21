@@ -44,7 +44,7 @@
   "jobs": [
     {
       "job": "eng.retrieve-reference-context",
-      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation, alongside its project and deployment tools. Not measured: an unauthenticated initialize answered 401, so the documentation tool was not reached.",
+      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation, alongside its project and deployment tools. Not measured: a keyless tools/call of search_vercel_documentation answered 401 on 2026-09-21.",
       "source": "https://vercel.com/docs/agent-resources/vercel-mcp"
     }
   ],
