@@ -1,0 +1,48 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260921-vercel-mcp-doc-tool-anonymous",
+  "subject": {
+    "type": "tool",
+    "id": "vercel"
+  },
+  "surface": "https://mcp.vercel.com/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/call request for search_vercel_documentation with topic \"routing\" and no initialize handshake (jsonrpc 2.0, id 2), Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "www-authenticate": "Bearer error=\"invalid_token\", error_description=\"No authorization provided\", resource_metadata=\"https://mcp.vercel.com/.well-known/oauth-protected-resource\""
+    },
+    "decoded": {
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"No authorization provided\"}",
+      "challenge": "the challenge is the one recorded in the headers field, byte for byte the one the tools/list request drew in the same minute"
+    }
+  },
+  "finding": "Calling search_vercel_documentation, the one documentation tool the vendor's tools reference lists and the only candidate for its \"public tools (available without authentication)\" sentence, with no credentials answers 401 with a Bearer challenge rather than a search result. The tools reference itself puts no tool in a public category; it groups tools by product area only. One request, one answer: this does not establish that no public tool exists, only that this call, in this minute, from this IP, was refused without one.",
+  "reproducibility": {
+    "command": "curl -sS -D - -o - -X POST https://mcp.vercel.com -H 'accept: application/json, text/event-stream' --json '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"search_vercel_documentation\",\"arguments\":{\"topic\":\"routing\"}}}'"
+  },
+  "at": "2026-09-21T18:12Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-21",
+  "updated": "2026-09-21",
+  "version": 1
+}

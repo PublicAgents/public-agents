@@ -5,23 +5,35 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching and navigating Vercel documentation, managing projects and deployments, analysing deployment logs, and querying Web Analytics (visitors, page views, custom events). The vendor says the tool set splits into public tools (no authentication) and authenticated tools (Vercel authentication). Measured: an unauthenticated initialize answers 401 with a Bearer OAuth challenge.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching and navigating Vercel documentation, managing projects and deployments, analysing deployment logs, querying Web Analytics and inspecting Agent Runs. The vendor says the tool set splits into public tools (no authentication) and authenticated tools; measured 2026-09-21, initialize, tools/list and a direct call of the documentation tool all answer 401 with the same Bearer challenge.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://vercel.com/docs/pricing",
+    "notes": "2026-09-21: nothing read prices an agent call or speaks a 402 protocol; the MCP server is gated by OAuth, not by a price. Pro billing FAQ: \"What payment methods are available? Credit/Debit card only.\" Enterprise adds ACH and wire on invoices finalised in Stripe. Hobby is free."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-12, no credentials, cloud IP: MCP initialize at mcp.vercel.com answers HTTP/2 401 with a Bearer challenge; resource_metadata names vercel.com as the authorization server, scope openid. The vendor says some tools are public (no auth), but initialize required a token here."
+    "notes": "Measured 2026-09-12 and 2026-09-21, no credentials, cloud IP: MCP initialize, tools/list and a tools/call of search_vercel_documentation each answer 401 with the same Bearer challenge; resource_metadata names vercel.com as the authorization server, scope openid. No public tool was reached."
   },
   "surfaces": {
     "homepage": "https://vercel.com/",
     "docs": "https://vercel.com/docs/agent-resources/vercel-mcp",
     "llmsTxt": "https://vercel.com/llms.txt",
+    "skills": [
+      "https://vercel.com/docs/agent-resources/skills"
+    ],
     "mcp": "https://mcp.vercel.com",
+    "openapi": "https://vercel.com/openapi.json",
     "source": null
   },
   "domains": [
@@ -37,6 +49,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-12",
-  "version": 1
+  "updated": "2026-09-21",
+  "version": 2
 }
