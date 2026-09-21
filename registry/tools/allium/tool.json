@@ -37,7 +37,7 @@
     "skills": [
       "https://docs.allium.so/ai/machine-payments/agent-skills"
     ],
-    "mcp": "https://docs.allium.so/ai/mcp/overview",
+    "mcp": "https://mcp.allium.so/",
     "api": "https://docs.allium.so/ai/machine-payments/endpoints-pricing",
     "source": "https://github.com/Allium-Science/allium-cli"
   },
@@ -58,6 +58,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-20",
-  "version": 1
+  "updated": "2026-09-21",
+  "version": 2
 }
