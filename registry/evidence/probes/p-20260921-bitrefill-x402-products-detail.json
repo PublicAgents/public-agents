@@ -34,7 +34,7 @@
       "x402"
     ]
   },
-  "finding": "The product-detail route, reached the way the vendor's endpoint table documents it (GET with a slug query parameter), answers 402 at 1000 units of USDC ($0.001), its published price. Recorded beside the companion probe for the POST form of the same path, which the search response's own discovery example names and which answers 404. No payment was made.",
+  "finding": "The product-detail route, reached the way the vendor's endpoint table documents it (GET with a slug query parameter), answers 402 at 1000 units of USDC ($0.001), its published price. The POST form of the same path, which this storefront's own bazaar example points at, answers 404; that observation has no probe record because this registry's link check refuses a surface that 404s, so it is recorded in the tool's profile instead. No payment was made.",
   "reproducibility": {
     "command": "curl -si 'https://api.bitrefill.com/x402/products/detail?slug=amazon-us'"
   },

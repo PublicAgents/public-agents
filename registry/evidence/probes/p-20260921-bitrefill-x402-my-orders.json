@@ -33,7 +33,7 @@
       "x402"
     ]
   },
-  "finding": "The caller's own order list, which the vendor's endpoint table prices as free, answers 402 with an EMPTY accepts array and a sign-in-with-x challenge. The status code says payment required and the document offers nothing payable: what is actually required is a wallet signature. A client that branches on the status code alone finds no price to pay and no instruction to sign. Nothing was signed and no payment was made; the nonce in the challenge is not published here.",
+  "finding": "The caller's own order list, which the vendor's endpoint table prices as free, answers 402 with an EMPTY accepts array and a sign-in-with-x challenge. The status code says payment required and the document offers nothing payable: the document carries instead is a challenge and the vendor's own step-by-step instructions for signing it. A client that branches on the status code alone finds no price to pay and no instruction to sign. Nothing was signed and no payment was made; the nonce in the challenge is not published here.",
   "reproducibility": {
     "command": "curl -si 'https://api.bitrefill.com/x402/my/orders'"
   },

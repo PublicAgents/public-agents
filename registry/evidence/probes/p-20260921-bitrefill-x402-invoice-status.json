@@ -34,7 +34,7 @@
       "x402"
     ]
   },
-  "finding": "Invoice status is the one route of the twelve that asks for both things at once: its 402 carries a priced accepts array (1000 units of USDC, $0.001, the published price) and a sign-in-with-x challenge in the same document. The invoice_id used, 0, resolves to nothing, so the 402 is the server's answer before the id is looked up. Nothing was paid and nothing was signed.",
+  "finding": "Invoice status is the one route of the twelve that asks for both things at once: its 402 carries a priced accepts array (1000 units of USDC, $0.001, the published price) and a sign-in-with-x challenge in the same document. The request named invoice_id 0; what the server does with that id behind the 402 is not visible from an unpaid request and is not claimed. Nothing was paid and nothing was signed.",
   "reproducibility": {
     "command": "curl -si 'https://api.bitrefill.com/x402/invoice/status?invoice_id=0'"
   },
