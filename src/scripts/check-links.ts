@@ -14,7 +14,7 @@
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
 import { linkTargets, slash } from "../lib/link-targets.ts";
-import { linkAnswers, linkDetail, MCP_ACCEPT, MCP_INITIALIZE, type TargetMethod } from "../lib/links.ts";
+import { askUrl, linkDetail } from "../lib/links.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
@@ -35,51 +35,15 @@ const targets = linkTargets(
   { changed, paymentProtocols: registry.paymentProtocols }
 );
 
+// The order of requests behind one link, and which answers count, are
+// decided in src/lib/links.ts, where the whole sequence is tested without
+// a network: HEAD then GET, the wider table for a probe surface its record
+// measured with a POST, the JSON-RPC handshake for a surfaces.mcp URL that
+// answered neither browser method, a capped body judged by its status
+// line, and the one exception for a machine endpoint that answers a
+// browser's GET with a redirect to its documentation on another host.
 const results = await withConcurrency(4, targets.map(target => async () => {
-  let result;
-  let method: TargetMethod | undefined = target.method;
-  if (target.method === "POST") {
-    // A probe's surface that its record measured with a POST is asked
-    // with one: an empty JSON object, no session, nothing that could be a
-    // credential. Some servers answer nothing else (issue #107).
-    result = await guardedFetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-  } else {
-    // HEAD first; GET only when HEAD failed outright or the server erred,
-    // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
-    // overwritten by a fallback that fares worse.
-    result = await guardedFetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
-    if (!result.ok || result.status >= 500 || result.status === 404) {
-      const fallback = await guardedFetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-      if (linkAnswers(fallback, target.endpoint)) result = fallback;
-      else if (!result.ok) result = fallback;
-    }
-    // A `surfaces.mcp` URL that answered neither browser method is asked
-    // once more in the protocol it advertises: a well-formed JSON-RPC
-    // `initialize` with the Accept header the MCP transport requires. An
-    // MCP server has no other read verb, so a HEAD-and-GET-only check of
-    // this field measures the checker. The answer is read with the POST
-    // status table, where 404 and 410 are still dead: the widening is
-    // "answers the protocol", not "answers anything".
-    if (target.mcp === true && !linkAnswers(result, target.endpoint)) {
-      const handshake = await guardedFetch(target.url, {
-        method: "POST",
-        body: MCP_INITIALIZE,
-        accept: MCP_ACCEPT,
-        timeoutMs: 10_000,
-        maxBytes: 16 * 1024
-      });
-      if (linkAnswers(handshake, target.endpoint, "POST")) {
-        result = handshake;
-        method = "POST";
-      }
-    }
-  }
-  // Which answers count as alive is decided in src/lib/links.ts, where it
-  // is tested: the status table, the wider table for a URL asked with a
-  // POST, a capped body judged by its status line, and the one exception
-  // for a machine endpoint (surfaces.mcp, surfaces.api) that answers a
-  // browser's GET with a redirect to its documentation on another host.
-  const alive = linkAnswers(result, target.endpoint, method);
+  const { alive, result } = await askUrl(target, guardedFetch);
   return { ...target, dead: !alive, detail: linkDetail(result, alive) };
 }));
 

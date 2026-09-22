@@ -63,6 +63,34 @@ export const MCP_INITIALIZE = JSON.stringify({
 /** What an MCP endpoint's transport requires of a client's `Accept` header. */
 export const MCP_ACCEPT = "application/json, text/event-stream";
 
+/**
+ * Whether an answer to that handshake came from an MCP server, which is a
+ * narrower question than whether the URL answered at all. The generic POST
+ * table is deliberately not used here: it counts any 4xx but 404 and 410,
+ * and a mistyped `surfaces.mcp` that lands on an unrelated JSON endpoint
+ * rejecting the body with 400 or 422 would pass a field no MCP client can
+ * call. So only two things count.
+ *
+ * A 2xx counts when the body is a JSON-RPC answer to `initialize`: the
+ * `jsonrpc` envelope or the `protocolVersion` every initialize result
+ * carries, in a plain JSON body or in the `data:` line of an SSE stream,
+ * which is how a streamable-HTTP server replies. A 2xx that says neither
+ * is some other server being agreeable.
+ *
+ * 401, 402, 403 and 429 count: an endpoint that demands a credential, a
+ * payment or a slower caller has answered about the caller, not about
+ * whether the URL is there, and refusing before the protocol starts is
+ * what the MCP authorization specification tells a server to do. Every
+ * other status, 400 and 422 included, leaves the URL dead: a server that
+ * cannot read a well-formed `initialize` is not one an agent can use.
+ */
+export function mcpHandshakeAnswers(result: GuardedResult): boolean {
+  if (!result.ok) return false;
+  if ([401, 402, 403, 429].includes(result.status)) return true;
+  if (result.status < 200 || result.status >= 300) return false;
+  return /"jsonrpc"\s*:\s*"2\.0"/.test(result.body) || /"protocolVersion"\s*:/.test(result.body);
+}
+
 /** The one method a target can ask for besides the checker's own HEAD-then-GET pair. */
 export type TargetMethod = "POST";
 
@@ -127,4 +155,52 @@ function statusAnswers(status: number, method?: TargetMethod): boolean {
 export function linkDetail(result: GuardedResult, alive: boolean): string {
   const detail = result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}`;
   return !alive || (!result.ok && (result.reason === "redirect_forbidden" || result.reason === "too_large")) ? detail : "";
+}
+
+/** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
+export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number }) => Promise<GuardedResult>;
+
+/** What the checker asks of one URL, and which of its own requests it kept. */
+export interface LinkAsk {
+  alive: boolean;
+  result: GuardedResult;
+}
+
+/**
+ * The order of requests behind one link, kept here rather than in the
+ * script so the whole sequence can be tested without a network: HEAD,
+ * then GET when HEAD failed outright or the server erred, then, for a
+ * `surfaces.mcp` URL that neither answered, one JSON-RPC `initialize`.
+ * A probe surface whose record says POST keeps its single POST and is
+ * never asked any other way.
+ */
+export async function askUrl(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+  if (target.method === "POST") {
+    // A probe's surface that its record measured with a POST is asked
+    // with one: an empty JSON object, no session, nothing that could be a
+    // credential. Some servers answer nothing else (issue #107).
+    const result = await fetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+    return { alive: linkAnswers(result, target.endpoint, "POST"), result };
+  }
+  // HEAD first; GET only when HEAD failed outright or the server erred,
+  // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
+  // overwritten by a fallback that fares worse.
+  let result = await fetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
+  if (!result.ok || result.status >= 500 || result.status === 404) {
+    const fallback = await fetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
+    if (linkAnswers(fallback, target.endpoint)) result = fallback;
+    else if (!result.ok) result = fallback;
+  }
+  if (linkAnswers(result, target.endpoint)) return { alive: true, result };
+  // A `surfaces.mcp` URL that answered neither browser method is asked
+  // once more in the protocol it advertises. An MCP server has no other
+  // read verb, so a HEAD-and-GET-only check of this field measures the
+  // checker. `mcpHandshakeAnswers` asks whether an MCP server replied,
+  // not whether anything replied, so a 400 or a 422 from some other JSON
+  // endpoint on a mistyped URL stays as dead as a 404.
+  if (target.mcp === true) {
+    const handshake = await fetch(target.url, { method: "POST", body: MCP_INITIALIZE, accept: MCP_ACCEPT, timeoutMs: 10_000, maxBytes: 64 * 1024 });
+    if (mcpHandshakeAnswers(handshake)) return { alive: true, result: handshake };
+  }
+  return { alive: false, result };
 }

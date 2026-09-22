@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalUrl, endpointsOf, linkAnswers, linkDetail, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, probeSurfaceOf } from "../src/lib/links.ts";
+import { askUrl, canonicalUrl, endpointsOf, linkAnswers, linkDetail, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -123,5 +123,73 @@ describe("linkDetail", () => {
     // A capped body accepted by its status prints how it was accepted, so the reader sees the cap was hit.
     expect(linkDetail({ ok: false, reason: "too_large", detail: "https://a.example/: over 16384 bytes (HTTP 200)", status: 200 }, true)).toBe("too_large: https://a.example/: over 16384 bytes (HTTP 200)");
     expect(linkDetail(refused("timeout", "https://a.example/"), false)).toBe("timeout: https://a.example/");
+  });
+});
+
+describe("mcpHandshakeAnswers", () => {
+  const handshake = (body: string): GuardedResult => ({ ok: true, status: 200, body, url: "https://mcp.a.example/", contentType: "application/json" });
+
+  it("takes a 2xx only when an MCP server is what replied", () => {
+    expect(mcpHandshakeAnswers(handshake('{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18"}}'))).toBe(true);
+    // A streamable-HTTP server answers in an SSE frame; the envelope is in the data line.
+    expect(mcpHandshakeAnswers(handshake('event: message\ndata: {"jsonrpc":"2.0","id":1,"result":{"serverInfo":{"name":"x"}}}\n\n'))).toBe(true);
+    expect(mcpHandshakeAnswers(handshake('{"result":{"protocolVersion":"2025-06-18","capabilities":{}}}'))).toBe(true);
+    // Some other server being agreeable is not an MCP server.
+    expect(mcpHandshakeAnswers(handshake('{"ok":true}'))).toBe(false);
+    expect(mcpHandshakeAnswers(handshake("<!doctype html><title>Home</title>"))).toBe(false);
+  });
+
+  it("takes a refusal of the caller and refuses a refusal of the request, which is the whole narrowing", () => {
+    for (const status of [401, 402, 403, 429]) expect(mcpHandshakeAnswers({ ...handshake("no"), status })).toBe(true);
+    // A mistyped surfaces.mcp landing on an unrelated JSON endpoint: it rejects the body, and no MCP client could use it.
+    for (const status of [400, 404, 405, 410, 415, 422, 500]) expect(mcpHandshakeAnswers({ ...handshake('{"error":"bad request"}'), status })).toBe(false);
+    expect(mcpHandshakeAnswers(refused("timeout"))).toBe(false);
+  });
+});
+
+describe("askUrl", () => {
+  // A fetch that answers from a table and records the order it was asked in.
+  const stub = (answers: Record<string, GuardedResult>) => {
+    const asked: string[] = [];
+    const fetch = async (url: string, options: { method: string; body?: string; accept?: string }) => {
+      asked.push(options.method);
+      if (options.method === "POST" && options.body === MCP_INITIALIZE) expect(options.accept).toBe(MCP_ACCEPT);
+      return answers[options.method] ?? refused("network", "no stub");
+    };
+    return { fetch, asked };
+  };
+  const target = { url: "https://mcp.a.example/", endpoint: true, mcp: true };
+
+  it("stops at HEAD when HEAD answers, and never sends the handshake", async () => {
+    const { fetch, asked } = stub({ HEAD: answered(405) });
+    expect(await askUrl(target, fetch)).toMatchObject({ alive: true });
+    expect(asked).toEqual(["HEAD"]);
+  });
+
+  it("asks the handshake only after HEAD and GET have both failed, and takes the endpoint on its answer", async () => {
+    const body = '{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18"}}';
+    const { fetch, asked } = stub({ HEAD: answered(404), GET: answered(404), POST: { ok: true, status: 200, body, url: target.url, contentType: "text/event-stream" } });
+    const ask = await askUrl(target, fetch);
+    expect(asked).toEqual(["HEAD", "GET", "POST"]);
+    expect(ask.alive).toBe(true);
+    // The kept result is the handshake, so the report prints what counted.
+    expect(ask.result).toMatchObject({ status: 200 });
+  });
+
+  it("leaves a URL dead when the handshake is refused by something that is not an MCP server", async () => {
+    const { fetch } = stub({ HEAD: answered(404), GET: answered(404), POST: { ok: true, status: 422, body: '{"errors":["unprocessable"]}', url: target.url, contentType: "application/json" } });
+    expect(await askUrl(target, fetch)).toMatchObject({ alive: false });
+  });
+
+  it("never sends the handshake to a URL that is not surfaces.mcp", async () => {
+    const { fetch, asked } = stub({ HEAD: answered(404), GET: answered(404) });
+    expect(await askUrl({ url: "https://api.a.example/v1", endpoint: true }, fetch)).toMatchObject({ alive: false });
+    expect(asked).toEqual(["HEAD", "GET"]);
+  });
+
+  it("keeps a probe surface's single POST and asks it no other way", async () => {
+    const { fetch, asked } = stub({ POST: answered(422) });
+    expect(await askUrl({ url: "https://mcp.a.example/mcp", endpoint: false, method: "POST" as const }, fetch)).toMatchObject({ alive: true });
+    expect(asked).toEqual(["POST"]);
   });
 });
