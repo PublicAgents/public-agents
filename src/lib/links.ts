@@ -83,12 +83,34 @@ export const MCP_ACCEPT = "application/json, text/event-stream";
  * what the MCP authorization specification tells a server to do. Every
  * other status, 400 and 422 included, leaves the URL dead: a server that
  * cannot read a well-formed `initialize` is not one an agent can use.
+ *
+ * A 2xx whose body outgrew the byte cap counts on its status line alone,
+ * the way `linkAnswers` takes any other capped answer. This is a deliberate
+ * choice and not a fallthrough: a streamable-HTTP server may answer the
+ * handshake on an event stream it then holds open, so the cap is reached by
+ * a conformant server more often than by a 64 KiB `initialize` result, and
+ * at the cap the fetch keeps no body, so the protocol evidence this function
+ * otherwise requires cannot be read. What that costs is stated exactly: the
+ * statuses the narrowing exists to keep dead (404, 410, 400, 422) are none
+ * of them 2xx, so nothing reachable this way is a mistyped URL landing on an
+ * unrelated JSON endpoint; what it admits is a non-MCP server that answers
+ * a POST of `initialize` with more than 64 KiB of 2xx. A capped non-2xx is
+ * judged by the same table as any other status, so a capped 401 counts and a
+ * capped 400 does not.
  */
 export function mcpHandshakeAnswers(result: GuardedResult): boolean {
-  if (!result.ok) return false;
-  if ([401, 402, 403, 429].includes(result.status)) return true;
-  if (result.status < 200 || result.status >= 300) return false;
-  return /"jsonrpc"\s*:\s*"2\.0"/.test(result.body) || /"protocolVersion"\s*:/.test(result.body);
+  if (result.ok) return handshakeStatusAnswers(result.status, result.body);
+  // `status` rides only on `too_large`; a timeout or a network error carries none, and stays dead.
+  if (result.reason === "too_large" && result.status !== undefined) return handshakeStatusAnswers(result.status, undefined);
+  return false;
+}
+
+/** The handshake's table. `body` is undefined when the cap left none to read. */
+function handshakeStatusAnswers(status: number, body: string | undefined): boolean {
+  if ([401, 402, 403, 429].includes(status)) return true;
+  if (status < 200 || status >= 300) return false;
+  if (body === undefined) return true;
+  return /"jsonrpc"\s*:\s*"2\.0"/.test(body) || /"protocolVersion"\s*:/.test(body);
 }
 
 /** The one method a target can ask for besides the checker's own HEAD-then-GET pair. */

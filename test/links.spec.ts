@@ -145,6 +145,18 @@ describe("mcpHandshakeAnswers", () => {
     for (const status of [400, 404, 405, 410, 415, 422, 500]) expect(mcpHandshakeAnswers({ ...handshake('{"error":"bad request"}'), status })).toBe(false);
     expect(mcpHandshakeAnswers(refused("timeout"))).toBe(false);
   });
+
+  it("takes a capped 2xx on its status line, because a server that holds its stream open keeps no body to read", () => {
+    const capped = (status: number): GuardedResult => ({ ok: false, reason: "too_large", detail: `https://mcp.a.example/: over 65536 bytes (HTTP ${status})`, status });
+    // The conformant case: an SSE answer to `initialize` that kept sending past the cap.
+    expect(mcpHandshakeAnswers(capped(200))).toBe(true);
+    // A capped refusal of the caller is still a refusal of the caller; a capped refusal of the request is still dead.
+    expect(mcpHandshakeAnswers(capped(401))).toBe(true);
+    for (const status of [400, 404, 410, 422, 500]) expect(mcpHandshakeAnswers(capped(status))).toBe(false);
+    // Nothing but `too_large` carries a status, and a cap with none says nothing.
+    expect(mcpHandshakeAnswers({ ok: false, reason: "too_large", detail: "no status" })).toBe(false);
+    expect(mcpHandshakeAnswers({ ok: false, reason: "network", detail: "reset", status: 200 } as GuardedResult)).toBe(false);
+  });
 });
 
 describe("askUrl", () => {
@@ -174,6 +186,15 @@ describe("askUrl", () => {
     expect(ask.alive).toBe(true);
     // The kept result is the handshake, so the report prints what counted.
     expect(ask.result).toMatchObject({ status: 200 });
+  });
+
+  it("takes a handshake whose stream outgrew the cap, and prints how it counted", async () => {
+    const capped: GuardedResult = { ok: false, reason: "too_large", detail: `${target.url}: over 65536 bytes (HTTP 200)`, status: 200 };
+    const { fetch, asked } = stub({ HEAD: answered(404), GET: answered(404), POST: capped });
+    const ask = await askUrl(target, fetch);
+    expect(asked).toEqual(["HEAD", "GET", "POST"]);
+    expect(ask.alive).toBe(true);
+    expect(linkDetail(ask.result, ask.alive)).toBe(`too_large: ${target.url}: over 65536 bytes (HTTP 200)`);
   });
 
   it("leaves a URL dead when the handshake is refused by something that is not an MCP server", async () => {
