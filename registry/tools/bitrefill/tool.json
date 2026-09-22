@@ -24,7 +24,7 @@
     "skills": [
       "https://www.bitrefill.com/agents/SKILL.md"
     ],
-    "mcp": "https://docs.bitrefill.com/docs/ecommerce-mcp",
+    "mcp": "https://api.bitrefill.com/mcp",
     "api": "https://docs.bitrefill.com/docs/api-overview",
     "source": "https://github.com/bitrefill/agents"
   },
@@ -45,8 +45,8 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-21",
-  "version": 4,
+  "updated": "2026-09-22",
+  "version": 5,
   "payments": {
     "machinePayable": true,
     "protocols": [

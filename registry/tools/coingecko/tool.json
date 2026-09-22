@@ -36,7 +36,7 @@
     "skills": [
       "https://docs.coingecko.com/ai-integration/agent-skill"
     ],
-    "mcp": "https://docs.coingecko.com/ai-integration/mcp-server",
+    "mcp": "https://mcp.api.coingecko.com/mcp",
     "api": "https://docs.coingecko.com/demo/reference/endpoint-overview",
     "openapi": "https://docs.coingecko.com/openapi-specs/demo-api.json",
     "source": "https://github.com/coingecko/coingecko-typescript"
@@ -58,6 +58,6 @@
     }
   ],
   "created": "2026-09-10",
-  "updated": "2026-09-19",
-  "version": 4
+  "updated": "2026-09-22",
+  "version": 5
 }
