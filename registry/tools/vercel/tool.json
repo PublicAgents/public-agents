@@ -5,7 +5,7 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching and navigating Vercel documentation, managing projects and deployments, analysing deployment logs, querying Web Analytics and inspecting Agent Runs. The vendor says the tool set splits into public tools (no authentication) and authenticated tools; measured 2026-09-21, initialize, tools/list and a direct call of the documentation tool all answer 401 with the same Bearer challenge.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, inspecting Agent Runs, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Measured 2026-09-21: initialize, tools/list and a call of the documentation tool all answer 401 with the same Bearer challenge.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
@@ -18,7 +18,7 @@
     "methods": [],
     "humanBilling": "card-on-file",
     "priceList": "https://vercel.com/docs/pricing",
-    "notes": "2026-09-21: nothing read prices an agent call or speaks a 402 protocol; the MCP server is gated by OAuth, not by a price. Pro billing FAQ: \"What payment methods are available? Credit/Debit card only.\" Enterprise adds ACH and wire on invoices finalised in Stripe. Hobby is free."
+    "notes": "2026-09-22: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file \"immediately\" and \"non-refundable\" after a quote-then-confirm flow. Nothing was bought."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -46,9 +46,14 @@
       "job": "eng.retrieve-reference-context",
       "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation, alongside its project and deployment tools. Not measured: a keyless tools/call of search_vercel_documentation answered 401 on 2026-09-21.",
       "source": "https://vercel.com/docs/agent-resources/vercel-mcp"
+    },
+    {
+      "job": "proc.purchase-on-behalf",
+      "summary": "The vendor's words: Purchase tools \"make purchases on behalf of a team\". Quote with get_purchase_quote, then buy_pro, buy_credits, buy_addon or buy_domain with confirm true and the quote's key; \"charges go to the team's payment method immediately and are non-refundable\". Not measured.",
+      "source": "https://vercel.com/docs/agent-resources/vercel-mcp/tools"
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-21",
+  "updated": "2026-09-22",
   "version": 2
 }
