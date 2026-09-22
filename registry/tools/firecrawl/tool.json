@@ -5,7 +5,7 @@
   "name": "Firecrawl",
   "kind": "service",
   "status": "active",
-  "summary": "Web scraping, crawling and search for agents: any URL to clean Markdown or schema-shaped JSON, plus a web search with a developer-documentation category, through a REST API, SDKs, a CLI and a hosted MCP server. The vendor documents a keyless tier for search, scrape and parse, capped per IP address per day.",
+  "summary": "Web scraping, crawling and search for agents: any URL to clean Markdown or schema-shaped JSON, plus a web search with a developer-documentation category, through a REST API, SDKs, a CLI and a hosted MCP server. The vendor documents a keyless tier for search, scrape and parse, capped per IP per day; two measurements from a datacenter were refused.",
   "vendor": {
     "name": "Firecrawl",
     "url": "https://www.firecrawl.dev/",
@@ -13,9 +13,9 @@
   },
   "pricing": "freemium",
   "agentAccess": {
-    "noAccountNeeded": true,
-    "auth": "none",
-    "notes": "The vendor's claim. Measured 2026-09-09 from a cloud IP: REST search and scrape answer 403 (IP looks suspicious, get a key), MCP initialize 200 but a keyless tool call returns KEYLESS_ACCESS_NOT_AVAILABLE. The IP gate is not in the docs."
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Re-measured 2026-09-22 18:16Z, no credentials, same as 2026-09-09: REST /v2/scrape 403 (IP looks suspicious); keyless MCP tools/call KEYLESS_ACCESS_NOT_AVAILABLE inside a 200; tools/list names the three documented keyless tools. No measurement from here has reached the documented keyless tier."
   },
   "surfaces": {
     "homepage": "https://www.firecrawl.dev/",
@@ -37,6 +37,17 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-09-09",
-  "updated": "2026-09-09",
-  "version": 1
+  "updated": "2026-09-22",
+  "version": 2,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card",
+      "other"
+    ],
+    "humanBilling": "card-on-file",
+    "notes": "2026-09-22: nothing prices a call to a machine and no surface speaks a payment protocol. The vendor's 402 is an out-of-credits status, not a payment challenge. Humans pay through Stripe (\"credit cards, debit cards, and PayPal\"); credits are the unit, bought in $5 steps.",
+    "priceList": "https://www.firecrawl.dev/pricing"
+  }
 }
