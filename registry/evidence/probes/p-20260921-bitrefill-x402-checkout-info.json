@@ -28,14 +28,14 @@
       "solana-extra-differs": "the three EVM accepts carry extra.name USD Coin and extra.version 2; the Solana accept carries neither, only extra.feePayer. A client that reads extra.name on every entry finds it missing on one of the four",
       "published-price": "the vendor's endpoint table prices this route at $0.001; 1000 units is exactly that",
       "resource-description": "the 402 describes this route as: Discover the Bitrefill x402 storefront: supported networks, the full route flow, and wallet persistence rules",
-      "no-builder-code": "this response carries the bazaar extension but NOT the builder-code extension that the search, product-detail, invoice-create, invoice-pay and invoice-status responses carry",
+      "builder-code-absent": "the extensions object on this response holds bazaar and nothing else: there is no builder-code extension on it. What the other routes of this storefront carry is not read from this request and is not claimed here",
       "set": "one of twelve single-request probe records filed together on 2026-09-21, one per route of the vendor's published x402 endpoint table; nothing in this finding rests on any request but the one above. The set is summarised in the tool's profile"
     },
     "protocols": [
       "x402"
     ]
   },
-  "finding": "The route the storefront offers for discovering itself, its supported networks, its route flow and its wallet persistence rules, is itself priced: 402, 1000 units of USDC ($0.001), the vendor's published price. An agent with no wallet cannot read the storefront's own description of how to use it. It is also one of two priced responses in this set that carries no builder-code extension. No payment was made.",
+  "finding": "The route the storefront offers for discovering itself, its supported networks, its route flow and its wallet persistence rules, is itself priced: 402, 1000 units of USDC ($0.001), the vendor's published price. An agent with no wallet cannot read the storefront's own description of how to use it. No payment was made.",
   "reproducibility": {
     "command": "curl -si 'https://api.bitrefill.com/x402/checkout/info'"
   },
