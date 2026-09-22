@@ -5,23 +5,35 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching and navigating Vercel documentation, managing projects and deployments, analysing deployment logs, and querying Web Analytics (visitors, page views, custom events). The vendor says the tool set splits into public tools (no authentication) and authenticated tools (Vercel authentication). Measured: an unauthenticated initialize answers 401 with a Bearer OAuth challenge.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com, an OAuth-authenticated endpoint that gives an AI assistant access to a Vercel account: the vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, inspecting Agent Runs, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Measured 2026-09-21: initialize, tools/list and a call of the documentation tool all answer 401 with the same Bearer challenge.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://vercel.com/docs/pricing",
+    "notes": "2026-09-22: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file \"immediately\" and \"non-refundable\" after a quote-then-confirm flow. Nothing was bought."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-12, no credentials, cloud IP: MCP initialize at mcp.vercel.com answers HTTP/2 401 with a Bearer challenge; resource_metadata names vercel.com as the authorization server, scope openid. The vendor says some tools are public (no auth), but initialize required a token here."
+    "notes": "Measured 2026-09-12 and 2026-09-21, no credentials, cloud IP: MCP initialize, tools/list and a tools/call of search_vercel_documentation each answer 401 with the same Bearer challenge; resource_metadata names vercel.com as the authorization server, scope openid. No public tool was reached."
   },
   "surfaces": {
     "homepage": "https://vercel.com/",
     "docs": "https://vercel.com/docs/agent-resources/vercel-mcp",
     "llmsTxt": "https://vercel.com/llms.txt",
+    "skills": [
+      "https://vercel.com/docs/agent-resources/skills"
+    ],
     "mcp": "https://mcp.vercel.com",
+    "openapi": "https://vercel.com/openapi.json",
     "source": null
   },
   "domains": [
@@ -32,11 +44,16 @@
   "jobs": [
     {
       "job": "eng.retrieve-reference-context",
-      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation, alongside its project and deployment tools. Not measured: an unauthenticated initialize answered 401, so the documentation tool was not reached.",
+      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation, alongside its project and deployment tools. Not measured: a keyless tools/call of search_vercel_documentation answered 401 on 2026-09-21.",
       "source": "https://vercel.com/docs/agent-resources/vercel-mcp"
+    },
+    {
+      "job": "proc.purchase-on-behalf",
+      "summary": "The vendor's words: Purchase tools \"make purchases on behalf of a team\". Quote with get_purchase_quote, then buy_pro, buy_credits, buy_addon or buy_domain with confirm true and the quote's key; \"charges go to the team's payment method immediately and are non-refundable\". Not measured.",
+      "source": "https://vercel.com/docs/agent-resources/vercel-mcp/tools"
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-12",
-  "version": 1
+  "updated": "2026-09-22",
+  "version": 2
 }
