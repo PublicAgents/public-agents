@@ -6,6 +6,7 @@ import { loadRegistry } from "../src/lib/registry.ts";
 import { coverage } from "../src/lib/coverage.ts";
 import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { linkTargets } from "../src/lib/link-targets.ts";
+import { canonicalUrl } from "../src/lib/links.ts";
 import { classify } from "../src/scripts/pr-class.ts";
 import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
 
@@ -401,6 +402,19 @@ describe("linkTargets", () => {
     const windows = { ...entry, file: "registry\\tools\\x\\tool.json", profileFile: "registry\\tools\\x\\profile.md" };
     const got = linkTargets([windows], { changed: new Set(["registry/tools/x/profile.md"]) });
     expect(got.map(t => t.url)).toEqual(["https://docs.x.example/pricing"]);
+  });
+  it("flags surfaces.mcp for the protocol retry, in the JSON and in the profile that quotes it, and never surfaces.api", () => {
+    const served = {
+      file: "registry/tools/m/tool.json",
+      value: { surfaces: { homepage: "https://m.example/", mcp: "https://mcp.m.example", api: "https://api.m.example/v1" } },
+      profileFile: "registry/tools/m/profile.md",
+      profile: "The server lives at [https://mcp.m.example/](https://mcp.m.example/) and its REST base at [https://api.m.example/v1](https://api.m.example/v1).\n"
+    };
+    const flags = Object.fromEntries(linkTargets([served]).map(t => [`${t.file} ${canonicalUrl(t.url)}`, t.mcp === true]));
+    expect(flags["registry/tools/m/tool.json https://mcp.m.example/"]).toBe(true);
+    expect(flags["registry/tools/m/profile.md https://mcp.m.example/"]).toBe(true);
+    expect(flags["registry/tools/m/tool.json https://api.m.example/v1"]).toBe(false);
+    expect(flags["registry/tools/m/tool.json https://m.example/"]).toBe(false);
   });
   it("keeps an uppercase scheme rather than dropping it silently, in JSON and in a profile alike", () => {
     const shouty = {
