@@ -1,4 +1,4 @@
-import { canonicalUrl, endpointsOf, probeSurfaceOf, type TargetMethod } from "./links.ts";
+import { canonicalUrl, endpointsOf, mcpEndpointsOf, probeSurfaceOf, type TargetMethod } from "./links.ts";
 import { profileUrls } from "./profile.ts";
 
 /**
@@ -30,6 +30,14 @@ export interface LinkTarget {
    * which answers count). Absent everywhere else.
    */
   method?: TargetMethod;
+  /**
+   * The URL is the entry's `surfaces.mcp`. When HEAD and GET have both
+   * failed to answer it, `check-links` asks once more the only way an MCP
+   * client can: a JSON-RPC `initialize` (src/lib/links.ts). The flag
+   * follows the URL, like `endpoint`, so the same endpoint quoted in the
+   * profile is treated as the same server.
+   */
+  mcp?: boolean;
 }
 
 /** The shape this needs from a loaded entry; the registry's entries satisfy it. */
@@ -86,22 +94,35 @@ export interface TargetOptions {
 export function linkTargets(entries: Iterable<TargetSource>, options: TargetOptions = {}): LinkTarget[] {
   const { changed, paymentProtocols, paymentProtocolsFile = "registry/payment-protocols.json" } = options;
   const targets: LinkTarget[] = [];
-  const add = (file: string, urls: Iterable<string>, endpoints: ReadonlySet<string> = new Set(), surface?: { url: string; method: TargetMethod }) => {
+  const add = (
+    file: string,
+    urls: Iterable<string>,
+    endpoints: ReadonlySet<string> = new Set(),
+    surface?: { url: string; method: TargetMethod },
+    mcpEndpoints: ReadonlySet<string> = new Set()
+  ) => {
     for (const url of urls) {
       if (!keep(url)) continue;
       const canonical = canonicalUrl(url);
-      targets.push({ file, url, endpoint: endpoints.has(canonical), ...(surface && surface.url === canonical ? { method: surface.method } : {}) });
+      targets.push({
+        file,
+        url,
+        endpoint: endpoints.has(canonical),
+        ...(mcpEndpoints.has(canonical) ? { mcp: true } : {}),
+        ...(surface && surface.url === canonical ? { method: surface.method } : {})
+      });
     }
   };
   const wanted = (file: string) => !changed || changed.has(slash(file));
 
   for (const entry of entries) {
     const endpoints = endpointsOf(entry.value);
+    const mcpEndpoints = mcpEndpointsOf(entry.value);
     if (wanted(entry.file)) {
       const urls = new Set<string>();
       urlsOf(entry.value, urls);
       // A probe's surface carries the record's method; every other URL in the record is a page.
-      add(entry.file, urls, endpoints, probeSurfaceOf(entry.value));
+      add(entry.file, urls, endpoints, probeSurfaceOf(entry.value), mcpEndpoints);
     }
     // The profile is the other half of an entry and it is where the citations
     // behind its quotations live, so a URL named there is named by the entry.
@@ -109,7 +130,7 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
     // the entry points a reader at, and gating that on the JSON meant a
     // profile-only pull request checked nothing at all.
     if (entry.profile !== undefined && entry.profileFile !== undefined && wanted(entry.profileFile)) {
-      add(entry.profileFile, profileUrls(entry.profile), endpoints);
+      add(entry.profileFile, profileUrls(entry.profile), endpoints, undefined, mcpEndpoints);
     }
   }
 

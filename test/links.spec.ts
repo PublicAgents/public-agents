@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalUrl, endpointsOf, linkAnswers, linkDetail, probeSurfaceOf } from "../src/lib/links.ts";
+import { canonicalUrl, endpointsOf, linkAnswers, linkDetail, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -14,6 +14,31 @@ describe("endpointsOf", () => {
     expect([...endpointsOf({ surfaces: { mcp: "HTTPS://Mcp.A.Example" } })]).toEqual(["https://mcp.a.example/"]);
     expect(endpointsOf({}).size).toBe(0);
     expect(endpointsOf(undefined).size).toBe(0);
+  });
+});
+
+describe("mcpEndpointsOf", () => {
+  it("names surfaces.mcp and refuses surfaces.api, because only one of the two advertises a protocol", () => {
+    const entry = { surfaces: { homepage: "https://a.example/", mcp: "https://mcp.a.example", api: "https://api.a.example/v1" } };
+    expect([...mcpEndpointsOf(entry)]).toEqual(["https://mcp.a.example/"]);
+    expect([...mcpEndpointsOf({ surfaces: { mcp: "HTTPS://Mcp.A.Example" } })]).toEqual(["https://mcp.a.example/"]);
+    expect(mcpEndpointsOf({ surfaces: { api: "https://api.a.example/v1" } }).size).toBe(0);
+    expect(mcpEndpointsOf({ surfaces: { mcp: "http://mcp.a.example" } }).size).toBe(0);
+    expect(mcpEndpointsOf({ surfaces: { mcp: null } }).size).toBe(0);
+    expect(mcpEndpointsOf(undefined).size).toBe(0);
+  });
+});
+
+describe("the MCP handshake the checker sends", () => {
+  it("is a well-formed initialize and nothing else: it reads, and it creates nothing", () => {
+    const body = JSON.parse(MCP_INITIALIZE);
+    expect(body.jsonrpc).toBe("2.0");
+    expect(body.method).toBe("initialize");
+    expect(body.params.protocolVersion).toBe("2025-06-18");
+    expect(body.params.capabilities).toEqual({});
+    expect(JSON.stringify(body)).not.toMatch(/tools\/call|resources\/|prompts\//);
+    // The transport requires both media types of a client; without them a server answers about the request, not the URL.
+    expect(MCP_ACCEPT).toBe("application/json, text/event-stream");
   });
 });
 

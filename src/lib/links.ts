@@ -31,6 +31,38 @@ export function endpointsOf(value: unknown): Set<string> {
   return out;
 }
 
+/**
+ * The MCP endpoints of an entry (`surfaces.mcp` only). An MCP server's one
+ * read verb is a POST of JSON-RPC, so a URL in this field can be alive to
+ * every client in the world and dead to a checker that only knows HEAD and
+ * GET. `surfaces.api` is deliberately not here: that field promises no
+ * protocol, and a POST to an arbitrary REST path is a write attempt at a
+ * third party who did not ask to be probed.
+ */
+export function mcpEndpointsOf(value: unknown): Set<string> {
+  const out = new Set<string>();
+  const mcp = (value as { surfaces?: { mcp?: unknown } } | undefined)?.surfaces?.mcp;
+  if (typeof mcp === "string" && /^https:\/\//i.test(mcp)) out.add(canonicalUrl(mcp));
+  return out;
+}
+
+/**
+ * The request the checker sends to an unanswering `surfaces.mcp` URL: a
+ * well-formed `initialize`, the first message of the MCP lifecycle, with
+ * the `Accept` the transport specification requires. It reads and creates
+ * nothing; a server that refuses it refuses the handshake every client
+ * begins with. Sent only after HEAD and GET have both failed to answer.
+ */
+export const MCP_INITIALIZE = JSON.stringify({
+  jsonrpc: "2.0",
+  id: 1,
+  method: "initialize",
+  params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "public-agents-link-check", version: "1" } }
+});
+
+/** What an MCP endpoint's transport requires of a client's `Accept` header. */
+export const MCP_ACCEPT = "application/json, text/event-stream";
+
 /** The one method a target can ask for besides the checker's own HEAD-then-GET pair. */
 export type TargetMethod = "POST";
 
