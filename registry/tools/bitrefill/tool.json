@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Measured 2026-09-11, no credentials: REST v2 ping 401 no_token; MCP initialize 401 Bearer invalid_token; x402 GET gift-cards/search 402, v2 PAYMENT-REQUIRED, USDC on Base, Arbitrum, Polygon, Solana, 2000 units ($0.002); POST x402/connect 402 with a sign-in-with-x challenge. No payment made."
+    "notes": "Re-measured 2026-09-21, no credentials, no payment: all 11 documented x402 routes answer 402, none 401 and none data; the 3 routes documented free answer 402 with an empty accepts array and a sign-in-with-x challenge. MCP initialize and REST ping answer 401 (2026-09-11, re-read 09-18)."
   },
   "surfaces": {
     "homepage": "https://www.bitrefill.com/",
@@ -45,8 +45,8 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-18",
-  "version": 3,
+  "updated": "2026-09-21",
+  "version": 4,
   "payments": {
     "machinePayable": true,
     "protocols": [
@@ -57,6 +57,6 @@
     ],
     "humanBilling": "invoice",
     "priceList": "https://github.com/bitrefill/agents/blob/main/skills/bitrefill/references/touchpoints/x402.md",
-    "notes": "Measured 2026-09-11, no payment made: the x402 storefront answers 402 (x402Version 2, USDC on Base, Arbitrum, Polygon, Solana; 2000 units, $0.002, a search; 1000 a product detail). A purchase is the invoice amount on top. Account holders pay per invoice in crypto, per the docs."
+    "notes": "Re-measured 2026-09-21, no payment made: every priced x402 route quotes the vendor's published price (2000 units of USDC = $0.002; 1000 = $0.001) under scheme exact, on Base, Arbitrum, Polygon and Solana, unchanged since 09-11. invoice/pay quotes scheme upto at 1000 USDC when no invoice resolves."
   }
 }
