@@ -30,7 +30,7 @@
     "skills": [
       "https://shopify.dev/docs/apps/build/ai-toolkit"
     ],
-    "mcp": "https://shopify.dev/docs/agents/catalog/global-catalog",
+    "mcp": "https://catalog.shopify.com/api/ucp/mcp",
     "api": "https://shopify.dev/docs/agents/profiles/auth-and-rate-limiting",
     "source": "https://github.com/Shopify/ucp-cli"
   },
@@ -53,6 +53,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-20",
-  "version": 3
+  "updated": "2026-09-22",
+  "version": 4
 }
