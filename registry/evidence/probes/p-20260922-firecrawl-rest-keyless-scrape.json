@@ -21,8 +21,7 @@
       "content-type": "application/json"
     },
     "decoded": {
-      "body": "success false, error: Unfortunately, your IP address looks suspicious, so Firecrawl can't be used without an API key from here. Sign up for a free API key at https://firecrawl.dev for 1000 credits and higher rate limits for free. (If you're an agent, you can also use https://firecrawl.dev/auth.md)",
-      "api-root": "GET https://api.firecrawl.dev with no credential answers 200 with a banner document and no WWW-Authenticate header, although the vendor's auth.md says this call returns 401 with the challenge; GET /v2/team/credit-usage answers 401 and carries exactly that challenge"
+      "body": "success false, error: Unfortunately, your IP address looks suspicious, so Firecrawl can't be used without an API key from here. Sign up for a free API key at https://firecrawl.dev for 1000 credits and higher rate limits for free. (If you're an agent, you can also use https://firecrawl.dev/auth.md)"
     }
   },
   "finding": "The REST surface refuses an unauthenticated scrape from a datacenter IP with 403 and a reason about the caller's address, not about the endpoint or the body. The vendor's rate-limit page documents a keyless tier for scrape, search and parse capped per IP per day; the IP reputation condition that refuses it here appears on no documentation page read. The identical refusal was measured on 2026-09-09; on 2026-09-22 the sentence carries an added parenthesis pointing agents at the vendor's auth.md registration skill. One network is one sample: this says nothing about a residential caller.",
