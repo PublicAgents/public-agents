@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://sentry.io/pricing/",
+    "notes": "2026-09-22: nothing prices an agent and no surface speaks a 402; the MCP server and the REST API refuse a stranger with 401 and an OAuth challenge. Seer is billed to the human account at $40 per active contributor a month. No page read names a payment instrument, so this cell is unknown, not card."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-11 23:11Z, no credentials: MCP initialize at mcp.sentry.dev/mcp answers 401 with www-authenticate Bearer realm OAuth and a resource_metadata URL; GET 401. Vendor: all connections use OAuth to a Sentry account; a user token can ride as Sentry-Bearer. Free plan includes MCP access."
+    "notes": "Measured 2026-09-11 23:11Z and again 2026-09-22 12:06Z, no credentials: MCP initialize at mcp.sentry.dev/mcp answers 401 (content-length 0) with www-authenticate Bearer realm=\"OAuth\" and the RFC 9728 URL; four scopes; sentry.io/api/0/projects/ 401, realm=\"api\". Nothing moved between them."
   },
   "surfaces": {
     "homepage": "https://sentry.io/",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 1
+  "updated": "2026-09-22",
+  "version": 2
 }

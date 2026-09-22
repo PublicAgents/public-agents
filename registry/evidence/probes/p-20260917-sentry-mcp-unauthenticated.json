@@ -26,12 +26,13 @@
       "body": "(empty)",
       "protected-resource-metadata": "200; resource https://mcp.sentry.dev/mcp; authorization_servers: https://mcp.sentry.dev (the MCP host is its own authorization server); scopes_supported: org:read, project:write, team:write, event:write; bearer_methods_supported: header",
       "authorization-server-metadata": "200 at https://mcp.sentry.dev/.well-known/oauth-authorization-server; registration_endpoint present (/oauth/register); the same four scopes; PKCE S256; grants authorization_code, refresh_token; token auth client_secret_basic, client_secret_post, none; client_id_metadata_document_supported true; authorization_response_iss_parameter_supported true",
-      "rest": "GET https://sentry.io/api/0/projects/ with no Authorization header answers 401 with www-authenticate Bearer realm=\"api\" and the body detail: Authentication credentials were not provided; the response carries rate-limit headers (limit 40, concurrent limit 25)"
+      "rest": "GET https://sentry.io/api/0/projects/ with no Authorization header answers 401 with www-authenticate Bearer realm=\"api\" and the body detail: Authentication credentials were not provided; the response carries rate-limit headers (limit 40, concurrent limit 25)",
+      "re-measured": "re-measured 2026-09-22 12:06Z with probe-mcp-b28b75f4.sh, the successor of the 2026-09-17 script 339ce70f with an added tools/list step that a 401 never reaches, no credentials: the same 401 with content-length 0 and the identical www-authenticate challenge; the protected-resource document byte-identical in every field read here (same resource, same single authorization server, same four scopes, same bearer method); the authorization-server document likewise (same endpoints, same registration endpoint, same PKCE S256, same three token auth methods, same two grants, client_id_metadata_document_supported still true); the keyless REST GET still 401 with realm=\"api\" and rate-limit headers (limit 40, concurrent limit 25). Nothing changed in five days. No transcript of either 2026-09-22 run is published: the reporter's publishing door caps a site at 200 files and the site is at the cap (the operator has an open request to raise it, filed 2026-09-19), so the 2026-09-17 artifact remains the published one. The command below now pins BOTH scripts by their own sha256, because these two dates were not measured by the same one; run it with 339ce70f to reproduce the 2026-09-17 measurement and with b28b75f4 to reproduce this line. That second path was executed from this command at 18:03Z the same day and returned every field above unchanged, including the rate-limit numbers."
     }
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.sentry.dev/mcp answers 401 with a Bearer challenge (realm OAuth and the protected-resource metadata URL, no error code) and an empty body. The metadata names mcp.sentry.dev as its own authorization server and lists four scopes: org:read, project:write, team:write, event:write; the list has no project:read or event:read, and neither document says what a read of those objects requires. That server advertises dynamic registration, public clients (auth method none), PKCE S256 and two grants. A keyless GET on the sentry.io REST API answers 401 with its own Bearer challenge (realm api) and rate-limit headers even for an unauthenticated caller. Same challenge shape as the 2026-09-11 measurement in the entry's notes; the scope list is recorded here for the first time. Nothing here measures what either server does with a credential.",
   "reproducibility": {
-    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-339ce70f.sh && echo \"339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea  probe-mcp-339ce70f.sh\" | sha256sum -c && sh probe-mcp-339ce70f.sh sentry https://mcp.sentry.dev/mcp https://sentry.io/api/0/projects/",
+    "command": "for p in 339ce70f b28b75f4; do curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-$p.sh; done && printf '%s  probe-mcp-339ce70f.sh\\n%s  probe-mcp-b28b75f4.sh\\n' 339ce70f67d45ab6395ca93bab483a2ece6f69c2ace35adb8b46607c7f4cf7ea b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8 | sha256sum -c && sh probe-mcp-339ce70f.sh sentry https://mcp.sentry.dev/mcp https://sentry.io/api/0/projects/  # the 2026-09-17 run; the 2026-09-22 re-runs are the same line with probe-mcp-b28b75f4.sh",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/sentry/2026-09-17/probes-1806Z.txt"
   },
   "at": "2026-09-17T18:06Z",
@@ -47,6 +48,6 @@
     "reseller": false
   },
   "created": "2026-09-17",
-  "updated": "2026-09-17",
-  "version": 1
+  "updated": "2026-09-22",
+  "version": 2
 }
