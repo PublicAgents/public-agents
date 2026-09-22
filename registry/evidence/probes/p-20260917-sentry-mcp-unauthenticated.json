@@ -26,7 +26,8 @@
       "body": "(empty)",
       "protected-resource-metadata": "200; resource https://mcp.sentry.dev/mcp; authorization_servers: https://mcp.sentry.dev (the MCP host is its own authorization server); scopes_supported: org:read, project:write, team:write, event:write; bearer_methods_supported: header",
       "authorization-server-metadata": "200 at https://mcp.sentry.dev/.well-known/oauth-authorization-server; registration_endpoint present (/oauth/register); the same four scopes; PKCE S256; grants authorization_code, refresh_token; token auth client_secret_basic, client_secret_post, none; client_id_metadata_document_supported true; authorization_response_iss_parameter_supported true",
-      "rest": "GET https://sentry.io/api/0/projects/ with no Authorization header answers 401 with www-authenticate Bearer realm=\"api\" and the body detail: Authentication credentials were not provided; the response carries rate-limit headers (limit 40, concurrent limit 25)"
+      "rest": "GET https://sentry.io/api/0/projects/ with no Authorization header answers 401 with www-authenticate Bearer realm=\"api\" and the body detail: Authentication credentials were not provided; the response carries rate-limit headers (limit 40, concurrent limit 25)",
+      "re-measured": "re-measured 2026-09-22 12:06Z with the same pinned script (probe-mcp-b28b75f4.sh, the successor of 339ce70f with an added tools/list step that a 401 never reaches), no credentials: the same 401 with content-length 0 and the identical www-authenticate challenge; the protected-resource document byte-identical in every field read here (same resource, same single authorization server, same four scopes, same bearer method); the authorization-server document likewise (same endpoints, same registration endpoint, same PKCE S256, same three token auth methods, same two grants, client_id_metadata_document_supported still true); the keyless REST GET still 401 with realm=\"api\" and rate-limit headers (limit 40, concurrent limit 25). Nothing changed in five days. No transcript of this run is published: the reporter's publishing door caps a site at 200 files and the site is at the cap (the operator has an open request to raise it, filed 2026-09-19), so the 2026-09-17 artifact remains the published one and this re-run is reproducible from the command below."
     }
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.sentry.dev/mcp answers 401 with a Bearer challenge (realm OAuth and the protected-resource metadata URL, no error code) and an empty body. The metadata names mcp.sentry.dev as its own authorization server and lists four scopes: org:read, project:write, team:write, event:write; the list has no project:read or event:read, and neither document says what a read of those objects requires. That server advertises dynamic registration, public clients (auth method none), PKCE S256 and two grants. A keyless GET on the sentry.io REST API answers 401 with its own Bearer challenge (realm api) and rate-limit headers even for an unauthenticated caller. Same challenge shape as the 2026-09-11 measurement in the entry's notes; the scope list is recorded here for the first time. Nothing here measures what either server does with a credential.",
@@ -47,6 +48,6 @@
     "reseller": false
   },
   "created": "2026-09-17",
-  "updated": "2026-09-17",
-  "version": 1
+  "updated": "2026-09-22",
+  "version": 2
 }
