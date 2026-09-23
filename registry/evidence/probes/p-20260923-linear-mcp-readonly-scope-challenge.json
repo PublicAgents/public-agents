@@ -22,10 +22,10 @@
       "cache-control": "no-store",
       "pragma": "no-cache",
       "server": "cloudflare",
-      "www-authenticate": "[redacted by the prober: the registry's credential filter refuses this header verbatim; see decoded.challenge-header]"
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.linear.app/.well-known/oauth-protected-resource/mcp/readonly\", scope=\"read write\""
     },
     "decoded": {
-      "challenge-header": "an OAuth challenge naming realm OAuth, resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp/readonly, and scope \"read write\": the same two scopes the read-write endpoint's challenge names.",
+      "challenge-parameters": "realm OAuth; resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp/readonly; scope read write: the same two scopes the read-write endpoint's challenge names, and the only difference between the two headers is the metadata URL.",
       "body": "empty: content-length 0",
       "repeated": "the same request was sent three times between 12:06:08Z and 12:08:53Z and answered the identical challenge each time",
       "not-measured": "whether a client that requests both scopes at this endpoint is actually granted write, which needs a Linear account and a completed authorization; nothing here says what the authorization server does with the request"

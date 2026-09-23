@@ -34,16 +34,7 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [
-    {
-      "job": "eng.implement-scoped-changes",
-      "summary": "Vendor claim, not measured: delegating a Linear issue starts a coding session 'through Claude Code or Codex' in a managed sandbox; 'Linear drafts a PR and adds a diff to the issue', which a member reviews and can merge from Linear. Basic, Business and Enterprise; usage draws AI credits.",
-      "sources": [
-        "https://linear.app/docs/coding-sessions",
-        "https://linear.app/docs/ai-credits"
-      ]
-    }
-  ],
+  "jobs": [],
   "created": "2026-09-11",
   "updated": "2026-09-23",
   "version": 2,

@@ -22,10 +22,10 @@
       "cache-control": "no-store",
       "pragma": "no-cache",
       "server": "cloudflare",
-      "www-authenticate": "[redacted by the prober: the registry's credential filter refuses this header verbatim; see decoded.challenge-header]"
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.linear.app/.well-known/oauth-protected-resource/mcp\", scope=\"read write\""
     },
     "decoded": {
-      "challenge-header": "an OAuth challenge naming realm OAuth, resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp, and scope \"read write\". It carries no error and no error_description parameter.",
+      "challenge-parameters": "realm OAuth; resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp; scope read write. No error and no error_description parameter is present.",
       "body": "empty: content-length 0",
       "changed-since-2026-09-17": "the record p-20260917-linear-mcp-unauthenticated observed the same request answered with error=\"invalid_token\", error_description=\"Missing or invalid access token\" in the challenge and the same pair as a JSON body, and no scope parameter. Six days later the error parameters and the body are gone and scope is present.",
       "not-measured": "what the server does with a credential, and when between 2026-09-17 and 2026-09-23 the challenge changed"
