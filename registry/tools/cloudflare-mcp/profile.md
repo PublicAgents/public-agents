@@ -12,6 +12,20 @@ Yes, for two of the seventeen: the Documentation server and the Agents SDK Docum
 
 The Agents SDK Documentation server, measured separately and re-measured on 2026-09-13 at 06:03Z, same conditions: `initialize` to `https://agents.cloudflare.com/mcp` answered 200 as `text/event-stream`, server `agents-mcp` version 0.0.1, a tools capability, and no `mcp-session-id` header (the response carries `access-control-expose-headers: mcp-session-id`, which names the header without issuing one; an earlier reading of this entry mistook that for a session being issued and is corrected here). The server echoed back whichever protocol version the request asked for, 2025-03-26 and 2025-06-18 both, so no protocol version is recorded for it: that number was the client's, not the server's. `tools/list` sent with no session header at all: 200 with one tool, `search-agent-docs` ("Token efficient search of the Cloudflare Agents SDK documentation"). No tool was called. A plain GET to the same URL answered 406 and `/sse` on that host 404, so it speaks Streamable HTTP only. The vendor's page does not say this server is public; the measurement does. It is not the surface in `mcp` (that is the Documentation server), and its host is not in the `*.mcp.cloudflare.com` group.
 
+## Re-measured 2026-09-23, and the cell now rests on a tool call in a record
+
+A keyless `tools/call` of `search_cloudflare_documentation`, sent alone with no session and no prior handshake, answered 200 with source-attributed documentation chunks (`p-20260923-cloudflare-mcp-docs-tools-call-keyless`). The 2026-09-18 probe record of this surface ended by saying that nothing in it measured what a tool call returns; this is that measurement. The server still identifies itself as `docs-ai-search` 0.4.13, the same version as on 09-12 and 09-18. No account-scoped server was re-run today, and the entry says so rather than implying a sweep.
+
+## Money, and the payment method worth a reader's attention (read 2026-09-23)
+
+`machinePayable` is **false**: the MCP servers carry no price of their own, none of them speaks a payment protocol, and no probe here has ever drawn a 402. `humanBilling` is **card-on-file**.
+
+What is unusual is the instrument beside the card. Cloudflare's [stablecoin payments](https://developers.cloudflare.com/billing/payment-methods/stablecoin-payments/) documentation, last updated 2026-06-12, says: "You can pay for Cloudflare services with USDC stablecoin at the checkout. Stablecoin payments support one-time charges and recurring billing, including usage-based products." The flow is Crypto selected "in the payment method picker, alongside card, Apple Pay, and Google Pay", a redirect to a Stripe-hosted page to connect a wallet, and "a one-time permit to authorize the initial charge and, for recurring subscriptions, future automatic charges". USDC on Base and Polygon; MetaMask, Phantom, Coinbase Wallet "and 400+ wallets via WalletConnect"; invoices in US dollars; and, in the vendor's own words, "Chargebacks and disputes: Not available. Stablecoin payments are final once confirmed on-chain."
+
+It is worth being exact about what that is and is not. It is a human at a checkout, connecting a wallet and signing a permit, after which "Cloudflare charges your saved wallet each cycle", including "usage-based charges billed at threshold for Workers, R2, and Stream". It is **not** an agent-payable surface: no request to any of these servers is priced, nothing answers a 402, and the permit is signed in a browser. The nearest thing in this registry to an agent paying Cloudflare is a wallet a person authorized in advance, which is a spending mandate rather than a payment protocol. The `payments` block holds one `humanBilling` value and the schema's vocabulary has no room for "card or USDC at the same checkout", so the card is in the cell and the stablecoin path is in this paragraph.
+
+One more thing the same documentation says, and it belongs here because it is the kind of detail a reader of this registry is looking for: "If you have a card on file, Cloudflare falls back to it when a stablecoin charge fails."
+
 ## Pricing and terms
 
 Freemium, from the [plans page](https://www.cloudflare.com/plans/) read 2026-09-12: Free "$0 /month" "For personal or hobby projects that aren't business-critical", Pro "$20 /mo billed annually, or $25/mo billed monthly", Business and Enterprise above; the MCP servers carry no price of their own on the pages read, and what an account-bound server does is billed as the underlying product is. The Documentation server and the Agents SDK Documentation server are usable without an account or a price. Prices are the vendor's on that date and change without notice to this registry.
@@ -24,6 +38,14 @@ One claimed, for the Documentation server, and this one is measured.
 
 Not claimed: `eng.investigate-incidents` (the Observability server "Debug[s] and get[s] insight into your application's logs and analytics", which is an input to the job and not the root cause the job names), `eng.implement-scoped-changes` (the API server makes "suggested changes" to configuration, not a code change through review), anything for the Agents SDK Documentation server (its `initialize` and `tools/list` are measured above, but no search was run, and the vendor's one line about it, "Token-efficient search of the Cloudflare Agents SDK documentation", does not say the documentation is current or complete, which the job's outcome needs; a claim for it would rest on the measurement alone, and a measurement is not a vendor claim).
 
+
+The vendor also publishes [Cloudflare Skills](https://github.com/cloudflare/skills), a plugin bundle of agent skills ("instructions the agent loads on demand") that installs alongside the MCP servers; as of 2026-09-23 it is recorded in `surfaces.skills`. Its companion page, [Agent setup](https://developers.cloudflare.com/agent-setup/), is a vendor-maintained directory of nine coding agents with a comparison table of pricing model, model choice and context strategy: a tool vendor publishing its own small registry of the agents that use it, which this registry should probably be reading as a source rather than only as a surface.
+
 ## Empty cells
 
-Not measured: any account-bound server beyond its 401; a search on the Agents SDK Documentation server (only `initialize` and `tools/list`). Not established: rate limits on the Documentation server (none stated on the pages read); the vendor's own view of this listing.
+Not measured: any account-bound server beyond its 401; a search on the Agents SDK Documentation server (only `initialize` and `tools/list`). Not established: rate limits on the Documentation server (none stated on the pages read); the vendor's own view of this listing; and how a stablecoin permit behaves if an account's usage charges grow beyond it, which the vendor's page does not say.
+
+## Revisions
+
+- v2 (2026-09-23): a payments block (`card-on-file`, with the USDC checkout written out); `surfaces.skills`; one probe record measuring a keyless tool call rather than a handshake.
+- v1 (2026-09-12): first filing, from the vendor's published surfaces and measurements of five of its seventeen servers.
