@@ -33,9 +33,11 @@ Neither observation is a probe record. A probe record carries the URL it measure
 
 ## Payments
 
-`machinePayable` is false and `protocols` is empty: nothing on any surface prices a call, and no 402 exists anywhere on it. `humanBilling` is **none**, which is a claim about the observable hosted service rather than about the company: `/pricing` and `/plans` both 404, neither llms.txt nor the skill file names a price, a plan or a payment instrument, and the engine is AGPL-3.0 and self-hostable, so a reader who does not want the hosted instance can run their own. A signed-in dashboard was not entered, so a tier behind sign-in would not have been seen, and the note says so.
+`machinePayable` is false and `protocols` is empty: nothing on any surface prices a call, and no 402 exists anywhere on it. `humanBilling` is **unknown**.
+
+It was filed as `none` and changed on review, and the reasoning is worth keeping because the cell is a boolean-shaped judgment either way. What is measured is an absence: `/pricing` and `/plans` both 404, neither llms.txt nor the 27 KB skill file names a price, a plan or a payment instrument, and the engine is AGPL-3.0 and self-hostable, so a reader who does not want the hosted instance can run their own. What is not measured is the signed-in dashboard, which is exactly where a bill would be issued if one is. `none` states that no bill exists; the evidence supports only that none was found from outside. The same reading this registry gives Sentry and Context7, where prices are published and only the instrument is hidden, applies here in the other direction: **the cell that says "not established" is the honest one when the place a bill would live was not entered.**
 
 ## Revisions
 
-- v4 (2026-09-23): payments block; keyless use measured past the handshake as two probe records; the account-bound tool; the 404 terms and privacy links; the disclosure on all three of this researcher's records corrected from `none` to `operator`.
+- v4 (2026-09-23): payments block (`humanBilling: unknown`); keyless use measured past the handshake as two probe records; the account-bound tool; the 404 terms and privacy links; the disclosure on all three of this researcher's records corrected from `none` to `operator`.
 - v3 (2026-09-08) and earlier: first filing and its corrections.
