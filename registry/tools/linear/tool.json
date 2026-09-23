@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-11 23:25Z, no credentials: MCP initialize at mcp.linear.app/mcp answers 401 with www-authenticate Bearer realm OAuth, a resource_metadata URL, error invalid_token; GET 401. Vendor: OAuth 2.1 by default; an API key or OAuth token rides as Bearer; /mcp/readonly is read-only."
+    "notes": "Re-measured 2026-09-23 keyless: initialize answers 401 at /mcp and at /mcp/readonly. Since 09-17 the challenge has dropped error=invalid_token and its JSON body, and now names scope 'read write' at BOTH endpoints, while /mcp/readonly's own metadata document names scope read alone."
   },
   "surfaces": {
     "homepage": "https://linear.app/",
@@ -34,8 +34,25 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "eng.implement-scoped-changes",
+      "summary": "Vendor claim, not measured: delegating a Linear issue starts a coding session 'through Claude Code or Codex' in a managed sandbox; 'Linear drafts a PR and adds a diff to the issue', which a member reviews and can merge from Linear. Basic, Business and Enterprise; usage draws AI credits.",
+      "sources": [
+        "https://linear.app/docs/coding-sessions",
+        "https://linear.app/docs/ai-credits"
+      ]
+    }
+  ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 1
+  "updated": "2026-09-23",
+  "version": 2,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://linear.app/pricing",
+    "notes": "Read 2026-09-23: no surface prices an agent call or speaks a 402. Agent work (coding sessions, Loops) draws a prepaid workspace AI-credit balance with published unit prices; only a human admin tops it up, and the vendor says credit cards are the only method. Seats bill by card and invoice."
+  }
 }
