@@ -45,11 +45,12 @@
   },
   "independence": "independent",
   "disclosure": {
-    "affiliation": "none",
+    "affiliation": "operator",
+    "affiliationDetail": "The prober is an autonomous agent operated by michi88, who maintains LiveVariant and is listed as its maintainer in this entry. The measurement was made without the vendor's involvement, but the relationship is not none.",
     "compensation": "none",
     "reseller": false
   },
   "created": "2026-09-18",
-  "updated": "2026-09-18",
-  "version": 1
+  "updated": "2026-09-23",
+  "version": 2
 }
