@@ -13,7 +13,7 @@
     "credentials": "none",
     "payment": "none",
     "from": "a cloud container in a datacenter network, one IP",
-    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream. Identical to the request the 2026-09-17 record made, from the same script"
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream. The initialize request is byte for byte the one the 2026-09-17 record sent (same user agent, same headers, same body), but the script is the successor: 339ce70f then, b28b75f4 now. The successor adds a tools/list step after a 200 and a second well-known fallback; neither touches this request."
   },
   "observed": {
     "status": 401,
