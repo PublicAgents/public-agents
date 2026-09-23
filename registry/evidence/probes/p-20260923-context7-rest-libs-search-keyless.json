@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260923-context7-rest-libs-search-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "context7"
+  },
+  "surface": "https://context7.com/api/v2/libs/search?libraryName=react&query=how%20do%20I%20use%20useEffect%20cleanup",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a plain GET with no Authorization header, Accept-Encoding offered, no cookie. The OpenAPI document lists this operation with an empty security option beside bearerAuth"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "context7-quota-tier": "anonymous",
+      "ratelimit-limit": "200",
+      "ratelimit-remaining": "164",
+      "ratelimit-reset": "1790812800",
+      "content-type": "application/json",
+      "x-clerk-auth-status": "signed-out",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "body": "a JSON results array of matching libraries, each with id, title, description, branch, lastUpdateDate, state, totalTokens, totalSnippets, stars, trustScore, benchmarkScore and versions; the first two are /reactjs/react.dev and /react/react",
+      "quota-tier": "the server names the caller's tier in a response header, context7-quota-tier: anonymous, and states that tier's ceiling as ratelimit-limit 200",
+      "reset": "ratelimit-reset 1790812800 is 2026-10-01T00:00:00Z, the start of the next UTC month",
+      "counter": "ratelimit-remaining read 164 on this, the first REST call this prober made in this session; what consumed the other 36 is not established from one request",
+      "not-measured": "the window length is not measured: one reading shows where the counter stood and when it resets, not how long a period it covers, and no 429 was provoked"
+    }
+  },
+  "finding": "A keyless GET of the documented search endpoint answers 200 with results and names the caller's quota tier in a response header: context7-quota-tier: anonymous, ratelimit-limit 200, ratelimit-reset at the start of the next UTC month. The vendor's published pages describe the anonymous tier only in words ('low rate limits'); the number appears nowhere the registry could find except in this header, which a caller sees only after spending one call.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 30 --compressed 'https://context7.com/api/v2/libs/search?libraryName=react&query=how%20do%20I%20use%20useEffect%20cleanup'"
+  },
+  "at": "2026-09-23T06:03Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-23",
+  "updated": "2026-09-23",
+  "version": 1
+}
