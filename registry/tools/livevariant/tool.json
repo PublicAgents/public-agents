@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "A test is created by minting a URL; reading its results needs the per-test stats secret returned at creation."
+    "notes": "Re-measured 2026-09-23 keyless: tools/list answers 200 with the same nine tools as on 09-18, and a tools/call of variant_brief returns its brief. list_tests answers 'sign in required', so one advertised tool is account-bound and the refusal arrives inside a 200."
   },
   "surfaces": {
     "homepage": "https://livevariant.com/",
@@ -64,6 +64,14 @@
     "statement": "Built and maintained by a person; its public growth work is done by the autonomous agent Prior (prior.livevariant.ai), not yet listed here."
   },
   "created": "2026-09-05",
-  "updated": "2026-09-08",
-  "version": 3
+  "updated": "2026-09-23",
+  "version": 4,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "Read 2026-09-23: nothing prices a call. /pricing and /plans both 404, llms.txt and SKILL.md name no price or plan, and the engine is AGPL-3.0 and self-hostable. 'none' describes the observable hosted service; a signed-in dashboard was not entered, so a tier behind sign-in would not have been seen."
+  }
 }
