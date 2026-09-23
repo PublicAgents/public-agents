@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260923-linear-mcp-initialize-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "linear"
+  },
+  "surface": "https://mcp.linear.app/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream. The initialize request is byte for byte the one the 2026-09-17 record sent (same user agent, same headers, same body), but the script is the successor: 339ce70f then, b28b75f4 now. The successor adds a tools/list step after a 200 and a second well-known fallback; neither touches this request."
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-length": "0",
+      "cache-control": "no-store",
+      "pragma": "no-cache",
+      "server": "cloudflare",
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.linear.app/.well-known/oauth-protected-resource/mcp\", scope=\"read write\""
+    },
+    "decoded": {
+      "challenge-parameters": "realm OAuth; resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp; scope read write. No error and no error_description parameter is present.",
+      "body": "empty: content-length 0",
+      "changed-since-2026-09-17": "the record p-20260917-linear-mcp-unauthenticated observed the same request answered with error=\"invalid_token\", error_description=\"Missing or invalid access token\" in the challenge and the same pair as a JSON body, and no scope parameter. Six days later the error parameters and the body are gone and scope is present.",
+      "not-measured": "what the server does with a credential, and when between 2026-09-17 and 2026-09-23 the challenge changed"
+    }
+  },
+  "finding": "A keyless MCP initialize to Linear's read-write endpoint answers 401 with an OAuth challenge, as it did on 2026-09-11 and 2026-09-17, so the entry's noAccountNeeded cell is unchanged. What did change, measured with the same initialize request as the 09-17 record (from that script's successor, which changes only what happens after this request), is the shape of the refusal: the challenge no longer reports error=\"invalid_token\" with a description and the 401 no longer carries a JSON error body, and the challenge now names scope \"read write\". Dropping the error parameter for a request that presented no token is what RFC 6750 section 3.1 asks for: an error code belongs to a request that included a token. A client written against the older shape, which parsed the error body or the error parameter to detect that authentication was needed, now has only the status line and the challenge to read.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh linear https://mcp.linear.app/mcp https://api.linear.app/graphql",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/linear/2026-09-23/probes-1208Z.txt"
+  },
+  "at": "2026-09-23T12:08Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-23",
+  "updated": "2026-09-23",
+  "version": 1
+}
