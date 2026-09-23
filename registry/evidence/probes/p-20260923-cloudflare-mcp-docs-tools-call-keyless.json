@@ -26,11 +26,11 @@
     "decoded": {
       "result": "a JSON-RPC result on the event stream carrying documentation chunks, each with its source URL, title and text: the first is https://developers.cloudflare.com/ai-gateway/features/unified-billing/ ('Unified Billing'), returned as semantically similar chunks the tool's own schema describes",
       "no-challenge": "no www-authenticate header and no refusal of any kind; the call was answered on its merits",
-      "session": "no session id was issued at initialize and none was sent with this call; the server answered a bare tools/call anyway",
-      "not-measured": "the second tool, migrate_pages_to_workers_guide, was not called, and no account-scoped Cloudflare server was re-measured today"
+      "session": "no session id was sent with this call and the server answered it anyway. Whether initialize issues one is not established by this request; the 2026-09-18 record of this surface observed that it does not",
+      "not-measured": "the second tool, migrate_pages_to_workers_guide, was not called; no account-scoped Cloudflare server was re-measured today; and this request says nothing about the server's version or its handshake, neither of which it makes"
     }
   },
-  "finding": "Cloudflare's Documentation MCP server answers a keyless tools/call with real documentation: search_cloudflare_documentation returned source-attributed chunks from developers.cloudflare.com to a caller with no credentials, no account and no session. The 2026-09-18 probe of this surface ended by saying that nothing in it measured what a tool call returns; this is that measurement, and it is what the entry's noAccountNeeded cell now rests on rather than a handshake and a tools/list. The server identified itself as docs-ai-search 0.4.13 at initialize in the same run, the same version as on 09-18 and 09-12.",
+  "finding": "Cloudflare's Documentation MCP server answers a keyless tools/call with real documentation: search_cloudflare_documentation returned source-attributed chunks from developers.cloudflare.com to a caller with no credentials, no account and no session id. The 2026-09-18 probe of this surface ended by saying that nothing in it measured what a tool call returns; this is that measurement, and it is what the entry's noAccountNeeded cell now rests on rather than a handshake and a tools/list. Everything here comes from the one request in the command below: this record makes no claim about the server's version or its handshake, because it did not send one.",
   "reproducibility": {
     "command": "curl -sS -i -m 25 -X POST https://docs.mcp.cloudflare.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"search_cloudflare_documentation\",\"arguments\":{\"query\":\"how does Workers billing work\"}}}'"
   },
