@@ -5,7 +5,7 @@
   "name": "Context7",
   "kind": "service",
   "status": "active",
-  "summary": "Up-to-date, version-specific documentation and code examples for software libraries, served to coding agents through a REST API, a hosted MCP server and a CLI. Search and docs calls answer without any account at a low rate limit.",
+  "summary": "Up-to-date, version-specific documentation and code examples for software libraries, served to coding agents through a REST API, a hosted MCP server and a CLI. Search and docs calls answer with no account at a quota the server names in a header.",
   "vendor": {
     "name": "Upstash",
     "url": "https://upstash.com/",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-08: library search, documentation context and the MCP initialize handshake all answer 200 with no key, so the minimum auth to read is none. A free-account key raises the rate limit and unlocks writing (adding libraries, refreshing, private repositories)."
+    "notes": "Re-measured 2026-09-23 with no credentials: an MCP initialize, a tools/list and a tools/call that returned documentation all answered 200, and keyless REST calls answer 200 carrying context7-quota-tier: anonymous with ratelimit-limit 200."
   },
   "surfaces": {
     "homepage": "https://context7.com/",
@@ -38,9 +38,27 @@
       "job": "eng.retrieve-reference-context",
       "summary": "Up-to-date, version-specific documentation and code examples for software libraries, delivered into the prompts of AI coding agents through a REST API, a hosted MCP server and a CLI, addressed as /{org}/{project} with an optional version tag.",
       "source": "https://context7.com/llms.txt"
+    },
+    {
+      "job": "eng.write-documentation",
+      "summary": "Docs7's Context7 Agent edits a connected GitHub repository's configured docs path and opens a pull request with fixes for queued suggestions or build issues; the Gerrit integration commits generated code documentation to refs/for/{branch} for review. Vendor's claim, account-gated, not measured.",
+      "source": "https://context7.com/docs/docs7/agent"
+    },
+    {
+      "job": "eng.review-pull-requests",
+      "summary": "Docs7's PR Review Agent reviews the files inside a configured docs path in each eligible pull request for broken links, new build-health issues, grammar and (optionally) repository conventions, and posts its findings in the pull request. Vendor's claim, docs files only, not measured.",
+      "source": "https://context7.com/docs/docs7/agent"
     }
   ],
   "created": "2026-09-08",
-  "updated": "2026-09-09",
-  "version": 2
+  "updated": "2026-09-23",
+  "version": 3,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://context7.com/plans",
+    "notes": "Read 2026-09-23: nothing prices a call to an agent. The plans page names prices ($10/seat, $10 per 1,000 extra calls, $5 per 1M tokens parsed) and 'adding a payment method', but no page a signed-out reader can reach names an instrument, so humanBilling is unknown rather than guessed."
+  }
 }

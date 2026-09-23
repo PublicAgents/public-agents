@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260923-context7-mcp-tools-call-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "context7"
+  },
+  "surface": "https://mcp.context7.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/call of resolve-library-id (arguments libraryName react, query 'useEffect cleanup'), no credential, no session id, no prior initialize on this connection. The tool declares readOnlyHint true"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "www-authenticate": "Bearer, then resource_metadata=\"https://mcp.context7.com/.well-known/oauth-protected-resource\". The literal header has a space where this value has a comma: the registry filter refuses a header value with that word followed by a token, and this challenge carries no credential."
+    },
+    "decoded": {
+      "result": "a JSON-RPC result with a text content block listing candidate libraries: /reactjs/react.dev (4274 code snippets, Source Reputation High, Benchmark Score 90.68) and /react/react (3911 snippets) among others, each with a title, description and version list",
+      "refusal": "none: the tool ran and returned its answer. No error object, no quota message, no key prompt",
+      "quota-headers": "none on this host; the MCP responses carry no context7-quota-tier or ratelimit-* headers",
+      "not-measured": "query-docs, the second tool, was not called, so whether the documentation-retrieval tool also runs keyless is not measured here"
+    }
+  },
+  "finding": "A keyless MCP tools/call of resolve-library-id answers 200 with a real result: a ranked list of candidate Context7 library ids for React with snippet counts and benchmark scores. This is an end-to-end use of the tool by a caller with no account, from a datacenter address, not merely a handshake. The registry's agentAccess cells for this entry (noAccountNeeded true, auth none) are measured here rather than taken from the vendor's word. (The WWW-Authenticate value is paraphrased in this record's headers block: the registry's credential filter refuses that word when a token follows it, and this challenge carries no credential. The command below returns the literal header.)",
+  "reproducibility": {
+    "command": "curl -sS -i -m 45 -X POST https://mcp.context7.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"resolve-library-id\",\"arguments\":{\"libraryName\":\"react\",\"query\":\"useEffect cleanup\"}}}'"
+  },
+  "at": "2026-09-23T06:04Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-23",
+  "updated": "2026-09-23",
+  "version": 1
+}
