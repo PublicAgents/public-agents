@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260923-notion-mcp-initialize-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "notion"
+  },
+  "surface": "https://mcp.notion.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), Content-Type application/json, Accept application/json and text/event-stream. The same script and the same request as the 2026-09-17 record"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "79",
+      "cache-control": "no-store",
+      "pragma": "no-cache",
+      "server": "cloudflare",
+      "www-authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.notion.com/.well-known/oauth-protected-resource/mcp\", error=\"invalid_token\", error_description=\"Missing or invalid access token\""
+    },
+    "decoded": {
+      "challenge-unchanged": "the challenge is byte for byte what the 2026-09-17 record observed: the same four parameters in the same order.",
+      "body": "a JSON object repeating the error invalid_token and the same description",
+      "protected-resource-metadata": "200; resource https://mcp.notion.com/mcp; resource_name Notion MCP (Beta); authorization_servers https://mcp.notion.com; scopes_supported: default (one scope); bearer_methods_supported: header. Unchanged since 09-17, including the Beta in the resource name",
+      "authorization-server-metadata": "200; registration_endpoint /register; scopes_supported default; code_challenge_methods_supported plain and S256, with plain still advertised; grants authorization_code, refresh_token, jwt-bearer; token auth client_secret_basic, client_secret_post, none; id-jag grant profile; client_id_metadata_document_supported true; an introspection_endpoint. Unchanged since 09-17",
+      "not-measured": "what the server does with a credential, and whether a client that offers the plain PKCE method is actually allowed to complete a flow with it"
+    }
+  },
+  "finding": "Six days after the 2026-09-17 probe, the same script sent the same request and every field came back identical: the same 401, the same challenge with error invalid_token and its description, the same single scope named default, the same resource_name Notion MCP (Beta), and an authorization server that still advertises the plain PKCE method beside S256. Nothing moved, which is the whole of this record. The entry's noAccountNeeded cell stays false. The plain method staying on offer is worth re-recording rather than assuming: it is the weaker of the two and a client is free to choose it.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh notion https://mcp.notion.com/mcp https://api.notion.com/v1/users",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/notion/2026-09-23/probes-1213Z.txt"
+  },
+  "at": "2026-09-23T12:13Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-23",
+  "updated": "2026-09-23",
+  "version": 1
+}

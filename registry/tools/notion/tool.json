@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-11 23:28Z, no credentials: MCP initialize at mcp.notion.com/mcp answers 401 with www-authenticate Bearer realm OAuth, a resource_metadata URL, error invalid_token; GET 401. Vendor: OAuth required, non-interactive authorization not yet supported; owners can restrict clients."
+    "notes": "Re-measured 2026-09-23 keyless: MCP initialize at mcp.notion.com/mcp answers 401 with an identical OAuth challenge to 09-17, one scope named default, plain PKCE still advertised. The Custom Agents API (api.notion.com/v1/agents/query, public beta) answers 401 with no challenge header at all."
   },
   "surfaces": {
     "homepage": "https://www.notion.com/",
@@ -44,6 +44,14 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 1
+  "updated": "2026-09-23",
+  "version": 2,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.notion.com/pricing",
+    "notes": "Read 2026-09-23: no surface prices a call or speaks a 402. The pricing page prices agent work in the vendor's words, 'Free to try, then $10 per 1,000 monthly Notion credits' for Custom Agents, and answers 'We currently accept all major credit and debit card brands'. Who buys credits was not read."
+  }
 }
