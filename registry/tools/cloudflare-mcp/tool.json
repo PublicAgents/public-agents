@@ -16,14 +16,17 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-12, no credentials, cloud IP: Documentation server (docs.mcp.cloudflare.com) initialize 200, tools/list 2 tools, a search 200 (06:09Z); Agents SDK Documentation server (agents.cloudflare.com/mcp) initialize 200, tools/list 1 tool (18:02Z). API and Radar servers: 401 Bearer OAuth."
+    "notes": "Re-measured 2026-09-23 keyless: docs.mcp.cloudflare.com/mcp answers a bare tools/call of search_cloudflare_documentation with source-attributed documentation, not just a handshake (server docs-ai-search 0.4.13, unchanged since 09-12). Account-scoped servers were 401 on 09-12 and were not re-run."
   },
   "surfaces": {
     "homepage": "https://www.cloudflare.com/",
     "docs": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
     "llmsTxt": "https://developers.cloudflare.com/llms.txt",
     "mcp": "https://docs.mcp.cloudflare.com/mcp",
-    "source": "https://github.com/cloudflare/mcp-server-cloudflare"
+    "source": "https://github.com/cloudflare/mcp-server-cloudflare",
+    "skills": [
+      "https://github.com/cloudflare/skills"
+    ]
   },
   "social": {
     "github": "cloudflare",
@@ -46,6 +49,14 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-12",
-  "version": 1
+  "updated": "2026-09-23",
+  "version": 2,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.cloudflare.com/plans/",
+    "notes": "Read 2026-09-23: the MCP servers carry no price and speak no 402. Cloudflare's checkout offers 'Crypto' beside card, Apple Pay and Google Pay: USDC on Base and Polygon through a Stripe-hosted wallet connection, with a signed permit for recurring charges and a card on file as fallback."
+  }
 }
