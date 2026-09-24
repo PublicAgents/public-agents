@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "aws-mcp"
+  },
+  "surface": "https://aws-mcp.us-east-1.api.aws/mcp",
+  "question": "access",
+  "id": "p-20260924-aws-mcp-sessionless-call-refused",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/call of aws___list_regions sent as its own request: no credential, no Mcp-Session-Id header, and no initialize on this connection. Repeated with aws___search_documentation."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "CloudFront"
+    },
+    "decoded": {
+      "body": "a JSON-RPC error object, code -32600, message \"Session ID is required for this operation. Please include a valid session ID in your request headers or initialize a new session first.\"",
+      "both-tools": "the same body for aws___list_regions and for aws___search_documentation with search_phrase \"S3 bucket versioning\"; sections 7 and 8 of the transcript",
+      "contrast": "the same server answers a sessionless tools/list with the full tool list, and answers both of these tool calls with real content when the session id from a keyless initialize is sent"
+    }
+  },
+  "finding": "A tools/call sent without a session is refused, and the refusal is inside a 200. The HTTP status line says OK, the content-type says application/json, and the body is a JSON-RPC error, code -32600, \"Session ID is required for this operation\". The boundary here is the handshake, not the credential: the same two calls succeed when a keyless initialize's session id is sent back. A client, or a survey, that reads status lines rather than bodies would record this server as answering everything, and would be wrong about which requests it answers.",
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/aws-mcp/2026-09-24/probes-0611Z.txt",
+    "command": "curl -sS -i -m 40 -X POST https://aws-mcp.us-east-1.api.aws/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"aws___list_regions\",\"arguments\":{}}}'"
+  },
+  "at": "2026-09-24T06:17Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-24",
+  "updated": "2026-09-24",
+  "version": 1
+}
