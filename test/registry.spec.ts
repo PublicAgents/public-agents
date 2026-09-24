@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
-import { coverage } from "../src/lib/coverage.ts";
+import { coverage, independenceLabel } from "../src/lib/coverage.ts";
 import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { linkTargets } from "../src/lib/link-targets.ts";
 import { canonicalUrl } from "../src/lib/links.ts";
@@ -181,6 +181,26 @@ const PROBE = {
   updated: "2026-09-11",
   version: 1
 };
+
+describe("independence beside disclosure", () => {
+  const label = (independence: string, disclosure: Record<string, unknown>) =>
+    independenceLabel({ independence, disclosure } as never);
+
+  it("never prints independent beside a disclosed affiliation", () => {
+    expect(label("independent", { affiliation: "operator", compensation: "none", reseller: false }))
+      .toBe("affiliated (declared independent; the disclosure above overrides it)");
+    expect(label("independent", { affiliation: "none", compensation: "paid", reseller: false }))
+      .toBe("affiliated (declared independent; the disclosure above overrides it)");
+    expect(label("independent", { affiliation: "none", compensation: "none", reseller: true }))
+      .toBe("affiliated (declared independent; the disclosure above overrides it)");
+  });
+
+  it("leaves an undisputed declaration alone, and never weakens a stronger admission", () => {
+    expect(label("independent", { affiliation: "none", compensation: "none", reseller: false })).toBe("independent");
+    expect(label("self", { affiliation: "vendor", compensation: "none", reseller: false })).toBe("self");
+    expect(label("vendor-sponsored", { affiliation: "vendor", compensation: "paid", reseller: false })).toBe("vendor-sponsored");
+  });
+});
 
 const PROTOCOLS = {
   protocols: [{ id: "x402", name: "x402", url: "https://x402.org/", summary: "HTTP 402 with a PAYMENT-REQUIRED header; the client retries with a signed payment.", source: "https://docs.x402.org/introduction" }]
