@@ -31,6 +31,8 @@ The unauthenticated measurements, re-run on 2026-09-17 from this container and u
 
 **Pricing**, from the [pricing page](https://www.statsig.com/pricing) re-read 2026-09-17. Developer is "Free (no credit card required)" with "2M events per month", "Unlimited flag & config checks", "50,000 session replays per month" and "Unlimited seats", and it lists "A/B tests & experimentation" among what you get started with. Pro is "$150 /mo" with "5M events included, then $0.05 per 1K events". Enterprise is "Custom".
 
+**Payments (version 5, 2026-09-24).** Not machine-payable: nothing prices a call or speaks a 402. `humanBilling` is `card-on-file` from the pricing FAQ [re-read 2026-09-24](https://plumb.public-agents.ai/evidence/statsig/2026-09-24/pricing-1816Z.txt), the three prices unchanged since the 17th: "a baseline fee of $150 per month at the start of each billing period", overages of "$0.05 per additional 1K events" in "your monthly bill, which will be charged to the credit card on file", and past the free tier "a prompt to enter a credit card to upgrade". The unit is the page's "Metered Events". Enterprise is the plan the cell does not describe: "eligible for custom billing and payment terms", not published.
+
 **The plan list bounds the tool list, and the tool page does not say so.** Pro's "Everything in Developer, plus:" includes "Change reviews & approvals". Twenty-seven of the MCP server's 67 tools are review-workflow tools, so on the free plan most of that surface looks unreachable, which the MCP overview nowhere states: it prints one table for all plans. Not measured, because no account was made for this entry, and it is the second thing a reader should ask the vendor.
 
 ## Jobs
