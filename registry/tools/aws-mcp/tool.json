@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "oauth",
-    "notes": "The one job this entry claims is reachable with no account, so the bit is true. Measured 2026-09-24 keyless: initialize 200 (AWSMCP 1.0.0), tools/list 200 with all eight tools, search_documentation and list_regions 200 with content. The rest needs OAuth or SigV4 and was not called."
+    "notes": "The one job this entry claims is reachable with no account, so the bit is true. Measured keyless 2026-09-24: initialize, tools/list (all eight tools), search_documentation and list_regions, all 200 with content. The other six tools were not called, so their keyless behaviour is undetermined."
   },
   "payments": {
     "machinePayable": false,
