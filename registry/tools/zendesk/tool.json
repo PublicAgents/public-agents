@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-12 06:06Z, no credentials: GET support.zendesk.com/api/v2/users/me.json answers 200 as \"Anonymous user\", the documented anonymous end-user access of an open instance. Everything else: OAuth access token per account; API token deprecated. AI Agents API: organization API key."
+    "notes": "No credentials, 2026-09-12 06:06Z and again 2026-09-24 12:06Z: GET support.zendesk.com/api/v2/users/me.json, 200, \"Anonymous user\". 2026-09-24 12:06Z: GET /api/v2/help_center/articles/search.json, 200, 901 results. Both read a public help centre, not the product, which takes OAuth."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.zendesk.com/pricing/",
+    "notes": "Read 2026-09-24: nothing prices a call or speaks a 402. Three of four Customer Service plans carry a number, $19/$55/$115 agent/month paid yearly; the fourth says \"Talk to Sales\". Card at self-serve checkout, invoice sales-assisted only. AI-agent usage meters per resolution, price unpublished."
   },
   "surfaces": {
     "homepage": "https://www.zendesk.com/",
@@ -50,6 +58,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-12",
-  "version": 1
+  "updated": "2026-09-24",
+  "version": 2
 }

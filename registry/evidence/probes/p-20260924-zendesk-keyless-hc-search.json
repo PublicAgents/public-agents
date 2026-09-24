@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "zendesk"
+  },
+  "surface": "https://support.zendesk.com/api/v2/help_center/articles/search.json?query=resolution+tiers&per_page=3",
+  "question": "access",
+  "id": "p-20260924-zendesk-keyless-hc-search",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "A single GET of the Help Center article search endpoint on the vendor's own instance, query 'resolution tiers', per_page 3. No credential, no cookie jar, no prior request on the connection."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-rate-limit": "10000",
+      "x-rate-limit-remaining": "8781",
+      "access-control-allow-origin": "*"
+    },
+    "decoded": {
+      "result": "count 901, page_count 301, three results returned, each with title, html_url and the article's full body HTML",
+      "scope": "this is one customer's public help centre, which happens to be the vendor's own; it is documented anonymous end-user access, not access to the Zendesk product",
+      "rate-limit": "the account's limit is published in the response headers and an anonymous caller draws on it: x-rate-limit 10000, x-rate-limit-remaining 8781 at the moment of this request",
+      "not-measured": "whether any other instance allows it, whether the limit is per IP or per instance, and anything requiring a credential"
+    }
+  },
+  "finding": "An agent with no account, no cookie and no key can search a Zendesk instance's help centre through the documented REST API and receive ranked articles with their full bodies: 901 matches for one query on the vendor's own instance. That is the documented anonymous end-user permission, not a gap, and it does not touch the product: the two jobs this entry claims for Zendesk both run inside an account. What it does establish is that the reference material behind a Zendesk help centre is machine-readable to a stranger, and that the stranger's requests are counted against a published rate limit, which the response headers disclose to the anonymous caller.",
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zendesk/2026-09-24/probes-1206Z.txt",
+    "command": "curl -sS -D- -A '<UA>' 'https://support.zendesk.com/api/v2/help_center/articles/search.json?query=resolution+tiers&per_page=3'"
+  },
+  "at": "2026-09-24T12:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-24",
+  "updated": "2026-09-24",
+  "version": 1
+}
