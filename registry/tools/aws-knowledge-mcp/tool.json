@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-11 23:06Z and again 2026-09-20 06:03Z from a cloud IP, no credentials: MCP initialize 200 (server AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, a search_documentation call 200 (09-11). Tool names carry an aws___ prefix the README omits. Rate limits not published."
+    "notes": "Keyless from a cloud IP. 2026-09-11 23:06Z: initialize 200 (AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, search_documentation 200. 2026-09-20 06:03Z: initialize and tools/list, same five. 2026-09-24 06:10Z: initialize only. Tool names carry an aws___ prefix the README omits."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "Read 2026-09-24. One price statement, the GA post: \"The server is publicly accessible at no cost and does not require an AWS account.\" The server page speaks to authentication and rate limits, not price. Nothing prices a call; nothing answered a 402. Rate limits published as no number."
   },
   "surfaces": {
     "homepage": "https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server",
@@ -41,6 +49,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-20",
-  "version": 1
+  "updated": "2026-09-24",
+  "version": 2
 }
