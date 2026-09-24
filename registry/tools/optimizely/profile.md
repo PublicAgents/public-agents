@@ -38,9 +38,27 @@ Version 1 quoted ten vendor sentences and linked no page carrying any of them. E
 
 The three support articles state their own update dates in their text (overview and quickstart May 15, 2026; install May 26, 2026), all before version 1 was filed on 2026-09-09. On the pages' own account, the sentence version 1 could not find was never there to lose. That is the pages' claim about themselves, not proof, and no archive comparison was available to test it: asked for a September snapshot on 2026-09-16, `archive.org`'s availability API answered **429 Too Many Requests** and the `web.archive.org` CDX index did not answer within 25 seconds. The entry records the defects as the researcher's and asserts no drift.
 
+## Pricing, 2026-09-24: a loop that closes on nothing
+
+`payments`: `machinePayable` false, no protocols, no methods, `humanBilling` **invoice**, `priceList` **null**. Headers for the reads below: [transcript](https://plumb.public-agents.ai/evidence/optimizely/2026-09-24/probes-1228Z.txt).
+
+**`priceList` is null although a pricing page exists, and that is the finding.** `www.optimizely.com/pricing/` answers **301** to `/plans`, which answers 200 and carries **no price at all**: feature bullets, "Every Optimizely plan is individually packaged. Tell us a bit about your digital needs, and we'll create a plan together", and "Request a demo" as the only call to action. Pointing `priceList` at a page that prices nothing would tell a reader filtering this registry that a price list exists. It does not.
+
+The vendor's own documentation closes the loop. "Learn about plan options and costs" says "The cost of the solution also varies from company to company", then directs the reader to "Plans & pricing on Optimizely.com", where "You can review the different Optimizely products and request pricing". The page named as the source of costs is the page that has none.
+
+**`humanBilling` is `invoice`, from the vendor's admin documentation.** "Manage your account's plan and invoices" describes "billing contact details, payment methods, and your billing history", a section that "lists your invoices", viewable and downloadable, and "applicable sales tax is applied on a separate line item on invoices" since 2015-07-01. A stored payment method exists, but what the vendor issues is an invoice, and the cell names the bill, not what settles it. Cancelling is not self-serve either: "To cancel your account, contact your Customer Success Manager."
+
+**What is metered is published; what a unit costs is not.** The same help section lists "Review impression usage", "Monitor monthly active users (MAUs)" and "Troubleshoot MAU overages", so impressions and MAUs are the units and overages exist. No page read attaches a figure to either, and nothing answered or mentioned a 402.
+
+## How this was found, which is the other finding
+
+Every Optimizely surface this entry measures refuses a stranger: the MCP server answers 401 with a Bearer challenge, the REST API answers 401 `invalid_credentials`. The billing documentation above came through none of them. It came from `support.optimizely.com/api/v2/help_center/articles/search.json`, keyless, 200, `count` 164 for "billing": `p-20260924-optimizely-keyless-hc-search`.
+
+The support site runs on Zendesk, so this is Zendesk's documented anonymous permission, not a lapse by either party. It is worth a record anyway: for a vendor whose every product surface refuses an agent with no account, the documentation of **how that vendor bills** is machine-readable to one. The same endpoint answered alike on `support.zendesk.com` the same day, the cell that record left open, so the permission is the help-centre product's, not one operator's.
+
 ## Empty cells
 
-Not claimed: any other job. Not measured: what an authenticated agent can actually do over the MCP server (no account was made for this entry; making one is a human act, which is the point of the access cell), and whether a self-registered client can in fact obtain a token. Not established: rate limits on the MCP server or the REST API as numbers, whether any Feature Experimentation tier is free, and the MCP server's source (the vendor publishes no repository for it, so `surfaces.source` is empty).
+Not claimed: any other job. Not measured: what an authenticated agent can actually do over the MCP server (no account was made for this entry; making one is a human act, which is the point of the access cell), and whether a self-registered client can in fact obtain a token. Not established: rate limits on the MCP server or the REST API as numbers, whether any Feature Experimentation tier is free, **what an impression or an MAU costs, or what any plan costs at all** (see above: the vendor states in its own documentation that the figure varies by company and publishes none), and the MCP server's source (the vendor publishes no repository for it, so `surfaces.source` is empty).
 
 ## Provenance
 
