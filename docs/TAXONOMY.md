@@ -89,6 +89,37 @@ and `pays`, each sourced to the agent's own surfaces, and `pays`
 requires a `spendGate` sentence: who approves what. The measurement
 behind any of it is a probe.
 
+A tool's required `pricing` cell is the one-word answer to a narrower
+question, read at the same level as `noAccountNeeded` (issue #157,
+PR #151): what does a human pay so that an agent can do this entry's
+claimed jobs through the surfaces the entry lists. It describes the
+listed surfaces doing the claimed jobs, not the product behind them
+and not the money those jobs move.
+
+- `free`: every claimed job runs through a listed surface at no charge,
+  and a vendor page a signed-out reader can reach says so. Charges the
+  job itself incurs elsewhere (a cloud resource a call creates, a bill
+  on another account) go in `payments` and the profile, not here.
+- `freemium`: the listed surfaces carry a free tier and a paid tier,
+  and at least one claimed job runs on the free tier.
+- `paid`: no claimed job runs without a paid plan, seat or per-use fee,
+  whether the vendor bills it (`humanBilling`) or nets it from money
+  the job moves. There being no free tier is the test, not the size of
+  the fee.
+- `open-source`: not a price but a licence, kept for `kind:
+  open-source` entries whose listed surface is software the reader
+  runs, so there is no vendor to pay. A hosted instance of open-source
+  software is priced by what the host charges, like any other tool.
+- `unknown`: the editor looked and could not tell. An entry with no
+  `payments` block has not looked, and does not say `unknown` for that
+  reason alone.
+
+The cell and the `payments` block describe the same money from two
+sides, the tag in one word and the block in the vendor's instrument
+and price list; when they seem to point different ways, the profile
+says which surface each is describing. A reviewer refuses a value by
+this paragraph, in words.
+
 ## Coverage cells
 
 A job page shows three separate blocks, never merged: measured results,
