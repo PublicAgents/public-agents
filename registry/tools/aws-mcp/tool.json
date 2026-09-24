@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "aws-mcp",
+  "name": "AWS MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "AWS's managed remote MCP server for coding agents, the successor the vendor recommends over the AWS API MCP Server and the AWS Knowledge MCP Server. Eight tools: AWS API calls through sandboxed Python, pre-signed S3 URLs, task polling, documentation search and read, agent skills, and region data. The vendor documents two authentication methods, OAuth or SigV4, and says documentation search and skill discovery no longer need credentials; measured keyless, initialize, tools/list and two tool calls answered 200, and the advertised tool list is the full eight.",
+  "vendor": {
+    "name": "Amazon Web Services, Inc.",
+    "url": "https://aws.amazon.com/",
+    "kind": "organization"
+  },
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "The product is credentialed AWS access, so the bit is false. Measured 2026-09-24 keyless from a cloud IP: initialize 200 (AWSMCP 1.0.0), tools/list 200 with all eight tools, and tools/call of search_documentation and list_regions 200 with real content. The credentialed tools were not called."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "Read 2026-09-24: the GA announcement says the server is \"available at no additional charge; you pay only for the AWS resources your agents use\". The server bills nothing; what a run_script call consumes bills to the AWS account behind it, on an instrument no signed-out reader sees. No 402 anywhere."
+  },
+  "surfaces": {
+    "homepage": "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/what-is-agent-toolkit.html",
+    "docs": "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/getting-started-aws-mcp-server.html",
+    "mcp": "https://aws-mcp.us-east-1.api.aws/mcp",
+    "source": null
+  },
+  "domains": [
+    "docs.aws.amazon.com",
+    "aws-mcp.us-east-1.api.aws",
+    "aws.amazon.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "AWS documentation searched and read into a coding agent's context, plus curated agent skills, over a hosted MCP server; the vendor's claim. A keyless search call returned verbatim page chunks with titles and URLs, which shows the surface answers, not that what it retrieves is the right material.",
+      "source": "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/getting-started-aws-mcp-server.html",
+      "sources": [
+        "https://aws.amazon.com/about-aws/whats-new/2026/05/aws-mcp-server/"
+      ]
+    }
+  ],
+  "created": "2026-09-24",
+  "updated": "2026-09-24",
+  "version": 1
+}

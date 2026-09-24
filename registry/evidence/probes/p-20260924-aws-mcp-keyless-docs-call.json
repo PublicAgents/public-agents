@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "aws-mcp"
+  },
+  "surface": "https://aws-mcp.us-east-1.api.aws/mcp",
+  "question": "access",
+  "id": "p-20260924-aws-mcp-keyless-docs-call",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a keyless MCP initialize, then a tools/call of aws___search_documentation with search_phrase \"S3 bucket versioning\" and limit 2, sent back on the session id the initialize returned. No credential on either request."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "CloudFront"
+    },
+    "decoded": {
+      "result": "isError false; two ranked results, each with rank_order, title, url and a context field holding verbatim page text: an AWS Storage Blog post on enabling S3 versioning through CloudFormation, and the Amazon S3 examples page for the SDK for Java 2.x",
+      "vendor-sentence": "this is the one exception the GA announcement names, \"documentation search and skill discovery no longer require AWS credentials\", tested and holding",
+      "reproduction": "the command in this record was run verbatim at 06:20Z and its whole answer is section 10 of the transcript, so the recipe and the evidence are the same request",
+      "not-measured": "whether what it retrieves is the right material for any task; one search result set is not a measurement of retrieval quality"
+    }
+  },
+  "finding": "The documentation search tool of a server whose setup page documents only OAuth and SigV4 returns real content to a caller with no AWS account and no credential: two ranked results with verbatim page chunks and URLs, isError false. This is the vendor's own carve-out holding as written. It establishes that the surface answers; it says nothing about retrieval quality, which this record does not claim and did not measure.",
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/aws-mcp/2026-09-24/probes-0611Z.txt",
+    "command": "m=https://aws-mcp.us-east-1.api.aws/mcp; H='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; s=$(curl -si -XPOST $m $H -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'|tr -d \\\\r|grep -i ^mcp-session-id:|cut -d' ' -f2-); curl -si -XPOST $m $H -H Mcp-Session-Id:$s -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"aws___search_documentation\",\"arguments\":{\"search_phrase\":\"S3 bucket versioning\",\"limit\":2}}}'"
+  },
+  "at": "2026-09-24T06:11Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-24",
+  "updated": "2026-09-24",
+  "version": 1
+}
