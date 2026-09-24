@@ -13,9 +13,9 @@
   },
   "pricing": "free",
   "agentAccess": {
-    "noAccountNeeded": false,
+    "noAccountNeeded": true,
     "auth": "oauth",
-    "notes": "The product is credentialed AWS access, so the bit is false. Measured 2026-09-24 keyless from a cloud IP: initialize 200 (AWSMCP 1.0.0), tools/list 200 with all eight tools, and tools/call of search_documentation and list_regions 200 with real content. The credentialed tools were not called."
+    "notes": "The one job this entry claims is reachable with no account, so the bit is true. Measured 2026-09-24 keyless: initialize 200 (AWSMCP 1.0.0), tools/list 200 with all eight tools, search_documentation and list_regions 200 with content. The rest needs OAuth or SigV4 and was not called."
   },
   "payments": {
     "machinePayable": false,
