@@ -12,6 +12,14 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://posthog.com/pricing",
+    "notes": "2026-09-25: no page read answered or mentioned a 402; MCP calls are free and usage bills to a card the pricing page names ('Add a card', 'card on file'). Invoices need 'an upfront credit purchase' through sales. Experiments bill per feature-flag request, first 1M a month free."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
@@ -44,6 +52,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-16",
-  "version": 2
+  "updated": "2026-09-25",
+  "version": 3
 }
