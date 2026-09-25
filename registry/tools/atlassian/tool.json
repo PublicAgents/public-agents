@@ -11,7 +11,7 @@
     "url": "https://www.atlassian.com/",
     "kind": "organization"
   },
-  "pricing": "freemium",
+  "pricing": "paid",
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
@@ -44,6 +44,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-15",
-  "version": 1
+  "updated": "2026-09-25",
+  "version": 2
 }

@@ -11,7 +11,7 @@
     "url": "https://www.datadoghq.com/",
     "kind": "organization"
   },
-  "pricing": "freemium",
+  "pricing": "paid",
   "payments": {
     "machinePayable": false,
     "protocols": [],
@@ -55,6 +55,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-21",
-  "version": 2
+  "updated": "2026-09-25",
+  "version": 3
 }
