@@ -18,7 +18,7 @@
     "methods": [],
     "humanBilling": "unknown",
     "priceList": "https://www.growthbook.io/pricing",
-    "notes": "2026-09-25: no surface prices an agent call and no request drew a 402. The customer agreement charges the customer's \"designated payment method\" for all payments due, or per an Order Form; no page read names the instrument, so the cell is unknown rather than card-on-file."
+    "notes": "2026-09-25: no surface read prices an agent call and no keyless request drew a 402; the authenticated side is unmeasured. The customer agreement charges the customer's \"designated payment method\" or bills per an Order Form; no page names the instrument, so unknown rather than card-on-file."
   },
   "agentAccess": {
     "noAccountNeeded": false,
