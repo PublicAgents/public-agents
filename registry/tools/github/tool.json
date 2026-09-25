@@ -49,5 +49,13 @@
   ],
   "created": "2026-09-11",
   "updated": "2026-09-25",
-  "version": 3
+  "version": 4,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://docs.github.com/en/copilot/get-started/plans",
+    "notes": "Read 2026-09-25: no listed surface prices a request or speaks a 402. Metered billing methods in the vendor's reference: credit card, PayPal, Azure subscription (not personal accounts), invoice and ACH for managed accounts only; prepaid cards not accepted. Plan prices on the priceList page."
+  }
 }
