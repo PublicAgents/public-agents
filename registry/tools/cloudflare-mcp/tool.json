@@ -12,7 +12,7 @@
     "kind": "organization"
   },
   "license": "Apache-2.0",
-  "pricing": "freemium",
+  "pricing": "unknown",
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
