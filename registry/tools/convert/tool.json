@@ -12,6 +12,14 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.convert.com/pricing/",
+    "notes": "2026-09-25: no surface read prices an agent call and no keyless request drew a 402; the authenticated side is unmeasured. Terms of service: fees are paid \"by giving your credit card information\" and Convert \"may charge that credit card a monthly fee\"; Enterprise lists \"Custom Payments & Terms\"."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-16",
-  "version": 2
+  "updated": "2026-09-25",
+  "version": 3
 }
