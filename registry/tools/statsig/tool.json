@@ -17,6 +17,14 @@
     "auth": "api-key",
     "notes": "Re-measured 2026-09-17: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401; docs MCP 200 keyless. Docs: MCP by browser OAuth (org must enable Personal Console API Keys) or a Console API key, the same key the REST API takes."
   },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.statsig.com/pricing",
+    "notes": "Read 2026-09-24: nothing prices a call or speaks a 402. Pro is $150/month plus $0.05 per 1K events over 5M, in a monthly bill \"charged to the credit card on file\" (pricing FAQ); Developer is free, no card; Enterprise is custom and \"eligible for custom billing and payment terms\"."
+  },
   "surfaces": {
     "homepage": "https://www.statsig.com/",
     "docs": "https://docs.statsig.com/",
@@ -43,6 +51,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-17",
-  "version": 4
+  "updated": "2026-09-24",
+  "version": 5
 }
