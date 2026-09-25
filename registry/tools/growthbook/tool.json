@@ -12,6 +12,14 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.growthbook.io/pricing",
+    "notes": "2026-09-25: no surface read prices an agent call and no keyless request drew a 402; the authenticated side is unmeasured. The customer agreement charges the customer's \"designated payment method\" or bills per an Order Form; no page names the instrument, so unknown rather than card-on-file."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-16",
-  "version": 2
+  "updated": "2026-09-25",
+  "version": 3
 }
