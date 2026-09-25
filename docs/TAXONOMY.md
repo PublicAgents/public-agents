@@ -105,7 +105,10 @@ use them at all.
 - `freemium`: the listed surfaces carry a free tier and a paid tier,
   and at least one claimed job runs on the free tier. If every claimed
   job needs the paid tier, the cell is `paid`, whatever the product's
-  own tiers are called.
+  own tiers are called. If every claimed job meets `free`, the cell is
+  `free`, whatever tiers the listed surfaces also carry: `freemium`
+  says the paid tier adds something to the claimed jobs, and there it
+  adds nothing the cell describes.
 - `paid`: no claimed job runs without a paid plan, seat or per-use fee,
   whether the vendor bills it or nets it from money the job moves.
   There being no free tier is the test, not the size of the fee.
