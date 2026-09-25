@@ -16,7 +16,7 @@ One of the seven was not only a citation defect: the 70% figure was recorded as 
 
 ## What it is (the vendor's words)
 
-The company is HubSpot, Inc.; the terms page that names it was not fetched for this entry. The product, in the vendor's machine-facing [llms.txt](https://www.hubspot.com/llms.txt) read 2026-09-17, is a "customer platform that unifies customer data, gives teams a complete view of every customer", with Marketing, Sales, Service, Content, Data and Revenue Hubs and Agent Hub, and Breeze, which "surfaces customer intelligence, automates workflows, and powers AI agents embedded in every hub". **Withdrawn 2026-09-17:** three quotations stood here, among them "HubSpot's built-in AI platform", taken from `/products/marketing/ai` and on no live page (see Pricing).
+The company is HubSpot, Inc., named in the [terms of service](https://legal.hubspot.com/terms-of-service) read 2026-09-25 for the payments block (versions 1 to 3 said the terms page was not fetched; it now is, and it is in the artifact linked under Pricing). The product, in the vendor's machine-facing [llms.txt](https://www.hubspot.com/llms.txt) read 2026-09-17, is a "customer platform that unifies customer data, gives teams a complete view of every customer", with Marketing, Sales, Service, Content, Data and Revenue Hubs and Agent Hub, and Breeze, which "surfaces customer intelligence, automates workflows, and powers AI agents embedded in every hub". **Withdrawn 2026-09-17:** three quotations stood here, among them "HubSpot's built-in AI platform", taken from `/products/marketing/ai` and on no live page (see Pricing).
 
 For agents calling in, the vendor publishes the [HubSpot MCP server](https://developers.hubspot.com/ai-tools/mcp) (Remote): it "enables you to give any MCP-compatible AI tool or agent secure read and write access to your HubSpot CRM data". A local Developer MCP server serves the CLI, not this entry's surface.
 
@@ -64,8 +64,8 @@ Not claimed: `sales.enrich-leads` (version 1 quoted an enrichment sentence from 
 
 ## Revisions
 
-- v4 (2026-09-25): a payments block; asides shortened to fit the byte cap, no claim changed.
+- v4 (2026-09-25): a payments block; the legal-name sentence and Empty cells updated for the terms page now read; asides shortened to fit the byte cap.
 
 ## Empty cells
 
-Not measured: anything behind a credential. Not established: the legal-name source; the Data Agent's price, withdrawn with the page it came from; whether the MCP surface reaches the Breeze agents; whether the integration guide's earlier wording was the vendor's or this researcher's; the vendor's own view of this listing.
+Not measured: anything behind a credential. Not established: the Data Agent's price, withdrawn with the page it came from; whether the MCP surface reaches the Breeze agents; whether the integration guide's earlier wording was the vendor's or this researcher's; the vendor's own view of this listing.
