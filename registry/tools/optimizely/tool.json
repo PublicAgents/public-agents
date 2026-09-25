@@ -17,6 +17,14 @@
     "auth": "api-key",
     "notes": "Measured 2026-09-09 and 2026-09-16: MCP initialize with no token answers 401 (Bearer; resource_metadata on MCP host, scope mcp:tools); REST GET /v2/projects with no header answers 401 invalid_credentials. Docs: MCP takes browser OAuth via Opti ID; the REST API takes a personal token or OAuth."
   },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "invoice",
+    "priceList": null,
+    "notes": "Read 2026-09-24: nothing prices a call or speaks a 402. /pricing 301s to /plans, which carries no price and says \"Every Optimizely plan is individually packaged\"; the article \"Learn about plan options and costs\" says cost \"varies from company to company\" and points back. Billed by invoice."
+  },
   "surfaces": {
     "homepage": "https://www.optimizely.com/",
     "docs": "https://docs.developers.optimizely.com/",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-23",
-  "version": 3
+  "updated": "2026-09-25",
+  "version": 4
 }
