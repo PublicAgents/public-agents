@@ -50,5 +50,13 @@
   ],
   "created": "2026-09-11",
   "updated": "2026-09-25",
-  "version": 3
+  "version": 4,
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.hubspot.com/pricing/crm",
+    "notes": "Read 2026-09-25: no listed surface prices a request or speaks a 402. Terms of service 3.3 charge the Authorized Payment Method for subscription fees; 3.4 allows payment against invoice, due in 30 days. Billing settings take a card or a bank account (ACH in the U.S., SEPA in Europe and the U.K.)."
+  }
 }
