@@ -5,7 +5,7 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, inspecting Agent Runs, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Measured 2026-09-25: initialize, tools/list (46 tools) and a call of the documentation tool all answer 200 with no credential; the same three answered 401 on 2026-09-12 and 2026-09-21. Account and purchase tools: OAuth by the server's own words, not measured.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Measured 2026-09-25: initialize, tools/list (46 tools) and a call of the documentation tool all answer 200 with no credential; initialize drew 401 on 09-12 and 09-17, tools/list and the same call on 09-21. Account and purchase tools: OAuth by the server's own words, unmeasured.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
@@ -23,7 +23,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "oauth",
-    "notes": "Measured 2026-09-25, no credentials, cloud IP: initialize (twice), sessionless tools/list (46 tools) and a tools/call of search_vercel_documentation all answer 200; the call returned documentation. Same three answered 401 (Bearer challenge) on 09-12 and 09-21. Account and purchase tools: unmeasured."
+    "notes": "Measured 2026-09-25, no credentials, cloud IP: initialize (twice), sessionless tools/list (46 tools) and a tools/call of search_vercel_documentation all answer 200, documentation returned. 401 before: initialize 09-12 and 09-17, tools/list and the call 09-21. Account and purchase tools unmeasured."
   },
   "surfaces": {
     "homepage": "https://vercel.com/",
