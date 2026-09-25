@@ -32,7 +32,7 @@ What the vendor does publish is a price for agent work: Custom Agents are "Free 
 
 ## Pricing and terms
 
-Freemium, from the [pricing page](https://www.notion.com/pricing) read 2026-09-11: Free "$0 per member / month" with a "Trial of Notion AI"; Plus $10 per member per month; Business $20 per member per month, "Everything in Plus, and: Notion Agent, AI Meeting Notes, Enterprise Search Beta"; Enterprise on custom pricing. Custom Agents are "Free to try, then $10 per 1,000 monthly Notion credits". The feature table lists the public API and webhooks on every plan and marks Notion AI features on Free and Plus as "Limited Trial". Prices are the vendor's on that date and change without notice to this registry.
+`paid` from version 3 (2026-09-25), read at the level of the claimed jobs as the taxonomy defines the cell: the one claimed job, Enterprise Search, is on "Business and Enterprise plans", so it does not run on Free or Plus. Versions 1 and 2 said freemium, which described the product's tiers. Those tiers, from the [pricing page](https://www.notion.com/pricing) read 2026-09-11: Free "$0 per member / month" with a "Trial of Notion AI"; Plus $10 per member per month; Business $20 per member per month, "Everything in Plus, and: Notion Agent, AI Meeting Notes, Enterprise Search Beta"; Enterprise on custom pricing. Custom Agents are "Free to try, then $10 per 1,000 monthly Notion credits". The feature table lists the public API and webhooks on every plan and marks Notion AI features on Free and Plus as "Limited Trial". Prices are the vendor's on that date and change without notice to this registry.
 
 ## Jobs
 
