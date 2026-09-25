@@ -89,6 +89,42 @@ and `pays`, each sourced to the agent's own surfaces, and `pays`
 requires a `spendGate` sentence: who approves what. The measurement
 behind any of it is a probe.
 
+A tool's required `pricing` cell is the one-word answer to a narrower
+question, read at the same level as `noAccountNeeded` (issue #157,
+PR #151): what does a human pay so that an agent can do this entry's
+claimed jobs through the surfaces the entry lists. It describes the
+listed surfaces doing the claimed jobs, not the product behind them
+and not the money those jobs move. An entry with no claimed jobs is
+read at its listed surfaces alone: what a human pays for an agent to
+use them at all.
+
+- `free`: every claimed job runs through a listed surface at no charge,
+  and a vendor page a signed-out reader can reach says so. A charge
+  the job incurs on another account (a cloud resource a call creates)
+  is not this cell's; the profile names it.
+- `freemium`: the listed surfaces carry a free tier and a paid tier,
+  and at least one claimed job runs on the free tier. If every claimed
+  job needs the paid tier, the cell is `paid`, whatever the product's
+  own tiers are called.
+- `paid`: no claimed job runs without a paid plan, seat or per-use fee,
+  whether the vendor bills it or nets it from money the job moves.
+  There being no free tier is the test, not the size of the fee.
+- `open-source`: not a price but a licence, kept for `kind:
+  open-source` entries whose listed surface is software the reader
+  runs, so there is no vendor to pay. A hosted instance of open-source
+  software is priced by what the host charges, like any other tool.
+- `unknown`: the editor looked for a price and could not tell. It is
+  about the price alone: an entry may say `unknown` with no `payments`
+  block, or carry a block and still not know the price.
+
+The cell and the `payments` block answer different questions and
+neither implies the other: the cell says whether the claimed jobs cost
+a human anything, the block says by what route an agent or a human
+pays (`machinePayable`, `humanBilling`, `priceList`). `paid` beside
+`humanBilling: none` is consistent when the fee is netted from money
+the job moves. A reviewer refuses a `pricing` value by this paragraph,
+in words.
+
 ## Coverage cells
 
 A job page shows three separate blocks, never merged: measured results,
