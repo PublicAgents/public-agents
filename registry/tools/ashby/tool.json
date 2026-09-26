@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 12:05Z, no credentials: MCP initialize answers 401 Bearer (scope openid mcp offline_access); POST api.ashbyhq.com/candidate.list answers 401 plain text. Two paths: per-user OAuth for MCP (OIDC metadata advertises DCR, not exercised), an account-made API key for REST."
+    "notes": "No credentials: MCP initialize answered 401 Bearer (scope openid mcp offline_access) on 2026-09-13, 09-17 and 09-26; POST api.ashbyhq.com/candidate.list answered 401 plain text on 09-13 and 09-26 (keyless GET on 09-17: 401). Per-user OAuth for MCP (DCR advertised, not exercised); API key for REST."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.ashbyhq.com/pricing",
+    "notes": "2026-09-26: no surface read prices an agent call and no keyless request drew a 402; the authenticated side is unmeasured. Pricing FAQ: \"Monthly plans require payment by credit card, while annual plans can be paid by credit card, direct deposit, and wire transfers.\" Terms: fees per Order, no refunds."
   },
   "surfaces": {
     "homepage": "https://www.ashbyhq.com/",
@@ -48,6 +56,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-26",
+  "version": 3
 }
