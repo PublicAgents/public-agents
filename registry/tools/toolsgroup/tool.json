@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-09-26: no surface prices a call or plan; no API or MCP exists to answer a 402; docs and support answer a Cloudflare challenge; /pricing/ 404. The only published terms are website Terms of Use, no fee clause or instrument; sales is a demo or contact form; contract tiers named once, unpriced."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "other",
-    "notes": "Measured 2026-09-13, no credentials: www.toolsgroup.com serves a hand-written llms.txt (200), while docs.toolsgroup.com and support.toolsgroup.com both answer a Cloudflare managed challenge (403, cf-mitigated: challenge). No public API docs; no MCP server (mcp.toolsgroup.com has no address record)."
+    "notes": "Measured 2026-09-13 and 2026-09-26, no credentials, identical: www.toolsgroup.com serves llms.txt (200); docs.toolsgroup.com and support.toolsgroup.com answer a Cloudflare challenge (403, cf-mitigated: challenge). No public API docs; no MCP server (mcp.toolsgroup.com has no address record)."
   },
   "surfaces": {
     "homepage": "https://www.toolsgroup.com/",
@@ -45,6 +53,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-26",
+  "version": 4
 }
