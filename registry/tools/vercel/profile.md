@@ -54,7 +54,7 @@ The vendor is `Vercel Inc.`, from its [AI Product Terms](https://vercel.com/lega
 
 ## How payment works
 
-Nothing an agent can pay *for*. No surface read here prices an agent call and no request in this entry drew a 402: the server's account tools are gated by OAuth and its public tools by no credential on the days they answered (401 on 09-26, 200 on 09-25), neither by a price, so `machinePayable` is false with an empty protocol list.
+Nothing an agent can pay *for*. No surface read here prices an agent call and no request here drew a 402. The keyless documentation request answered 200 on 2026-09-25 and 401 Bearer on 2026-09-26; the account tools are gated by OAuth per the server. Neither is a price, so `machinePayable` is false with an empty protocol list.
 
 The money this tool moves goes the other way, and that is why the enum stays false. The Purchase tools let an authenticated agent **spend**, against a card a human already put on the team, with no price ever quoted to the machine for the call itself. `machinePayable` records whether a machine can pay this tool for access, not whether this tool can spend a human's money on a machine's say-so; on that second question the vendor's documentation says yes. `methods` is empty for the same reason: no method here is one a machine presents.
 
