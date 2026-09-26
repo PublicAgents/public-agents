@@ -16,9 +16,9 @@
     "machinePayable": false,
     "protocols": [],
     "methods": [],
-    "humanBilling": "card-on-file",
+    "humanBilling": "unknown",
     "priceList": "https://www.rippling.com/pricing",
-    "notes": "2026-09-26: no surface prices an MCP call; keyless initialize draws 401 Bearer, not 402. Customer Terms (2026-07-02): fees per Order Form, auto-debited from a stored bank account (ACH, EFT, BECS) or other funding source; card admitted; invoice after a failed debit. Per-employee per-month, no figure."
+    "notes": "2026-09-26: no surface prices an MCP call; keyless initialize draws 401 Bearer, not 402. Customer Terms (2026-07-02): fees per Order Form, auto-debited from a stored bank account or other funding source; no card-on-file route shown for this subscription; most products per employee per month."
   },
   "agentAccess": {
     "noAccountNeeded": false,
