@@ -5,7 +5,7 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Measured 2026-09-25: initialize, tools/list (46 tools) and a call of the documentation tool all answer 200 with no credential; initialize drew 401 on 09-12 and 09-17, tools/list and the same call on 09-21. Account and purchase tools: OAuth by the server's own words, unmeasured.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Keyless access measured both ways: initialize, tools/list (46 tools) and a call of the documentation tool answered 200 on 2026-09-25 from two containers, and 401 with a Bearer challenge on 09-12, 09-17, 09-21 and 09-26. Account and purchase tools: OAuth per the server, unmeasured.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
@@ -21,9 +21,9 @@
     "notes": "2026-09-22: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file \"immediately\" and \"non-refundable\" after a quote-then-confirm flow. Nothing was bought."
   },
   "agentAccess": {
-    "noAccountNeeded": true,
+    "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-25, no credentials, cloud IP: initialize (twice), sessionless tools/list (46 tools) and a tools/call of search_vercel_documentation all answer 200, documentation returned. 401 before: initialize 09-12 and 09-17, tools/list and the call 09-21. Account and purchase tools unmeasured."
+    "notes": "Measured 2026-09-26 12:06Z, no credentials, cloud IP: initialize (twice), sessionless tools/list and tools/call of search_vercel_documentation all 401 Bearer. Same requests 200 on 09-25 from two containers, 10:11Z to 22:04Z; 401 on 09-12, 09-17 and 09-21. The cell states the latest reading."
   },
   "surfaces": {
     "homepage": "https://vercel.com/",
@@ -44,7 +44,7 @@
   "jobs": [
     {
       "job": "eng.retrieve-reference-context",
-      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation. Measured 2026-09-25: a keyless tools/call of search_vercel_documentation, topic routing, answered 200 with documentation text; the same call drew 401 on 09-21.",
+      "summary": "Vercel MCP, the vendor's words: it lets an AI assistant \"Search and navigate Vercel documentation\", scoped to Vercel's own documentation. Measured both ways: a keyless tools/call of search_vercel_documentation answered 200 with documentation on 2026-09-25 and 401 Bearer on 09-21 and 09-26.",
       "source": "https://vercel.com/docs/agent-resources/vercel-mcp"
     },
     {
@@ -54,6 +54,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-25",
-  "version": 3
+  "updated": "2026-09-26",
+  "version": 4
 }
