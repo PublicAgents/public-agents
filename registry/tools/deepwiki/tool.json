@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-08: an MCP initialize on https://mcp.deepwiki.com/mcp answers 200 with no credentials, server DeepWiki 2.14.3, three tools advertised. Public repositories only; private ones are a separate paid product (Devin)."
+    "notes": "Measured 2026-09-08, 09-18 and 09-26: MCP initialize on https://mcp.deepwiki.com/mcp answers 200 with no credentials, server DeepWiki 2.14.3, three tools listed keyless (question tool renamed ask_wiki_question between 09-18 and 09-26). Public repositories only; private ones are Devin, paid."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": "https://devin.ai/pricing",
+    "notes": "2026-09-26: no surface prices a call to the listed server and no keyless request drew a 402; private mode unmeasured. Vendor: DeepWiki MCP is \"a free, remote, no-authentication-required service\"; its Devin MCP page tables Cost \"Free\" against \"Requires Devin account\". Devin plans priced separately."
   },
   "surfaces": {
     "homepage": "https://deepwiki.com/",
@@ -35,6 +43,6 @@
     }
   ],
   "created": "2026-09-08",
-  "updated": "2026-09-17",
-  "version": 3
+  "updated": "2026-09-26",
+  "version": 4
 }
