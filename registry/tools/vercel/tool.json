@@ -5,7 +5,7 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Keyless access measured both ways: initialize, tools/list (46 tools) and a call of the documentation tool answered 200 on 2026-09-25 from two containers, and 401 with a Bearer challenge on 09-12, 09-17, 09-21 and 09-26. Account and purchase tools: OAuth per the server, unmeasured.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Keyless, dated: initialize 401 on 09-12 and 09-17; tools/list and a documentation-tool call 401 on 09-21; all three 200 on 2026-09-25 from two containers; all three 401 with a Bearer challenge on 09-26. Account and purchase tools: OAuth per the server, unmeasured.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",

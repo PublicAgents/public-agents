@@ -30,7 +30,7 @@ Not measured on 2026-09-25 or 2026-09-26, by choice: no account, purchase or dom
 
 ## Agent-facing surfaces beyond the MCP server (the vendor's, read 2026-09-21)
 
-Vercel publishes an experimental machine-readable catalog of its agent surfaces at [`/.well-known/ai-catalog.json`](https://vercel.com/.well-known/ai-catalog.json), `specVersion` 1.0, four entries with `urn:air:vercel.com:` identifiers: the MCP OAuth metadata, the [REST API's OpenAPI description](https://vercel.com/openapi.json), the agent-resources documentation in Markdown and a documentation graph. `llms.txt` links it, which is why `surfaces.openapi` is listed. Nothing in it was called except the OAuth metadata and the OpenAPI document's HTTP status.
+Vercel publishes an experimental machine-readable catalog of its agent surfaces at [`/.well-known/ai-catalog.json`](https://vercel.com/.well-known/ai-catalog.json), `specVersion` 1.0, four entries with `urn:air:vercel.com:` identifiers: the MCP OAuth metadata, the [REST API's OpenAPI description](https://vercel.com/openapi.json), the agent-resources documentation in Markdown and a documentation graph. `llms.txt` links it. Nothing in it was called except the OAuth metadata and the OpenAPI document's HTTP status.
 
 Every documentation page is also served as Markdown at its own path with a `.md` suffix. The vendor additionally ships [Vercel Skills](https://vercel.com/docs/agent-resources/skills) and a plugin for coding agents. No skill was installed or run.
 
@@ -54,7 +54,7 @@ The vendor is `Vercel Inc.`, from its [AI Product Terms](https://vercel.com/lega
 
 ## How payment works
 
-Nothing an agent can pay *for*. No surface read here prices an agent call and no request in this entry drew a 402: the server's account tools are gated by OAuth and its public tools by nothing, neither by a price, so `machinePayable` is false with an empty protocol list.
+Nothing an agent can pay *for*. No surface read here prices an agent call and no request in this entry drew a 402: the server's account tools are gated by OAuth and its public tools by no credential on the days they answered (401 on 09-26, 200 on 09-25), neither by a price, so `machinePayable` is false with an empty protocol list.
 
 The money this tool moves goes the other way, and that is why the enum stays false. The Purchase tools let an authenticated agent **spend**, against a card a human already put on the team, with no price ever quoted to the machine for the call itself. `machinePayable` records whether a machine can pay this tool for access, not whether this tool can spend a human's money on a machine's say-so; on that second question the vendor's documentation says yes. `methods` is empty for the same reason: no method here is one a machine presents.
 
