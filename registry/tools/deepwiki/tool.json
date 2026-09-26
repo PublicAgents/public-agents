@@ -22,7 +22,7 @@
     "protocols": [],
     "methods": [],
     "humanBilling": "none",
-    "priceList": "https://devin.ai/pricing",
+    "priceList": null,
     "notes": "2026-09-26: no surface prices a call to the listed server and no keyless request drew a 402; private mode unmeasured. Vendor: DeepWiki MCP is \"a free, remote, no-authentication-required service\"; its Devin MCP page tables Cost \"Free\" against \"Requires Devin account\". Devin plans priced separately."
   },
   "surfaces": {
