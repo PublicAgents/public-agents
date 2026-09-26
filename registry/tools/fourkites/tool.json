@@ -23,7 +23,7 @@
     "methods": [],
     "humanBilling": "unknown",
     "priceList": null,
-    "notes": "2026-09-26: no surface prices a call or a plan (/pricing 404), no keyless request drew a 402 or a challenge; the account side is unmeasured. The legal index links no customer subscription agreement; carrier and data-provider terms are fee-free; shippers sign an unpublished Order Form."
+    "notes": "2026-09-26: no surface prices a call or a plan; no keyless request drew a 402 or a challenge; account side unmeasured. No customer agreement is published; carriers are licensed free of charge, data providers owe no fee unless an Order Form says otherwise; shippers sign an unpublished Order Form."
   },
   "surfaces": {
     "homepage": "https://www.fourkites.ai/",
