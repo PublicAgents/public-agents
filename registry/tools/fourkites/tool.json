@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "other",
-    "notes": "Measured 2026-09-13, no credentials: developer.fourkites.com answers 200 with a login form and no readable docs; api.fourkites.com answers 404 JSON at the root with no auth challenge. No MCP server (mcp.fourkites.ai is NXDOMAIN). Credential type not documented publicly."
+    "notes": "Measured 2026-09-13 and 2026-09-26, no credentials, same both days: developer.fourkites.com answers 200 with a login form and no readable docs; api.fourkites.com answers 404 JSON at the root with no auth challenge. No MCP server (mcp.fourkites.ai is NXDOMAIN). Credential type not documented."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-09-26: no surface read prices a call or plan; no keyless request drew a 402 or challenge; account side unmeasured. No customer subscription agreement among the legal-index documents read; carriers licensed free; data providers owe no fee absent an Order Form; shipper Order Form unpublished."
   },
   "surfaces": {
     "homepage": "https://www.fourkites.ai/",
@@ -47,6 +55,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-26",
+  "version": 2
 }
