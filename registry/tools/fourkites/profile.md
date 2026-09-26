@@ -50,7 +50,7 @@ No credentials were used for any of this. On 2026-09-18 the [probe record](https
 - `developer.fourkites.com` answers 200 with a React application whose visible content is a sign-in form ("Welcome to FourKites!", an email field, "Remember me on this device"). The API reference is behind it. An agent cannot read what the API expects, let alone call it.
 - `api.fourkites.com/` answers `404 {"message":"no Route matched with those values"}`, a gateway's default, with no `WWW-Authenticate` header and no pointer to documentation.
 - No MCP server is published on any first-party surface. `mcp.fourkites.ai` is NXDOMAIN.
-- `www.fourkites.com/llms.txt` and `www.fourkites.ai/llms.txt` both answer 404.
+- `www.fourkites.ai/llms.txt` answers 404 on both days. `www.fourkites.com/llms.txt` answered 404 on 2026-09-13; on 2026-09-26 it answers a 301 to `www.fourkites.ai/llms.txt`, and that destination answers 404. No llms.txt is served on either domain.
 
 So the six agents are the vendor's agents, working for the vendor's customers inside the vendor's platform. Nothing here is a surface another agent can call, and `agentAccess.auth` is recorded as `other` because the vendor does not document the credential type where anybody without an account can read it.
 
