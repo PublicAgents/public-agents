@@ -36,9 +36,15 @@ Founded 1993, per the vendor's own [llms.txt](https://www.toolsgroup.com/llms.tx
 
 Numbers the vendor publishes, recorded here as the vendor's numbers and in no machine-readable field, because none carries a method, a population or a date: "5-15 pt" forecast accuracy improvement, "20-30%" inventory reduction, "40-90%" planning workload reduction, "Up to 99% service level", "Proven Results Across 400+ Enterprises".
 
-## Agent access, measured 2026-09-13 and re-measured 2026-09-14
+## How payment works (the vendor's, read 2026-09-26)
 
-No credentials were used. Every line below was re-run on 2026-09-14 and came back identical, with one exception noted in the claims section: `/solutions/inventory-optimization/` now answers 301 to `/solutions/inventory-optimization-software/`.
+No payment offer was observed, and there is no surface on which one could be: the vendor publishes no API and no MCP server, so no request in this entry could draw a 402, and the two hosts that might carry a price for a machine, `docs.toolsgroup.com` and `support.toolsgroup.com`, answered the same Cloudflare managed challenge at 18:08Z as on 2026-09-13 and 2026-09-18. `machinePayable` is false with empty `protocols` and `methods`.
+
+For a human, the vendor publishes no price and no billing mechanism. `/pricing/`, `/legal/` and `/terms-and-conditions/` answer the site's 404 page; `/terms-of-use/` answers 301 to [/terms/](https://www.toolsgroup.com/terms/), which is the one legal document the site's `llms.txt` and footer link besides the privacy policy and the cookie declaration. Those Terms of Use are website terms: "ToolsGroup, Inc. (“ToolsGroup”) operates this website (“Site”) to provide online access to information about ToolsGroup and the products, services, and opportunities we provide", and a visitor may use the Content "solely for your non-commercial, personal purposes and/or to learn about the Services". They carry no fee clause, no price, no instrument and no subscription term; the word "fees" appears once, in the indemnity ("reasonable attorneys’ fees"), and the only dollar figure is a liability cap that "shall, in no event, exceed $100.00". The copyright notice reads "© ToolsGroup B.V. 2019" and disputes go to "the laws of the State of Massachusetts"; the page prints no last-updated date. The sales route is a form: the [contact page](https://www.toolsgroup.com/contact-us/) asks for a "Revenue Range" from "Under $65M" to "Over $5B" and offers "Sales Inquiry" and "Request a Demo" as reasons to write, and `llms.txt` lists [Book a demo](https://www.toolsgroup.com/book-a-demo/). The one sentence on the site that names a customer contract at all is on the [customer support page](https://www.toolsgroup.com/customer-support/): "Enterprise SLAs. Defined response and resolution times based on your contract tier." Tiers exist, then, and are named nowhere with a price. So `humanBilling` is `unknown` and `priceList` is null: the vendor sells enterprise software under contracts it does not post, and the only terms it does post govern reading its website. Page text, headers and the 18:08Z to 18:10Z measurements are archived at [plumb.public-agents.ai/evidence/toolsgroup/2026-09-26](https://plumb.public-agents.ai/evidence/toolsgroup/2026-09-26/pages-1808Z.txt).
+
+## Agent access, measured 2026-09-13, re-measured 2026-09-14, 2026-09-18 and 2026-09-26
+
+No credentials were used. Every line below was re-run on 2026-09-14 and came back identical, with one exception noted in the claims section: `/solutions/inventory-optimization/` now answers 301 to `/solutions/inventory-optimization-software/`. The documentation and support hosts were measured again on 2026-09-18 ([probe record](https://public-agents.com/probes#p-20260918-toolsgroup-docs-unauthenticated)) and every line below again on 2026-09-26 at 18:08Z to 18:10Z, identical: `llms.txt` 200 (7,252 bytes), both hosts 403 with `cf-mitigated: challenge`, `mcp.toolsgroup.com` with no A or AAAA record.
 
 - `www.toolsgroup.com/llms.txt` answers 200 with about 7 KB of hand-written index. It is the best-structured llms.txt in this registry after Ashby's: every link carries a sentence saying what that page is for ("The method behind the forecasts: full probability distributions per item and location"; "Short-term signals to correct the forecast within the lead time"). It tells a reading agent where to look rather than what to say.
 - `docs.toolsgroup.com` and `support.toolsgroup.com` both answer **403 with `cf-mitigated: challenge`** and a Cloudflare interstitial reading "Just a moment... Enable JavaScript and cookies to continue". The documentation and the support centre are closed to a datacenter client.
@@ -56,9 +62,9 @@ So the site invites a machine reader and the documentation refuses one, four hos
 - Pricing detail, accuracy and service-level numbers: published as marketing figures with no method, so they stay in prose.
 - Anything about Decion's autonomy in practice: the vendor's page says it "autonomously steers decisions", and nothing public says what a customer's guardrails typically allow. Not measured, not claimed.
 
-## Ownership proof, checked 2026-09-14
+## Ownership proof, checked 2026-09-14 and 2026-09-26
 
-- `https://www.toolsgroup.com/.well-known/public-agents.json`: 404, serving the site's HTML 404 page (2026-09-13 and 2026-09-14).
-- `_public-agents.toolsgroup.com` TXT: the name resolves NOERROR with no TXT record (NODATA), which is the same practical answer as no record at all.
+- `https://www.toolsgroup.com/.well-known/public-agents.json`: 404, serving the site's HTML 404 page (2026-09-13, 2026-09-14 and 2026-09-26); the apex path answers 301 to it.
+- `_public-agents.toolsgroup.com` TXT: the name resolves NOERROR with no TXT record (NODATA) on 2026-09-14 and 2026-09-26, which is the same practical answer as no record at all.
 
 Unclaimed and unverified until the vendor publishes one of the two proofs.
