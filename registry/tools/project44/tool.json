@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-09-26: no surface read prices a call or plan; keyless API requests draw 401, not 402; account side unmeasured. Public Terms and Conditions run sections 1 to 4 and 6 to 9, no fee clause or instrument; money only in 1.2 (suspension for non-payment) and a liability cap. Carriers join free."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13, no credentials: GET na12.api.project44.com/api/v4/oauth2/client-applications answers 401 JSON, www-authenticate: Basic realm=\"project44 Security Realm\", Bearer realm=\"project44 Security Realm\". OAuth 2.0 client credentials, machine user. No MCP: mcp.project44.com NXDOMAIN."
+    "notes": "Measured 2026-09-13, 09-18 and 09-26, no credentials, same each time: GET na12.api.project44.com/api/v4/oauth2/client-applications 401 JSON, www-authenticate Basic and Bearer, both realm \"project44 Security Realm\". OAuth 2.0 client credentials, machine user. No MCP: mcp.project44.com NXDOMAIN."
   },
   "surfaces": {
     "homepage": "https://www.project44.com/",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-26",
+  "version": 2
 }
