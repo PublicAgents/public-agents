@@ -5,7 +5,7 @@
   "name": "Docusign",
   "kind": "service",
   "status": "active",
-  "summary": "Electronic signature and agreement management. Its first-party MCP server, in open beta for developer and production accounts, exposes 22 tools over envelopes, recipients, templates, users and Maestro workflows: create an envelope from a template or a remote document, set signers and their routing order, read envelope and recipient status, remind pending signers, and void. The tool catalog is published without credentials at mcp.docusign.com/tools; the endpoint itself answered 403 to a probe with no token, and the vendor accepts only Confidential Authorization Code Grant tokens.",
+  "summary": "Electronic signature and agreement management. Its first-party MCP server, in open beta, exposes 24 tools (22 over envelopes, recipients, templates, users and Maestro workflows, plus two read-only \"skill\" tools that instruct the calling model): create an envelope, set signers and their routing order, read envelope and recipient status, remind pending signers, and void. The tool catalog is published without credentials at mcp.docusign.com/tools; the endpoint itself answered 403 to a probe with no token, and the vendor accepts only Confidential Authorization Code Grant tokens.",
   "vendor": {
     "name": "Docusign, Inc.",
     "url": "https://www.docusign.com/",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-18 12:04Z, no credentials: POST mcp.docusign.com/mcp answers 403 \"RBAC: access denied\", no www-authenticate; the root well-known URI serves the OAuth resource document (the path-aware form 403s); GET /tools serves the 22-tool catalog. OAuth: Confidential Auth Code Grant only."
+    "notes": "Measured 2026-09-27 18:11Z, no credentials: POST mcp.docusign.com/mcp answers 403 \"RBAC: access denied\", no www-authenticate; the root well-known URI serves the OAuth resource document, six scopes (three on 09-18); GET /tools serves 24 tools (22 on 09-18). Confidential Auth Code Grant only."
   },
   "surfaces": {
     "homepage": "https://www.docusign.com/",
@@ -41,14 +41,14 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-18",
-  "version": 2,
+  "updated": "2026-09-27",
+  "version": 3,
   "payments": {
     "machinePayable": false,
     "protocols": [],
     "methods": [],
     "humanBilling": "unknown",
     "priceList": "https://ecom.docusign.com/plans-and-pricing/esignature",
-    "notes": "Read 2026-09-18: plans are bought on the vendor's checkout (Personal $11/month, Standard $30/user/month, Business Pro $45/user/month, annual commitments); the page names no payment method for the subscription itself. The MCP server carries no price of its own and speaks no 402 protocol."
+    "notes": "Read 2026-09-18, re-read 2026-09-27, unchanged: plans are bought on the vendor's checkout (Personal $11/month, Standard $30/user/month, Business Pro $45/user/month, annual commitments); the page names no payment method for the subscription. The MCP server has no price and speaks no 402 protocol."
   }
 }
