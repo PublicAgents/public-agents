@@ -247,6 +247,9 @@ describe("payments and probes", () => {
     expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": rfc6750 } } }).success).toBe(true);
     expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, decoded: { challenge: `www-authenticate: ${rfc9728}` } } }).success).toBe(true);
     expect(probeSchema.safeParse({ ...PROBE, reproducibility: { command: `curl -sS -D - https://mcp.example/v2/mcp # answers ${rfc9728}` } }).success).toBe(true);
+    // names are case-insensitive and values may be bare tokens (RFC 7235 §2.1): both shapes pass too
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Bearer Resource_Metadata=\"https://mcp.example/metadata\"" } } }).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Bearer error=invalid_token, error_description=expired" } } }).success).toBe(true);
     const lookAlike = ["Bearer", "resource_metadata.abcdefghijklmnop"].join(" ");
     expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": lookAlike } } })).toMatch(/credential/);
     expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": ["Bearer", "unlisted_param=\"abc\""].join(" ") } } })).toMatch(/credential/);
