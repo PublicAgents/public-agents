@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-14, no credentials: GET onfleet.com/api/v2/organization 401 InvalidCredentials, no www-authenticate; the API key is the Basic-auth username. mcp.onfleet.com/mcp answers 401 with resource_metadata, full OAuth discovery and a registration endpoint, and is in no vendor doc."
+    "notes": "Measured 2026-09-14 and 09-27, no credentials: GET onfleet.com/api/v2/organization 401 InvalidCredentials, no www-authenticate; the API key is the Basic-auth username. mcp.onfleet.com/mcp answers 401 with resource_metadata, full OAuth discovery and a registration endpoint, and is in no vendor doc."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://onfleet.com/pricing",
+    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Terms (Aug 31, 2026): monthly plans and usage charged automatically to the credit card on file; annual plans invoiced upfront, due in 7 days. Pricing FAQ: Stripe; Visa, Mastercard, American Express. Plans from $619 a month."
   },
   "surfaces": {
     "homepage": "https://onfleet.com/",
@@ -41,6 +49,6 @@
     }
   ],
   "created": "2026-09-14",
-  "updated": "2026-09-16",
-  "version": 2
+  "updated": "2026-09-27",
+  "version": 3
 }
