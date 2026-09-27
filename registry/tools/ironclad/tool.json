@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13, 2026-09-14 and 2026-09-15, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth. The authorization server named by the challenge publishes no registration_endpoint and advertises client_id_metadata_document_supported."
+    "notes": "Measured 2026-09-13, 09-14, 09-15 and 09-27, no credentials: MCP initialize answers 401 with a Bearer challenge at NA1 and EU1. Vendor: per-user OAuth. The authorization server named by the challenge publishes no registration_endpoint and advertises client_id_metadata_document_supported."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "invoice",
+    "priceList": null,
+    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Enterprise Services Agreement (July 1, 2026) s.3: invoiced annually in advance, non-cancellable, non-refundable; overage and AI Credit excess invoiced at unpublished list prices. Pricing page: custom quote only."
   },
   "surfaces": {
     "homepage": "https://ironcladapp.com/",
@@ -39,6 +47,6 @@
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-27",
+  "version": 4
 }
