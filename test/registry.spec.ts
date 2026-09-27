@@ -239,6 +239,17 @@ describe("payments and probes", () => {
     expect(messages({ ...PROBE, reproducibility: { command: `curl 'https://example.com/api/paid?${["api", "key"].join("_")}=abc123'` } })).toMatch(/credential/);
     // a redacted challenge in a non-credential header is fine
     expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": "Payment method=\"tempo\", nonce=[redacted]" } } }).success).toBe(true);
+    // a Bearer CHALLENGE is not a token: the RFC 9728 header (#179) and RFC 6750's long parameter names pass literally,
+    // in a header, in a decoded value and in the re-run command; a token that merely starts with those letters does not
+    const rfc9728 = "Bearer resource_metadata=\"https://mcp.example/.well-known/oauth-protected-resource/v2/mcp\"";
+    const rfc6750 = "Bearer error_description=\"Missing or invalid access token\", error_uri=\"https://example.com/errors\"";
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": rfc9728 } } }).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": rfc6750 } } }).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, observed: { ...PROBE.observed, decoded: { challenge: `www-authenticate: ${rfc9728}` } } }).success).toBe(true);
+    expect(probeSchema.safeParse({ ...PROBE, reproducibility: { command: `curl -sS -D - https://mcp.example/v2/mcp # answers ${rfc9728}` } }).success).toBe(true);
+    const lookAlike = ["Bearer", "resource_metadata.abcdefghijklmnop"].join(" ");
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": lookAlike } } })).toMatch(/credential/);
+    expect(messages({ ...PROBE, observed: { ...PROBE.observed, headers: { "www-authenticate": ["Bearer", "unlisted_param=\"abc\""].join(" ") } } })).toMatch(/credential/);
     // a real UTC minute, and not after the file's updated date
     expect(messages({ ...PROBE, at: "2026-13-40T99:99Z" })).toMatch(/real UTC minute/);
     // the published JSON Schema carries the same refusals as patterns, so an external validator agrees
@@ -249,6 +260,8 @@ describe("payments and probes", () => {
     const valuePattern = new RegExp(published.properties.observed.properties.headers.additionalProperties.pattern);
     expect(valuePattern.test(fakeBearer)).toBe(false);
     expect(valuePattern.test("Payment method=\"tempo\", nonce=[redacted]")).toBe(true);
+    expect(valuePattern.test(rfc9728)).toBe(true);
+    expect(valuePattern.test(lookAlike)).toBe(false);
     // the patterns carry no flags, so case folding is spelled out: mixed-case look-alikes fail too
     const mixedCase = [
       ["GHp", "abcdefghijklmnopqrstuv"].join("_"),
