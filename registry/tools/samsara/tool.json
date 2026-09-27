@@ -15,13 +15,21 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-14, no credentials: api.samsara.com/fleet/vehicles 401; the full 4.5 MB OpenAPI description is 200 to anyone; docs serve Markdown (.md on any page) and an llms.txt index. An undocumented MCP server at mcp.samsara.com/mcp answers 401 Bearer realm=\"mcp\" with no OAuth metadata (404)."
+    "notes": "Measured 2026-09-27, no credentials: REST fleet/vehicles 401; OpenAPI 200 to anyone. MCP, documented since 2026-09-16 at mcp.samsara.com/v2/mcp: initialize 401 Bearer naming RFC 9728 metadata; the auth server cloud.samsara.com advertises registration, PKCE S256, one scope mcp_read."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": null,
+    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Express Order Terms (web-store orders): a recurring credit card or direct debit charge. Terms of Service 6.1 (Order Forms): wire transfer unless the Order Form says otherwise. No figure published; quotes by fleet size."
   },
   "surfaces": {
     "homepage": "https://www.samsara.com/",
     "docs": "https://developers.samsara.com/reference/overview",
     "llmsTxt": "https://developers.samsara.com/llms.txt",
-    "mcp": "https://mcp.samsara.com/mcp",
+    "mcp": "https://mcp.samsara.com/v2/mcp",
     "api": "https://developers.samsara.com/docs/authentication",
     "openapi": "https://developers.samsara.com/openapi/samsara-api.json",
     "source": null
@@ -43,6 +51,6 @@
     }
   ],
   "created": "2026-09-14",
-  "updated": "2026-09-14",
-  "version": 1
+  "updated": "2026-09-27",
+  "version": 2
 }
