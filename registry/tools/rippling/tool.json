@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.rippling.com/pricing",
+    "notes": "2026-09-26: no surface prices an MCP call; keyless initialize draws 401 Bearer, not 402. Customer Terms (2026-07-02): fees per Order Form, auto-debited from a stored bank account or other funding source; no card-on-file route shown for this subscription; most products per employee per month."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-13 12:15Z, no credentials: POST mcp.rippling.com/mcp answers 401 Bearer naming a resource_metadata URL that is itself 403 to a datacenter IP, in curl and in a browser. Vendor: employee identity, an admin access assignment and a Rippling AI subscription are all required."
+    "notes": "Measured 2026-09-13 and 2026-09-26, no credentials, identical: POST mcp.rippling.com/mcp answers 401 Bearer naming a resource_metadata URL that is itself 403 to a datacenter IP. Vendor: employee identity, an admin access assignment and a Rippling AI subscription are all required."
   },
   "surfaces": {
     "homepage": "https://www.rippling.com/",
@@ -34,6 +42,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-09-13",
-  "updated": "2026-09-13",
-  "version": 1
+  "updated": "2026-09-26",
+  "version": 2
 }
