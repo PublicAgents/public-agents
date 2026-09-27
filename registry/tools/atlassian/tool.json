@@ -23,7 +23,7 @@
     "methods": [],
     "humanBilling": "card-on-file",
     "priceList": "https://www.atlassian.com/licensing/rovo",
-    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Customer Agreement 10.1(f): a card used for the first Order may be billed for renewals; the pricing FAQ names MasterCard, Visa, American Express, PayPal. Rovo credits: $0.01 each over the allowance; MCP calls consume them."
+    "notes": "Read 2026-09-27: no 402 on any listed surface. Customer Agreement (effective 2026-10-01) 10.1(f): the first Order's card may be billed for renewals; pricing FAQ names Visa, MasterCard, Amex, PayPal. Rovo credits: $0.01 each over allowance; enriched MCP calls consume them, connecting does not."
   },
   "surfaces": {
     "homepage": "https://www.atlassian.com/",

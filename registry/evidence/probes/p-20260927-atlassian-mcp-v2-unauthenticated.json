@@ -20,9 +20,11 @@
     "headers": {
       "content-type": "application/json; charset=utf-8",
       "server": "AtlassianEdge",
-      "www-authenticate": "[see decoded.challenge: the literal value is refused by the registry's credential filter because the scheme name is followed by a parameter name; nothing in it is a credential]"
+      "www-authenticate": "[parseable in two parts under decoded.challengeScheme and decoded.challengeParams; the joined literal is refused by the registry's credential filter (PR #180 would admit it); nothing in it is a credential]"
     },
     "decoded": {
+      "challengeScheme": "Bearer",
+      "challengeParams": "resource_metadata=\"https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp\"",
       "challenge": "www-authenticate: Bearer[one space]resource_metadata=\"https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp\" (near-literal: the marker [one space] stands for the single space byte; one parameter, no realm, no error code; artifact section 7 has the bytes)",
       "body": "{\"error\":\"invalid_token\"}",
       "protected-resource-metadata": "200, 1374 bytes: resource https://mcp.atlassian.com/v2/mcp, authorization_servers [https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3], bearer_methods_supported [header], resource_documentation https://www.atlassian.com/platform/remote-mcp-server, 38 scopes_supported (artifact section 8)",
