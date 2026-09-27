@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260927-atlassian-mcp-v2-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "atlassian"
+  },
+  "surface": "https://mcp.atlassian.com/v2/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo plumb-probe 1.0), Content-Type application/json, Accept application/json and text/event-stream, curl's default User-Agent"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "AtlassianEdge",
+      "www-authenticate": "[see decoded.challenge: the literal value is refused by the registry's credential filter because the scheme name is followed by a parameter name; nothing in it is a credential]"
+    },
+    "decoded": {
+      "challenge": "www-authenticate: Bearer[one space]resource_metadata=\"https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp\" (near-literal: the marker [one space] stands for the single space byte; one parameter, no realm, no error code; artifact section 7 has the bytes)",
+      "body": "{\"error\":\"invalid_token\"}",
+      "protected-resource-metadata": "200, 1374 bytes: resource https://mcp.atlassian.com/v2/mcp, authorization_servers [https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3], bearer_methods_supported [header], resource_documentation https://www.atlassian.com/platform/remote-mcp-server, 38 scopes_supported (artifact section 8)",
+      "scope-drift": "Against p-20260917-atlassian-mcp-unauthenticated (34 scopes, 2026-09-17 18:06Z): four added, read:assets:agent-interface, write:assets:agent-interface, read:jira-align:agent-interface, write:jira-align:agent-interface; none removed; the other four keys unchanged. Compared by parsing both JSON documents, not by counting",
+      "v1-paths": "POST initialize to https://mcp.atlassian.com/v1/mcp/authv2 answers 401 with resource_metadata for its own v1 document plus error=invalid_token; https://mcp.atlassian.com/v1/sse answers 401 Bearer realm=\"OAuth\", error=invalid_token; both bodies 79 bytes, both as on 2026-09-15 (artifact sections 9 and 10)",
+      "ownership": "GET /.well-known/public-agents.json on www.atlassian.com answers 404 (the site's HTML not-found page); _public-agents.atlassian.com TXT answers NODATA (Status 0, no Answer section) through a public resolver (sections 11 and 12)"
+    }
+  },
+  "finding": "The keyless state of the documented endpoint is unchanged from the 2026-09-15 and 2026-09-17 readings: an initialize request with no credentials answers 401 with an RFC 9728 resource_metadata pointer, and the two v1 paths answer their own 401s. What changed is the advertised scope list of the v2 protected-resource document, which is the vendor's machine-readable statement of how much product surface an agent may hold: 38 scopes today against 34 ten days ago, with Assets and Jira Align added (read and write) and nothing removed. No credential was used, no client registered, nothing written; the server's tool list remains unmeasured.",
+  "reproducibility": {
+    "command": "curl -sS -D - -o - -X POST https://mcp.atlassian.com/v2/mcp -H 'accept: application/json, text/event-stream' --json '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"plumb-probe\",\"version\":\"1.0\"}}}'; curl -sS https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/atlassian/2026-09-27/pages-1205Z.txt"
+  },
+  "at": "2026-09-27T12:07Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-27",
+  "updated": "2026-09-27",
+  "version": 1
+}

@@ -15,7 +15,15 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-09-15, no credentials: MCP initialize at mcp.atlassian.com/v2/mcp answers 401 with a Bearer challenge naming its protected-resource metadata, which answers 200 and names auth.atlassian.com. The v1 endpoints still answer 401. Vendor: OAuth 2.1 with the user's own permissions."
+    "notes": "Measured 2026-09-15 and 2026-09-27, no credentials: MCP initialize at mcp.atlassian.com/v2/mcp answers 401 with a Bearer challenge naming its protected-resource metadata, which answers 200 and names auth.atlassian.com. The v1 endpoints still answer 401. Vendor: OAuth 2.1."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.atlassian.com/licensing/rovo",
+    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Customer Agreement 10.1(f): a card used for the first Order may be billed for renewals; the pricing FAQ names MasterCard, Visa, American Express, PayPal. Rovo credits: $0.01 each over the allowance; MCP calls consume them."
   },
   "surfaces": {
     "homepage": "https://www.atlassian.com/",
@@ -44,6 +52,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-25",
-  "version": 2
+  "updated": "2026-09-27",
+  "version": 3
 }
