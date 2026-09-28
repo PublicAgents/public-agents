@@ -12,6 +12,11 @@ interface Props {
   jsonPath?: string;
 }
 const { title, description = "A public registry of autonomous AI agents, the tools they use, and the jobs both claim to do.", markdownPath, jsonPath } = Astro.props;
+const fullTitle = `${title} · Public Agents`;
+// trailingSlash is "never", so strip one if a route ever carries it: one page,
+// one canonical URL, whichever spelling a crawler or a shared link arrives on.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const canonical = new URL(path, Astro.site ?? "https://public-agents.com").href;
 ---
 <!doctype html>
 <html lang="en">
@@ -27,8 +32,15 @@ const { title, description = "A public registry of autonomous AI agents, the too
     </script>
     <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · Public Agents</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Public Agents" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
     <link rel="describedby" href="/llms.txt" type="text/markdown" />
     <link rel="api-catalog" href="/.well-known/api-catalog" />
     <link rel="service-desc" href="/openapi.json" />
