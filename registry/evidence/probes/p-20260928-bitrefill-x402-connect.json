@@ -21,14 +21,16 @@
       "payment-required": "present, base64 of the same x402 document the JSON body carries",
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
-      "x-robots-tag": "noindex"
+      "x-robots-tag": "noindex",
+      "server": "cloudflare"
     },
     "decoded": {
       "x402Version": 2,
       "accepts": "an EMPTY array. There is nothing on this response to pay, exactly as on 2026-09-21",
       "extensions": "sign-in-with-x; sign-in-with-x carries the SIWX challenge schema, not a price",
-      "compared-with-2026-09-21": "re-requested seven days after probe p-20260921-bitrefill-x402-connect: 402, x402 version 2, an empty accepts array and a sign-in-with-x extension, the same as that record in every field it names. This route quotes no price and no addresses, so the Solana payTo disagreement recorded on the priced routes of this pass does not arise here",
-      "set": "one of twelve single-request probe records re-filed together on 2026-09-28, one per route of the vendor's published x402 endpoint table, mirroring the twelve of 2026-09-21; nothing in this finding rests on any request but the one above"
+      "compared-with-2026-09-21": "re-requested seven days after probe p-20260921-bitrefill-x402-connect. Compared and unchanged: status 402, x402Version 2, an empty accepts array, and sign-in-with-x as the only extension. NOT established by this pair of records: the earlier record also describes the CAIP-122 challenge's fields and the resource description's wording, which this record did not re-read field by field (the bytes are in the artifact); and the two header blocks differ, as the headers-compared field says. This route quotes no price and no addresses, so the Solana payTo disagreement recorded on the priced routes of this pass does not arise here.",
+      "set": "one of twelve single-request probe records re-filed together on 2026-09-28, one per route of the vendor's published x402 endpoint table, mirroring the twelve of 2026-09-21; nothing in this finding rests on any request but the one above",
+      "headers-compared": "the 2026-09-21 record's header block lists content-type, server, x-robots-tag; this one lists cache-control, content-type, payment-required, server, x-robots-tag. cache-control, payment-required appears here and not there, and nothing there and not here, so for those keys the two records cannot tell a change from an omission."
     },
     "protocols": [
       "x402"

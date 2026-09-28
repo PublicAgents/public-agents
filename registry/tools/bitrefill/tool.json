@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Re-measured 2026-09-21 and 09-28, no credentials, no payment: all 11 documented x402 routes answer 402, none 401 and none data; the 3 routes documented free answer 402 with an empty accepts array and a sign-in-with-x challenge. MCP initialize 401 (09-11, re-read 09-18 and 09-28)."
+    "notes": "Re-measured 2026-09-21 and 09-28, no credentials, no payment: all 11 documented x402 routes answer 402, none 401 and none data; the 3 routes documented free answer 402 with an empty accepts array and a sign-in-with-x challenge. MCP initialize and REST ping answer 401 (2026-09-11, re-read 09-18)."
   },
   "surfaces": {
     "homepage": "https://www.bitrefill.com/",

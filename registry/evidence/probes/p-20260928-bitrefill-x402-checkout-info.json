@@ -20,15 +20,17 @@
       "payment-required": "present, base64 of the same x402 document the JSON body carries",
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
-      "x-robots-tag": "noindex"
+      "x-robots-tag": "noindex",
+      "server": "cloudflare"
     },
     "decoded": {
       "x402Version": 2,
       "accepts": "4 entries, scheme exact, amount 1000 units of USDC (six decimals, $0.001), maxTimeoutSeconds 300, on eip155:8453 Base, eip155:42161 Arbitrum, eip155:137 Polygon, solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp Solana mainnet; payTo 0x480CD46E6faDe651a0437DeaddA53D5c8e7D846A on the three EVM networks and 5yASLjtNssGXDv6bR9e71WXKxRymDiUzbgkGPqkQNgRn on Solana",
       "solana-extra-differs": "the three EVM accepts carry extra.name USD Coin and extra.version 2; the Solana accept carries only extra.feePayer. Unchanged from the 2026-09-21 reading",
       "extensions": "bazaar",
-      "compared-with-2026-09-21": "re-requested seven days after probe p-20260921-bitrefill-x402-checkout-info, whose values it repeats in every field but one: version 2, scheme, amount, maxTimeoutSeconds, the four networks, the asset on each and the EVM payTo 0x480CD46E6faDe651a0437DeaddA53D5c8e7D846A. THE ONE DISAGREEMENT is the Solana payTo. That record names BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP; today's document pays to 5yASLjtNssGXDv6bR9e71WXKxRymDiUzbgkGPqkQNgRn and carries BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP as extra.feePayer. The 2026-09-21 pass archived no bytes, so which of the two moved cannot be established from this registry: either the vendor changed the Solana recipient, or the earlier record copied the fee payer into the recipient's place. The second is the likelier reading and it is not proven",
-      "set": "one of twelve single-request probe records re-filed together on 2026-09-28, one per route of the vendor's published x402 endpoint table, mirroring the twelve of 2026-09-21; nothing in this finding rests on any request but the one above"
+      "compared-with-2026-09-21": "re-requested seven days after probe p-20260921-bitrefill-x402-checkout-info, whose decoded values it repeats in every field but one (the header blocks are compared separately, in headers-compared): version 2, scheme, amount, maxTimeoutSeconds, the four networks, the asset on each and the EVM payTo 0x480CD46E6faDe651a0437DeaddA53D5c8e7D846A. THE ONE DISAGREEMENT is the Solana payTo. That record names BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP; today's document pays to 5yASLjtNssGXDv6bR9e71WXKxRymDiUzbgkGPqkQNgRn and carries BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP as extra.feePayer. The 2026-09-21 pass archived no bytes, so which of the two moved cannot be established from this registry: either the vendor changed the Solana recipient, or the earlier record copied the fee payer into the recipient's place. The second is the likelier reading and it is not proven",
+      "set": "one of twelve single-request probe records re-filed together on 2026-09-28, one per route of the vendor's published x402 endpoint table, mirroring the twelve of 2026-09-21; nothing in this finding rests on any request but the one above",
+      "headers-compared": "the 2026-09-21 record's header block lists content-type, payment-required, server, x-robots-tag; this one lists cache-control, content-type, payment-required, server, x-robots-tag. cache-control appears here and not there, and nothing there and not here, so for those keys the two records cannot tell a change from an omission."
     },
     "protocols": [
       "x402"
