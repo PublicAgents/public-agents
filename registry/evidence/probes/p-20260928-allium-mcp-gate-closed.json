@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260928-allium-mcp-gate-closed",
+  "subject": {
+    "type": "tool",
+    "id": "allium"
+  },
+  "surface": "https://mcp.allium.so/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "the same MCP initialize request as p-20260928-allium-mcp-unauthenticated eleven hours and a half earlier (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list with no session header, then the same two tools/call requests by hand, get_realtime_supported_chains and realtime_get_supported_chains, each with empty arguments; then the two well-known metadata paths, the sign-in host, and the free and priced endpoints of agents.allium.so; Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "text/html",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme whose resource_metadata parameter names https://mcp.allium.so/.well-known/oauth-protected-resource. The header as received is in the artifact]"
+    },
+    "decoded": {
+      "initialize": "401, content-length 0, with the challenge above. At 06:31Z the same day the same request answered 200 with an SSE body naming serverInfo 1.0.1 and no challenge header (p-20260928-allium-mcp-unauthenticated, same artifact directory)",
+      "tools-list": "401 with the same challenge, where 06:31Z answered 200 with 48 tools",
+      "tools-call": "both names, get_realtime_supported_chains and realtime_get_supported_chains, answer 401 with the same challenge, where 06:31Z answered 200 with a Not authenticated error result inside the JSON-RPC envelope. The refusal moved from the application layer to the transport",
+      "protected-resource-metadata": "200 at https://mcp.allium.so/.well-known/oauth-protected-resource: resource https://mcp.allium.so/, authorization_servers [https://mcp.allium.so/], scopes_supported [openid], bearer_methods_supported [header]. The same path answered 404 at 06:31Z and on 2026-09-20",
+      "authorization-server-metadata": "200 at https://mcp.allium.so/.well-known/oauth-authorization-server, read on this host for the first time: issuer https://mcp.allium.so/, authorize, token and register endpoints on the same host, scopes_supported [openid], response_types_supported [code], grant_types_supported [authorization_code, refresh_token], code_challenge_methods_supported [S256], client_id_metadata_document_supported true. A dynamic client registration endpoint is advertised; it was not called",
+      "sign-in-host": "mcp-oauth.allium.so answers the same initialize 401 with a challenge naming its own protected-resource document, and that document answers 200 with the same four fields about itself. Unchanged from 06:31Z; the two hosts now answer a stranger the same way",
+      "paid-host": "unchanged at 18:06Z: GET /api/v1/developer/tokens/search?q=usdc and POST /api/v1/developer/prices still answer 402 with an MPP challenge and an x402 version 2 document together, exact scheme, the same four networks, 30000 and 20000 units, Stripe custody fields on the Base and Solana entries only; the free supported-chains endpoint still answers 200 with no payment",
+      "cause": "not established. A 401 carrying a well-formed RFC 9728 challenge, and a protected-resource document that changed from 404 to 200 in the same window, read as a deliberate configuration change rather than a block of this caller, but nothing was read from the vendor saying so and one IP cannot tell the two apart"
+    }
+  },
+  "finding": "Measured twice on 2026-09-28 from the same container with no credentials: at 06:31Z mcp.allium.so answered initialize and tools/list 200 and listed 48 tools to a stranger, refusing only at the tool call, with its protected-resource path 404; at 18:04Z the same requests answered 401 with a challenge of the bearer scheme naming that path, and the path answered 200 with an authorization-server document (registration endpoint advertised, scopes openid) that had not been readable there before. The transport that had been open to a stranger since at least 2026-09-11 was closed within the same day, and the tool list is no longer readable without an account. The paid host measured at 18:06Z had not moved. What caused the change is not established: nothing read from the vendor announces it, and one IP cannot distinguish a configuration change from a block of this caller.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh allium https://mcp.allium.so/ https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple  # the script covers initialize and the metadata paths; the hand-made calls are printed as full curl lines above their responses in the artifact, Part B",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/allium/2026-09-28/probes-1804Z.txt"
+  },
+  "at": "2026-09-28T18:04Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-28",
+  "updated": "2026-09-28",
+  "version": 1
+}

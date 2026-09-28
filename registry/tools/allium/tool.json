@@ -28,7 +28,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Measured 2026-09-11, 09-20, 09-28, no credentials: mcp.allium.so initialize 200, tools/list 200 (48 tools on 09-28, 46 on 09-20, all tagged auth_api_key), tool calls Not authenticated; mcp-oauth.allium.so 401 with resource_metadata; agents.allium.so free endpoint 200, priced 402."
+    "notes": "Measured 2026-09-11, 09-20 and twice on 09-28, no credentials: mcp.allium.so answered initialize and tools/list 200 (48 tools, all tagged auth_api_key) at 06:31Z and 401 with a Bearer challenge at 18:04Z; mcp-oauth.allium.so 401; agents.allium.so free endpoint 200, priced 402."
   },
   "surfaces": {
     "homepage": "https://www.allium.so/",
