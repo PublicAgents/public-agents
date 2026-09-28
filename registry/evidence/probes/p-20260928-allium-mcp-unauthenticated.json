@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260928-allium-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "allium"
+  },
+  "surface": "https://mcp.allium.so/",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list on the same session, then two tools/call requests by hand, each with empty arguments and sent separately so the two answers can be compared: one naming get_realtime_supported_chains (today's name of the free tool) and one naming realtime_get_supported_chains (the name the 2026-09-20 record used); Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "challenge": "none: the 200 carries no www-authenticate header",
+      "initialize": "200, SSE; serverInfo \"MCP Server\" 1.0.1 (3.4.7 on 2026-09-20); protocolVersion 2025-06-18; no mcp-session-id header was issued (one was on 2026-09-20), and the following calls were accepted without one; the instructions field still tells a client to fetch a sql-optimization skill before writing SQL (Part A section 1, Part B section 1)",
+      "tools-list": "200: 48 tools (46 on 2026-09-20; the script's transcript cuts the body at 20000 bytes, so the count is from the full body in Part B section 2, 148486 bytes); all 48 carry the tag auth_api_key in _meta.fastmcp.tags, 29 carry is_billed (28 on 2026-09-20), three name billing_currency:explorer_units (three)",
+      "tools-call": "get_realtime_supported_chains (today's name of the tool the billing page lists as free; the 2026-09-20 record called it realtime_get_supported_chains, a name not in today's list) answers 200 with an isError result whose text begins \"Not authenticated. Please sign in with your Allium account or configure an API key\"; the old name answers the identical result, so the gate runs before the tool name is resolved (Part B sections 3 and 4)",
+      "protected-resource-metadata": "404 (text/plain) at https://mcp.allium.so/.well-known/oauth-protected-resource, as on 2026-09-20 (Part A section 2)",
+      "authorization-server-metadata": "not looked for on this host: no challenge and no resource document named one",
+      "sign-in-host": "mcp-oauth.allium.so answers the same initialize with 401 and a challenge of scheme Bearer whose resource_metadata parameter names its own /.well-known/oauth-protected-resource; that document answers 200: resource https://mcp-oauth.allium.so/, authorization_servers [https://mcp-oauth.allium.so/], scopes_supported [openid], bearer_methods_supported [header] (Part B sections 5 and 6)",
+      "rest": "GET https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple with no Authorization header answers 200 with the chain map, as on 2026-09-20 (Part B section 9); the priced endpoints' 402 is re-read in Part B sections 7 and 8 and belongs to the payment record"
+    }
+  },
+  "finding": "With no credentials on 2026-09-28, an MCP initialize POST to mcp.allium.so answers 200 (serverInfo version 1.0.1, where the 2026-09-20 record read 3.4.7) and issues no session id; a tools/list without one answers 200 with 48 tools (46 on 2026-09-20), every one tagged auth_api_key by the server, 29 tagged is_billed; a call to the free tool under today's name get_realtime_supported_chains, and under the 2026-09-20 name realtime_get_supported_chains, answers the same Not authenticated error result inside a 200. The sign-in host mcp-oauth.allium.so refuses the same initialize with 401 and its resource document (200, read for the first time) names itself as authorization server with scopes_supported openid. The transport is open to a stranger and nothing behind it is; the accountless path is still the paid host measured in p-20260920-allium-machine-payments-unpaid, whose 402 shape was re-read the same minute and had not moved. One IP is one sample. No payment offer was observed on this host.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh allium https://mcp.allium.so/ https://agents.allium.so/api/v1/supported-chains/realtime-apis/simple  # the script covers initialize, tools/list and the metadata; the two tools/call requests are printed as full curl lines above their responses in the artifact, Part B sections 3 and 4",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/allium/2026-09-28/probes-0631Z.txt"
+  },
+  "at": "2026-09-28T06:31Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-28",
+  "updated": "2026-09-28",
+  "version": 1
+}

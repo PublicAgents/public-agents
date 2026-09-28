@@ -23,12 +23,12 @@
     ],
     "humanBilling": "unknown",
     "priceList": "https://docs.allium.so/ai/machine-payments/endpoints-pricing",
-    "notes": "Measured 09-11 and 09-20 2026, unpaid: priced endpoints answer an unpaid request with an MPP (Tempo) challenge and an x402 v2 document together, USDC at the documented per-call price on Base, Solana, X Layer and Polygon. Account paths use credit pools; how credits are bought is unpublished."
+    "notes": "Measured 09-11, 09-20 and 09-28 2026, unpaid: priced endpoints answer an unpaid request with an MPP (Tempo) challenge and an x402 v2 document together, USDC at the documented per-call price on Base, Solana, X Layer and Polygon. Account paths use credit pools; how credits are bought is unpublished."
   },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Measured 2026-09-11 and 2026-09-20, no credentials: mcp.allium.so initialize 200, tools/list 200 (46 tools on 09-20, each tagged auth_api_key), every tool call Not authenticated; mcp-oauth.allium.so 401 with resource_metadata; agents.allium.so free supported-chains 200, priced endpoints 402."
+    "notes": "Measured 2026-09-11, 09-20 and twice on 09-28, no credentials: mcp.allium.so answered initialize and tools/list 200 (48 tools, all tagged auth_api_key) at 06:31Z and 401 with a Bearer challenge at 18:04Z; mcp-oauth.allium.so 401; agents.allium.so free endpoint 200, priced 402."
   },
   "surfaces": {
     "homepage": "https://www.allium.so/",
@@ -58,6 +58,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-21",
-  "version": 2
+  "updated": "2026-09-28",
+  "version": 3
 }
