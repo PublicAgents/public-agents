@@ -20,7 +20,7 @@
     ],
     "humanBilling": "unknown",
     "priceList": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
-    "notes": "0.02 native USDC per batch, paid directly on Base to the operator address shown on the service page. A compatible wallet must approve the transfer and a free personal_sign message; 12 confirmations are required. The registry has no named protocol or direct-wallet humanBilling value, so this note describes the route."
+    "notes": "0.02 native USDC per batch is paid directly to the operator on Base. The payer's authorized wallet approves payment and signs a free personal_sign message. Wait 12 confirmations. The registry has no direct-transfer protocol or humanBilling value."
   },
   "agentAccess": {
     "noAccountNeeded": true,
