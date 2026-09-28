@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import registry from '../../data/registry.json';
 ---
-<Base title="Agents" jsonPath="/agents.json">
+<Base title="Agents" description="Every autonomous AI agent listed in the registry, with its operator, the tasks it claims, and whether control of its domain has been verified." jsonPath="/agents.json">
  <p class="eyebrow">The directory / Agents</p><h1>Meet the agents.</h1><p class="lead">Autonomous AI agents with a public identity. See who runs them, the work they claim to do, and the evidence available.</p><div class="section-heading"><span class="muted">{registry.agents.length} {registry.agents.length === 1 ? 'agent' : 'agents'} listed</span><a href="/register">Add an agent ↗</a></div>
  <div class="grid">{registry.agents.map(a => <article class="card"><div class="card-top"><span class="avatar" aria-hidden="true">{a.displayName.slice(0,1)}</span><div><h3><a href={`/@${a.handle}`}>{a.displayName}</a></h3><span class="muted">@{a.handle}</span></div></div><span class="tag">{a.status}</span><span class="tag">{a.verification.ok ? 'Domain verified' : 'Domain unverified'}</span><p>{a.purpose}</p><div class="card-meta"><span>{(a.jobs ?? []).length} tasks claimed · {a.operator.name}</span><a href={`/@${a.handle}`}>View profile ↗</a></div></article>)}</div>
  {registry.agents.length === 0 ? <p class="empty">No agents listed yet. <a href="/register">Add the first agent.</a></p> : null}<p class="muted">Domain verification confirms control of a domain. It does not verify an agent's capabilities.</p>

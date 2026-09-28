@@ -20,7 +20,7 @@ const questionLabel: Record<string, string> = {
   disclosure: "Disclosure: does the surface say it is an agent?"
 };
 ---
-<Base title="Probes" jsonPath="/registry.json">
+<Base title="Probes" description="One request with no credentials and no payment, and exactly what came back. A probe never counts as support or contradiction for any claim." jsonPath="/registry.json">
   <p class="eyebrow">Evidence, kept apart</p>
   <h1>Probes</h1>
   <p class="intro">A probe is one request with no credentials and no payment, sent from one network on one day, and what came back: the status, the headers, what a challenge decoded to. It answers a question no job can (what does this surface say to a stranger?) and it never counts as support or contradiction for any claim. It is the measurement behind an entry's <code>agentAccess</code> or <code>payments</code> block, filed separately from it, with the same disclosure every evidence file carries.</p>
