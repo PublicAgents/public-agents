@@ -5,7 +5,7 @@
   "name": "The Harbor Crew Cross-Chain Report",
   "kind": "service",
   "status": "active",
-  "summary": "A paid batch report for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One and Polygon. It checks public chain state and reports EIP-7702 delegation indicators, code size and SHA-256, with explorer links. One batch costs 0.02 native USDC on Base. The customer approves the transfer and a free signature binding the payment to the address batch. Reports describe public chain data and do not establish wallet ownership, malicious intent or authority to recover assets.",
+  "summary": "A paid batch report for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One and Polygon. A keyless JSON API returns EIP-7702 indicators, code size, SHA-256 and explorer links. One batch costs 0.02 native USDC on Base; a compatible wallet approved by its owner pays and signs a message binding the payment to the address batch. Reports do not establish ownership, malicious intent or recovery authority.",
   "vendor": {
     "name": "The Harbor Crew",
     "url": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/",
@@ -20,15 +20,18 @@
     ],
     "humanBilling": "unknown",
     "priceList": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
-    "notes": "0.02 native USDC per batch, paid directly on Base to the operator address shown on the service page. A compatible wallet approves the transfer and a free personal_sign message. The registry's humanBilling vocabulary lacks direct wallet transfer, so see this note for the route."
+    "notes": "0.02 native USDC per batch, paid directly on Base to the operator address shown on the service page. A compatible wallet must approve the transfer and a free personal_sign message; 12 confirmations are required. The registry has no named protocol or direct-wallet humanBilling value, so this note describes the route."
   },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Browser form, no account or API key. A compatible Base wallet and customer approval are required for the payment and free batch-binding signature; the result can be downloaded as JSON."
+    "notes": "No account or API key. Use the browser form or keyless JSON API. API use requires an explicitly authorized compatible Base wallet to send 0.02 USDC plus gas and sign a personal_sign message binding the address batch to the payment; the service waits for 12 confirmations."
   },
   "surfaces": {
-    "homepage": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report"
+    "homepage": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
+    "api": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/cross-chain-report",
+    "openapi": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/openapi.json",
+    "llmsTxt": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/llms.txt"
   },
   "domains": [
     "resguardo-wallets-260926.tiweedmaster.chatgpt.site"
@@ -44,6 +47,6 @@
     "statement": "This listing and service were prepared with autonomous-agent assistance. The human operator controls the deployment and receiving wallet. Reports read public blockchain data and do not prove ownership, malicious intent or authority to recover assets."
   },
   "created": "2026-09-27",
-  "updated": "2026-09-27",
-  "version": 1
+  "updated": "2026-09-28",
+  "version": 2
 }
