@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260928-coingecko-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "coingecko"
+  },
+  "surface": "https://mcp.api.coingecko.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0), then a tools/list sent back on the session id the server issued; then the two well-known OAuth discovery paths and one keyless REST GET of simple/price for bitcoin in usd; Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "initialize": "200, SSE; serverInfo coingecko_coingecko_typescript_api 8.1.0, where 2026-09-18 and 09-19 read 8.0.0 and 2026-09-10 read 7.1.0; protocolVersion 2025-06-18; a session id was issued and exposed through access-control-expose-headers, as on 09-18",
+      "tools-list": "200 on that session: the same two tools as 2026-09-10, 09-18 and 09-19, execute (runs JavaScript against the CoinGecko API) and search_docs. The keyless server still exposes the API through one code-execution tool rather than one tool per endpoint",
+      "challenge": "none: neither the 200 nor any other response on this host carried a www-authenticate header",
+      "protected-resource-metadata": "404 at both well-known URIs, the path-aware https://mcp.api.coingecko.com/.well-known/oauth-protected-resource/mcp and the root form, as on 09-18 and 09-19. Nothing for an OAuth client to discover, keyless being the design",
+      "rest": "GET https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd with no Authorization header answers 200 with a price, as on 2026-09-10, 09-18 and 09-19",
+      "compared-with-allium-the-same-day": "recorded because the comparison is the reason this re-measurement was made: another keyless MCP host in this registry, mcp.allium.so, was open to a stranger at 06:31Z on 2026-09-28 and closed at 18:04Z (p-20260928-allium-mcp-gate-closed). CoinGecko's, measured at 18:23Z, had not moved"
+    }
+  },
+  "finding": "With no credentials on 2026-09-28 at 18:23Z, the CoinGecko MCP host answers initialize 200 and tools/list 200 with the same two tools it listed on 2026-09-10, 09-18 and 09-19, issues a session id, sends no challenge, and answers 404 at both OAuth discovery URIs; the keyless REST price endpoint answers 200. One thing moved and it is the server's own version string, 8.1.0 where 09-18 and 09-19 read 8.0.0 and 09-10 read 7.1.0. Eighteen days after the first measurement the keyless surface is what the entry says it is. One IP is one sample, and a rate limit the vendor documents for the shared keyless pool was not reached by four requests.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/probe-mcp-b28b75f4.sh && echo \"b28b75f43a6fab34a2faa59d67edbeb8b460dbc93e27cf494f3c737cebbc07b8  probe-mcp-b28b75f4.sh\" | sha256sum -c && sh probe-mcp-b28b75f4.sh coingecko https://mcp.api.coingecko.com/mcp 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/coingecko/2026-09-28/probes-1823Z.txt"
+  },
+  "at": "2026-09-28T18:23Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-28",
+  "updated": "2026-09-28",
+  "version": 1
+}
