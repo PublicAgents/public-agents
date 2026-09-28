@@ -15,7 +15,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": ["stablecoin"],
+    "methods": [
+      "stablecoin"
+    ],
     "humanBilling": "unknown",
     "priceList": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
     "notes": "0.02 native USDC per batch, paid directly on Base to the operator address shown on the service page. A compatible wallet approves the transfer and a free personal_sign message. The registry's humanBilling vocabulary lacks direct wallet transfer, so see this note for the route."
@@ -28,8 +30,14 @@
   "surfaces": {
     "homepage": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report"
   },
-  "domains": ["resguardo-wallets-260926.tiweedmaster.chatgpt.site"],
-  "maintainers": [{"github": "Rocket-Harbor-420"}],
+  "domains": [
+    "resguardo-wallets-260926.tiweedmaster.chatgpt.site"
+  ],
+  "maintainers": [
+    {
+      "github": "Rocket-Harbor-420"
+    }
+  ],
   "provenance": "vendor",
   "disclosure": {
     "aiOperated": true,
