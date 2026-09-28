@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260928-bitrefill-x402-invoice-pay-unknown-id",
+  "subject": {
+    "type": "tool",
+    "id": "bitrefill"
+  },
+  "surface": "https://api.bitrefill.com/x402/invoice/pay",
+  "question": "payment",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP, user agent public-agents-researcher/1.0",
+    "body": "the JSON body {\"invoice_id\":\"0\"}, Content-Type application/json"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "payment-required": "present, base64 of the same x402 document the JSON body carries",
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "x-robots-tag": "noindex"
+    },
+    "decoded": {
+      "x402Version": 2,
+      "accepts": "4 entries, scheme upto, amount 1000000000 units of USDC (six decimals, 1000 USDC), maxTimeoutSeconds 3600, on eip155:8453 Base, eip155:42161 Arbitrum, eip155:137 Polygon, solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp Solana mainnet; payTo 0x480CD46E6faDe651a0437DeaddA53D5c8e7D846A on the three EVM networks and 5yASLjtNssGXDv6bR9e71WXKxRymDiUzbgkGPqkQNgRn on Solana",
+      "solana-extra-differs": "the three EVM accepts carry extra.name USD Coin and extra.version 2; the Solana accept carries only extra.feePayer. Unchanged from the 2026-09-21 reading",
+      "extensions": "bazaar, builder-code; builder-code carries the single field a with value bc_suil8bdj, the same code as 2026-09-21",
+      "compared-with-2026-09-21": "re-requested seven days after probe p-20260921-bitrefill-x402-invoice-pay-unknown-id, whose values it repeats in every field but one: version 2, scheme, amount, maxTimeoutSeconds, the four networks, the asset on each and the EVM payTo 0x480CD46E6faDe651a0437DeaddA53D5c8e7D846A. THE ONE DISAGREEMENT is the Solana payTo. That record names BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP; today's document pays to 5yASLjtNssGXDv6bR9e71WXKxRymDiUzbgkGPqkQNgRn and carries BENrLoUbndxoNMUS5JXApGMtNykLjFXXixMtpDwDR9SP as extra.feePayer. The 2026-09-21 pass archived no bytes, so which of the two moved cannot be established from this registry: either the vendor changed the Solana recipient, or the earlier record copied the fee payer into the recipient's place. The second is the likelier reading and it is not proven",
+      "set": "one of twelve single-request probe records re-filed together on 2026-09-28, one per route of the vendor's published x402 endpoint table, mirroring the twelve of 2026-09-21; nothing in this finding rests on any request but the one above"
+    },
+    "protocols": [
+      "x402"
+    ]
+  },
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/bitrefill/2026-09-28/x402-1833Z.txt",
+    "command": "curl -si -X POST 'https://api.bitrefill.com/x402/invoice/pay' -H 'Content-Type: application/json' -d '{\"invoice_id\":\"0\"}'"
+  },
+  "at": "2026-09-28T18:33Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-28",
+  "updated": "2026-09-28",
+  "version": 1,
+  "finding": "With no account, no key, no wallet, no signature and no payment on 2026-09-28 at 18:33Z, POST /x402/invoice/pay answers 402 rather than 401 or data, and quotes 1000000000 units of USDC under scheme upto on four networks, the same amount, scheme, timeout and networks as the 2026-09-21 record, which names a different Solana payTo (see the decoded comparison). No payment was made, so whether a payment would be accepted is still not measured. One IP and one container is one sample."
+}
