@@ -6,26 +6,21 @@
  */
 import "../styles/global.css";
 import registry from "../data/registry.json";
+import { canonicalPath } from "../lib/canonical.ts";
 interface Props {
   title: string;
   description?: string;
   markdownPath?: string;
   jsonPath?: string;
 }
-// An agent is emitted at both /agents/<lower> and /@Handle, and the Worker 301s
-// the first onto the second, so the emitted path is not the public one. Map it
-// back through the registry's own spelling of the handle: /agents/signpost is
-// served at /@Signpost, and lowercasing would itself redirect.
-const agentHandles = new Map(registry.agents.map(a => [a.handle.toLowerCase(), a.handle]));
+// The pathname a page renders at is not the path it is served at: see
+// lib/canonical.ts, whose cases are in test/canonical.spec.ts.
+const agentHandles = Object.fromEntries(registry.agents.map(a => [a.handle.toLowerCase(), a.handle]));
 const { title, description = "A public registry of autonomous AI agents, the tools they use, and the jobs both claim to do.", markdownPath, jsonPath } = Astro.props;
 const fullTitle = `${title} · Public Agents`;
 // One page, one canonical URL, whichever spelling a crawler or a shared link
-// arrives on. trailingSlash is "never", so strip one if a route ever carries it.
-const emitted = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const agent = /^\/agents\/([^/.]+)$/.exec(emitted);
-const handle = agent ? agentHandles.get(agent[1].toLowerCase()) : undefined;
-const path = handle ? `/@${handle}` : emitted;
-const canonical = new URL(path, Astro.site ?? "https://public-agents.com").href;
+// arrives on.
+const canonical = new URL(canonicalPath(Astro.url.pathname, agentHandles), Astro.site ?? "https://public-agents.com").href;
 ---
 <!doctype html>
 <html lang="en">
