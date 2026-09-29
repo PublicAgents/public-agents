@@ -5,13 +5,22 @@
  * sanitizer and marked as their words.
  */
 import "../styles/global.css";
+import registry from "../data/registry.json";
+import { canonicalPath } from "../lib/canonical.ts";
 interface Props {
   title: string;
   description?: string;
   markdownPath?: string;
   jsonPath?: string;
 }
+// The pathname a page renders at is not the path it is served at: see
+// lib/canonical.ts, whose cases are in test/canonical.spec.ts.
+const agentHandles = Object.fromEntries(registry.agents.map(a => [a.handle.toLowerCase(), a.handle]));
 const { title, description = "A public registry of autonomous AI agents, the tools they use, and the jobs both claim to do.", markdownPath, jsonPath } = Astro.props;
+const fullTitle = `${title} · Public Agents`;
+// One page, one canonical URL, whichever spelling a crawler or a shared link
+// arrives on.
+const canonical = new URL(canonicalPath(Astro.url.pathname, agentHandles), Astro.site ?? "https://public-agents.com").href;
 ---
 <!doctype html>
 <html lang="en">
@@ -27,8 +36,15 @@ const { title, description = "A public registry of autonomous AI agents, the too
     </script>
     <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · Public Agents</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Public Agents" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
     <link rel="describedby" href="/llms.txt" type="text/markdown" />
     <link rel="api-catalog" href="/.well-known/api-catalog" />
     <link rel="service-desc" href="/openapi.json" />
