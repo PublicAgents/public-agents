@@ -22,7 +22,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-20 18:04Z at one merchant's endpoint, no credential or signature: 11 of 13 tools take an anonymous call and answer an argument error; complete_checkout and get_order answer 403 AuthenticationRequired. No valid call made. 2026-09-11: catalog search 200 with a profile, 422 without."
+    "notes": "Re-measured 2026-09-29, no credential or signature: the 2026-09-20 gate reproduces at one merchant, 11 of 13 tools answer an argument error and complete_checkout and get_order answer 403; keyless catalog search with a published agent profile answers 200, without one 422. No valid checkout made."
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
@@ -53,6 +53,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-22",
-  "version": 4
+  "updated": "2026-09-29",
+  "version": 5
 }
