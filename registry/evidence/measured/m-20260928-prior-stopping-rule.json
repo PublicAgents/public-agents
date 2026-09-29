@@ -94,7 +94,7 @@
     },
     {
       "metric": "same identical-arms row at 4 assignments/day: gate never clears",
-      "value": 0.0,
+      "value": 0,
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
@@ -102,7 +102,7 @@
     },
     {
       "metric": "detects a real +50% lift at 4 assignments/day: the same zero",
-      "value": 0.0,
+      "value": 0,
       "unit": "%",
       "baseline": 80,
       "higherIsBetter": true,
