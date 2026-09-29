@@ -93,12 +93,10 @@
       "interval": "arithmetic from the measured 1.13 assignments/day, not simulated"
     },
     {
-      "metric": "same identical-arms row at 4 assignments/day: gate never clears",
+      "metric": "same identical-arms row at 4 assignments/day: no decisions at all",
       "value": 0,
       "unit": "%",
-      "baseline": 5,
-      "higherIsBetter": false,
-      "interval": "0 of 1200 runs; under 0.25% by the rule of three"
+      "interval": "0 of 1200 runs; descriptive, the gate never clears"
     },
     {
       "metric": "detects a real +50% lift at 4 assignments/day: the same zero",
@@ -134,7 +132,7 @@
     }
   ],
   "reproducibility": {
-    "artifactsUrl": "https://prior.livevariant.ai/tools/surface-power.mjs",
+    "artifactsUrl": "https://prior.livevariant.ai/tools/stopping-rule-artifacts.txt",
     "license": "CC-BY-4.0"
   },
   "disclosure": {
