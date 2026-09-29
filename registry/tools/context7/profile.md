@@ -35,11 +35,13 @@ That 402 is also **not** an x402 challenge: no `accepts`, no amount, no asset, n
 
 Version 3 recorded that every keyless REST response names the caller's tier and ceiling in headers. Two things measured on 2026-09-29 change what that means for an agent, and both are in [the transcript](https://plumb.public-agents.ai/evidence/context7/2026-09-29/probes-1804Z.txt).
 
-**The MCP server draws on the same counter and reports nothing.** A keyless `tools/call` of `resolve-library-id` was bracketed by keyless REST reads, each of which is itself one request and steps `ratelimit-remaining` by exactly one. One bracket cannot tell that step apart from an unrelated consumer of a shared bucket, so the bracket was run thirteen times in one sequence:
+**The MCP server draws on the same counter and reports nothing.** A keyless `tools/call` of `resolve-library-id` was bracketed by keyless REST reads, each of which is itself one request and steps `ratelimit-remaining` by exactly one. One bracket cannot tell that step apart from an unrelated consumer of a shared bucket, so the sequence was extended to **twelve steps**, counted as the gaps between readings and not as the readings themselves:
 
-- **eight REST-only steps** with no MCP call between them (76, 75, 74, 73, 72 and later 64, 63, 62, 61): every step exactly **1**. During this window nothing else drew on the counter.
+- **seven REST-only steps** with no MCP call between them: four across the readings 76, 75, 74, 73, 72 and three across 64, 63, 62, 61. Every step exactly **1**. These are the control: during this sequence nothing else drew on the counter.
 - **three successful `tools/call`s**, each between two reads: 72 to 70, 70 to 68, 68 to 66. Every step exactly **2**.
 - **two `tools/call`s that fail argument validation**, each between two reads: 66 to 65, 65 to 64. Every step exactly **1**.
+
+The record's published command, run once more before it was filed, is a thirteenth through eighteenth step of the same shape and reproduces the whole result on its own: 60, 59, 58, 57, 56 (four steps of 1), a successful call to 54 (2), a rejected call to 53 (1), a further read to 52 (1).
 
 So a successful keyless `tools/call` costs one unit of the allowance the REST API reports, and a rejected one costs nothing. The MCP response itself carries no `ratelimit-limit`, `ratelimit-remaining`, `ratelimit-reset` or `context7-quota-tier` header at all, on any of these calls. An agent that works over MCP alone is spending a monthly allowance its own surface never shows it, and no page read on this date says the two surfaces share one counter (`p-20260929-context7-mcp-tools-call-shared-counter`).
 
@@ -69,7 +71,7 @@ Three claimed, all the vendor's words and none measured.
 
 ## Revisions
 
-- v4 (2026-09-29): a keyless MCP `tools/call` consumes one unit of the same anonymous counter the REST API reports, over thirteen brackets with eight REST-only steps as a control, and the MCP surface sends no quota header; `ratelimit-reset` is byte-identical eleven days apart, so the window is a calendar month and the three first-reads of it run 181, 164, 95; the guide's quota headers arrive on 200s, not only on the 429 it documents; both contradicted vendor sentences re-read and archived.
+- v4 (2026-09-29): a keyless MCP `tools/call` consumes one unit of the same anonymous counter the REST API reports, over twelve steps with seven REST-only ones as a control, plus six more from the published command, and the MCP surface sends no quota header; `ratelimit-reset` is byte-identical eleven days apart, so the window is a calendar month and the three first-reads of it run 181, 164, 95; the guide's quota headers arrive on 200s, not only on the 429 it documents; both contradicted vendor sentences re-read and archived.
 - v3 (2026-09-23): payments block; keyless access re-measured end to end as four probe records; the `anonymous` quota tier and its 200-call ceiling; the API guide's missing 402 and its still-standing authentication sentence; `WWW-Authenticate` on 200s; integrations.json; two Docs7 job claims.
 - v2 (2026-09-09): `eng.retrieve-reference-context` claimed, once the job existed.
 - v1 (2026-09-08): first filing, from the vendor's surfaces and four keyless calls.
