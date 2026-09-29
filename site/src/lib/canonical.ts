@@ -3,7 +3,7 @@
  *
  * The site builds with `build.format: "file"`, so a page is emitted as a
  * file and renders at `/tools/stripe.html` or `/index.html` while the
- * served route is extensionless — in production `/tools/stripe.html`
+ * served route is extensionless: in production `/tools/stripe.html`
  * answers 307 to `/tools/stripe`. An agent is emitted twice, at
  * `/agents/<lower>` and at `/@Handle`, and the Worker 301s the first onto
  * the second, so only `/@Handle` is public. Pure: the layout puts what
