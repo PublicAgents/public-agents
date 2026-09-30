@@ -11,10 +11,14 @@
   ],
   "aliases": [
     "expense coding",
-    "GL coding"
+    "GL coding",
+    "expense categorization",
+    "chart of accounts mapping",
+    "transaction categorization",
+    "cost center allocation"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }

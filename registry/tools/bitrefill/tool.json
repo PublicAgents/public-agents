@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "Measured 2026-09-11, no credentials: REST v2 ping 401 no_token; MCP initialize 401 Bearer invalid_token; x402 GET gift-cards/search 402, v2 PAYMENT-REQUIRED, USDC on Base, Arbitrum, Polygon, Solana, 2000 units ($0.002); POST x402/connect 402 with a sign-in-with-x challenge. No payment made."
+    "notes": "Re-measured 2026-09-21 and 09-28, no credentials, no payment: all 11 documented x402 routes answer 402, none 401 and none data; the 3 routes documented free answer 402 with an empty accepts array and a sign-in-with-x challenge. MCP initialize and REST ping answer 401 (2026-09-11, re-read 09-18)."
   },
   "surfaces": {
     "homepage": "https://www.bitrefill.com/",
@@ -24,7 +24,7 @@
     "skills": [
       "https://www.bitrefill.com/agents/SKILL.md"
     ],
-    "mcp": "https://docs.bitrefill.com/docs/ecommerce-mcp",
+    "mcp": "https://api.bitrefill.com/mcp",
     "api": "https://docs.bitrefill.com/docs/api-overview",
     "source": "https://github.com/bitrefill/agents"
   },
@@ -37,8 +37,26 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "proc.purchase-on-behalf",
+      "summary": "Vendor's llms.txt: agents can search products, check prices and complete full purchases of gift cards, payment cards, mobile top-ups and eSIMs via MCP or REST API, delivered instantly; the skill and x402 storefront add a no-account path paid from a wallet. Claim only; no purchase was made.",
+      "source": "https://www.bitrefill.com/llms.txt"
+    }
+  ],
   "created": "2026-09-11",
-  "updated": "2026-09-11",
-  "version": 1
+  "updated": "2026-09-30",
+  "version": 7,
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "invoice",
+    "priceList": "https://github.com/bitrefill/agents/blob/main/skills/bitrefill/references/touchpoints/x402.md",
+    "notes": "Re-measured 2026-09-21 and 09-28, no payment: every priced x402 route quotes the vendor's published price (2000 units of USDC = $0.002; 1000 = $0.001) under scheme exact, on Base, Arbitrum, Polygon and Solana. invoice/pay quotes scheme upto at 1000 USDC when no invoice resolves."
+  }
 }

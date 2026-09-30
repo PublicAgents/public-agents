@@ -12,10 +12,14 @@
   ],
   "aliases": [
     "split testing",
-    "creative testing"
+    "creative testing",
+    "multivariate tests",
+    "creative experimentation",
+    "winner selection",
+    "champion challenger tests"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }

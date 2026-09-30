@@ -10,10 +10,15 @@
     "segments served"
   ],
   "aliases": [
-    "email personalization"
+    "email personalization",
+    "dynamic email content",
+    "segment level email content",
+    "personalized email campaigns",
+    "1:1 email content",
+    "content personalization"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-15",
+  "version": 2
 }

@@ -12,10 +12,18 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.growthbook.io/pricing",
+    "notes": "2026-09-25: no surface read prices an agent call and no keyless request drew a 402; the authenticated side is unmeasured. The customer agreement charges the customer's \"designated payment method\" or bills per an Order Form; no page names the instrument, so unknown rather than card-on-file."
+  },
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Measured 2026-09-09: hosted MCP initialize with no token answers 401 (Bearer token required, authorization server api.growthbook.io); REST GET with no header answers 400 Missing Authorization header. Docs: MCP signs in by browser OAuth; the API takes a Secret Key or Personal Access Token."
+    "notes": "Measured 2026-09-09, re-run unchanged 2026-09-16: hosted MCP initialize with no token answers 401 (Bearer token required; authorization server api.growthbook.io advertises a registration endpoint and token auth method none only); REST GET with no header answers 400 Missing Authorization header."
   },
   "surfaces": {
     "homepage": "https://www.growthbook.io/",
@@ -42,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-09",
-  "version": 1
+  "updated": "2026-09-25",
+  "version": 3
 }

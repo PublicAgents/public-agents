@@ -12,10 +12,22 @@
     "kind": "organization"
   },
   "pricing": "freemium",
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.coingecko.com/en/api/pricing",
+    "notes": "Measured 2026-09-11, 09-19 and 09-28, no payment made: the x402 path answers 402 (x402Version 2, scheme exact, 10000 units of USDC, $0.01, Base or Solana). Keyed plans are subscriptions paid by card ('Pay with Visa, Mastercard, AMEX, JCB') or crypto; pricing page read on screen 2026-09-19."
+  },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-10: keyless REST simple/price 200 with no key; keyless MCP initialize at mcp.api.coingecko.com 200; unpaid GET on an x402 path 402 with a v2 PAYMENT-REQUIRED header (USDC on Base or Solana, 10000 units); Pro host 401 without a key. Docs: keyless about 10-30 calls/min per IP."
+    "notes": "Measured 2026-09-10, 09-18, 09-19 and 09-28, no credentials: keyless REST simple/price 200; MCP initialize 200 (server 8.1.0 on 09-28, 8.0.0 on 09-18), tools/list 200 with the same two tools; no discovery document at either well-known URI; unpaid x402 GET 402 ($0.01 USDC, Base or Solana)."
   },
   "surfaces": {
     "homepage": "https://www.coingecko.com/",
@@ -24,7 +36,7 @@
     "skills": [
       "https://docs.coingecko.com/ai-integration/agent-skill"
     ],
-    "mcp": "https://docs.coingecko.com/ai-integration/mcp-server",
+    "mcp": "https://mcp.api.coingecko.com/mcp",
     "api": "https://docs.coingecko.com/demo/reference/endpoint-overview",
     "openapi": "https://docs.coingecko.com/openapi-specs/demo-api.json",
     "source": "https://github.com/coingecko/coingecko-typescript"
@@ -38,8 +50,14 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "fin.supply-market-data",
+      "summary": "Vendor's llms.txt: real-time and historical cryptocurrency data (prices, OHLCV, market cap, volume, NFT and onchain DeFi data) for coins, tokens, pools and exchanges via REST API, WebSocket and Webhooks, with an SDK and hosted MCP servers. Vendor's claim; freshness and coverage not measured.",
+      "source": "https://docs.coingecko.com/llms.txt"
+    }
+  ],
   "created": "2026-09-10",
-  "updated": "2026-09-11",
-  "version": 2
+  "updated": "2026-09-28",
+  "version": 6
 }

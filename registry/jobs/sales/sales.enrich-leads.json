@@ -11,10 +11,14 @@
   ],
   "aliases": [
     "lead enrichment",
-    "data enrichment"
+    "data enrichment",
+    "prospect enrichment",
+    "firmographics",
+    "lead data append",
+    "company data lookup"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }

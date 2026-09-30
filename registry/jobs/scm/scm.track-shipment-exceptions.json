@@ -11,10 +11,14 @@
   ],
   "aliases": [
     "shipment visibility",
-    "exception management"
+    "exception management",
+    "shipment tracking",
+    "late shipment alerts",
+    "delay detection",
+    "transit visibility"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-05",
-  "version": 1
+  "updated": "2026-09-18",
+  "version": 2
 }
