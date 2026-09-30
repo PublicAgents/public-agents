@@ -15,7 +15,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": ["stablecoin"],
+    "methods": [
+      "stablecoin"
+    ],
     "humanBilling": "unknown",
     "priceList": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
     "notes": "0.02 per batch: USDC on Ethereum/Base/Arbitrum/Polygon; USDT on Ethereum; Binance-Peg BSC-USD on BSC. Payer-authorized wallet transfers and signs a free personal_sign binding rail, tx and batch. Wait 12 confirmations. Registry lacks direct-transfer protocol and billing value."
@@ -30,10 +32,16 @@
     "api": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/cross-chain-report",
     "openapi": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/openapi.json",
     "llmsTxt": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/llms.txt",
-    "mcp": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/.well-known/mcp.json"
+    "mcp": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp"
   },
-  "domains": ["resguardo-wallets-260926.tiweedmaster.chatgpt.site"],
-  "maintainers": [{"github": "Rocket-Harbor-420"}],
+  "domains": [
+    "resguardo-wallets-260926.tiweedmaster.chatgpt.site"
+  ],
+  "maintainers": [
+    {
+      "github": "Rocket-Harbor-420"
+    }
+  ],
   "provenance": "vendor",
   "disclosure": {
     "aiOperated": true,
@@ -41,5 +49,5 @@
   },
   "created": "2026-09-27",
   "updated": "2026-09-30",
-  "version": 3
+  "version": 1
 }
