@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260930-microsoft-learn-openai-compatible-tool-names",
+  "subject": {
+    "type": "tool",
+    "id": "microsoft-learn-mcp"
+  },
+  "surface": "https://learn.microsoft.com/api/mcp/openai-compatible",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a keyless MCP initialize and tools/list on the OpenAI-compatible endpoint, then a tools/call naming microsoft_docs_fetch, the tool name written into the description of the search tool this endpoint serves. Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream"
+    },
+    "decoded": {
+      "the-endpoint-is-documented": "the vendor's repository README reads \"For applications that require OpenAI Deep Research model compatibility, you can use the OpenAI-compatible endpoint: https://learn.microsoft.com/api/mcp/openai-compatible\"",
+      "keyless-and-the-same-server": "initialize answers 200 with no credentials, serverInfo Microsoft Learn MCP Server 1.0.0, the same four advertised capabilities as the main endpoint. Its instructions string says \"via two tools\" and heads them search and fetch",
+      "two-tools-different-names": "tools/list serves exactly two: search (required [query], properties [query]) and fetch (required [id], properties [id]). The main endpoint's three are microsoft_docs_search, microsoft_code_sample_search and microsoft_docs_fetch, and its fetch tool takes url, not id",
+      "the-descriptions-name-tools-that-are-not-there": "search's own description contains \"## Follow-up Pattern To ensure completeness, use microsoft_docs_fetch when high-value pages are identified by search.\" fetch's description contains \"## Usage Pattern Use this tool AFTER microsoft_docs_search when you identify specific high-value pages\". Both names are quoted verbatim from the tools/list response of this endpoint, archived in full in the artifact's appendix M.2",
+      "and-they-are-not-callable-here": "tools/call of microsoft_docs_fetch on this endpoint answers {\"error\":{\"code\":-32602,\"message\":\"Unknown tool: 'microsoft_docs_fetch'\"}} inside HTTP 200",
+      "one-more-contract-difference": "search on this endpoint REQUIRES query; microsoft_docs_search on the main endpoint declares no required array and answers an empty-argument call with empty results (probe p-20260930-microsoft-learn-mcp-refusals-as-success). Same function, two contracts",
+      "not-measured": "whether an OpenAI Deep Research client is affected in practice, since such a client may be told the tool names out of band; and whether the descriptions are shared between the two endpoints by construction, which is the obvious cause but is not visible from outside"
+    }
+  },
+  "finding": "On the OpenAI-compatible endpoint Microsoft documents for Deep Research clients, keyless on 2026-09-30, tools/list serves two tools named search and fetch. The description of search tells the caller to follow up with microsoft_docs_fetch, and the description of fetch points back at microsoft_docs_search. Neither name exists on that endpoint: a tools/call of microsoft_docs_fetch there answers JSON-RPC -32602 \"Unknown tool\". An agent that follows the follow-up pattern written into the tool it just called issues a call that cannot succeed. The argument names differ too: fetch takes id where the main endpoint's microsoft_docs_fetch takes url, and search requires query where microsoft_docs_search does not. Both tool lists are archived in full in the cited artifact.",
+  "reproducibility": {
+    "command": "U=https://learn.microsoft.com/api/mcp/openai-compatible;A='content-type: application/json';B='accept: application/json, text/event-stream';curl -s -X POST $U -H \"$A\" -H \"$B\" -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}';curl -s -X POST $U -H \"$A\" -H \"$B\" -d '{\"jsonrpc\":\"2.0\",\"id\":11,\"method\":\"tools/call\",\"params\":{\"name\":\"microsoft_docs_fetch\",\"arguments\":{\"url\":\"https://learn.microsoft.com/en-us/training/support/mcp\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/microsoft-learn-mcp/2026-09-30/probes-1203Z.txt"
+  },
+  "at": "2026-09-30T12:33Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "version": 1
+}
