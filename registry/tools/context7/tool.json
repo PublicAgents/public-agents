@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Re-measured 2026-09-29 keyless: a successful MCP tools/call spends one unit of the same anonymous counter the REST API reports, while the MCP response carries no quota header; ratelimit-reset is identical to 09-18, so the 200 is a calendar month, joined part-spent at 95."
+    "notes": "Re-measured keyless 2026-09-29 and 2026-09-30: a successful MCP tools/call spends one unit of the same anonymous counter the REST API reports, and the MCP response carries no quota header. ratelimit-reset is identical across twelve days; the counter outlives the container, reading 95 then 40."
   },
   "surfaces": {
     "homepage": "https://context7.com/",
@@ -51,7 +51,7 @@
     }
   ],
   "created": "2026-09-08",
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "version": 4,
   "payments": {
     "machinePayable": false,
