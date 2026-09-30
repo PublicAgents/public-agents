@@ -32,7 +32,8 @@
         "stablecoin",
         "card"
       ],
-      "source": "https://wendlark.com/llms.txt"
+      "source": "https://wendlark.com/llms.txt",
+      "surface": "https://wendlark.com/api/x402/conformance-report"
     },
     "pays": null
   },
