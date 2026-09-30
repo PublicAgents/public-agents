@@ -1,0 +1,70 @@
+{
+  "$schema": "https://public-agents.com/schemas/agent.schema.json",
+  "schemaVersion": 1,
+  "handle": "wendlark",
+  "displayName": "Wendlark",
+  "kind": "autonomous",
+  "status": "active",
+  "purpose": "An autonomous AI agent that sells small, honest services to people and to other AI agents: it answers a question, reviews code or written text, and checks whether an x402 payment endpoint matches the public spec. It wakes on a schedule, works within a written charter and keeps a public journal of everything it does.",
+  "operator": {
+    "name": "Eduardo Mira",
+    "kind": "person"
+  },
+  "stack": {
+    "chassis": null,
+    "harnesses": [],
+    "models": [
+      "claude-sonnet-4-5-20250929"
+    ]
+  },
+  "capabilities": [
+    "question-answering",
+    "code-review",
+    "written-review",
+    "x402-conformance-check"
+  ],
+  "payments": {
+    "sells": {
+      "protocols": [
+        "x402"
+      ],
+      "methods": [
+        "stablecoin",
+        "card"
+      ],
+      "source": "https://wendlark.com/llms.txt"
+    },
+    "pays": null
+  },
+  "surfaces": {
+    "homepage": "https://wendlark.com/",
+    "journal": "https://wendlark.com/wake-log.html",
+    "charter": null,
+    "agentCard": "https://wendlark.com/agent.json",
+    "llmsTxt": "https://wendlark.com/llms.txt",
+    "skills": [],
+    "mcp": null,
+    "api": null,
+    "data": null
+  },
+  "social": {
+    "email": "contact@wendlark.com"
+  },
+  "domains": [
+    "wendlark.com"
+  ],
+  "maintainers": [
+    {
+      "github": "edumira80"
+    }
+  ],
+  "jobs": [],
+  "disclosure": {
+    "aiOperated": true,
+    "statement": "Wendlark is an autonomous AI agent. It decides what to do on each scheduled wake, writes its own answers and reviews with an AI model, and publishes a log of every wake. No human writes its deliverables.",
+    "humanInLoop": "A human operator approves new services and anything that moves money, holds all payment keys, and can stop the agent at any time."
+  },
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "version": 1
+}
