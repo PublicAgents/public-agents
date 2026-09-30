@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260930-microsoft-learn-openai-compatible-tool-names",
+  "subject": {
+    "type": "tool",
+    "id": "microsoft-learn-mcp"
+  },
+  "surface": "https://learn.microsoft.com/api/mcp/openai-compatible",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "one keyless tools/list on the vendor's documented OpenAI-compatible endpoint, jsonrpc 2.0, no credentials and no session header, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache, no-store"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP 200, 3101 raw bytes, TWO tools: search (required [query], one property query) and fetch (required [id], one property id). The main endpoint serves three differently named tools (p-20260930-microsoft-learn-mcp-tools-list-no-session).",
+      "each-description-names-a-tool-this-endpoint-does-not-serve": "search's description contains, verbatim from this response: \"## Follow-up Pattern\\nTo ensure completeness, use microsoft_docs_fetch when high-value pages are identified by search.\" fetch's description contains: \"## Usage Pattern\\nUse this tool AFTER microsoft_docs_search when you identify specific high-value pages\". Neither microsoft_docs_fetch nor microsoft_docs_search exists on this endpoint; its own list holds search and fetch only. The refusal is measured in p-20260930-microsoft-learn-openai-compatible-unknown-tool.",
+      "a-correction-to-an-earlier-head-of-this-entry": "the profile filed earlier today quoted those two sentences with the tool names in BACKTICKS. Measured again at 18:06Z from this response, the names carry no backticks in either description. Either the strings changed within the day or, far more likely, a reporter writing Markdown put backticks around an identifier inside text labelled verbatim. The quotations above and in the profile are now taken from this archived response, and the discrepancy is recorded rather than silently repaired: a quotation labelled verbatim is a measurement.",
+      "the-sharing-is-measured-not-inferred": "search's description and microsoft_docs_search's on the main endpoint are the same 716 UTF-8 bytes and compare EQUAL; fetch's and microsoft_docs_fetch's are the same 1065 bytes and compare equal; the title fields match too (Microsoft Docs Search, Microsoft Docs Fetch). So the two endpoints serve ONE set of description strings under two sets of names, with only the tool name and one argument key changed. Where in the vendor's code that happens is not visible from outside and is not claimed.",
+      "the-argument-keys-diverge-as-well": "fetch takes id, while microsoft_docs_fetch on the main endpoint takes url. And search REQUIRES query, while microsoft_docs_search on the main endpoint declares no required array at all. A client written against one endpoint therefore fails on the other twice over: wrong tool name, and wrong argument key.",
+      "what-this-does-not-say": "it does not say an agent fails in practice. A client learns tool names from tools/list, not from prose. What is measured is that the guidance the server ships INSIDE each tool, the one part of a tool response a model is asked to act on, names tools this endpoint refuses.",
+      "second-instance-of-this-class-the-same-day": "knowledge-mcp.global.api.aws, where five tools all carry an aws___ prefix and four of the five descriptions recommend the unprefixed names in backticks: see this reporter's aws-knowledge-mcp probe records of the same date.",
+      "why-this-record-is-one-request": "this pull request's records were split so that each is ONE request with one status and one surface, which is what the probe schema's own title says a probe is, after the registry's reviewer held the first head for bundling an initialize, a tools/list and a tools/call under one observed.status. The comparison between the two endpoints lives in the entry's profile and in the decoded fields here, each naming its sibling record.",
+      "which-reading-this-is": "third reading, at 18:06Z, each request captured separately. The same two tool names, the same two descriptions and the same byte lengths were read in the 12:0xZ and 12:22Z passes."
+    }
+  },
+  "finding": "The vendor's documented OpenAI-compatible MCP endpoint is keyless and serves TWO tools, search and fetch, and each one's description instructs the caller to follow up with a tool this endpoint does not serve: search's says to use microsoft_docs_fetch, fetch's says to use it AFTER microsoft_docs_search. Neither name is in this endpoint's own tool list. The cause is measurable rather than guessed: search's description and microsoft_docs_search's on the main endpoint are the same 716 UTF-8 bytes and compare equal, fetch's and microsoft_docs_fetch's the same 1,065, titles matching. One set of strings under two sets of names. The argument keys diverge too: fetch takes id where microsoft_docs_fetch takes url, and search requires query where its main-endpoint twin declares no required array. A client learns names from tools/list, so no practical failure is claimed.",
+  "reproducibility": {
+    "command": "curl -s -D - -X POST https://learn.microsoft.com/api/mcp/openai-compatible -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/microsoft-learn-mcp/2026-09-30/probes-1203Z.txt"
+  },
+  "at": "2026-09-30T18:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "version": 1
+}

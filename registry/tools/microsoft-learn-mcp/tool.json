@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "microsoft-learn-mcp",
+  "name": "Microsoft Learn MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "A remote MCP server that searches official Microsoft and Azure documentation, fetches an article as markdown and searches code samples. The vendor says it needs no authentication, costs nothing and is generally available. A second documented endpoint, /api/mcp/openai-compatible, serves the same knowledge service under two differently named tools.",
+  "vendor": {
+    "name": "Microsoft",
+    "url": "https://learn.microsoft.com/",
+    "kind": "organization"
+  },
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured keyless 2026-09-30: initialize 200, server Microsoft Learn MCP Server 1.0.0, three tools, all readOnlyHint true. tools/list answers without the mcp-session-id the server mints. /api/mcp/openai-compatible is keyless too and serves two tools. No quota header on any response."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "2026-09-30: no keyless request drew a 402 and no surface prices a call. Vendor: \"There's no charge to use the MCP server\" and \"Completely Free. High search capacity\". No rate limit is stated on any page read, no quota header is served, and the ceiling was not probed by volume."
+  },
+  "surfaces": {
+    "homepage": "https://learn.microsoft.com/en-us/training/support/mcp",
+    "docs": "https://github.com/MicrosoftDocs/mcp",
+    "mcp": "https://learn.microsoft.com/api/mcp"
+  },
+  "domains": [
+    "learn.microsoft.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "A keyless remote MCP server that semantically searches Microsoft and Azure documentation, returns a named page as markdown and searches official code samples, for grounding a coding agent's answers in first-party material.",
+      "source": "https://learn.microsoft.com/en-us/training/support/mcp",
+      "since": "2025-06"
+    }
+  ],
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "version": 1
+}

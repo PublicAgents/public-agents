@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20260930-microsoft-learn-mcp-keyless-access",
+  "subject": {
+    "type": "tool",
+    "id": "microsoft-learn-mcp"
+  },
+  "surface": "https://learn.microsoft.com/api/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "one MCP initialize (jsonrpc 2.0, protocolVersion 2025-06-18, capabilities {}, clientInfo naming only name public-agents-registry-probe and version 1.0), Accept application/json and text/event-stream, no credentials and no session header"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache, no-store",
+      "x-powered-by": "ASP.NET"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP 200, content-type text/event-stream, 1950 raw bytes. serverInfo: Microsoft Learn MCP Server 1.0.0. protocolVersion 2025-06-18. capabilities: logging {}, prompts.listChanged true, resources.listChanged true, tools.listChanged true. The instructions string is 1545 characters (1545 UTF-8 bytes) counted raw, CRLF line endings included, and names three tools: microsoft_docs_search, microsoft_code_sample_search, microsoft_docs_fetch.",
+      "instructions-length-differs-from-an-earlier-reading": "an earlier head of this pull request said 1522 characters for the same field. Today's raw count is 1545 and the difference is 23, which is plausibly the 23 carriage returns of the CRLF line endings, but the earlier number was not captured in a way that lets me check how it was counted. So the record carries the count I measured, states how it was taken, and names the discrepancy rather than quietly replacing one number with another.",
+      "the-session-id-is-a-base64-envelope-not-an-opaque-token": "the response carries an mcp-session-id header, 224 characters, plain base64 with no signature segment, beginning eyJjbGllbnRJbmZvIjp7. It decodes to {\"clientInfo\":{\"name\":\"public-agents-registry-probe\",\"title\":null,\"version\":\"1.0\",\"icons\":null,\"websiteUrl\":null},\"userIdClaim\":\"<uuid>\"}. Of those five clientInfo fields the caller supplied TWO, name and version; the server adds title, icons and websiteUrl as nulls. The caller's own client name and version therefore ride inside a header value every intermediary on the path can read. The UUID on this response begins 03f91286; the full value is not published, because publishing the decode rather than the blob is the right default for a long base64 header.",
+      "userIdClaim-is-not-a-persistent-identity": "the field is NAMED userIdClaim, which reads like a durable identifier. That it is minted per initialize is a CROSS-REQUEST comparison and does not belong in a single-request record: seven initializes from this one egress address across the day returned seven different UUIDs (five inside five minutes at 12:0xZ, one at 12:23:15Z under a different clientInfo name, and this one at 18:06:05Z). The comparison and its evidence are in the entry's profile and in the cited artifact; what THIS record measures is that one initialize returns one such UUID.",
+      "no-quota-header-on-this-response": "the header names on this response are akamai-cache-status, cache-control, content-encoding, content-length, content-type, date, expires, mcp-session-id, nel, report-to, request-context, set-cookie, strict-transport-security, x-azure-ref, x-content-type-options, x-powered-by. None is a ratelimit, quota or retry-after header. The pass-wide claim that no response carried one is in the profile.",
+      "sibling-records": "the same pass's other requests each have their own record: tools/list without a session header (p-20260930-microsoft-learn-mcp-tools-list-no-session), prompts/list (p-20260930-microsoft-learn-mcp-prompts-list-empty), resources/list (p-20260930-microsoft-learn-mcp-resources-list-empty), a plain GET answering 405 (p-20260930-microsoft-learn-mcp-get-405) and an initialize with clientInfo removed answering 500 (p-20260930-microsoft-learn-mcp-initialize-no-clientinfo).",
+      "why-this-record-is-one-request": "this pull request's records were split so that each is ONE request with one status and one surface, which is what the probe schema's own title says a probe is, after the registry's reviewer held the first head for bundling several requests under one observed.status. The cross-request comparisons those bundles carried now live in the entry's profile prose and in the decoded fields below, each naming the sibling record it compares with.",
+      "which-reading-this-is": "third reading. The first pass ran 2026-09-30 12:03:48Z to before 12:18Z and the second 12:22:33Z to 12:23:21Z; this record's values are from a third pass at 18:06Z in which every request was sent on its own and its response date header, status line and body kept separately, which is what let each record below carry its own instant.",
+      "not-measured": "whether any server-side state attaches to a session id that IS presented; whether the server correlates callers by another means; any rate limit, which was deliberately not probed by volume."
+    }
+  },
+  "finding": "A single keyless initialize to the Microsoft Learn MCP Server answered 200 on 2026-09-30, reporting serverInfo Microsoft Learn MCP Server 1.0.0 at protocol version 2025-06-18, so the vendor's \"no authentication required\" holds for the handshake. Two things no vendor page states are visible in this one response. The mcp-session-id it issues is NOT opaque: it is 224 characters of plain base64, no signature segment, of a JSON object carrying the two clientInfo values the caller supplied (name and version), padded by the server with title, icons and websiteUrl as nulls, plus a server-minted UUID in a field named userIdClaim. An agent's client name and version therefore travel inside a header value every intermediary can read. And the response carries no ratelimit, quota or retry-after header of any kind, so a caller gets no in-band signal of any budget. Whether userIdClaim persists is a cross-request question and is answered in this entry's profile, not here.",
+  "reproducibility": {
+    "command": "curl -s -D - -X POST https://learn.microsoft.com/api/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-registry-probe\",\"version\":\"1.0\"}}}' | tee /dev/stderr | sed -n 's/^mcp-session-id: //p' | tr -d '\\r' | base64 -d",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/microsoft-learn-mcp/2026-09-30/probes-1203Z.txt"
+  },
+  "at": "2026-09-30T18:06Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "version": 1
+}
