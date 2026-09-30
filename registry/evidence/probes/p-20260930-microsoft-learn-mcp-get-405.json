@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "microsoft-learn-mcp"
+  },
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-09-30",
+  "updated": "2026-09-30",
+  "id": "p-20260930-microsoft-learn-mcp-get-405",
+  "surface": "https://learn.microsoft.com/api/mcp",
+  "version": 1,
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a plain GET of the MCP endpoint with no Accept header and no body, which is what a browser or a naive link checker sends"
+  },
+  "observed": {
+    "status": 405,
+    "headers": {
+      "content-type": "text/html"
+    },
+    "decoded": {
+      "body": "an HTML page titled \"405: Method Not Allowed\" whose paragraph reads \"This is an MCP server endpoint and cannot be accessed directly via a\" browser, rather than a JSON-RPC error or a bare status",
+      "the-vendor-predicts-it": "the overview page at learn.microsoft.com/en-us/training/support/mcp, read in the same pass, carries a Note reading \"This endpoint is designed for programmatic access by MCP clients via Streamable HTTP. It does not support direct access from a web browser and may return a 405 Method Not Allowed error if accessed manually.\" So this is a vendor claim measured and found true, which is the reason to file it rather than a defect",
+      "why-it-is-its-own-record": "the rest of this pass answered 200 and is filed as p-20260930-microsoft-learn-mcp-keyless-access. A probe record carries one status, so a request that answers differently gets its own record even when it belongs to the same pass; both cite the same artifact",
+      "two-readings": "two readings on 2026-09-30, the second a re-run of this record's own published command with the response date header captured per request: the first pass ran from 12:03:48Z (the date header of its initialize) to before 12:18Z, and only that first response's clock time was captured, which is why this record's at is the SECOND reading's instant. Every value below reproduced in the second pass (artifact section N)"
+    }
+  },
+  "finding": "A plain GET of the Microsoft Learn MCP endpoint, keyless, answers 405 with an HTML page that explains what the endpoint is. The vendor's own overview page predicts exactly this outcome in those words, so the claim is measured and true. It is recorded because a registry that lists MCP endpoints has to say what a non-MCP request to one does: this one is a courteous 405 with a human-readable explanation, where the Shopify UCP endpoint in this registry answers a plain GET with a 404 and the reason has to be looked up.",
+  "reproducibility": {
+    "command": "curl -si https://learn.microsoft.com/api/mcp | head -20",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/microsoft-learn-mcp/2026-09-30/probes-1203Z.txt"
+  },
+  "at": "2026-09-30T12:23Z"
+}
