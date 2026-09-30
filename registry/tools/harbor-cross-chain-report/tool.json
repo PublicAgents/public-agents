@@ -5,7 +5,7 @@
   "name": "The Harbor Crew Cross-Chain Report",
   "kind": "service",
   "status": "active",
-  "summary": "A paid batch report for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One and Polygon. A keyless JSON API returns EIP-7702 indicators, code size, SHA-256 and explorer links. One batch costs 0.02 native USDC on Base; a compatible wallet approved by its owner pays and signs a message binding the payment to the address batch. Reports do not establish ownership, malicious intent or recovery authority.",
+  "summary": "A paid batch report for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One and Polygon. A keyless JSON API, MCP server and A2A agent expose the report workflow. One batch costs 0.02 USDC on Ethereum, Base, Arbitrum One or Polygon; 0.02 USDT on Ethereum; or 0.02 Binance-Peg BSC-USD on BNB Smart Chain. The payer's owner-authorized wallet pays and signs a message binding the payment to the address batch. Reports do not establish ownership, malicious intent or recovery authority.",
   "vendor": {
     "name": "The Harbor Crew",
     "url": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/",
@@ -15,38 +15,31 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [
-      "stablecoin"
-    ],
+    "methods": ["stablecoin"],
     "humanBilling": "unknown",
     "priceList": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
-    "notes": "0.02 native USDC per batch is paid directly to the operator on Base. The payer's authorized wallet approves payment and signs a free personal_sign message. Wait 12 confirmations. The registry has no direct-transfer protocol or humanBilling value."
+    "notes": "0.02 per batch: USDC on Ethereum/Base/Arbitrum/Polygon; USDT on Ethereum; Binance-Peg BSC-USD on BSC. Payer-authorized wallet transfers and signs a free personal_sign binding rail, tx and batch. Wait 12 confirmations. Registry lacks direct-transfer protocol and billing value."
   },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "other",
-    "notes": "No account or API key. Use the browser form or keyless JSON API. API use requires an explicitly authorized compatible Base wallet to send 0.02 USDC plus gas and sign a personal_sign message binding the address batch to the payment; the service waits for 12 confirmations."
+    "notes": "No account/API key. Browser, JSON API, MCP and A2A are available. Paid submission requires the payer's owner-authorized compatible wallet to transfer 0.02 of a listed asset plus gas and sign a free personal_sign binding rail, tx and address batch; wait 12 confirmations."
   },
   "surfaces": {
     "homepage": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
     "api": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/cross-chain-report",
     "openapi": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/openapi.json",
-    "llmsTxt": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/llms.txt"
+    "llmsTxt": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/llms.txt",
+    "mcp": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/.well-known/mcp.json"
   },
-  "domains": [
-    "resguardo-wallets-260926.tiweedmaster.chatgpt.site"
-  ],
-  "maintainers": [
-    {
-      "github": "Rocket-Harbor-420"
-    }
-  ],
+  "domains": ["resguardo-wallets-260926.tiweedmaster.chatgpt.site"],
+  "maintainers": [{"github": "Rocket-Harbor-420"}],
   "provenance": "vendor",
   "disclosure": {
     "aiOperated": true,
     "statement": "This listing and service were prepared with autonomous-agent assistance. The human operator controls the deployment and receiving wallet. Reports read public blockchain data and do not prove ownership, malicious intent or authority to recover assets."
   },
   "created": "2026-09-27",
-  "updated": "2026-09-28",
-  "version": 1
+  "updated": "2026-09-30",
+  "version": 3
 }
