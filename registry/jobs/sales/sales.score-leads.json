@@ -10,15 +10,10 @@
     "score calibration"
   ],
   "aliases": [
-    "lead scoring",
-    "predictive lead scoring",
-    "lead prioritization",
-    "lead ranking",
-    "conversion likelihood",
-    "lead qualification scoring"
+    "lead scoring"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

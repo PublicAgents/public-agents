@@ -11,14 +11,10 @@
   ],
   "aliases": [
     "survey analysis",
-    "voice of employee",
-    "employee engagement survey",
-    "employee feedback themes",
-    "open text comment analysis",
-    "theme extraction"
+    "voice of employee"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

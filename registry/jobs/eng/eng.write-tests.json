@@ -11,15 +11,10 @@
     "flaky tests introduced"
   ],
   "aliases": [
-    "test generation",
-    "unit test generation",
-    "automated test writing",
-    "test coverage improvement",
-    "regression test authoring",
-    "test case generation"
+    "test generation"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

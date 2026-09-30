@@ -21,11 +21,10 @@
   "related": [
     "eng.write-documentation",
     "eng.implement-scoped-changes",
-    "it.answer-internal-knowledge-questions",
-    "fin.supply-market-data"
+    "it.answer-internal-knowledge-questions"
   ],
   "status": "active",
   "created": "2026-09-09",
-  "updated": "2026-09-14",
-  "version": 2
+  "updated": "2026-09-09",
+  "version": 1
 }

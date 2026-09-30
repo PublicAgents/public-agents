@@ -12,14 +12,10 @@
   ],
   "aliases": [
     "alert triage",
-    "AIOps",
-    "alert correlation",
-    "alert deduplication",
-    "on-call routing",
-    "alert noise reduction"
+    "AIOps"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

@@ -12,17 +12,10 @@
   ],
   "aliases": [
     "UEBA",
-    "insider threat detection",
-    "user behavior analytics",
-    "anomalous login detection",
-    "takeover detection",
-    "identity threat detection"
-  ],
-  "related": [
-    "it.provision-and-revoke-access"
+    "insider threat detection"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

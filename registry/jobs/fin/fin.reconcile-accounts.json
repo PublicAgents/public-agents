@@ -12,20 +12,10 @@
   ],
   "aliases": [
     "bank reconciliation",
-    "close automation",
-    "general ledger reconciliation",
-    "month-end close",
-    "ledger matching",
-    "financial close"
-  ],
-  "related": [
-    "fin.collect-customer-payment",
-    "fin.file-and-remit-tax-returns",
-    "fin.issue-invoices",
-    "fin.supply-market-data"
+    "close automation"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

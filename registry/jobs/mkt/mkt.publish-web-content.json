@@ -12,19 +12,10 @@
   ],
   "aliases": [
     "content publishing",
-    "site maintenance",
-    "web presence upkeep",
-    "publish pages unattended",
-    "autonomous publishing",
-    "public website updates"
-  ],
-  "related": [
-    "mkt.build-website",
-    "mkt.improve-search-visibility",
-    "mkt.localize-content"
+    "site maintenance"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

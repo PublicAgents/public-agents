@@ -12,14 +12,10 @@
   ],
   "aliases": [
     "HR helpdesk",
-    "employee self-service",
-    "benefits enquiries",
-    "handbook lookup",
-    "employee handbook assistant",
-    "employee benefits chatbot"
+    "employee self-service"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

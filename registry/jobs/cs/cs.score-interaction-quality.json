@@ -11,14 +11,10 @@
   ],
   "aliases": [
     "QA scoring",
-    "conversation quality",
-    "quality assurance scoring",
-    "contact center quality management",
-    "quality scorecards",
-    "interaction quality scoring"
+    "conversation quality"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

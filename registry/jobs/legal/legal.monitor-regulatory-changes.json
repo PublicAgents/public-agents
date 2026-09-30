@@ -11,14 +11,10 @@
   ],
   "aliases": [
     "regulatory intelligence",
-    "horizon scanning",
-    "regulatory change tracking",
-    "regulation tracking",
-    "regulatory monitoring",
-    "legislation tracking"
+    "horizon scanning"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

@@ -5,7 +5,7 @@
   "name": "Statsig",
   "kind": "service",
   "status": "active",
-  "summary": "Experimentation, feature flag, product analytics and session replay platform. For agents: a hosted MCP server over the Console API (OAuth or a Console API key) that creates, updates and reads experiments and their results, a REST Console API with a published OpenAPI document, and a separate keyless MCP server for the vendor's documentation, which the vendor's page calls read-only and lists as three tools where a keyless tools/list returns five, one of them a feedback write path (not exercised). Doing the job needs an account; reading the docs does not.",
+  "summary": "Experimentation, feature flag, product analytics and session replay platform. For agents: a hosted MCP server over the Console API (OAuth or a Console API key) that creates, updates and reads experiments and their results, a REST Console API with a published OpenAPI document, and a separate keyless read-only MCP server that serves only the vendor's documentation. Doing the job needs an account; reading the docs does not.",
   "vendor": {
     "name": "Amplitude, Inc.",
     "url": "https://amplitude.com/",
@@ -15,15 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Re-measured 2026-09-29, unchanged since 09-17: product MCP initialize with no key 401 (accepts only an active CONSOLE key); Console API GET with no key 401; docs MCP 200 keyless, serving five tools where its page documents three. Docs: MCP by browser OAuth or a Console API key."
-  },
-  "payments": {
-    "machinePayable": false,
-    "protocols": [],
-    "methods": [],
-    "humanBilling": "card-on-file",
-    "priceList": "https://www.statsig.com/pricing",
-    "notes": "Read 2026-09-24: nothing prices a call or speaks a 402. Pro is $150/month plus $0.05 per 1K events over 5M, in a monthly bill \"charged to the credit card on file\" (pricing FAQ); Developer is free, no card; Enterprise is custom and \"eligible for custom billing and payment terms\"."
+    "notes": "Measured 2026-09-09: product MCP initialize with no key answers 401 (only accepts an active CONSOLE key); Console API GET with no key answers 401. The docs MCP at docs.statsig.com/api/mcp answers 200 with no key and a keyless search_docs call returns results. Docs: MCP by OAuth or a Console API key."
   },
   "surfaces": {
     "homepage": "https://www.statsig.com/",
@@ -46,11 +38,11 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "The MCP overview lists 67 tools in 11 categories (counted 2026-09-17), among them Create_Experiment, Update_Experiment_Entirely, Get_Experiment_Overall_Results and Get_Experiment_Metric_Dimension_Results, over the Console API, so an agent can set up an A/B test, run it and read results.",
+      "summary": "The MCP server exposes Create_Experiment, Update_Experiment_Entirely, Get_Experiment_Overall_Results and Get_Experiment_Metric_Dimension_Results (with CUPED and confidence options) over the Console API, so an agent can set up an A/B test, run it and read its results.",
       "source": "https://docs.statsig.com/integrations/mcp/overview"
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-29",
-  "version": 6
+  "updated": "2026-09-10",
+  "version": 3
 }

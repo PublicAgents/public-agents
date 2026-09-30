@@ -12,14 +12,10 @@
   ],
   "aliases": [
     "ticket triage",
-    "auto-routing",
-    "ticket categorization",
-    "ticket classification",
-    "queue assignment",
-    "ticket prioritization"
+    "auto-routing"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

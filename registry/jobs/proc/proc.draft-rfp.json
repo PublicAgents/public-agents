@@ -10,15 +10,10 @@
     "time to issue"
   ],
   "aliases": [
-    "RFP writing",
-    "request for proposal drafting",
-    "RFP creation",
-    "tender writing",
-    "ITT drafting",
-    "sourcing document drafting"
+    "RFP writing"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

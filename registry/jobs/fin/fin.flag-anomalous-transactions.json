@@ -12,17 +12,10 @@
   ],
   "aliases": [
     "fraud detection",
-    "anomaly detection",
-    "transaction monitoring",
-    "duplicate payment detection",
-    "spend policy enforcement",
-    "pre-payment audit"
-  ],
-  "related": [
-    "fin.collect-customer-payment"
+    "anomaly detection"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

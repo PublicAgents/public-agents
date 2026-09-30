@@ -11,18 +11,10 @@
   ],
   "aliases": [
     "CRO",
-    "landing page optimization",
-    "conversion rate optimization",
-    "conversion optimization",
-    "landing page testing",
-    "funnel conversion improvement"
-  ],
-  "related": [
-    "mkt.build-website",
-    "mkt.improve-search-visibility"
+    "landing page optimization"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

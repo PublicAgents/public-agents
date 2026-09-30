@@ -12,14 +12,10 @@
   ],
   "aliases": [
     "dependency management",
-    "dependabot",
-    "dependency updates",
-    "dependency upgrades",
-    "vulnerability remediation",
-    "patching dependencies"
+    "dependabot"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

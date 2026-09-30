@@ -11,14 +11,10 @@
   ],
   "aliases": [
     "management reporting",
-    "flux analysis",
-    "variance analysis",
-    "budget vs actual",
-    "month end commentary",
-    "fp&a commentary"
+    "flux analysis"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

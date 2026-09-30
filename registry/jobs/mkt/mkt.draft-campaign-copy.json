@@ -11,17 +11,10 @@
   ],
   "aliases": [
     "copywriting",
-    "content generation",
-    "advertising copy",
-    "marketing copy",
-    "brand voice writing",
-    "campaign content drafting"
-  ],
-  "related": [
-    "mkt.localize-content"
+    "content generation"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }

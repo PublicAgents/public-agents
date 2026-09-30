@@ -12,14 +12,10 @@
   ],
   "aliases": [
     "issue triage",
-    "bug triage",
-    "bug reproduction",
-    "issue deduplication",
-    "reproducing bug reports",
-    "inbound issue management"
+    "bug triage"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 2
+  "updated": "2026-09-05",
+  "version": 1
 }

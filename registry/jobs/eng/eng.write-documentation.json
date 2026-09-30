@@ -10,18 +10,10 @@
     "reader success rate"
   ],
   "aliases": [
-    "docs generation",
-    "technical writing",
-    "product documentation",
-    "developer documentation",
-    "readme generation",
-    "docs maintenance"
-  ],
-  "related": [
-    "eng.retrieve-reference-context"
+    "docs generation"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-15",
-  "version": 3
+  "updated": "2026-09-05",
+  "version": 1
 }
