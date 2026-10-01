@@ -15,7 +15,7 @@ import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
 import { linkTargets, slash } from "../lib/link-targets.ts";
 import { askKey, askUrl, linkDetail } from "../lib/links.ts";
-import { guardedFetch, withConcurrency } from "../lib/net.ts";
+import { guardedFetch, httpsTransport, type Transport, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
 const all = args.includes("--all");
@@ -57,15 +57,22 @@ for (const target of targets) {
   if (!byKey.has(key)) byKey.set(key, target);
 }
 
-// Every request the gate sends, counted where it is sent. The number of asks is
-// NOT the number of requests and must not be printed as if it were: one ask is
-// between one and four requests (a POST, or HEAD then GET, then a handshake),
-// and twice that when a transient failure earns a second reading.
+// Every request the gate sends, counted at the transport, which is the one
+// place a request cannot hide: one call of the transport is one connection to
+// one checked address carrying one request. Counting one level up, around
+// `guardedFetch`, understated the traffic, because a guarded fetch follows up
+// to two same-host redirects inside itself (src/lib/net.ts) and each hop is
+// another request that leaves this machine. The number of asks is NOT the
+// number of requests either and must not be printed as if it were: one ask is
+// between one and four guarded fetches (a POST, or HEAD then GET, then a
+// handshake), twice that when a transient failure earns a second reading, and
+// each of those fetches is one request plus one per redirect hop it followed.
 let requests = 0;
-const countedFetch: typeof guardedFetch = (url, options) => {
+const countedTransport: Transport = req => {
   requests += 1;
-  return guardedFetch(url, options);
+  return httpsTransport(req);
 };
+const countedFetch: typeof guardedFetch = (url, options) => guardedFetch(url, { ...options, transport: countedTransport });
 
 const keys = [...byKey.keys()];
 const answers = await withConcurrency(4, keys.map(key => () => askUrl(byKey.get(key)!, countedFetch)));
@@ -91,7 +98,7 @@ console.log(`  ${flaky.length} reference(s) answered only on a second reading`);
 // Three different numbers, named as three different things, because conflating
 // any two of them is how a reader gets a wrong idea of what this gate costs the
 // hosts it asks: references are rows in the report, asks are distinct questions,
-// requests are what actually left this machine.
+// requests are what actually left this machine, redirect hops included.
 const scale = `${results.length} reference(s) over ${keys.length} distinct ask(s) in ${requests} request(s)`;
 if (dead.length === 0) {
   console.log(`✓ ${scale}, all answering`);
