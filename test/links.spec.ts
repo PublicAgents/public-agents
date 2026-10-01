@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { askKey, askUrl, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeSurfaceOf } from "../src/lib/links.ts";
+import { askKey, askUrl, REASK_PAUSE_MS, transientFailure, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -229,9 +229,12 @@ describe("askUrl", () => {
 
   it("leaves a probe surface dead when neither its POST nor the pair answers, and reports the POST", async () => {
     const { fetch, asked } = stub({ POST: answered(500), HEAD: answered(404), GET: answered(404) });
-    const ask = await askUrl({ url: "https://mcp.a.example/mcp", endpoint: true, method: "POST" as const }, fetch);
-    expect(asked).toEqual(["POST", "HEAD", "GET"]);
-    expect(ask.alive).toBe(false);
+    // The kept failure is the POST's 500, which is transient, so the whole
+    // sequence is read a second time a pause apart (issue #153) and the verdict
+    // is taken from both.
+    const ask = await askUrl({ url: "https://mcp.a.example/mcp", endpoint: true, method: "POST" as const }, fetch, { sleep: async () => {} });
+    expect(asked).toEqual(["POST", "HEAD", "GET", "POST", "HEAD", "GET"]);
+    expect(ask).toMatchObject({ alive: false, reasked: true });
     // The record's own method is what a contributor has to answer for, so a
     // dead surface prints the POST's status and not the fallback's.
     expect(linkDetail(ask.result, ask.alive)).toBe("HTTP 500");
@@ -249,6 +252,93 @@ describe("askUrl", () => {
     // A 404 to the empty POST is dead by the POST table, so the pair runs, then the handshake.
     expect(asked).toEqual(["POST", "HEAD", "GET"]);
     expect(ask.alive).toBe(true);
+  });
+});
+
+describe("the second reading a pause apart (issue #153)", () => {
+  // The pause is injected, so these tests exercise the sequence and never sleep.
+  const paused = () => {
+    const slept: number[] = [];
+    return { slept, options: { sleep: async (ms: number) => void slept.push(ms) } };
+  };
+  const target = { url: "https://a.example/", endpoint: false };
+
+  it("re-asks a 5xx after a pause and takes the second reading, naming it as a second reading", async () => {
+    // Both requests of the first reading err, which is the case issue #153
+    // measured: HEAD and GET leave in the same window and an edge that is
+    // briefly erroring answers both identically.
+    let call = 0;
+    const fetch: LinkFetch = async () => (++call <= 2 ? answered(503) : answered(200));
+    const { slept, options } = paused();
+    const ask = await askUrl(target, fetch, { ...options, pauseMs: 2_500 });
+    expect(ask).toMatchObject({ alive: true, reasked: true });
+    expect(slept).toEqual([2_500]);
+    // Two requests in the first reading (HEAD then GET on a 5xx), then the second.
+    expect(call).toBe(3);
+  });
+
+  it("keeps the first reading's failure when both fail, and still says it read twice", async () => {
+    const { options } = paused();
+    const ask = await askUrl(target, async () => answered(500), { ...options });
+    expect(ask).toMatchObject({ alive: false, reasked: true });
+    expect(linkDetail(ask.result, ask.alive)).toBe("HTTP 500");
+  });
+
+  it("never re-asks an answer, and never re-asks a refusal a pause cannot change", async () => {
+    for (const answer of [answered(200), answered(404), answered(410), refused("not_https"), refused("address_forbidden"), refused("unresolvable"), refused("redirect_forbidden")]) {
+      let call = 0;
+      const { slept, options } = paused();
+      const ask = await askUrl(target, async () => { call += 1; return answer; }, options);
+      expect(ask.reasked).toBeUndefined();
+      expect(slept).toEqual([]);
+      // At most the first reading's own HEAD and GET: no second reading.
+      expect(call).toBeLessThanOrEqual(2);
+    }
+  });
+
+  it("re-asks a timeout and a network error, which is the rest of what issue #153 named", async () => {
+    for (const reason of ["timeout", "network"] as const) {
+      const { slept, options } = paused();
+      let call = 0;
+      const fetch: LinkFetch = async () => (++call <= 2 ? refused(reason) : answered(200));
+      expect(await askUrl(target, fetch, options)).toMatchObject({ alive: true, reasked: true });
+      expect(slept).toEqual([REASK_PAUSE_MS]);
+    }
+  });
+
+  it("re-asks a probe surface whose POST erred, and the second reading is the whole sequence again", async () => {
+    const probe = { url: "https://mcp.a.example/mcp", endpoint: false, method: "POST" as const };
+    const methods: string[] = [];
+    let reading = 0;
+    const fetch: LinkFetch = async (_url, options) => {
+      methods.push(options.method);
+      if (options.method === "POST") reading += 1;
+      // First reading: the POST 500s and the pair 404s. Second: the POST answers.
+      return options.method === "POST" && reading > 1 ? answered(200) : options.method === "POST" ? answered(500) : answered(404);
+    };
+    const { slept, options } = paused();
+    expect(await askUrl(probe, fetch, options)).toMatchObject({ alive: true, reasked: true });
+    expect(methods).toEqual(["POST", "HEAD", "GET", "POST"]);
+    expect(slept).toEqual([REASK_PAUSE_MS]);
+  });
+
+  it("waits three seconds by default, which is a pause and not a retry budget", () => {
+    expect(REASK_PAUSE_MS).toBe(3_000);
+  });
+});
+
+describe("transientFailure", () => {
+  it("names a 5xx, a timeout and a network error, and nothing a second reading cannot change", () => {
+    for (const status of [500, 502, 503, 504]) expect(transientFailure(answered(status))).toBe(true);
+    for (const status of [200, 301, 400, 401, 403, 404, 410, 422, 429]) expect(transientFailure(answered(status))).toBe(false);
+    expect(transientFailure(refused("timeout"))).toBe(true);
+    expect(transientFailure(refused("network"))).toBe(true);
+    for (const reason of ["not_https", "address_forbidden", "unresolvable", "redirect_forbidden"] as const) expect(transientFailure(refused(reason))).toBe(false);
+    // A capped body is judged by the status that arrived before it, here too.
+    const capped = (status?: number): GuardedResult => ({ ok: false, reason: "too_large", detail: "over the cap", ...(status === undefined ? {} : { status }) });
+    expect(transientFailure(capped(503))).toBe(true);
+    expect(transientFailure(capped(404))).toBe(false);
+    expect(transientFailure(capped())).toBe(false);
   });
 });
 

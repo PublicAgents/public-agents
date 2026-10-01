@@ -56,12 +56,22 @@ const results = await withConcurrency(4, targets.map(target => async () => {
     ask = askUrl(target, guardedFetch);
     asks.set(key, ask);
   }
-  const { alive, result } = await ask;
-  return { ...target, dead: !alive, detail: linkDetail(result, alive) };
+  const { alive, result, reasked } = await ask;
+  const detail = linkDetail(result, alive);
+  // A reference that failed once and answered once is neither a clean row nor a
+  // dead one, and saying so is how anyone learns that a listed host is flaky
+  // rather than healthy (issue #153, change 2).
+  const reading = reasked === true ? (alive ? "answered on a second reading, a pause after a transient failure" : "failed twice, a pause apart") : "";
+  return { ...target, dead: !alive, reasked: reasked === true, detail: [detail, reading].filter(Boolean).join(" ") };
 }));
 
 const dead = results.filter(r => r.dead);
+const flaky = results.filter(r => r.reasked && !r.dead);
 for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.detail}`);
+// Every run says how many references needed a second reading, zero included, so
+// the number is a series a reader can watch rather than a line that appears
+// only on a bad night.
+console.log(`  ${flaky.length} reference(s) answered only on a second reading`);
 if (dead.length === 0) {
   // Both numbers, because they differ: the gate's cost to the hosts it asks is
   // the second one, and a reader of a CI log should be able to see that one
