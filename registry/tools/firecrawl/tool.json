@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "api-key",
-    "notes": "Re-measured 2026-09-29: REST /v2/scrape still 403 (IP looks suspicious), now with a challenge of scheme Bearer naming the protected-resource document; keyless MCP tools/list still names the three documented tools, through a third server version (3.26.0). No measurement here reaches that tier."
+    "notes": "Re-measured 2026-10-01: REST /v2/scrape was 403 (IP looks suspicious) on 2026-09-29, with a Bearer challenge naming the protected-resource document; keyless MCP tools/list has named exactly the three documented tools on every reading since 2026-09-09, across every server version read."
   },
   "surfaces": {
     "homepage": "https://www.firecrawl.dev/",
@@ -37,8 +37,8 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-09-09",
-  "updated": "2026-09-29",
-  "version": 3,
+  "updated": "2026-10-01",
+  "version": 4,
   "payments": {
     "machinePayable": false,
     "protocols": [],
