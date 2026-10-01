@@ -477,6 +477,30 @@ describe("linkTargets", () => {
     const tool = { file: "registry/tools/t/tool.json", value: { surfaces: { mcp: "https://mcp.p.example/mcp" } } };
     expect(linkTargets([tool]).map(t => `${t.endpoint} ${t.method}`)).toEqual(["true undefined"]);
   });
+  it("reads the endpoint flags across the registry, so a probe's surface is the endpoint its tool declares", () => {
+    const tool = { file: "registry/tools/q/tool.json", value: { surfaces: { mcp: "https://mcp.q.example" } } };
+    const probe = {
+      file: "registry/evidence/probes/p-q.json",
+      value: { id: "p-q", surface: "https://mcp.q.example/", request: { method: "POST" } }
+    };
+    // A probe record carries no `surfaces` block, so per-entry flags called the
+    // surface a page and the machine-endpoint exceptions in links.ts could not
+    // be reached from the record that probed the endpoint.
+    const got = linkTargets([tool, probe]).map(t => `${t.file} ${t.endpoint ? "endpoint" : "page"}${t.mcp ? " mcp" : ""}${t.method ? " POST" : ""}`);
+    expect(got).toEqual([
+      "registry/tools/q/tool.json endpoint mcp",
+      "registry/evidence/probes/p-q.json endpoint mcp POST"
+    ]);
+    // Order does not decide it: the union is built before any target is added.
+    expect(linkTargets([probe, tool])[0]).toMatchObject({ file: "registry/evidence/probes/p-q.json", endpoint: true, mcp: true });
+    // And no entry declaring it leaves it a page, which is the flag's whole content.
+    expect(linkTargets([probe])[0]).toEqual({ file: "registry/evidence/probes/p-q.json", url: "https://mcp.q.example/", endpoint: false, method: "POST" });
+    // An unchanged tool entry still contributes its flags: which URLs are
+    // endpoints is a fact about the registry, not about the changed-file set.
+    expect(linkTargets([tool, probe], { changed: new Set(["registry/evidence/probes/p-q.json"]) })).toEqual([
+      { file: "registry/evidence/probes/p-q.json", url: "https://mcp.q.example/", endpoint: true, mcp: true, method: "POST" }
+    ]);
+  });
   it("checks the payment-protocol vocabulary on its own path", () => {
     const opts = { paymentProtocols: { protocols: [{ url: "https://x402.example/" }] } };
     expect(linkTargets([], opts).map(t => t.url)).toEqual(["https://x402.example/"]);

@@ -179,6 +179,26 @@ export function linkDetail(result: GuardedResult, alive: boolean): string {
   return !alive || (!result.ok && (result.reason === "redirect_forbidden" || result.reason === "too_large")) ? detail : "";
 }
 
+/**
+ * Two targets with this key get the same answer from the same requests, so
+ * the checker asks once and shares it. The key is the whole shape of the ask
+ * and not just the URL, because the same URL is asked differently depending
+ * on what names it: a probe's surface is asked with a POST, an entry's
+ * `surfaces.mcp` gets the handshake behind the browser pair, and `endpoint`
+ * decides which answers count. The URL is canonical, so the spellings a URL
+ * parser reads as equal share one ask.
+ *
+ * Why this is in the policy and not the script: how many requests the gate
+ * sends to a stranger is part of the fetch policy (docs/OWNERSHIP.md), and it
+ * was accidental before. One surface cited by ten records drew ten POSTs in
+ * one run, so a surface that answers a given shape intermittently failed the
+ * required gate more often the more evidence the registry held about it. The
+ * question "does this URL answer" has one answer per run, not one per file.
+ */
+export function askKey(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }): string {
+  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : ""].join("\n");
+}
+
 /** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
 export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number }) => Promise<GuardedResult>;
 
@@ -186,24 +206,121 @@ export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"
 export interface LinkAsk {
   alive: boolean;
   result: GuardedResult;
+  /**
+   * The whole sequence ran twice, because the first reading failed with a
+   * transient answer. Present either way, so a reference that failed once and
+   * answered once is reported as neither a clean row nor a dead one (issue
+   * #153, change 2).
+   */
+  reasked?: true;
 }
 
 /**
- * The order of requests behind one link, kept here rather than in the
- * script so the whole sequence can be tested without a network: HEAD,
+ * The failures a pause can change its mind about: a 5xx, a timeout, a network
+ * error. Everything else is an answer rather than the absence of one, and
+ * re-asking it only spends someone's server: a 404 and a 410 say the URL is
+ * not there, a 4xx the table refuses says the request was refused, a refused
+ * cross-host redirect says where it points, and `not_https`,
+ * `address_forbidden` and `unresolvable` are refusals by the fetch policy
+ * itself, which a second reading cannot overturn. A capped body is judged by
+ * the status line that arrived first, so a capped 5xx is transient and a
+ * capped 404 is not.
+ *
+ * `unresolvable` is deliberately not here even though DNS is capable of being
+ * transient: it is a refusal this repository's own policy makes before any
+ * request leaves, and issue #153 named three failures, not four. If a nightly
+ * audit starts reporting it, that is a separate measurement and a separate
+ * change.
+ */
+export function transientFailure(result: GuardedResult): boolean {
+  if (result.ok) return result.status >= 500;
+  if (result.reason === "timeout" || result.reason === "network") return true;
+  return result.reason === "too_large" && result.status !== undefined && result.status >= 500;
+}
+
+/** How long the checker waits before a second reading. */
+export const REASK_PAUSE_MS = 3_000;
+
+/** The pause, injectable so the tests of the sequence never sleep. */
+export interface AskOptions {
+  sleep?: (ms: number) => Promise<void>;
+  pauseMs?: number;
+}
+
+/**
+ * One URL, asked once and then, if the answer was the kind a pause can change
+ * its mind about, asked again after one (issue #153).
+ *
+ * The re-ask is a whole second reading of the sequence, not a second request
+ * inside it, and that distinction is the point of the change. `askSequence`
+ * already sends two requests on a 5xx, HEAD and then GET, but both leave in
+ * the same millisecond-scale window and so measure the same instant: an edge
+ * that is briefly erroring answers both identically, which is exactly what
+ * issue #153 measured on three listed hosts at once. A pause is the only thing
+ * in the path that distinguishes a dead URL from a busy one.
+ *
+ * What this does not do is make a dead URL alive. The second reading is judged
+ * by the same table as the first, and a URL that fails twice is reported with
+ * its FIRST failure, because that is the reading the gate took and the one a
+ * contributor has to answer for. A URL that failed once and answered once is
+ * reported as having been re-asked, so that a host which is flaky rather than
+ * dead is visible in the log instead of being quietly rounded to healthy.
+ */
+export async function askUrl(
+  target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean },
+  fetch: LinkFetch,
+  options: AskOptions = {}
+): Promise<LinkAsk> {
+  const first = await askSequence(target, fetch);
+  if (first.alive || !transientFailure(first.result)) return first;
+  const sleep = options.sleep ?? (ms => new Promise<void>(resolve => setTimeout(resolve, ms)));
+  await sleep(options.pauseMs ?? REASK_PAUSE_MS);
+  const second = await askSequence(target, fetch);
+  return second.alive ? { ...second, reasked: true } : { ...first, reasked: true };
+}
+
+/**
+ * The order of requests behind one reading of one link, kept here rather than
+ * in the script so the whole sequence can be tested without a network: HEAD,
  * then GET when HEAD failed outright or the server erred, then, for a
  * `surfaces.mcp` URL that neither answered, one JSON-RPC `initialize`.
- * A probe surface whose record says POST keeps its single POST and is
- * never asked any other way.
+ * A probe surface whose record says POST is asked with its POST first.
  */
-export async function askUrl(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+async function askSequence(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
   if (target.method === "POST") {
     // A probe's surface that its record measured with a POST is asked
-    // with one: an empty JSON object, no session, nothing that could be a
-    // credential. Some servers answer nothing else (issue #107).
+    // with one first: an empty JSON object, no session, nothing that could
+    // be a credential. Some servers answer nothing else (issue #107).
     const result = await fetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    return { alive: linkAnswers(result, target.endpoint, "POST"), result };
+    if (linkAnswers(result, target.endpoint, "POST")) return { alive: true, result };
+    // The record's method is the *preferred* way to ask this URL, not the
+    // only one the checker knows. A POST that does not answer leaves the
+    // question this gate asks unanswered rather than answered no: a 5xx
+    // "still says nothing" by the table above, and a server that erred on
+    // one request shape has said nothing about whether the URL is there.
+    // So fall through to the pair every other URL in the registry gets. A
+    // surface that is dead stays dead, because nothing here counts an
+    // answer the table refuses; what this buys is a URL whose POST shape
+    // is unstable and whose GET shape is not. Without it a probe record
+    // whose surface answers a well-formed POST intermittently could only
+    // pass the required gate by a lucky sequence of duplicate fetches, and
+    // every further record of the same surface made that luck less likely.
+    const fallback = await askBrowser(target, fetch);
+    // The POST's own result is what the report keeps when nothing answered:
+    // it is the request the record made, and the most informative thing the
+    // checker learned about the surface.
+    return fallback.alive ? fallback : { alive: false, result };
   }
+  return askBrowser(target, fetch);
+}
+
+/**
+ * The checker's own HEAD-then-GET pair, and the handshake behind it for a
+ * `surfaces.mcp` URL that neither browser method answered. Split out from
+ * `askUrl` because a probe surface whose POST said nothing falls through to
+ * exactly this, and it must be the same sequence rather than a copy of it.
+ */
+async function askBrowser(target: { url: string; endpoint: boolean; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
   // HEAD first; GET only when HEAD failed outright or the server erred,
   // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
   // overwritten by a fallback that fares worse.

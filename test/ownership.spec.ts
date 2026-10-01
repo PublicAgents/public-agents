@@ -55,6 +55,22 @@ describe("guardedFetch", () => {
     expect(await guardedFetch("https://a.example/big-home", { resolve: resolvePublic, transport })).toMatchObject({ ok: true, status: 200, url: "https://a.example/docs" });
     expect(await guardedFetch("https://a.example/big-nowhere", { resolve: resolvePublic, transport })).toMatchObject({ ok: false, reason: "redirect_forbidden" });
   });
+  it("sends one transport request per hop, which is why check-links counts requests at the transport and not around the fetch", async () => {
+    // A guarded fetch that follows two same-host redirects is three requests
+    // on the wire. A counter wrapped around guardedFetch would say one.
+    let sent = 0;
+    const transport: Transport = async (req): Promise<TransportResponse> => {
+      sent += 1;
+      if (req.url.pathname === "/one") return { kind: "response", status: 301, headers: { location: "/two" }, body: "" };
+      if (req.url.pathname === "/two") return { kind: "response", status: 302, headers: { location: "/three" }, body: "" };
+      return { kind: "response", status: 200, headers: {}, body: "docs" };
+    };
+    expect(await guardedFetch("https://a.example/one", { resolve: resolvePublic, transport })).toMatchObject({ ok: true, status: 200, url: "https://a.example/three" });
+    expect(sent).toBe(3);
+    sent = 0;
+    expect(await guardedFetch("https://a.example/three", { resolve: resolvePublic, transport })).toMatchObject({ ok: true, status: 200 });
+    expect(sent).toBe(1);
+  });
   it("keeps the POST and its body through a 307 or 308, drops to GET on a 301, 302 or 303, and refuses a 307 off-host without replaying", async () => {
     const seen: Array<{ url: string; method: string; body?: string; contentType?: string }> = [];
     const transport: Transport = async (req): Promise<TransportResponse> => {
