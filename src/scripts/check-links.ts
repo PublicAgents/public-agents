@@ -45,25 +45,41 @@ const targets = linkTargets(
 // One ask per distinct ask (src/lib/links.ts: `askKey`), shared by every file
 // that names it. The report still prints a line per file, because which file
 // points a reader at a dead URL is the thing a contributor has to fix; what is
-// shared is the requests. The map is read and written before the first await of
-// each task, so the tasks running concurrently join one ask rather than racing
-// to start several.
-const asks = new Map<string, Promise<Awaited<ReturnType<typeof askUrl>>>>();
-const results = await withConcurrency(4, targets.map(target => async () => {
+// shared is the requests.
+//
+// The DISTINCT ASKS are the unit of concurrency, not the citing files. Making
+// the files the unit meant four adjacent citations of one slow URL could occupy
+// all four slots waiting on a single request while independent URLs waited
+// behind them, which is the opposite of what sharing the ask is for.
+const byKey = new Map<string, (typeof targets)[number]>();
+for (const target of targets) {
   const key = askKey(target);
-  let ask = asks.get(key);
-  if (ask === undefined) {
-    ask = askUrl(target, guardedFetch);
-    asks.set(key, ask);
-  }
-  const { alive, result, reasked } = await ask;
+  if (!byKey.has(key)) byKey.set(key, target);
+}
+
+// Every request the gate sends, counted where it is sent. The number of asks is
+// NOT the number of requests and must not be printed as if it were: one ask is
+// between one and four requests (a POST, or HEAD then GET, then a handshake),
+// and twice that when a transient failure earns a second reading.
+let requests = 0;
+const countedFetch: typeof guardedFetch = (url, options) => {
+  requests += 1;
+  return guardedFetch(url, options);
+};
+
+const keys = [...byKey.keys()];
+const answers = await withConcurrency(4, keys.map(key => () => askUrl(byKey.get(key)!, countedFetch)));
+const asked = new Map(keys.map((key, index) => [key, answers[index]]));
+
+const results = targets.map(target => {
+  const { alive, result, reasked } = asked.get(askKey(target))!;
   const detail = linkDetail(result, alive);
   // A reference that failed once and answered once is neither a clean row nor a
   // dead one, and saying so is how anyone learns that a listed host is flaky
   // rather than healthy (issue #153, change 2).
   const reading = reasked === true ? (alive ? "answered on a second reading, a pause after a transient failure" : "failed twice, a pause apart") : "";
   return { ...target, dead: !alive, reasked: reasked === true, detail: [detail, reading].filter(Boolean).join(" ") };
-}));
+});
 
 const dead = results.filter(r => r.dead);
 const flaky = results.filter(r => r.reasked && !r.dead);
@@ -72,17 +88,20 @@ for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.
 // the number is a series a reader can watch rather than a line that appears
 // only on a bad night.
 console.log(`  ${flaky.length} reference(s) answered only on a second reading`);
+// Three different numbers, named as three different things, because conflating
+// any two of them is how a reader gets a wrong idea of what this gate costs the
+// hosts it asks: references are rows in the report, asks are distinct questions,
+// requests are what actually left this machine.
+const scale = `${results.length} reference(s) over ${keys.length} distinct ask(s) in ${requests} request(s)`;
 if (dead.length === 0) {
-  // Both numbers, because they differ: the gate's cost to the hosts it asks is
-  // the second one, and a reader of a CI log should be able to see that one
-  // surface cited by ten records was asked once.
-  console.log(`✓ ${results.length} link(s) answer (${asks.size} distinct ask(s))`);
+  console.log(`✓ ${scale}, all answering`);
   process.exit(0);
 }
 // In report mode the summary IS the report, so it goes to stdout: the nightly
 // audit pipes stdout through tee and greps the file for LINK_DEAD. Written to
 // stderr, the lines never reach the file and the dead-links issue never fires.
 const report = all ? console.log : console.error;
+report(`  ${scale}`);
 report(`${all ? "!" : "✗"} ${dead.length} dead link(s):`);
 for (const r of dead) report(`  LINK_DEAD: ${r.url} in ${r.file}: ${r.detail}`);
 process.exit(all ? 0 : 1);
