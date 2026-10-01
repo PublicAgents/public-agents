@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261001-aws-knowledge-mcp-empty-post-500",
+  "subject": {
+    "type": "tool",
+    "id": "aws-knowledge-mcp"
+  },
+  "surface": "https://knowledge-mcp.global.api.aws",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "one keyless POST of the two-character JSON document {} with content-type application/json and Accept application/json and text/event-stream: the sixth of six identical-bodied requests sent 10 seconds apart, five of which answered HTTP 200"
+  },
+  "observed": {
+    "status": 500,
+    "headers": {
+      "content-type": "application/json",
+      "date": "Thu, 01 Oct 2026 06:11:26 GMT",
+      "x-cache": "Error from cloudfront",
+      "via": "1.1 be155fc1506dfa91aced67c6c24d5a56.cloudfront.net (CloudFront)"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP/2 500, content-type application/json, 153 bytes, body {\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"InterceptorException - Received invalid response from interceptor\"}],\"isError\":true}}, read at 06:11:26Z, 11 seconds after an identical-bodied request answered HTTP 200 with a -32700 error.",
+      "why-this-record-exists": "it is one request, per the probe schema's own title. The comparison it belongs to is carried by its named sibling and by the artifact, which holds all six responses with their own status lines and date headers.",
+      "what-it-establishes": "two things, and the second is the stranger one. First, this endpoint answers the same keyless request body with two different statuses inside one minute: HTTP 200 at 06:11:15Z and HTTP 500 at 06:11:26Z. Non-determinism is established by the pair, not inferred from one reading. Second, the 500 carries its internal exception in the \"result\" member with isError true, NOT in the \"error\" member, while the 200 eleven seconds earlier carried its complaint in \"error\". So the same endpoint uses both JSON-RPC envelopes for failures, and the one it pairs with a 5xx status is the success envelope.",
+      "and-what-it-does-not-establish": "no rate for the 500. One 500 in six requests at one moment from one IP is a count, not a frequency, and this record states the count and declines the frequency. It is worth saying because I published a prediction built on two readings of this same surface on 2026-09-30 and had to correct it. Nothing about the cause either: \"interceptor\" is the vendor's word for something inside their stack that is not visible from outside. And nothing about the rate limit: the six requests were spaced 10 to 11 seconds apart, which is denser than the 25-second spacing of this pull request's tools/call records and was chosen because the question here is whether one request shape answers consistently. No 429 was drawn at this spacing; that is not a measurement of the limit, which stays unmeasured (p-20260930-aws-knowledge-mcp-anonymous-429).",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the captured headers; this container's egress proxy answers CONNECT with its own \"HTTP/1.1 200 Connection Established\" first. On this record that trap would have been expensive, because the proxy line reads 200 and the origin line is what the finding is about.",
+      "the-sibling-this-is-compared-with": "p-20261001-aws-knowledge-mcp-empty-post-parse-error",
+      "the-accept-header-is-not-the-variable": "three of the six requests carried Accept application/json and text/event-stream and three carried none. Two of the three with the header answered 200 and one answered 500; all three without it answered 200. The header does not separate the two outcomes, and with three readings per arm nothing stronger than that is claimed.",
+      "why-this-request-and-not-another": "this exact request is what the Public Agents registry's own link gate sends to a probe surface whose record says POST: src/lib/links.ts sends one POST with the body {} and judges the URL alive on any status below 500. So this is both a reading of a vendor surface and a reading of the instrument this registry checks it with. The gate refused this pull request's head on 2026-09-30 and again on 2026-10-01 for exactly this reason, and the registry's reviewer reproduced it independently.",
+      "what-this-costs-a-reader-of-this-registry": "the registry's link gate judges a POST surface alive on any status below 500, so this one response makes a green head red with nothing in the head having changed. The gate is not wrong to refuse a 500; what the pair of records adds is that the refusal is a property of the vendor's endpoint under the gate's own request shape, and that re-running is a coin toss rather than a fix. Whoever holds the re-run button can now read why instead of guessing."
+    }
+  },
+  "finding": "The AWS Knowledge MCP endpoint answered a keyless POST of {} with HTTP 500 and the body {\"jsonrpc\":\"2.0\",\"id\":0,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"InterceptorException - Received invalid response from interceptor\"}],\"isError\":true}} at 06:11:26Z on 2026-10-01, eleven seconds after an identical-bodied request answered HTTP 200 with a -32700 error. Two facts follow. The endpoint is non-deterministic for this request shape, established by the pair rather than inferred. And it delivers an internal exception in the JSON-RPC \"result\" member with isError true rather than in \"error\", which is the mirror image of the habit already recorded in this pull request: a refusal dressed as a success inside a 200, and now a success envelope dressed as a 500. One 500 in six requests is a count and this record does not turn it into a rate.",
+  "reproducibility": {
+    "command": "curl -s -D - -X POST https://knowledge-mcp.global.api.aws -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-01T06:11Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-01",
+  "updated": "2026-10-01",
+  "version": 1
+}

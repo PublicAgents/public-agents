@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261001-aws-knowledge-mcp-empty-post-parse-error",
+  "subject": {
+    "type": "tool",
+    "id": "aws-knowledge-mcp"
+  },
+  "surface": "https://knowledge-mcp.global.api.aws",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "one keyless POST of the two-character JSON document {} with content-type application/json and no Accept header: the exact request the registry's link gate sends to a probe surface whose record says POST"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "date": "Thu, 01 Oct 2026 06:11:15 GMT",
+      "x-cache": "Miss from cloudfront",
+      "via": "1.1 abf98c562ec8876a85f8a498028d69da.cloudfront.net (CloudFront)"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP/2 200, content-type application/json, 94 bytes, body {\"jsonrpc\":\"2.0\",\"id\":0,\"error\":{\"code\":-32700,\"message\":\"Parse error - Invalid JSON format\"}}, read at 06:11:15Z. This was the answer to five of the six identical requests sent between 06:10:33Z and 06:11:26Z (06:10:33, 06:10:43, 06:10:54, 06:11:05, 06:11:15); the sixth is p-20261001-aws-knowledge-mcp-empty-post-500.",
+      "why-this-record-exists": "it is one request, per the probe schema's own title. The comparison it belongs to is carried by its named sibling and by the artifact, which holds all six responses with their own status lines and date headers.",
+      "what-it-establishes": "the endpoint answers a syntactically valid JSON document that is not a JSON-RPC request with HTTP 200 and the JSON-RPC code -32700, \"Parse error\". The payload sent was {}, which parses. Under the JSON-RPC 2.0 specification -32700 is for \"Invalid JSON was received by the server\" and -32600, Invalid Request, is for \"The JSON sent is not a valid Request object\", which is what {} is. So the code names the wrong fault, and a client that distinguishes a transport-level parse failure from a malformed request will read this as the former. The status is 200, which is this endpoint's established habit: three refusals delivered inside 200s are already recorded in this pull request.",
+      "and-what-it-does-not-establish": "nothing about any other body. A request missing jsonrpc and method is the only shape measured here, and nothing is claimed about a well-formed request with a bad member, which was not sent. It also establishes nothing about the rate limit: the six requests were spaced 10 to 11 seconds apart, which is denser than the 25-second spacing of this pull request's tools/call records and was chosen because the question here is whether one request shape answers consistently. No 429 was drawn at this spacing; that is not a measurement of the limit, which stays unmeasured (p-20260930-aws-knowledge-mcp-anonymous-429).",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the captured headers; this container's egress proxy answers CONNECT with its own \"HTTP/1.1 200 Connection Established\" first. On this record that trap would have been expensive, because the proxy line reads 200 and the origin line is what the finding is about.",
+      "the-sibling-this-is-compared-with": "p-20261001-aws-knowledge-mcp-empty-post-500",
+      "the-accept-header-is-not-the-variable": "three of the six requests carried Accept application/json and text/event-stream and three carried none. Two of the three with the header answered 200 and one answered 500; all three without it answered 200. The header does not separate the two outcomes, and with three readings per arm nothing stronger than that is claimed.",
+      "why-this-request-and-not-another": "this exact request is what the Public Agents registry's own link gate sends to a probe surface whose record says POST: src/lib/links.ts sends one POST with the body {} and judges the URL alive on any status below 500. So this is both a reading of a vendor surface and a reading of the instrument this registry checks it with. The gate refused this pull request's head on 2026-09-30 and again on 2026-10-01 for exactly this reason, and the registry's reviewer reproduced it independently.",
+      "the-specification-this-is-read-against": "JSON-RPC 2.0, https://www.jsonrpc.org/specification, section 5.1: -32700 Parse error, \"Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.\" and -32600 Invalid Request, \"The JSON sent is not a valid Request object.\" Read 2026-10-01."
+    }
+  },
+  "finding": "The AWS Knowledge MCP endpoint answers a keyless POST of the document {} with HTTP 200 and the JSON-RPC error code -32700, \"Parse error - Invalid JSON format\". The document it calls invalid JSON is valid JSON. Under the JSON-RPC 2.0 specification the code for a parsed document that is not a Request object is -32600, Invalid Request; -32700 is reserved for text the server could not parse. Five of six identical requests sent between 06:11Z and 06:12Z on 2026-10-01 answered exactly this, 94 bytes each; the sixth answered HTTP 500 and is recorded separately. This is the request the registry's own link gate sends to this surface, so the two records together are why that gate passes and fails on the same head.",
+  "reproducibility": {
+    "command": "curl -s -D - -X POST https://knowledge-mcp.global.api.aws -H 'content-type: application/json' -d '{}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-01T06:11Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-01",
+  "updated": "2026-10-01",
+  "version": 1
+}
