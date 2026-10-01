@@ -179,6 +179,26 @@ export function linkDetail(result: GuardedResult, alive: boolean): string {
   return !alive || (!result.ok && (result.reason === "redirect_forbidden" || result.reason === "too_large")) ? detail : "";
 }
 
+/**
+ * Two targets with this key get the same answer from the same requests, so
+ * the checker asks once and shares it. The key is the whole shape of the ask
+ * and not just the URL, because the same URL is asked differently depending
+ * on what names it: a probe's surface is asked with a POST, an entry's
+ * `surfaces.mcp` gets the handshake behind the browser pair, and `endpoint`
+ * decides which answers count. The URL is canonical, so the spellings a URL
+ * parser reads as equal share one ask.
+ *
+ * Why this is in the policy and not the script: how many requests the gate
+ * sends to a stranger is part of the fetch policy (docs/OWNERSHIP.md), and it
+ * was accidental before. One surface cited by ten records drew ten POSTs in
+ * one run, so a surface that answers a given shape intermittently failed the
+ * required gate more often the more evidence the registry held about it. The
+ * question "does this URL answer" has one answer per run, not one per file.
+ */
+export function askKey(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }): string {
+  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : ""].join("\n");
+}
+
 /** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
 export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number }) => Promise<GuardedResult>;
 
@@ -199,11 +219,38 @@ export interface LinkAsk {
 export async function askUrl(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
   if (target.method === "POST") {
     // A probe's surface that its record measured with a POST is asked
-    // with one: an empty JSON object, no session, nothing that could be a
-    // credential. Some servers answer nothing else (issue #107).
+    // with one first: an empty JSON object, no session, nothing that could
+    // be a credential. Some servers answer nothing else (issue #107).
     const result = await fetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    return { alive: linkAnswers(result, target.endpoint, "POST"), result };
+    if (linkAnswers(result, target.endpoint, "POST")) return { alive: true, result };
+    // The record's method is the *preferred* way to ask this URL, not the
+    // only one the checker knows. A POST that does not answer leaves the
+    // question this gate asks unanswered rather than answered no: a 5xx
+    // "still says nothing" by the table above, and a server that erred on
+    // one request shape has said nothing about whether the URL is there.
+    // So fall through to the pair every other URL in the registry gets. A
+    // surface that is dead stays dead, because nothing here counts an
+    // answer the table refuses; what this buys is a URL whose POST shape
+    // is unstable and whose GET shape is not. Without it a probe record
+    // whose surface answers a well-formed POST intermittently could only
+    // pass the required gate by a lucky sequence of duplicate fetches, and
+    // every further record of the same surface made that luck less likely.
+    const fallback = await askBrowser(target, fetch);
+    // The POST's own result is what the report keeps when nothing answered:
+    // it is the request the record made, and the most informative thing the
+    // checker learned about the surface.
+    return fallback.alive ? fallback : { alive: false, result };
   }
+  return askBrowser(target, fetch);
+}
+
+/**
+ * The checker's own HEAD-then-GET pair, and the handshake behind it for a
+ * `surfaces.mcp` URL that neither browser method answered. Split out from
+ * `askUrl` because a probe surface whose POST said nothing falls through to
+ * exactly this, and it must be the same sequence rather than a copy of it.
+ */
+async function askBrowser(target: { url: string; endpoint: boolean; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
   // HEAD first; GET only when HEAD failed outright or the server erred,
   // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
   // overwritten by a fallback that fares worse.

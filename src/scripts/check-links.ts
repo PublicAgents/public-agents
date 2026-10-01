@@ -14,7 +14,7 @@
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
 import { linkTargets, slash } from "../lib/link-targets.ts";
-import { askUrl, linkDetail } from "../lib/links.ts";
+import { askKey, askUrl, linkDetail } from "../lib/links.ts";
 import { guardedFetch, withConcurrency } from "../lib/net.ts";
 
 const args = process.argv.slice(2);
@@ -42,15 +42,31 @@ const targets = linkTargets(
 // answered neither browser method, a capped body judged by its status
 // line, and the one exception for a machine endpoint that answers a
 // browser's GET with a redirect to its documentation on another host.
+// One ask per distinct ask (src/lib/links.ts: `askKey`), shared by every file
+// that names it. The report still prints a line per file, because which file
+// points a reader at a dead URL is the thing a contributor has to fix; what is
+// shared is the requests. The map is read and written before the first await of
+// each task, so the tasks running concurrently join one ask rather than racing
+// to start several.
+const asks = new Map<string, Promise<Awaited<ReturnType<typeof askUrl>>>>();
 const results = await withConcurrency(4, targets.map(target => async () => {
-  const { alive, result } = await askUrl(target, guardedFetch);
+  const key = askKey(target);
+  let ask = asks.get(key);
+  if (ask === undefined) {
+    ask = askUrl(target, guardedFetch);
+    asks.set(key, ask);
+  }
+  const { alive, result } = await ask;
   return { ...target, dead: !alive, detail: linkDetail(result, alive) };
 }));
 
 const dead = results.filter(r => r.dead);
 for (const r of results) console.log(`  ${r.dead ? "✗" : "✓"} ${r.url} (${r.file}) ${r.detail}`);
 if (dead.length === 0) {
-  console.log(`✓ ${results.length} link(s) answer`);
+  // Both numbers, because they differ: the gate's cost to the hosts it asks is
+  // the second one, and a reader of a CI log should be able to see that one
+  // surface cited by ten records was asked once.
+  console.log(`✓ ${results.length} link(s) answer (${asks.size} distinct ask(s))`);
   process.exit(0);
 }
 // In report mode the summary IS the report, so it goes to stdout: the nightly

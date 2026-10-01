@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { askUrl, canonicalUrl, endpointsOf, linkAnswers, linkDetail, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeSurfaceOf } from "../src/lib/links.ts";
+import { askKey, askUrl, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -208,9 +208,60 @@ describe("askUrl", () => {
     expect(asked).toEqual(["HEAD", "GET"]);
   });
 
-  it("keeps a probe surface's single POST and asks it no other way", async () => {
+  it("keeps a probe surface's single POST and asks it no other way when the POST answers", async () => {
     const { fetch, asked } = stub({ POST: answered(422) });
     expect(await askUrl({ url: "https://mcp.a.example/mcp", endpoint: false, method: "POST" as const }, fetch)).toMatchObject({ alive: true });
     expect(asked).toEqual(["POST"]);
+  });
+
+  it("falls through to the browser pair when a probe surface's POST says nothing, and takes the endpoint's refused redirect", async () => {
+    // The real case: an MCP endpoint that answers a well-formed POST with a
+    // 500 in some windows and a 200 in others, and answers a browser's HEAD
+    // with a redirect to its documentation on another host every time.
+    const redirect: GuardedResult = { ok: false, reason: "redirect_forbidden", detail: "https://mcp.a.example/mcp -> https://docs.b.example/" };
+    const { fetch, asked } = stub({ POST: answered(500), HEAD: redirect, GET: redirect });
+    const ask = await askUrl({ url: "https://mcp.a.example/mcp", endpoint: true, method: "POST" as const }, fetch);
+    expect(asked).toEqual(["POST", "HEAD", "GET"]);
+    expect(ask.alive).toBe(true);
+    // The kept result is the one that counted, so the report prints why.
+    expect(linkDetail(ask.result, ask.alive)).toBe("redirect_forbidden: https://mcp.a.example/mcp -> https://docs.b.example/");
+  });
+
+  it("leaves a probe surface dead when neither its POST nor the pair answers, and reports the POST", async () => {
+    const { fetch, asked } = stub({ POST: answered(500), HEAD: answered(404), GET: answered(404) });
+    const ask = await askUrl({ url: "https://mcp.a.example/mcp", endpoint: true, method: "POST" as const }, fetch);
+    expect(asked).toEqual(["POST", "HEAD", "GET"]);
+    expect(ask.alive).toBe(false);
+    // The record's own method is what a contributor has to answer for, so a
+    // dead surface prints the POST's status and not the fallback's.
+    expect(linkDetail(ask.result, ask.alive)).toBe("HTTP 500");
+  });
+
+  it("asks the handshake behind the pair for a probe surface that is also surfaces.mcp", async () => {
+    const body = '{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18"}}';
+    const { fetch, asked } = stub({ POST: answered(404), HEAD: answered(404), GET: answered(404) });
+    // One stub answers both POSTs, so the handshake is told apart by its body.
+    const handshake: LinkFetch = async (url, options) => {
+      if (options.method === "POST" && options.body === MCP_INITIALIZE) return { ok: true, status: 200, body, url, contentType: "application/json" };
+      return fetch(url, options);
+    };
+    const ask = await askUrl({ url: "https://mcp.a.example/mcp", endpoint: true, mcp: true, method: "POST" as const }, handshake);
+    // A 404 to the empty POST is dead by the POST table, so the pair runs, then the handshake.
+    expect(asked).toEqual(["POST", "HEAD", "GET"]);
+    expect(ask.alive).toBe(true);
+  });
+});
+
+describe("askKey", () => {
+  it("joins the spellings of one URL and keeps the shapes of one URL apart", () => {
+    const base = { url: "https://mcp.a.example", endpoint: true };
+    // One server, two spellings, one ask: the gate asks a stranger once per run.
+    expect(askKey(base)).toBe(askKey({ ...base, url: "HTTPS://Mcp.A.Example/" }));
+    // Different requests sent, or different answers counting, so different asks.
+    expect(askKey(base)).not.toBe(askKey({ ...base, method: "POST" as const }));
+    expect(askKey(base)).not.toBe(askKey({ ...base, mcp: true }));
+    expect(askKey(base)).not.toBe(askKey({ ...base, endpoint: false }));
+    // A URL the parser refuses is its own key rather than everyone's.
+    expect(askKey({ url: "https://[", endpoint: false })).not.toBe(askKey({ url: "https://]", endpoint: false }));
   });
 });

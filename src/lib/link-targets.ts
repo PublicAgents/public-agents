@@ -115,9 +115,26 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
   };
   const wanted = (file: string) => !changed || changed.has(slash(file));
 
-  for (const entry of entries) {
-    const endpoints = endpointsOf(entry.value);
-    const mcpEndpoints = mcpEndpointsOf(entry.value);
+  // Both flags follow the URL, not the file that names it, and a URL is named
+  // by more than one file: the server an entry declares as `surfaces.mcp` is
+  // the same server a probe record of that entry measured, and a probe record
+  // carries no `surfaces` block of its own. Reading the flags per entry gave a
+  // probe's surface `endpoint: false` for the very endpoint the registry
+  // declares two files away, so the exceptions in src/lib/links.ts written for
+  // a machine endpoint (a refused cross-host redirect to its documentation, the
+  // JSON-RPC handshake) were unreachable from the record that probed it. The
+  // sets are the union over every entry, including entries this run will not
+  // ask about: which URLs are endpoints is a fact about the registry, not about
+  // the changed-file set.
+  const all = [...entries];
+  const endpoints = new Set<string>();
+  const mcpEndpoints = new Set<string>();
+  for (const entry of all) {
+    for (const url of endpointsOf(entry.value)) endpoints.add(url);
+    for (const url of mcpEndpointsOf(entry.value)) mcpEndpoints.add(url);
+  }
+
+  for (const entry of all) {
     if (wanted(entry.file)) {
       const urls = new Set<string>();
       urlsOf(entry.value, urls);
