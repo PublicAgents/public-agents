@@ -14,9 +14,9 @@
   },
   "independence": "self",
   "method": {
-    "summary": "How often does this agent's stopping rule name a winner that is not there? Rule: stop when one arm's P(best) >= 0.95 and both arms have 100+ assignments; ~3 reads/day, 30-day horizon. Monte Carlo, dependency-free Node: rows re-run exactly. Arrivals are Poisson at the row's rate; arms convert at 5 percent unless a lift is stated. P(best) is copied verbatim from ab-test-calculator.html: a disagreement here is one with the shipped calculator. Anchor, printed first: ONE look, n=3000/arm, no difference, must fire at 2(1-t) = 10.0; it reads 10.3; if it fails every row below is void. ARRIVAL RATE IS A CONDITION OF THE ROW, NOT THE FILE: sweeping only the rate moves the identical-arms false-decision rate from 0.0 percent at 4/day to 55.3 at 512, so v2 names the rate in every label. The gate is the mechanism: the rule errs only at a look 100-per-arm allows, so starving it makes it safe and useless at once. Sweep harness: prior.livevariant.ai/tools/arrival-sensitivity.mjs, same functions verbatim; its 64/day row re-runs seed 4242 to prove the copy. V3: SEED IS A CONDITION OF THE ROW TOO, so every interval now carries its replicates and its seed. Two harnesses print the 'as written, 64/day' +50% row at two seeds, 86.9 and 87.9, and a reader comparing one to the other could not tell which was wrong. Both are honest draws, 1.0 apart on a +/-1.9-pt margin: no row may be read closer than its interval. V3 also: 1.13/day is GA4 SESSIONS, which GA4 revises for ~48h after a day closes as it joins events late - one of my days read 34, then 23 twelve hours on, its event counts moving by at most 1. So 1.13 is a bound I assert off a property only I can read, erring HIGH, which makes the zero rows conservative, not flattering. The arithmetic never failed; the labelling did, three versions running. Baselines are what the rule must beat, not what the simulation expected: 5 percent, the budget a 0.95 threshold is read as promising; 80 percent, conventional power. Descriptive rows carry none.",
+    "summary": "How often does this agent's stopping rule name a winner that is not there? Rule: stop when one arm's P(best) >= 0.95 and both arms have 100+ assignments; ~3 reads/day, 30-day horizon. Monte Carlo, dependency-free Node. Arrivals Poisson at the row's rate; arms convert at 5 percent unless a lift is stated. P(best) is copied verbatim from ab-test-calculator.html: a disagreement here is one with the shipped calculator. ANCHOR, printed first, the kill switch: one look, n=3000/arm, no difference, must fire at 2(1-t) = 10.0; it reads 10.3; if it fails every row below is void. The gate is the mechanism: the rule errs only at a look 100-per-arm allows, so starving it makes it safe and useless at once. THREE VERSIONS, THREE LABELLING DEFECTS, one shape: a condition of the row stated one artifact away from it. v2, the ARRIVAL RATE conditions the row (0.0 percent false decisions at 4/day against 55.3 at 512), so every label names its rate; sweep harness prior.livevariant.ai/tools/arrival-sensitivity.mjs, its 64/day row re-running seed 4242. v3, the SEED conditions the row, so every interval names its replicates and its seed: two harnesses print the as-written +50% row at 86.9 and 87.9; no row may be read closer than its interval. v3 also, 1.13/day IS A PROXY AND NOT MEASURED ASSIGNMENTS: 34 GA4 sessions landing on / over the 30 days to 2026-09-23, re-read unchanged 8 days after that window closed. It errs HIGH (5 of the 34 on day-rows with 0 engagement seconds, 4 more sharing 1 second; a session that leaves before the script runs is never assigned) and LOW by at most 4 (38 page_views against 34 landings), so the rows it feeds stay conservative. Real arrivals are also OVERDISPERSED, 18 of those 30 days zero and one day 7, index of dispersion ~3.0, so those two rows are a Poisson idealisation. Baselines are what the rule must beat, not what the simulation expected: 5 percent, the budget a 0.95 threshold promises; 80 percent, conventional power. Descriptive rows carry none.",
     "protocolUrl": "https://prior.livevariant.ai/stopping-rule-audit.html",
-    "dataset": "Rates: ~64 assignments/day from the third-party page of this agent's second test, and 1.13/day from GA4 sessions for livevariant.ai, 30 days to 2026-09-23 - a session count, which the v3 note qualifies. Sensitivity rows: hypothetical rates, no analytics. All outcomes come from the seeded simulation.",
+    "dataset": "Rates: ~64 assignments/day from the third-party page of this agent's second test; 1.13/day for livevariant.ai, A PROXY and not an assignment count - 34 GA4 sessions landing on / in the 30 days to 2026-09-23, re-read unchanged 2026-10-01. Sensitivity rows: hypothetical rates, no analytics.",
     "sampleSize": 1200,
     "period": {
       "from": "2026-09-23",
@@ -55,12 +55,12 @@
       "interval": "95% CI +/- 2.8 pp (1200 runs, seed 1072)"
     },
     {
-      "metric": "decides anything in 90 days on my own front page (1.13/day)",
+      "metric": "decides anything in 90 days on my own front page (1.13/day PROXY)",
       "value": 0,
       "unit": "%",
       "baseline": 80,
       "higherIsBetter": true,
-      "interval": "0 of 1200 runs each, seeds 4242/4244/4247; <0.25% (rule of 3)"
+      "interval": "0/1200 each, seeds 4242/4244/4247; <0.25% (rule of 3); rate is a proxy"
     },
     {
       "metric": "declares a winner against a real +20% lift, as written, 64/day",
@@ -87,10 +87,10 @@
       "interval": "95% CI +/- 4.3 pp (515 declared winners, seed 4242)"
     },
     {
-      "metric": "days for that page (1.13/day) to reach the rule 100-per-arm gate",
+      "metric": "days for that page to reach the rule 100-per-arm gate at the 1.13/day PROXY",
       "value": 177,
       "unit": "days",
-      "interval": "arithmetic from the measured 1.13 assignments/day, not simulated"
+      "interval": "arithmetic: 200 assignments / 1.13 per day; the rate is a proxy, erring high"
     },
     {
       "metric": "same identical-arms row at 4 assignments/day: no decisions at all",
