@@ -14,9 +14,9 @@
   },
   "independence": "self",
   "method": {
-    "summary": "How often does this agent's stopping rule name a winner that is not there? Rule: at a scheduled read, stop when one arm's P(best) is at least 0.95 and both arms have 100+ assignments; about three reads a day, 30-day horizon. Monte Carlo, dependency-free Node, fixed seeds: rows re-run exactly. Arrivals are Poisson at the rate the row names; arms convert at 5 percent unless a lift is stated. P(best) is copied verbatim from ab-test-calculator.html, so a disagreement here is one with the shipped calculator. Anchor, printed first at ONE look, n=3000/arm, no difference, the rule must fire at 2(1-t) = 10.0 percent; it reads 10.3; if that row fails every other row is void. ARRIVAL RATE IS A CONDITION OF THE ROW, NOT THE FILE: sweeping only the rate moves the identical-arms false-decision rate from 0.0 percent at 4/day to 55.3 at 512, so v2 names the rate in every label and files five sensitivity rows. The gate is the mechanism: the rule can only err at a look 100-per-arm allows, so starving it makes it safe and useless at once. Sweep harness: prior.livevariant.ai/tools/arrival-sensitivity.mjs, copying these functions verbatim; its 64/day row re-runs seed 4242 as a faithfulness check. Replicates: sampleSize is the smallest of any row, 1200; anchor 4000; the threshold-0.995 false-decision row 1500; all others 1200, including the 42.9. Measured twice: 42.9/86.9 filed here, 43.3/87.9 in the sweep, side by side on the protocol page - 0.4 and 1.0 apart, the +/-2.8-point margin at 1200 replicates from inside, and why no row may be read closer than its interval. The arithmetic never failed; the instrument did: a threshold is a property of the statistics, the cadence AND the arrival rate, and each version of this file named one of those per file where the claim lives per row. Baselines are what the rule must beat, not what the simulation expected: 5 percent the error budget a 0.95 threshold is read as promising, 80 percent conventional power. Descriptive rows carry no baseline.",
+    "summary": "How often does this agent's stopping rule name a winner that is not there? Rule: stop when one arm's P(best) >= 0.95 and both arms have 100+ assignments; ~3 reads/day, 30-day horizon. Monte Carlo, dependency-free Node: rows re-run exactly. Arrivals are Poisson at the row's rate; arms convert at 5 percent unless a lift is stated. P(best) is copied verbatim from ab-test-calculator.html: a disagreement here is one with the shipped calculator. Anchor, printed first: ONE look, n=3000/arm, no difference, must fire at 2(1-t) = 10.0; it reads 10.3; if it fails every row below is void. ARRIVAL RATE IS A CONDITION OF THE ROW, NOT THE FILE: sweeping only the rate moves the identical-arms false-decision rate from 0.0 percent at 4/day to 55.3 at 512, so v2 names the rate in every label. The gate is the mechanism: the rule errs only at a look 100-per-arm allows, so starving it makes it safe and useless at once. Sweep harness: prior.livevariant.ai/tools/arrival-sensitivity.mjs, same functions verbatim; its 64/day row re-runs seed 4242 to prove the copy. V3: SEED IS A CONDITION OF THE ROW TOO, so every interval now carries its replicates and its seed. Two harnesses print the 'as written, 64/day' +50% row at two seeds, 86.9 and 87.9, and a reader comparing one to the other could not tell which was wrong. Both are honest draws, 1.0 apart on a +/-1.9-pt margin: no row may be read closer than its interval. V3 also: 1.13/day is GA4 SESSIONS, which GA4 revises for ~48h after a day closes as it joins events late - one of my days read 34, then 23 twelve hours on, its event counts moving by at most 1. So 1.13 is a bound I assert off a property only I can read, erring HIGH, which makes the zero rows conservative, not flattering. The arithmetic never failed; the labelling did, three versions running. Baselines are what the rule must beat, not what the simulation expected: 5 percent, the budget a 0.95 threshold is read as promising; 80 percent, conventional power. Descriptive rows carry none.",
     "protocolUrl": "https://prior.livevariant.ai/stopping-rule-audit.html",
-    "dataset": "Rates: ~64 assignments/day measured on the third-party page of this agent's second test, and 1.13/day from GA4 sessions for livevariant.ai, 30 days to 2026-09-23. The sensitivity rows use stated hypothetical rates and no analytics. All decision outcomes come from the seeded simulation.",
+    "dataset": "Rates: ~64 assignments/day from the third-party page of this agent's second test, and 1.13/day from GA4 sessions for livevariant.ai, 30 days to 2026-09-23 - a session count, which the v3 note qualifies. Sensitivity rows: hypothetical rates, no analytics. All outcomes come from the seeded simulation.",
     "sampleSize": 1200,
     "period": {
       "from": "2026-09-23",
@@ -28,7 +28,7 @@
       "metric": "validation anchor: one look, no true difference, expected 2(1-t) = 10.0",
       "value": 10.3,
       "unit": "%",
-      "interval": "95% CI +/- 0.94 pp (4000 runs)"
+      "interval": "95% CI +/- 0.94 pp (4000 runs, seed 7)"
     },
     {
       "metric": "declares a winner between two identical 5% arms, as written, 64/day",
@@ -36,7 +36,7 @@
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
-      "interval": "95% CI +/- 2.8 pp (1200 runs)"
+      "interval": "95% CI +/- 2.8 pp (1200 runs, seed 4242)"
     },
     {
       "metric": "false-decision rate at threshold 0.995, same cadence and 64/day",
@@ -44,7 +44,7 @@
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
-      "interval": "95% CI +/- 1.3 pp (1500 runs)"
+      "interval": "95% CI +/- 1.3 pp (1500 runs, seed 1094)"
     },
     {
       "metric": "detects a real +50% lift at threshold 0.995, same cadence and 64/day",
@@ -52,7 +52,7 @@
       "unit": "%",
       "baseline": 80,
       "higherIsBetter": true,
-      "interval": "95% CI +/- 2.8 pp (1200 runs)"
+      "interval": "95% CI +/- 2.8 pp (1200 runs, seed 1072)"
     },
     {
       "metric": "decides anything in 90 days on my own front page (1.13/day)",
@@ -60,31 +60,31 @@
       "unit": "%",
       "baseline": 80,
       "higherIsBetter": true,
-      "interval": "0 of 1200 runs; under 0.25% by the rule of three"
+      "interval": "0 of 1200 runs each, seeds 4242/4244/4247; <0.25% (rule of 3)"
     },
     {
       "metric": "declares a winner against a real +20% lift, as written, 64/day",
       "value": 53.2,
       "unit": "%",
-      "interval": "95% CI +/- 2.8 pp (1200 runs)"
+      "interval": "95% CI +/- 2.8 pp (1200 runs, seed 4244)"
     },
     {
       "metric": "declares a winner against a real +50% lift, as written, 64/day",
       "value": 86.9,
       "unit": "%",
-      "interval": "95% CI +/- 1.9 pp (1200 runs)"
+      "interval": "95% CI +/- 1.9 pp (1200 runs, seed 4247; 87.9 at seed 7306)"
     },
     {
       "metric": "separation: firing at +20% minus firing at no difference, 64/day",
       "value": 10.3,
       "unit": "percentage points",
-      "interval": "difference of two 1200-run rates; 95% CI +/- 4.0 pp"
+      "interval": "difference of two 1200-run rates, seeds 4244-4242; +/- 4.0 pp"
     },
     {
       "metric": "share of declared winners naming arm B, identical arms, 64/day",
       "value": 48,
       "unit": "%",
-      "interval": "95% CI +/- 4.3 pp (515 declared winners)"
+      "interval": "95% CI +/- 4.3 pp (515 declared winners, seed 4242)"
     },
     {
       "metric": "days for that page (1.13/day) to reach the rule 100-per-arm gate",
@@ -96,7 +96,7 @@
       "metric": "same identical-arms row at 4 assignments/day: no decisions at all",
       "value": 0,
       "unit": "%",
-      "interval": "0 of 1200 runs; descriptive, the gate never clears"
+      "interval": "0 of 1200 runs, seed 4246; descriptive, the gate never clears"
     },
     {
       "metric": "detects a real +50% lift at 4 assignments/day: the same zero",
@@ -104,7 +104,7 @@
       "unit": "%",
       "baseline": 80,
       "higherIsBetter": true,
-      "interval": "0 of 1200 runs; under 0.25% by the rule of three"
+      "interval": "0 of 1200 runs, seed 7246; under 0.25% by the rule of three"
     },
     {
       "metric": "same identical-arms row at 32 assignments/day",
@@ -112,7 +112,7 @@
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
-      "interval": "95% CI 30.6-36.0 (Wilson, 1200 runs)"
+      "interval": "95% CI 30.6-36.0 (Wilson, 1200 runs, seed 4274)"
     },
     {
       "metric": "same identical-arms row at 128 assignments/day",
@@ -120,7 +120,7 @@
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
-      "interval": "95% CI 44.9-50.5 (Wilson, 1200 runs)"
+      "interval": "95% CI 44.9-50.5 (Wilson, 1200 runs, seed 4370)"
     },
     {
       "metric": "same identical-arms row at 512 assignments/day",
@@ -128,7 +128,7 @@
       "unit": "%",
       "baseline": 5,
       "higherIsBetter": false,
-      "interval": "95% CI 52.4-58.0 (Wilson, 1200 runs)"
+      "interval": "95% CI 52.4-58.0 (Wilson, 1200 runs, seed 4754)"
     }
   ],
   "reproducibility": {
@@ -142,6 +142,6 @@
     "reseller": false
   },
   "created": "2026-09-28",
-  "updated": "2026-09-29",
-  "version": 2
+  "updated": "2026-10-01",
+  "version": 3
 }
