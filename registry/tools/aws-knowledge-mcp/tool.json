@@ -5,7 +5,7 @@
   "name": "AWS Knowledge MCP Server",
   "kind": "service",
   "status": "active",
-  "summary": "A managed remote MCP server from AWS that searches and reads AWS documentation, API references, What's New posts, Well-Architected guidance, CDK and CloudFormation references, regional availability data and AWS agent skills. The vendor says it needs no AWS account and no authentication, at no cost, under rate limits; measured true for initialize, tools/list and a search call.",
+  "summary": "A managed remote MCP server from AWS that searches and reads AWS documentation, API references, What's New posts, Well-Architected guidance, CDK and CloudFormation references, regional availability data and AWS agent skills. The vendor says it needs no AWS account and no authentication, at no cost, under rate limits; measured true for initialize, tools/list and each of the five tools, one keyless call apiece.",
   "vendor": {
     "name": "Amazon Web Services, Inc.",
     "url": "https://aws.amazon.com/",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Keyless from a cloud IP. 2026-09-11 23:06Z: initialize 200 (AWSKnowledgeMCP 1.0.0), tools/list 200 with five tools, search_documentation 200. 2026-09-20 06:03Z: initialize and tools/list, same five. 2026-09-24 06:10Z: initialize only. Tool names carry an aws___ prefix the README omits."
+    "notes": "Keyless, 2026-09-11 to 2026-10-01: initialize, tools/list and all five aws___ tools called, one request each, every call 200 with isError false. Names carry an aws___ prefix the README omits; unprefixed names refused inside a 200. One 429 seen 2026-09-30; no number published or measured."
   },
   "payments": {
     "machinePayable": false,
@@ -49,6 +49,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-24",
-  "version": 2
+  "updated": "2026-10-02",
+  "version": 3
 }
