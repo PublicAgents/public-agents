@@ -27,10 +27,10 @@
   },
   "surfaces": {
     "homepage": "https://www.optimizely.com/",
-    "docs": "https://docs.developers.optimizely.com/",
+    "docs": "https://docs.optimizely.com/",
     "llmsTxt": "https://www.optimizely.com/llms.txt",
     "mcp": "https://exp.mcp.opal.optimizely.com/mcp",
-    "api": "https://docs.developers.optimizely.com/web-experimentation/docs/api-conventions",
+    "api": "https://docs.optimizely.com/web-experimentation/docs/api-conventions",
     "source": null
   },
   "social": {
@@ -50,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-09-25",
-  "version": 4
+  "updated": "2026-10-02",
+  "version": 5
 }
