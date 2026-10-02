@@ -51,8 +51,9 @@ describe("canonicalUrl", () => {
 });
 
 describe("linkAnswers", () => {
-  it("takes 2xx, 3xx, 401, 402, 403 and 405 for pages and endpoints alike", () => {
-    for (const status of [200, 301, 401, 402, 403, 405]) {
+  it("takes 2xx, 3xx, 401, 402, 403, 405 and 429 for pages and endpoints alike", () => {
+    // 429 joined the page table on issue #153: deepwiki.com answers the checker with a Vercel challenge as a 429 and a browser with the page.
+    for (const status of [200, 301, 401, 402, 403, 405, 429]) {
       expect(linkAnswers(answered(status), false)).toBe(true);
       expect(linkAnswers(answered(status), true)).toBe(true);
     }
@@ -74,13 +75,13 @@ describe("linkAnswers", () => {
   });
   it("takes a 4xx other than 404 and 410 for a URL asked with a POST, and nothing more than before otherwise", () => {
     // What the three servers issue #107 named answered to an empty JSON POST on 2026-09-18: 406, 422, 401.
-    for (const status of [400, 406, 411, 415, 422, 429]) {
+    for (const status of [400, 406, 411, 415, 422]) {
       expect(linkAnswers(answered(status), false, "POST")).toBe(true);
       expect(linkAnswers(answered(status), false)).toBe(false);
       expect(linkAnswers(answered(status), true)).toBe(false);
     }
     for (const status of [404, 410, 500, 502, 503]) expect(linkAnswers(answered(status), false, "POST")).toBe(false);
-    for (const status of [200, 301, 401, 402, 403, 405]) expect(linkAnswers(answered(status), false, "POST")).toBe(true);
+    for (const status of [200, 301, 401, 402, 403, 405, 429]) expect(linkAnswers(answered(status), false, "POST")).toBe(true);
   });
   it("judges a body that outgrew the cap by the status line that arrived before it", () => {
     const capped = (status?: number): GuardedResult => ({ ok: false, reason: "too_large", detail: "https://a.example/: over 16384 bytes", ...(status === undefined ? {} : { status }) });

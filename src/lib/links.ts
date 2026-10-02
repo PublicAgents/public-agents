@@ -137,6 +137,15 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
  * method (an MCP or API endpoint that takes POST): alive. 401 and 403 are
  * alive too, an endpoint that wants credentials still answers. 402 is alive
  * by the same logic: a payable surface (a probe subject) answers with a price.
+ * 429 is alive by the same logic again, and for the same reason the
+ * handshake table above already gives it: a host that demands a slower
+ * caller has answered about the caller, not about whether the URL is there.
+ * A bot challenge is delivered as a 429 too (deepwiki.com answers every
+ * request from this checker with one, `x-vercel-mitigated: challenge`,
+ * while a browser loads the page, issue #153), and that is a statement
+ * about the caller as well. It stays out of `transientFailure`: a pause does
+ * not change a challenge, and re-asking a host that said slow down is the
+ * wrong reply.
  *
  * A URL asked with a POST (a probe surface whose record says POST) is
  * alive on any 4xx but 404 and 410: a 400, 406, 411, 415 or 422 is an
@@ -165,7 +174,7 @@ export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: T
 }
 
 function statusAnswers(status: number, method?: TargetMethod): boolean {
-  if (status < 400 || [401, 402, 403, 405].includes(status)) return true;
+  if (status < 400 || [401, 402, 403, 405, 429].includes(status)) return true;
   return method === "POST" && status < 500 && status !== 404 && status !== 410;
 }
 
