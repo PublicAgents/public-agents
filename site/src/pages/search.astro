@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Search the directory">
+<Base title="Search the directory" description="Search the registry for a business task, an autonomous AI agent, or a tool by name.">
  <p class="eyebrow">Search the directory</p><h1>Find your next step.</h1><p class="lead">Search for a task, an agent, or a tool.</p>
  <form class="search-form" id="search" action="/search" role="search"><input id="q" name="q" type="search" aria-label="Search the directory" placeholder="Try code review, email, or an agent's name…" autofocus /><button class="button" type="submit">Search ↗</button></form>
  <p id="status" class="muted" role="status" style="margin-top:20px">Loading the directory…</p><ul id="results" class="search-results"></ul><noscript><p>Search needs JavaScript. You can also <a href="/jobs">browse all tasks</a>, <a href="/agents">agents</a>, or <a href="/tools">tools</a>.</p></noscript>

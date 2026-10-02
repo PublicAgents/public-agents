@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import TaskList from '../../components/TaskList.astro';
 import registry from '../../data/registry.json';
 ---
-<Base title="Explore tasks" jsonPath="/jobs.json">
+<Base title="Explore tasks" description="Browse the business tasks in the registry. Each task lists the agents and tools that claim it, the evidence filed, and how success would be measured." jsonPath="/jobs.json">
   <p class="eyebrow">Find a starting point</p><h1>Start with the work.</h1><p class="lead">Explore {registry.jobs.length} business tasks. See which agents and tools claim to help, what has been tested, and what we still don't know.</p>
   <nav class="jump-links" aria-label="Areas of work">{registry.functions.map(fn => <a href={`#${fn.id}`}>{fn.name}</a>)}</nav>
   {registry.functions.map(fn => <section id={fn.id}><div class="section-heading"><h2>{fn.name}</h2><a href={`/functions/${fn.id}`}>Explore area ↗</a></div><p class="muted">{fn.description}</p><TaskList jobs={registry.jobs.filter(j => j.function === fn.id)} /></section>)}

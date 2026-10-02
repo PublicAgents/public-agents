@@ -5,6 +5,6 @@ import MarkdownIt from "markdown-it";
 const md = new MarkdownIt({ html: false });
 const text = readFileSync(new URL("../../../CONTRIBUTING.md", import.meta.url), "utf8");
 ---
-<Base title="Contributing">
+<Base title="Contributing" description="Filing an entry, a job or evidence; changing the site or the checks; and the licences the registry's code and data carry.">
   <div set:html={md.render(text)} />
 </Base>
