@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261002-deepwiki-homepage-429-challenge",
+  "subject": {
+    "type": "tool",
+    "id": "deepwiki"
+  },
+  "surface": "https://deepwiki.com/",
+  "question": "access",
+  "at": "2026-10-02T06:13Z",
+  "request": {
+    "method": "HEAD",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a HEAD with user-agent public-agents-ci and accept */*, which is the pair the Public Agents registry's link gate sends to a page (src/lib/net.ts defaults); no cookie, no Authorization header, the fourth request this container made to deepwiki.com in this session"
+  },
+  "observed": {
+    "status": 429,
+    "headers": {
+      "cache-control": "private, no-store, max-age=0",
+      "content-type": "text/html; charset=utf-8",
+      "server": "Vercel",
+      "x-vercel-mitigated": "challenge",
+      "x-vercel-challenge-token": "present (a 2.<timestamp>.60.<base64>.<hex> token; the value is in the artifact)",
+      "date": "Fri, 02 Oct 2026 06:13:40 GMT"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP/2 429, content-type text/html, server Vercel, x-vercel-mitigated challenge, a challenge token, and no retry-after. A HEAD carries no body; the GET three minutes earlier with a Chrome user-agent carried a 33,944-byte HTML body titled \"Vercel Security Checkpoint\".",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the artifact; this container's egress proxy answers CONNECT with its own HTTP/1.1 200 Connection Established first.",
+      "what-a-browser-gets": "a real Chromium from this container at 06:03:17Z loaded the same URL and titled it \"DeepWiki | AI documentation you can talk to, for every repo\". The page is there; what a non-browser caller receives is a challenge.",
+      "the-same-answer-four-times-here-and-six-times-elsewhere": "this container's three requests at 06:02:49Z, 06:02:52Z and 06:02:55Z (HEAD and GET as the gate, GET as Chrome) and this one all answered 429 with x-vercel-mitigated challenge; the registry's merger reported 6 of 6 from another container on 2026-10-01 between 22:11:49Z and 22:12:03Z with the gate's user-agent and a browser's. Ten readings of one answer across eight hours and two containers is not a rate; what it is, is consistent.",
+      "when-this-path-last-answered-alive": "two readings of this same URL by the registry's own link gate, with today's user-agent public-agents-ci and accept */* (the src/lib/net.ts defaults then and now), under the page table that counted a 429 as dead until pull request #212, so a green check meant this URL answered something other than a 429 or a 5xx. First: the links check of pull request #172, the deepwiki v4 entry whose changed tool.json carries this URL, passed on 2026-09-26 between 06:25:16Z and 06:25:36Z (https://github.com/PublicAgents/public-agents/actions/runs/36223694148/job/108353576506). Second: the nightly audit of 2026-09-28 on main c82e05e, whose --all run from 10:58:39Z to 10:59:50Z asked every listed URL, this one included, and wrote no LINK_DEAD line, which is known because the next step, on any such line, must create or edit an issue labelled dead-link and fails without the label; that label has never existed in the repository, no issue titled \"Dead links (nightly audit)\" exists in any state, and github-actions[bot] has filed none (all three read from the API on 2026-10-02, appended to the artifact at 2026-10-02T12:15Z), so the step passing and the rebuild running leave only an empty grep (https://github.com/PublicAgents/public-agents/actions/runs/36412839383). The audits of 2026-09-29, 09-30 and 10-01 each failed at that issue step, so each found at least one dead URL; which ones is in a runner file nobody can read, so whether this URL was already challenging on 09-29 is not knowable from the record. The first 429 reading of this URL on record is the merger's at 22:11:49Z on 2026-10-01. The change therefore falls between 2026-09-28 10:59Z and 2026-10-01 22:11Z, measured on this path by the gate's own request, and no tighter. The 2026-09-26 GET of /.well-known/public-agents.json in section 9 is a different path on the same host and says nothing about this one; the appendix dated 2026-10-02T12:09Z in the artifact holds the two run records as the GitHub API returned them.",
+      "what-this-is-not-about": "the tool. DeepWiki's agent surface is https://mcp.deepwiki.com/mcp, measured keyless and answering on 2026-09-18 and 2026-09-26 (p-20260926-deepwiki-mcp-unauthenticated); this record is about the homepage, which the registry lists and its link gate fetches nightly. The MCP endpoint was not re-asked today and nothing here says whether it is behind the same challenge.",
+      "why-this-record-exists": "the registry's nightly link audit of 2026-10-01 reported this URL dead on this 429, because the gate's page table read 429 as death while its handshake table read it as an answer about the caller (issue #153, pull request #212). The reading that made the gate's verdict wrong belongs in the evidence layer, dated, beside the fix.",
+      "not-measured": "whether the challenge is keyed on the user-agent, the address or the absence of a cookie; the three user-agents tried all drew it. Whether a retry-after ever accompanies it (none did). Whether the challenge is a rate limit at all: the first request of the session drew it, so a count of zero prior requests was enough."
+    }
+  },
+  "finding": "A HEAD of https://deepwiki.com/ with the user-agent and accept header the Public Agents registry's link gate sends answers HTTP 429 with server Vercel and x-vercel-mitigated: challenge, no retry-after, on 2026-10-02 at 06:13:40Z, the fourth of four requests from this container to answer the same way within eleven minutes; the registry's merger read 6 of 6 the same from another container on 2026-10-01. A real Chromium loads the page under its own title, so the URL is there and the 429 is a bot challenge delivered as a rate-limit status: an answer about the caller, not about the path. The gate itself fetched this URL alive with the same headers on 2026-09-26 (pull request #172's links check) and 2026-09-28 (the nightly audit, zero dead links), under a table that then counted a page 429 as dead, so the challenge began between 2026-09-28 10:59Z and the merger's first 429 at 22:11Z on 2026-10-01, and no tighter. This is the reading on which the nightly audit of 2026-10-01 called the URL dead (issue #153). It says nothing about DeepWiki's MCP endpoint, not asked today, nor about what the challenge is keyed on: ten readings of one answer are consistent, not a rate.",
+  "reproducibility": {
+    "command": "curl -s -o /dev/null -D - -I -A public-agents-ci -H 'accept: */*' https://deepwiki.com/",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/deepwiki/2026-09-26/pages-0612Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-02",
+  "updated": "2026-10-02",
+  "version": 1
+}
