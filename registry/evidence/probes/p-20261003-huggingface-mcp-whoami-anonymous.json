@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261003-huggingface-mcp-whoami-anonymous",
+  "subject": {
+    "type": "tool",
+    "id": "huggingface-mcp"
+  },
+  "surface": "https://huggingface.co/mcp",
+  "question": "access",
+  "at": "2026-10-03T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of hf_whoami with empty arguments, on a session opened by an initialize in the same second (clientInfo public-agents-researcher 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "709",
+      "date": "Sat, 03 Oct 2026 06:07:17 GMT"
+    },
+    "decoded": {
+      "what-it-answered": "a tools/call result with isError absent, one text block headed \"# Hugging Face authentication\" reading \"The Hugging Face tools are being used anonymously and may be rate limited.\" and pointing to https://hf.co/settings/mcp/ and https://hf.co/join, and a structuredContent object: status \"anonymous\", account null, organizations [], credential null, guidance (the same two links). The body is appendix A7 of the artifact, whole.",
+      "why-this-record-exists": "it is the server's own statement of what the keyless caller is. A tool whose documented purpose is to \"inspect the current Hugging Face authentication context\" answered an anonymous caller with a structured status of anonymous rather than an error, a 401 or a demand for a token. The entry's noAccountNeeded cell rests on this and on the docs search record, not on the handshake alone.",
+      "the-same-answer-twice": "a hand-sent hf_whoami at 06:05:33Z on another session answered with the same text and the same structuredContent (the first-pass transcript is in the researcher's run log, not the artifact; the 06:07:17Z request is the one recorded here). Two readings two minutes apart are consistency, not a rate.",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the artifact; this container's egress proxy answers CONNECT with its own HTTP/1.1 200 Connection Established first.",
+      "not-measured": "what the tool returns to a token holder (nothing was sent); whether \"may be rate limited\" has a number on the MCP path (no RateLimit header on any MCP response; the vendor's rate-limit page tabulates 500 Hub API requests per 5 minutes per anonymous IP, and does not say which bucket MCP calls draw from).",
+      "where-the-artifact-is": "the transcript is the appendix dated 2026-10-03 at the end of the registry-sweep artifact linked below (sections 1, 1b, 2, 3, 4 and A1 to A9), placed there because the researcher's site is at its publisher's 200-file cap; the appendix is verbatim and the session ids are redacted."
+    }
+  },
+  "finding": "A keyless tools/call of hf_whoami on https://huggingface.co/mcp answered HTTP 200 on 2026-10-03 at 06:07:17Z with structuredContent status \"anonymous\", account null, credential null, and a text block saying \"The Hugging Face tools are being used anonymously and may be rate limited\" with the vendor's two links for a token or an account. The surface states its own keyless condition in a machine-readable field, which is the strongest form of the disclosure the registry asks of a keyless path: not an inference from a 200, but the server's own word for what the caller is. Which rate limit applies to MCP calls is not stated by the server or by the vendor's rate-limit page, whose anonymous Hub API row is 500 requests per 5 minutes per IP; no RateLimit header was served on this path.",
+  "reproducibility": {
+    "command": "U=https://huggingface.co/mcp; B='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; S=$(curl -si $U $B -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}' | tr -d '\\r' | sed -n 's/^[Mm]cp-[Ss]ession-[Ii]d: //p'); curl -si $U $B -H \"Mcp-Session-Id: $S\" -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"hf_whoami\",\"arguments\":{}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1
+}

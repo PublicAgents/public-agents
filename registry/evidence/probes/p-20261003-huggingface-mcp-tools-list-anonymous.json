@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261003-huggingface-mcp-tools-list-anonymous",
+  "subject": {
+    "type": "tool",
+    "id": "huggingface-mcp"
+  },
+  "surface": "https://huggingface.co/mcp",
+  "question": "access",
+  "at": "2026-10-03T06:04Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with the mcp-session-id the initialize of the same second minted, MCP-Protocol-Version 2025-06-18, content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "18961",
+      "date": "Sat, 03 Oct 2026 06:04:04 GMT",
+      "link": "<https://huggingface.co/spaces/evalstate/hf-mcp-server>;rel=\"canonical\"",
+      "x-cache": "Miss from cloudfront"
+    },
+    "decoded": {
+      "what-it-answered": "four tools: hf_whoami (Hugging Face User Info), hub_repo_search (Repo Search), hub_repo_details (Hub Repository Details) and hf_fs (a filesystem grammar over hf:// URIs: ls, cat, attach, stat, find, search, covering models, datasets, Spaces, buckets, papers, docs and collections). Every one carries annotations readOnlyHint true and destructiveHint false. The whole 18,961-byte body is appendix A9 of the artifact.",
+      "what-is-absent-and-whether-the-surface-explains-it": "the vendor's docs table names three further tool groups, Contribute Repos, Sandboxes and Run and Manage Jobs, and community Spaces as tools; none is in this list. The docs page says those are configured \"from your MCP settings page\", which answers 302 to /login (06:05Z), and the initialize instructions say the tools are being used anonymously. The absence is explained by the surface and its documentation, which is the clean outcome of the cross-reference check the researcher runs on keyless MCP servers (the Microsoft Learn and AWS Knowledge findings were the other outcome).",
+      "cross-reference-check": "every snake_case identifier in the four descriptions and input schemas (repo_ids, repo_type, dataset_structure, dataset_preview, max_bytes and the rest) is a parameter, an operation or an enum value of the tool that names it; none names a tool missing from the list. The instructions field names hf_fs and hf_whoami, both present. The hf_fs description's own argument grammar (operations: [{cmd, args}]) differs from the shorthand the instructions use (\"ls hf://models/trending\"); a call built from the shorthand drew an input-validation error inside a 200 (appendix A1), a call built from the description succeeded (A2).",
+      "the-session-is-required": "a tools/list POSTed with no mcp-session-id and no prior initialize answered HTTP 400 with JSON-RPC error -32600 \"Session ID required\" at 06:07:18Z (appendix A8); the registry link gate's own shape, a POST of {} with accept */*, answered 400 -32600 \"the request body is not a valid JSON-RPC message\" at 06:07:10Z (A5). This server is stateful across requests, unlike Microsoft Learn's, which listed tools without its session header.",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the artifact; this container's egress proxy answers CONNECT with its own HTTP/1.1 200 Connection Established first.",
+      "not-measured": "the authenticated tool set (no token was sent); whether the four names are stable across versions (one reading, version 0.4.27, released 2026-10-02 per the source repository's tags).",
+      "where-the-artifact-is": "the transcript is the appendix dated 2026-10-03 at the end of the registry-sweep artifact linked below (sections 1, 1b, 2, 3, 4 and A1 to A9), placed there because the researcher's site is at its publisher's 200-file cap; the appendix is verbatim and the session ids are redacted."
+    }
+  },
+  "finding": "A keyless tools/list on https://huggingface.co/mcp answered HTTP 200 on 2026-10-03 at 06:04:04Z with four tools, hf_whoami, hub_repo_search, hub_repo_details and hf_fs, every one annotated read-only and non-destructive, 18,961 bytes. The vendor's docs name three further tool groups (contribute repos, sandboxes, jobs) and community Spaces; none is listed to an anonymous caller, and the surface explains why: the docs say they are configured from the settings page, which redirects to login, and the handshake says the tools are being used anonymously. Every identifier the four descriptions name resolves to a parameter or operation of the tool that names it, so the cross-reference check that found dangling names on Microsoft Learn and AWS Knowledge finds none here. The server requires its mcp-session-id on every call after initialize: a tools/list without it answered 400 -32600 \"Session ID required\" at 06:07:18Z, and the registry gate's empty POST answered 400 too. One reading, version 0.4.27.",
+  "reproducibility": {
+    "command": "U=https://huggingface.co/mcp; B='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; S=$(curl -si $U $B -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}' | tr -d '\\r' | sed -n 's/^[Mm]cp-[Ss]ession-[Ii]d: //p'); curl -si $U $B -H \"Mcp-Session-Id: $S\" -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1
+}
