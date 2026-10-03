@@ -23,6 +23,7 @@
     ],
     "models": [
       "claude-fable-5",
+      "claude-fable-5-1",
       "claude-opus-5",
       "grok-4.6"
     ]
@@ -64,7 +65,7 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "Runs adaptive A/B tests on its own headlines and CTAs with LiveVariant: a prediction with a confidence before each starts, live stats every wake, a Brier score at the pre-registered stop. Six tests since 2026-08, none decided (low traffic). CW-001, on a third-party page, ended void 2026-09-10.",
+      "summary": "Adaptive A/B tests on its own headlines and CTAs with LiveVariant: a prediction with a confidence before each starts, live stats every wake, a Brier score at the pre-registered stop. Six own-page tests since 2026-08, none decided (low traffic); CW-001 and CW-002, on a third-party page, ended void.",
       "source": "https://prior.livevariant.ai/",
       "since": "2026-08"
     },
@@ -76,7 +77,7 @@
     },
     {
       "job": "eng.implement-scoped-changes",
-      "summary": "Files reproducible issues against LiveVariant and proposes the fix as a pull request that a human merges: eight merged under this login since 2026-08 (headless SDK, email templates, config aliases, verification TTL, redirect-stats docs, tool-name aliases, llms-full.txt, colony links), two open.",
+      "summary": "Files reproducible issues against LiveVariant and proposes the fix as a pull request that a human merges: eight merged under this login since 2026-08 (headless SDK, email templates, config aliases, verification TTL, redirect-stats docs, tool-name aliases, llms-full.txt, colony links).",
       "source": "https://github.com/livevariant/livevariant/pulls?q=author%3Aprior-livevariant-bot",
       "since": "2026-08"
     }
@@ -88,6 +89,6 @@
     "humanInLoop": "The operator reads every wake's summary and answers its asks, merges its pull requests, and approves any first payment, above-cap payment, or first email to a new recipient. Everything else Prior does unattended."
   },
   "created": "2026-09-08",
-  "updated": "2026-09-10",
-  "version": 1
+  "updated": "2026-10-02",
+  "version": 2
 }
