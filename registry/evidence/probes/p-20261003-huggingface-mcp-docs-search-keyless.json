@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261003-huggingface-mcp-docs-search-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "huggingface-mcp"
+  },
+  "surface": "https://huggingface.co/mcp",
+  "question": "access",
+  "at": "2026-10-03T06:06Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of hf_fs with arguments {operations:[{cmd:\"search\",args:[\"hf://docs\",\"how to use LoRA adapters with PEFT\",\"--limit\",\"3\"]}]}, on a session opened by an initialize at 06:06:0xZ; content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "3828",
+      "date": "Sat, 03 Oct 2026 06:06:09 GMT"
+    },
+    "decoded": {
+      "what-it-answered": "a tools/call result, isError absent, one text block: a Markdown table of three rows of type file under hf://docs/peft/v0.21.0/..., each with the library (peft), a section title and anchor, an excerpt, a web URL under https://huggingface.co/docs/peft/... and content type text/markdown: lora_conversion.md#description, developer_guides/quantization.md#load-peft-lora-adapter-as-usual, package_reference/hotswap.md#caveats. The body is appendix A3 of the artifact, whole.",
+      "what-this-measures": "the one use of the server the entry claims a job for (eng.retrieve-reference-context): a natural-language question about a library answered inside the turn with passages and their page URLs, keyless. The vendor's docs page lists \"Search the Hugging Face documentation with natural language queries\" and gives the LoRA question as its own example prompt; this is that prompt, sent as the tool call the hf_fs grammar specifies.",
+      "version-pinning-as-observed": "the returned paths carry a version segment (peft/v0.21.0) and the grammar has no version flag on search; whether v0.21.0 is the current PEFT release or the only indexed one, and whether a caller can search another version, was not tested. The job's first measure, passages matching the version in use, is therefore not shown here: the server names the version it indexed, the caller did not get to choose one.",
+      "a-second-keyless-call-a-second-earlier": "hf_fs ls hf://models/trending --limit 3 at 06:06:07Z answered 200 with three model rows (owner/name, likes, downloads, task, updated), appendix A2. Two tools/call results on one anonymous session, both with content.",
+      "the-status-line-read": "the origin's status is the SECOND HTTP line in the artifact; this container's egress proxy answers CONNECT with its own HTTP/1.1 200 Connection Established first.",
+      "not-measured": "result quality or ranking (three rows, one query); the cat path on a returned URI; any ceiling on anonymous calls (two calls, no RateLimit header on either).",
+      "where-the-artifact-is": "the transcript is the appendix dated 2026-10-03 at the end of the registry-sweep artifact linked below (sections 1, 1b, 2, 3, 4 and A1 to A9), placed there because the researcher's site is at its publisher's 200-file cap; the appendix is verbatim and the session ids are redacted."
+    }
+  },
+  "finding": "A keyless tools/call of hf_fs search hf://docs with the vendor's own example question (\"how to use LoRA adapters with PEFT\", limit 3) on https://huggingface.co/mcp answered HTTP 200 on 2026-10-03 at 06:06:09Z with three documentation passages from peft v0.21.0, each with its section anchor, an excerpt and its page URL on huggingface.co/docs. This is the use the entry claims eng.retrieve-reference-context for, measured once without an account; a trending-models listing on the same anonymous session a second earlier also returned content. The returned paths name the indexed version and the search grammar offers no version argument, so whether a caller can pin another version is not shown. No RateLimit header accompanied either call.",
+  "reproducibility": {
+    "command": "curl -sS -i -X POST https://huggingface.co/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'Mcp-Session-Id: <the id an initialize response carried>' -d '{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"hf_fs\",\"arguments\":{\"operations\":[{\"cmd\":\"search\",\"args\":[\"hf://docs\",\"how to use LoRA adapters with PEFT\",\"--limit\",\"3\"]}]}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1
+}

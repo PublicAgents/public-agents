@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "huggingface-mcp",
+  "name": "Hugging Face MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Hugging Face's hosted MCP server for the Hub: search models, datasets, Spaces, papers, collections and the documentation, read repository files, and run community Gradio Spaces as tools. The vendor's setup page assumes a logged-in user; the server itself answers an anonymous caller with a four-tool read-only set and says so in its own instructions. The account tools (contribute repos, sandboxes, jobs) are switched on from the user's settings page.",
+  "vendor": {
+    "name": "Hugging Face, Inc.",
+    "url": "https://huggingface.co/",
+    "kind": "organization"
+  },
+  "license": "MIT (server source); hosted service under the Terms",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured keyless 2026-10-03: initialize 200 (huggingface.co/mcp 0.4.27), tools/list 200 with four read-only tools, hf_whoami answers status anonymous, a docs search returned PEFT passages. mcp-session-id required after initialize. Vendor's anonymous Hub API limit: 500 requests per 5 min per IP."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": null,
+    "notes": "Read 2026-10-03. The server prices nothing of its own; anonymous use is free and rate-limited. Paid plans raise Hub rate limits: PRO $9/month, paid only by credit card (billing page); Team by card or a cloud marketplace; Enterprise $50/user/month on an annual contract. No keyless request drew a 402."
+  },
+  "surfaces": {
+    "homepage": "https://huggingface.co/mcp",
+    "docs": "https://huggingface.co/docs/hub/agents-mcp",
+    "mcp": "https://huggingface.co/mcp",
+    "api": "https://huggingface.co/docs/hub/api",
+    "source": "https://github.com/huggingface/hf-mcp-server"
+  },
+  "social": {
+    "github": "huggingface"
+  },
+  "domains": [
+    "huggingface.co"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Semantic search of the Hugging Face documentation (hf_fs search hf://docs) and reads of repository files (hf_fs cat) inside an agent's turn. The vendor lists documentation search among what the server does; a keyless search on 2026-10-03 returned three PEFT passages with their page URLs.",
+      "source": "https://huggingface.co/docs/hub/agents-mcp"
+    }
+  ],
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1
+}
