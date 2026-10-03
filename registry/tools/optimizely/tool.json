@@ -46,10 +46,10 @@
     {
       "job": "mkt.ab-test-creative",
       "summary": "A/B, multivariate and multi-page tests on web pages and server-side experiments behind feature flags, analyzed by the vendor's stats engine; over the hosted MCP server an agent creates and updates flags, experiments and audiences and retrieves results, but variation-level code is excluded.",
-      "source": "https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview"
+      "source": "https://docs.optimizely.com/experimentation-strategy/docs/optimizely-experimentation-mcp-server-overview"
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-10-02",
+  "updated": "2026-10-03",
   "version": 5
 }
