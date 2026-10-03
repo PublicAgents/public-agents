@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "astro-docs-mcp",
+  "name": "Astro Docs MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "The Astro project's hosted MCP server for its own documentation: one tool, search_astro_docs, that takes a natural-language query and returns documentation passages with their page URLs. The vendor's guide calls it free, open-source and remote with nothing to install; the server answers an anonymous caller without any key, session or challenge, because the deployment holds the kapa.ai key that builds the index. Streamable HTTP only; SSE-only clients need a local proxy, by the vendor's own note.",
+  "vendor": {
+    "name": "Astro",
+    "url": "https://astro.build/",
+    "kind": "organization"
+  },
+  "license": "MIT per package.json; no LICENSE file in the repo",
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured keyless 2026-10-03 12:18Z: initialize 200 (Astro Docs server 1.0.0, no session id issued), tools/list 200 with one tool, a search call answered 200 in 0.9 s with ten passages and docs.astro.build anchors. No RateLimit header; no limit documented. HEAD 405; POST {} 406."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "Read 2026-10-03. The vendor's guide says the server is free; no plan, price or account exists for it, and no keyless request drew a 402. The index is built through kapa.ai under the vendor's own key, so the caller pays nothing and sees no bill."
+  },
+  "surfaces": {
+    "homepage": "https://mcp.docs.astro.build/",
+    "docs": "https://docs.astro.build/en/guides/build-with-ai/",
+    "mcp": "https://mcp.docs.astro.build/mcp",
+    "source": "https://github.com/withastro/docs-mcp"
+  },
+  "social": {
+    "github": "withastro"
+  },
+  "domains": [
+    "mcp.docs.astro.build",
+    "docs.astro.build",
+    "astro.build"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Documentation search inside an agent's turn: the guide says coding agents \"will be able to consult the latest documentation when performing coding tasks\". A keyless search on 2026-10-03 returned ten passages with page URLs, none versioned and one from the Astro v3 upgrade guide.",
+      "source": "https://docs.astro.build/en/guides/build-with-ai/"
+    }
+  ],
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1
+}

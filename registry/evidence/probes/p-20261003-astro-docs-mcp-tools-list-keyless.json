@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "astro-docs-mcp"
+  },
+  "surface": "https://mcp.docs.astro.build/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1,
+  "id": "p-20261003-astro-docs-mcp-tools-list-keyless",
+  "at": "2026-10-03T12:18Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, no session header (none exists); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "cloudflare",
+      "date": "Sat, 03 Oct 2026 12:18:46 GMT"
+    },
+    "decoded": {
+      "what-it-answered": "one SSE message, 386 bytes: exactly one tool, search_astro_docs, description \"Search the official Astro framework docs\", inputSchema one required string property query, no annotations (no readOnlyHint), no outputSchema.",
+      "cross-reference": "the description names nothing that is not listed and the schema has one parameter; the source file registers the same single tool and forwards query to kapa.ai's search action. Nothing for the description-versus-surface check to catch, recorded as a result.",
+      "what-this-measures": "the whole keyless tool surface, which is also the whole tool surface: the source registers one tool and no authenticated set exists.",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (B) of the registry-sweep artifact linked below, section 2."
+    }
+  },
+  "finding": "A keyless tools/list on https://mcp.docs.astro.build/mcp answered HTTP 200 on 2026-10-03 at 12:18:46Z with one tool, search_astro_docs, taking a single string argument query, with no annotations. The server's published source registers the same one tool, so the anonymous surface is the entire surface.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.docs.astro.build/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
