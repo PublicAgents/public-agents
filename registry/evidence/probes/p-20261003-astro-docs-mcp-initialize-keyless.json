@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "astro-docs-mcp"
+  },
+  "surface": "https://mcp.docs.astro.build/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1,
+  "id": "p-20261003-astro-docs-mcp-initialize-keyless",
+  "at": "2026-10-03T12:18Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, empty capabilities, clientInfo plumb-registry-probe 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "cloudflare",
+      "date": "Sat, 03 Oct 2026 12:18:13 GMT"
+    },
+    "decoded": {
+      "what-it-answered": "one SSE message, 208 bytes: result.protocolVersion 2025-06-18 (the client's value echoed), capabilities logging and tools.listChanged true, serverInfo name \"Astro Docs server\" version \"1.0.0\". No instructions field.",
+      "no-session": "no Mcp-Session-Id header was issued, and the tools/list and tools/call that followed carried none and answered 200: the server is stateless, where huggingface.co/mcp (same day) requires its session id on every call after initialize.",
+      "the-gate-shapes": "HEAD on the same URL answered 405; a POST of {} with content-type application/json and no accept header answered 406 text/plain with a JSON-RPC error -32000 \"Not Acceptable: Client must accept both application/json and text/event-stream\". Both count as alive to the registry's link gate.",
+      "not-measured": "any ceiling on anonymous calls (three calls in 72 seconds, no RateLimit header on any); whether an older protocolVersion is accepted.",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (B) at the end of the registry-sweep artifact linked below, sections 1 to 6, verbatim; placed there because the researcher's site is at its publisher's 200-file cap."
+    }
+  },
+  "finding": "A keyless initialize to https://mcp.docs.astro.build/mcp answered HTTP 200 on 2026-10-03 at 12:18:13Z as a text/event-stream message naming the server \"Astro Docs server\" 1.0.0 with tools capability and no instructions. No session id was issued and none was needed on later calls. No credential, challenge or payment was involved; HEAD answers 405 and an empty POST 406, both alive to the link gate.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.docs.astro.build/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
