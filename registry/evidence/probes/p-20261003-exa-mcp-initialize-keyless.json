@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "exa-mcp"
+  },
+  "surface": "https://mcp.exa.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1,
+  "id": "p-20261003-exa-mcp-initialize-keyless",
+  "at": "2026-10-03T18:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no x-api-key, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "cloudflare",
+      "access-control-expose-headers": "Mcp-Session-Id"
+    },
+    "decoded": {
+      "what-it-answered": "one SSE frame of 404 bytes in 0.69 s: serverInfo name exa-search-server, title Exa, version 3.2.1, websiteUrl https://exa.ai; capabilities tools, prompts and resources, each with listChanged true; protocolVersion 2025-06-18 echoed. The response carried an mcp-session-id header (a UUID, redacted in the artifact).",
+      "what-this-measures": "whether the vendor's hosted endpoint opens a session for a caller with no key, no OAuth token and no cookie. It does. The vendor's MCP page says 'No API key is required to get started' and its authentication table names a 'Keyless' mode as 'Free rate-limited usage without sign-in or API key'; the measurement agrees with the vendor's words.",
+      "session-as-observed": "a session id was issued, but a later tools/list sent with no session header also answered 200 (the tools-list record), so the id is offered, not required; Hugging Face's server refuses without it, Astro's issues none.",
+      "version-as-observed": "the handshake says 3.2.1; package.json on the source repository's main branch said 3.4.1 at 18:10Z the same day. Which build the hosted endpoint runs is the vendor's to say; the entry records both numbers and claims neither as the deployed version.",
+      "not-measured": "any rate limit (no RateLimit header on this or any later response); what the OAuth or API-key modes add.",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 1, headers and body whole, session id redacted."
+    }
+  },
+  "finding": "A keyless JSON-RPC initialize on https://mcp.exa.ai/mcp answered HTTP 200 on 2026-10-03 at 18:07:41Z in 0.69 s as text/event-stream: exa-search-server 3.2.1, protocol 2025-06-18, with a session id issued in the mcp-session-id header. No credential of any kind was sent. This matches the vendor's own authentication table, which names a Keyless mode ('Free rate-limited usage without sign-in or API key'); the rate limit's number is stated nowhere this researcher read and no RateLimit header was served.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.exa.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

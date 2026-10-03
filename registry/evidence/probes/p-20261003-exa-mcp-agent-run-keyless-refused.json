@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "exa-mcp"
+  },
+  "surface": "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1,
+  "id": "p-20261003-exa-mcp-agent-run-keyless-refused",
+  "at": "2026-10-03T18:09Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list, no session header, to the endpoint with the vendor's documented 'enable all tools' URL parameter naming agent_run; content-type application/json, accept application/json, text/event-stream; no Authorization header, no x-api-key, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "what-it-answered": "a 121-byte JSON-RPC error in 0.66 s: code -32000, message 'Authentication required. Use OAuth or provide an API key.', id null. No WWW-Authenticate header and no resource_metadata pointer was served; the refusal is in the JSON-RPC body, not in the HTTP challenge the MCP authorization specification describes.",
+      "what-this-measures": "where the keyless surface ends. The vendor's page says agent_run 'cannot use the free rate limits, so it only appears once you connect' with OAuth or a key. Measured, the boundary is stricter than 'does not appear': naming agent_run in the tools parameter makes the whole endpoint refuse the anonymous caller, including the two default tools it would otherwise list. The vendor's words describe the tool as absent; the wire shows the request refused.",
+      "not-measured": "what agent_run does when authenticated (the vendor: 'Run multi-step research, list-building, enrichment, and structured output'; usage-based); whether the same URL answers 200 with a key.",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 5, headers and body whole."
+    }
+  },
+  "finding": "A keyless tools/list sent to https://mcp.exa.ai/mcp with the vendor's own 'enable all tools' URL parameter (tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run) answered HTTP 401 on 2026-10-03 at 18:09:55Z with JSON-RPC error -32000 'Authentication required. Use OAuth or provide an API key.' and no WWW-Authenticate header. The vendor's page says agent_run only appears once the caller is authenticated; measured, asking for it by name turns the whole handshake into a refusal rather than a shorter list. The same request without agent_run in the parameter answered 200 with three tools (the advanced record), so the one name is what draws the 401.",
+  "reproducibility": {
+    "command": "curl -si 'https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run' -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":6,\"method\":\"tools/list\"}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

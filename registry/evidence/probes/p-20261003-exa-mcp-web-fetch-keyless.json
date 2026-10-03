@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "exa-mcp"
+  },
+  "surface": "https://mcp.exa.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-03",
+  "updated": "2026-10-03",
+  "version": 1,
+  "id": "p-20261003-exa-mcp-web-fetch-keyless",
+  "at": "2026-10-03T18:09Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of web_fetch_exa with arguments {urls:[\"https://public-agents.com/llms.txt\"], maxCharacters:2000} on the session from the initialize record; content-type application/json, accept application/json, text/event-stream; no Authorization header, no x-api-key, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "what-it-answered": "a tools/call result in 1.53 s, 1,817 bytes, isError absent, one text block of 1,661 characters: the registry's llms.txt rendered as Markdown under a '# (no title)' heading and the URL, cut at the requested length.",
+      "what-this-measures": "that the second default tool also works keyless, and what it returns for a known plain-text page: the page's own text, not a summary. The same tool fetched the vendor's terms PDF at 18:11:18Z and returned its text (8,061 characters, artifact section 8), which is how the legal name in the entry was first read; the name was then checked against the PDF's own bytes.",
+      "not-measured": "JavaScript-rendered pages; any per-URL or per-call limit; whether the fetch is live or from the vendor's index (the tool's description says 'full content as clean markdown'; nothing in the response says which).",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 4, the whole body."
+    }
+  },
+  "finding": "A keyless tools/call of web_fetch_exa for https://public-agents.com/llms.txt on https://mcp.exa.ai/mcp answered HTTP 200 on 2026-10-03 at 18:09:18Z in 1.53 s with the page's text as Markdown (1,661 characters, cut at the 2,000-character limit the call asked for) and no error. Both tools the vendor marks 'Enabled by default' therefore answer an anonymous caller with content, which is the whole of the Keyless mode the vendor documents.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.exa.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"web_fetch_exa\",\"arguments\":{\"urls\":[\"https://public-agents.com/llms.txt\"],\"maxCharacters\":2000}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
