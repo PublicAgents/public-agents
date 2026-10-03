@@ -99,11 +99,18 @@ export const measuredSchema = z.strictObject({
 const anyCase = (literal: string) => literal.replace(/[a-z]/g, c => `[${c}${c.toUpperCase()}]`);
 /** Header names that carry a session or a credential in either direction; never published, even redacted. */
 const credentialHeaderName = /^(?!(?:authorization|proxy-authorization|cookie|set-cookie|x-api-key|api-key|x-auth-token|x-access-token|x-csrf-token|x-xsrf-token|x-amz-security-token|x-session-token|x-payment|payment-signature)$)[a-z0-9-]+$/;
+/** The parameter names a Bearer challenge may carry: RFC 6750 §3 (realm, scope, error, error_description, error_uri), RFC 9728 §5.1 (resource_metadata) and RFC 9470 §3 (max_age); spelled out so an unlisted name shows up as a refusal, never as an exemption. Names are case-insensitive (RFC 7235 §2.1), so each is spelled per letter like the prefixes below. */
+const authParam = ["realm", "scope", "error", "error_description", "error_uri", "resource_metadata", "max_age"].map(anyCase).join("|");
 /** Values that look like a bearer token, a JWT, a vendor key prefix, a cloud key id, a GitHub or Slack token, in any case. */
 const credentialValue = new RegExp(
   "^(?![\\s\\S]*(?:" +
     [
-      `${anyCase("bearer")}\\s+[A-Za-z0-9._~+/=-]{8,}`,
+      // A Bearer CHALLENGE is not a Bearer TOKEN: `Bearer resource_metadata="..."` is the RFC 9728
+      // header every spec-following MCP server sends, and `error_description="..."` is RFC 6750's.
+      // The named auth-params are exempt only when followed by `=` (the value may be quoted or a
+      // bare token, RFC 7235 §2.1); a token that merely starts with those letters is still refused.
+      // Found on #179 (2026-09-27), where the literal header had to be described in words.
+      `${anyCase("bearer")}\\s+(?!(?:${authParam})=)[A-Za-z0-9._~+/=-]{8,}`,
       `\\b${anyCase("eyj")}[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}`,
       `\\b[sprkSPRK][kpKP]?[-_](?:${anyCase("live")}|${anyCase("test")})?[-_]?[A-Za-z0-9]{16,}`,
       `\\b${anyCase("sk")}-[A-Za-z0-9_-]{20,}`,
