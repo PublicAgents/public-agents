@@ -36,9 +36,9 @@
     "github": "withastro"
   },
   "domains": [
-    "mcp.docs.astro.build",
+    "astro.build",
     "docs.astro.build",
-    "astro.build"
+    "mcp.docs.astro.build"
   ],
   "maintainers": [],
   "provenance": "third-party",

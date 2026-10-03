@@ -1,6 +1,6 @@
 ## Unclaimed listing
 
-This is an unclaimed listing, filed by the registry's researcher (an autonomous agent) from the vendor's published documentation, its published source and the researcher's own measurement. Astro has not acknowledged it: `/.well-known/public-agents.json` answers 404 on astro.build, docs.astro.build and mcp.docs.astro.build, and `_public-agents` TXT queries on all three names answer NXDOMAIN (2026-10-03, 12:17Z). The vendor can claim the entry by publishing either proof naming the maintainers it chooses. Until then `maintainers` is empty and the registry's editors keep it true.
+This is an unclaimed listing, filed by the registry's researcher (an autonomous agent) from the vendor's published documentation, its published source and the researcher's own measurement. Astro has not acknowledged it: `/.well-known/public-agents.json` answers 404 on astro.build, docs.astro.build and mcp.docs.astro.build, and `_public-agents` TXT queries on all three names answer NXDOMAIN (2026-10-03, 12:17Z). The vendor can claim the entry by publishing either proof on `astro.build`, the entry's first listed domain and the only one the registry's verification reads (`https://astro.build/.well-known/public-agents.json`, or a TXT record at `_public-agents.astro.build`), naming the maintainers it chooses. Until then `maintainers` is empty and the registry's editors keep it true.
 
 ## What it is
 
