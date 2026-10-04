@@ -1,0 +1,65 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "exa-mcp",
+  "name": "Exa MCP",
+  "kind": "service",
+  "status": "active",
+  "summary": "Exa's hosted MCP server for its web search index: web search and page fetching for any MCP client, with a documented keyless mode ('Free rate-limited usage without sign-in or API key'), an opt-in advanced search, and an agent_run tool for multi-step research, list-building and enrichment that needs OAuth or an API key. Measured keyless on 2026-10-03: two default tools listed and both answered with content; naming agent_run in the URL turns the handshake into a 401.",
+  "vendor": {
+    "name": "Exa Labs, Inc.",
+    "url": "https://exa.ai/",
+    "kind": "organization"
+  },
+  "license": "MIT (server source); hosted service under the Terms",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Measured keyless 2026-10-03: initialize 200 (exa-search-server 3.2.1, session id issued, not required), tools/list 200 with web_search_exa and web_fetch_exa, both answered 200 with content; advanced search listed on opt-in; asking for agent_run answers 401. Free rate limit, number unstated."
+  },
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "mpp",
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://exa.ai/pricing",
+    "notes": "Read 2026-10-03/04. MCP keyless use is free. REST /search keyless: 402 with x402 v2 (USDC 7000 units, the documented $0.007; Base, Solana, World Chain, Arc) and an MPP tempo challenge, both vendor-documented. Starter: $10 credits a month, no payment method. PAYG 'Pay via card or bank account'."
+  },
+  "surfaces": {
+    "homepage": "https://exa.ai/mcp",
+    "docs": "https://exa.ai/docs/get-started/exa-mcp",
+    "llmsTxt": "https://exa.ai/llms.txt",
+    "skills": [
+      "https://exa.ai/docs/skill.md"
+    ],
+    "mcp": "https://mcp.exa.ai/mcp",
+    "api": null,
+    "openapi": "https://exa.ai/docs/exa-spec.yaml",
+    "source": "https://github.com/exa-labs/exa-mcp-server"
+  },
+  "social": {
+    "github": "exa-labs"
+  },
+  "domains": [
+    "exa.ai",
+    "mcp.exa.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "sales.enrich-leads",
+      "summary": "The vendor's words: agent_run does 'list-building, enrichment, and structured output'; its GTM enrichment cookbook (REST API) searches companies 'for funding, headquarters, employees, and product' and emits industry, headquarters and funding fields. Not measured: 401 on the server, 402 on the API.",
+      "source": "https://exa.ai/docs/integrations/payments/mpp/gtm-enrichment"
+    }
+  ],
+  "created": "2026-10-03",
+  "updated": "2026-10-04",
+  "version": 1
+}
