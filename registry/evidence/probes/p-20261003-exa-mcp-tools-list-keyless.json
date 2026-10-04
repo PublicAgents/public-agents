@@ -19,7 +19,7 @@
     "reseller": false
   },
   "created": "2026-10-03",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "version": 1,
   "id": "p-20261003-exa-mcp-tools-list-keyless",
   "at": "2026-10-03T18:07Z",
@@ -42,12 +42,13 @@
       "same-call-without-a-session": "a second tools/list at 18:08:24Z with no mcp-session-id header and no initialize before it also answered 200 with the same two tools (artifact section 2b); the session id the server issues is not a precondition for listing.",
       "prompts-and-resources": "prompts/list answered one prompt (web_search_help) and resources/list one resource (exa://tools/list, application/json), both at 18:09:56Z on the same session (artifact section 7).",
       "not-measured": "the opted-in and authenticated tools' behaviour; see the agent-run and advanced records for what asking for them keyless does.",
+      "reproduction": "the command opens its own session (an initialize, the mcp-session-id read from its headers) and sends the tools/list on it, which is the recorded condition. Run as written on 2026-10-04 at 06:06:50Z it answered 200 with the same two tools (appendix (C) continued, 2026-10-04, section 2).",
       "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 2, the whole body."
     }
   },
   "finding": "A keyless tools/list on https://mcp.exa.ai/mcp answered HTTP 200 on 2026-10-03 at 18:07:42Z with exactly two tools, web_search_exa and web_fetch_exa, which are the two rows the vendor's Available Tools table marks 'Enabled by default'. The other two rows, web_search_advanced_exa (opt-in by URL parameter) and agent_run (OAuth or API key), were absent as the table says. A repeat with no session header at 18:08:24Z answered the same two. The keyless surface is a subset of the documented one and the vendor's page says which subset; nothing is withheld without being named.",
   "reproducibility": {
-    "command": "curl -si https://mcp.exa.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}'",
+    "command": "U=https://mcp.exa.ai/mcp; B='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; S=$(curl -si $U $B -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}' | tr -d '\\r' | sed -n 's/^[Mm]cp-[Ss]ession-[Ii]d: //p'); curl -si $U $B -H \"Mcp-Session-Id: $S\" -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}'",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
   }
 }

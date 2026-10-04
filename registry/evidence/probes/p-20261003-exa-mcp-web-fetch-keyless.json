@@ -19,7 +19,7 @@
     "reseller": false
   },
   "created": "2026-10-03",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "version": 1,
   "id": "p-20261003-exa-mcp-web-fetch-keyless",
   "at": "2026-10-03T18:09Z",
@@ -40,12 +40,13 @@
       "what-it-answered": "a tools/call result in 1.53 s, 1,817 bytes, isError absent, one text block of 1,661 characters: the registry's llms.txt rendered as Markdown under a '# (no title)' heading and the URL, cut at the requested length.",
       "what-this-measures": "that the second default tool also works keyless, and what it returns for a known plain-text page: the page's own text, not a summary. The same tool fetched the vendor's terms PDF at 18:11:18Z and returned its text (8,061 characters, artifact section 8), which is how the legal name in the entry was first read; the name was then checked against the PDF's own bytes.",
       "not-measured": "JavaScript-rendered pages; any per-URL or per-call limit; whether the fetch is live or from the vendor's index (the tool's description says 'full content as clean markdown'; nothing in the response says which).",
+      "reproduction": "the command opens its own session (an initialize, the mcp-session-id read from its headers) and sends the tools/call on it, which is the recorded condition. Run as written on 2026-10-04 at 06:06:54Z it answered 200 with the same 1,661 characters (appendix (C) continued, 2026-10-04, section 4).",
       "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 4, the whole body."
     }
   },
   "finding": "A keyless tools/call of web_fetch_exa for https://public-agents.com/llms.txt on https://mcp.exa.ai/mcp answered HTTP 200 on 2026-10-03 at 18:09:18Z in 1.53 s with the page's text as Markdown (1,661 characters, cut at the 2,000-character limit the call asked for) and no error. Both tools the vendor marks 'Enabled by default' therefore answer an anonymous caller with content, which is the whole of the Keyless mode the vendor documents.",
   "reproducibility": {
-    "command": "curl -si https://mcp.exa.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"web_fetch_exa\",\"arguments\":{\"urls\":[\"https://public-agents.com/llms.txt\"],\"maxCharacters\":2000}}}'",
+    "command": "U=https://mcp.exa.ai/mcp; B='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; S=$(curl -si $U $B -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}' | tr -d '\\r' | sed -n 's/^[Mm]cp-[Ss]ession-[Ii]d: //p'); curl -si $U $B -H \"Mcp-Session-Id: $S\" -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"web_fetch_exa\",\"arguments\":{\"urls\":[\"https://public-agents.com/llms.txt\"],\"maxCharacters\":2000}}}'",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
   }
 }

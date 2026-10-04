@@ -1,0 +1,63 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "exa-mcp"
+  },
+  "surface": "https://api.exa.ai/search",
+  "question": "payment",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-04",
+  "updated": "2026-10-04",
+  "version": 1,
+  "id": "p-20261003-exa-api-search-keyless-402",
+  "at": "2026-10-03T18:24Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON body {\"query\":\"test\"} to the REST search endpoint behind the MCP server; content-type application/json; no x-api-key, no Authorization header, no payment header, no cookie"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "5833",
+      "www-authenticate": "Payment id=\"[redacted]\", realm=\"api.exa.ai\", method=\"tempo\", intent=\"charge\", request=\"[redacted]\", description=\"Exa /search endpoint\", expires=\"[five minutes after issue]\", opaque=\"[redacted]\" (the id is a per-response nonce; request and opaque are base64 of the documents decoded below)",
+      "payment-required": "[redacted] (base64, 7,676 characters; it decodes to an x402 version 2 document with the same seven accepts entries as the JSON body, decoded below)",
+      "access-control-expose-headers": "PAYMENT-REQUIRED,PAYMENT-RESPONSE,payment-required,payment-response,WWW-Authenticate,Payment-Receipt,x-request-id,x-exa-queued,x-exa-queue-ms,Deprecation,Sunset,Retry-After",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "body": "JSON, 5,833 bytes: error 'Payment required to access this resource', tag X402_PAYMENT_REQUIRED, x402Version 2, resource {url https://api.exa.ai/search, description 'Exa /search endpoint', mimeType application/json}, and seven accepts entries.",
+      "x402-accepts": "all seven: scheme exact, amount 7000, extra.totalUsd 0.007, asset a USDC contract. Networks: eip155:8453 (Base) three times (acceptIds legacy, base-usdc-gateway, base-usdc-circle; two payTo addresses), solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp once (solana-usdc-mainnet, with extra.feePayer), eip155:480 (World Chain) once, eip155:5042 (Arc) twice (arc-usdc-gateway, arc-usdc-circle). maxTimeoutSeconds 60 on the legacy and Solana entries, 3600 on the circle entries, 604900 on the gateway entries.",
+      "mpp": "Machine Payments Protocol challenge in WWW-Authenticate: method tempo, intent charge; the request parameter decodes to amount 7000, currency an address on chain id 4217 (Tempo), methodDetails feePayer true and supportedModes [pull], and a recipient address that is also the payTo of the gateway accepts entries; opaque decodes to {_mppx_scope: 'POST /search'}; expires five minutes after issue.",
+      "the-vendor-documents-both": "x402 quickstart: 'Use Exa's Search and Contents APIs without an API key. Pay per request with USDC on Base or Solana via the x402 protocol.' and 'The amount is in USDC atomic units (6 decimals), so \"7000\" = $0.007'; its price table lists auto and fast search at $0.007 per request up to 10 results. MPP quickstart: 'Call Exa's Search and Contents APIs without an API key by paying per request with USDC.e on Tempo.' Both pages read 2026-10-03 and again 2026-10-04 with the same SHA-256 (artifact section 14). The body names Base and Solana only; the wire adds World Chain and Arc.",
+      "same-host-other-shapes": "GET and HEAD https://api.exa.ai/search answer 404 (so the URL is dead to a checker that only knows those verbs); POST {} with no query answers 402 with the same challenge shape (2026-10-04, 06:06:57Z). The MCP endpoint drew no 402 on any keyless request; its free mode and this paid path are two surfaces of one search index.",
+      "repeat": "the same request on 2026-10-04 at 06:07:54Z answered 402 with a 5,833-byte body, the same seven acceptIds, networks, amounts and payTo addresses, and a fresh challenge id (appendix (C) continued, section 13d-full).",
+      "not-measured": "no payment was made and the paid retry was not sent, so what is served after payment, the settlement receipt and the /contents endpoint's price are not measured; nor whether an x-api-key caller sees different limits.",
+      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 13 (whole answer, challenge parameters kept as served) and 14 (the vendor's payment pages, SHA-256 each); the 2026-10-04 repeat is in the appendix's continuation."
+    },
+    "protocols": [
+      "mpp",
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account, no wallet and no payment, a POST of {\"query\":\"test\"} to https://api.exa.ai/search, the REST search endpoint behind the Exa MCP server, answered HTTP 402 on 2026-10-03 at 18:24:02Z with two machine-payment protocols in one response: an x402 version 2 document with seven accepts entries, each scheme exact at 7000 units of USDC (the vendor's page says $0.007) on Base, Solana, World Chain or Arc, and a Machine Payments Protocol challenge (WWW-Authenticate: Payment, method tempo, intent charge, chain id 4217). The vendor documents both protocols for /search and /contents in its own words, naming Base and Solana; the wire also offers World Chain and Arc. The same request answered the same way on 2026-10-04. The MCP endpoint itself drew no 402 keyless: the free, rate-limited mode and the pay-per-request mode are two doors to one index. No payment was made, so what follows payment is not measured. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -si https://api.exa.ai/search -H Content-Type:application/json -d '{\"query\":\"test\"}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

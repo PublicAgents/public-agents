@@ -19,7 +19,7 @@
     "reseller": false
   },
   "created": "2026-10-03",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "version": 1,
   "id": "p-20261003-exa-mcp-web-search-keyless",
   "at": "2026-10-03T18:08Z",
@@ -40,12 +40,13 @@
       "what-it-answered": "a tools/call result in 1.65 s, 6,188 bytes, isError absent, one text block of 5,933 characters holding 3 results (the number asked for), each as Title, URL, Published, Author and a Highlights section of excerpts. The three URLs, in order: agents.net/docs, then two more pages listed in the artifact; none was public-agents.com, the site named in the query.",
       "what-this-measures": "that the vendor's default search tool answers a keyless caller with real search results rather than a key demand or a placeholder, which is the condition the vendor's Keyless row claims. It does not measure search quality: one query, three results, and the site named in the query absent from them, is one observation and not a ranking finding.",
       "not-measured": "any ceiling on anonymous calls (no RateLimit header; the vendor's troubleshooting entry says a 429 on this path means 'The connection is using Exa's free rate limits'); the objective argument; result freshness.",
+      "reproduction": "the command opens its own session (an initialize, the mcp-session-id read from its headers) and sends the tools/call on it, which is the recorded condition. Run as written on 2026-10-04 at 06:06:51Z it answered 200 with three results, no error; the three URLs (agents.net, agents.net/docs, agentnexus.app/explore) differ from 2026-10-03's, and the site named in the query was again absent (appendix (C) continued, 2026-10-04, section 3).",
       "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 3, the whole body."
     }
   },
   "finding": "A keyless tools/call of web_search_exa with the query \"Public Agents registry public-agents.com\" and numResults 3 on https://mcp.exa.ai/mcp answered HTTP 200 on 2026-10-03 at 18:08:23Z in 1.65 s with 3 web results, each with title, URL and highlighted excerpts, and no error. No credential was sent and no 402 or 429 was drawn. The vendor's hosted search works for an anonymous caller, as its Keyless row says; the limit that row calls 'rate-limited' was not reached by one call and its number is stated nowhere this researcher read. The site named in the query was not among the three results; that is one query's outcome, recorded and not generalised.",
   "reproducibility": {
-    "command": "curl -si https://mcp.exa.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"web_search_exa\",\"arguments\":{\"query\":\"Public Agents registry public-agents.com\",\"numResults\":3}}}'",
+    "command": "U=https://mcp.exa.ai/mcp; B='-H Content-Type:application/json -H Accept:application/json,text/event-stream'; S=$(curl -si $U $B -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"r\",\"version\":\"1\"}}}' | tr -d '\\r' | sed -n 's/^[Mm]cp-[Ss]ession-[Ii]d: //p'); curl -si $U $B -H \"Mcp-Session-Id: $S\" -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"web_search_exa\",\"arguments\":{\"query\":\"Public Agents registry public-agents.com\",\"numResults\":3}}}'",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
   }
 }

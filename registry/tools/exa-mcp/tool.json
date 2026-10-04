@@ -19,12 +19,17 @@
     "notes": "Measured keyless 2026-10-03: initialize 200 (exa-search-server 3.2.1, session id issued, not required), tools/list 200 with web_search_exa and web_fetch_exa, both answered 200 with content; advanced search listed on opt-in; asking for agent_run answers 401. Free rate limit, number unstated."
   },
   "payments": {
-    "machinePayable": false,
-    "protocols": [],
-    "methods": [],
+    "machinePayable": true,
+    "protocols": [
+      "mpp",
+      "x402"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://exa.ai/pricing",
-    "notes": "Read 2026-10-03. Keyless MCP use is free and rate-limited. Starter: $10 credits a month plus a $10 onboarding bonus, no payment method required, MCP access included. Pay as you go: usage-based, 'Pay via card or bank account'; Search from $4 per 1k requests. No keyless request drew a 402."
+    "notes": "Read 2026-10-03/04. MCP keyless use is free. REST /search keyless: 402 with x402 v2 (USDC 7000 units, the documented $0.007; Base, Solana, World Chain, Arc) and an MPP tempo challenge, both vendor-documented. Starter: $10 credits a month, no payment method. PAYG 'Pay via card or bank account'."
   },
   "surfaces": {
     "homepage": "https://exa.ai/mcp",
@@ -34,7 +39,7 @@
       "https://exa.ai/docs/skill.md"
     ],
     "mcp": "https://mcp.exa.ai/mcp",
-    "api": "https://exa.ai/docs/search/quickstart",
+    "api": null,
     "openapi": "https://exa.ai/docs/exa-spec.yaml",
     "source": "https://github.com/exa-labs/exa-mcp-server"
   },
@@ -50,11 +55,11 @@
   "jobs": [
     {
       "job": "sales.enrich-leads",
-      "summary": "The vendor's words for the authenticated agent_run tool and the Exa Agent API: 'list-building, enrichment, and structured output', 'find companies, then find their decision makers', contact enrichment priced per email and phone. Not measured: a keyless request naming the tool answered 401.",
-      "source": "https://exa.ai/docs/get-started/exa-mcp"
+      "summary": "The vendor's words: agent_run does 'list-building, enrichment, and structured output'; its GTM enrichment cookbook (REST API) searches companies 'for funding, headquarters, employees, and product' and emits industry, headquarters and funding fields. Not measured: 401 on the server, 402 on the API.",
+      "source": "https://exa.ai/docs/integrations/payments/mpp/gtm-enrichment"
     }
   ],
   "created": "2026-10-03",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "version": 1
 }
