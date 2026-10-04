@@ -19,7 +19,7 @@
     "reseller": false
   },
   "created": "2026-10-03",
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "version": 1,
   "id": "p-20261003-exa-mcp-agent-run-keyless-refused",
   "at": "2026-10-03T18:09Z",
@@ -34,16 +34,20 @@
     "status": 401,
     "headers": {
       "content-type": "application/json",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme whose one parameter, resource_metadata, names https://mcp.exa.ai/.well-known/oauth-protected-resource/mcp. The header as received is in the artifact, appendix (C) section 5]",
       "server": "cloudflare"
     },
     "decoded": {
-      "what-it-answered": "a 121-byte JSON-RPC error in 0.66 s: code -32000, message 'Authentication required. Use OAuth or provide an API key.', id null. No WWW-Authenticate header and no resource_metadata pointer was served; the refusal is in the JSON-RPC body, not in the HTTP challenge the MCP authorization specification describes.",
+      "what-it-answered": "a 121-byte JSON-RPC error in 0.66 s: code -32000, message 'Authentication required. Use OAuth or provide an API key.', id null, together with a WWW-Authenticate challenge of the bearer scheme whose resource_metadata parameter names https://mcp.exa.ai/.well-known/oauth-protected-resource/mcp (the header is listed whole in the artifact's section 5; here it is described in words because the registry's credential filter refuses the literal). So the refusal is served both ways: as the HTTP challenge the MCP authorization specification describes and as a JSON-RPC error in the body.",
+      "protected-resource-metadata": "read on 2026-10-04 at 12:02:33Z, not on 2026-10-03: GET on the URL the challenge names answered 200 with a 197-byte RFC 9728 document, resource https://mcp.exa.ai/mcp, authorization_servers [https://auth.exa.ai], scopes_supported [mcp:tools], bearer_methods_supported [header], cache-control public, max-age=3600. The authorization server was not called beyond its metadata and no client was registered.",
+      "authorization-server-metadata": "read on 2026-10-04 at 12:06:25Z: GET https://auth.exa.ai/.well-known/oauth-authorization-server answered 200 with a 640-byte document: issuer https://auth.exa.ai, authorize, token, register, revoke and jwks endpoints on the same host, response_types_supported [code], grant_types_supported [authorization_code, refresh_token, jwt-bearer], code_challenge_methods_supported [S256], token_endpoint_auth_methods_supported [none], scopes_supported [mcp:tools], client_id_metadata_document_supported true. A dynamic client registration endpoint is advertised; it was not called.",
+      "corrected": "the first version of this record, and the profile and pull request body built on it, said no WWW-Authenticate header was served. The artifact it pointed at had listed the header all along; the registry's merger read it there on 2026-10-04 and re-ran the command (401, same header, 10:07Z). Re-run from this container at 12:02:20Z and again at 12:05:44Z with the command below exactly as written: 401, the same challenge, the same 121-byte body. The sentence was reversed from the artifact, not from the wire, and is corrected here in place with the date.",
       "what-this-measures": "where the keyless surface ends. The vendor's page says agent_run 'cannot use the free rate limits, so it only appears once you connect' with OAuth or a key. Measured, the boundary is stricter than 'does not appear': naming agent_run in the tools parameter makes the whole endpoint refuse the anonymous caller, including the two default tools it would otherwise list. The vendor's words describe the tool as absent; the wire shows the request refused.",
       "not-measured": "what agent_run does when authenticated (the vendor: 'Run multi-step research, list-building, enrichment, and structured output'; usage-based); whether the same URL answers 200 with a key.",
-      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 5, headers and body whole."
+      "where-the-artifact-is": "appendix dated 2026-10-03 (C) of the registry-sweep artifact linked below, section 5, headers and body whole; the 2026-10-04 re-runs and the protected-resource document are in appendix (C, continued 2) of the same file."
     }
   },
-  "finding": "A keyless tools/list sent to https://mcp.exa.ai/mcp with the vendor's own 'enable all tools' URL parameter (tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run) answered HTTP 401 on 2026-10-03 at 18:09:55Z with JSON-RPC error -32000 'Authentication required. Use OAuth or provide an API key.' and no WWW-Authenticate header. The vendor's page says agent_run only appears once the caller is authenticated; measured, asking for it by name turns the whole handshake into a refusal rather than a shorter list. The same request without agent_run in the parameter answered 200 with three tools (the advanced record), so the one name is what draws the 401.",
+  "finding": "A keyless tools/list sent to https://mcp.exa.ai/mcp with the vendor's own 'enable all tools' URL parameter (tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run) answered HTTP 401 on 2026-10-03 at 18:09:55Z with JSON-RPC error -32000 'Authentication required. Use OAuth or provide an API key.' and a WWW-Authenticate challenge of the bearer scheme whose resource_metadata parameter names the server's RFC 9728 document (read 200 on 2026-10-04: authorization server auth.exa.ai, scope mcp:tools). The vendor's page says agent_run only appears once the caller is authenticated; measured, asking for it by name turns the whole handshake into a refusal rather than a shorter list. The same request without agent_run in the parameter answered 200 with three tools (the advanced record), so the one name is what draws the 401. Corrected 2026-10-04: the first version of this record said no challenge header was served; the artifact showed one, and the re-run confirmed it.",
   "reproducibility": {
     "command": "curl -si 'https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa,agent_run' -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":6,\"method\":\"tools/list\"}'",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
