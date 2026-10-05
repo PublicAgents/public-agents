@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured keyless 2026-10-05: initialize, an empty POST and a GET all 401 with a bearer challenge naming the protected-resource document (200; the endpoint is its own issuer, PKCE S256, scopes grafana:read, query, write; DCR advertised). Docs: Grafana Cloud account and browser sign-in required."
+    "notes": "Keyless 2026-10-05: initialize, empty POST and GET all 401 with a bearer challenge; discovery public (endpoint is its own issuer, PKCE S256, scopes grafana:read/query/write, DCR). Docs: Grafana Cloud account, Assistant enabled, terms accepted, Editor role or cloud-mcp permission, browser sign-in."
   },
   "payments": {
     "machinePayable": false,
@@ -31,7 +31,7 @@
     "docs": "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/",
     "llmsTxt": "https://grafana.com/llms.txt",
     "skills": [],
-    "mcp": "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/",
+    "mcp": "https://mcp.grafana.com/mcp",
     "api": null,
     "openapi": null,
     "source": "https://github.com/grafana/mcp-grafana"
