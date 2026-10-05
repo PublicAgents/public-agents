@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "semgrep-guardian"
+  },
+  "surface": "https://mcp.semgrep.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1,
+  "id": "p-20261005-semgrep-guardian-mcp-initialize-keyless-401",
+  "at": "2026-10-05T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "74",
+      "server": "uvicorn",
+      "x-robots-tag": "noindex",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme with three parameters: error invalid_token, error_description 'Authentication required', and resource_metadata naming https://mcp.semgrep.ai/.well-known/oauth-protected-resource. The header as received is in the artifact, appendix (D) section 1]"
+    },
+    "decoded": {
+      "what-it-answered": "a 74-byte JSON body, {\"error\": \"invalid_token\", \"error_description\": \"Authentication required\"}, not a JSON-RPC envelope, together with the challenge described above. The handshake itself is refused: no serverInfo, no session id, no capabilities were served to an anonymous caller.",
+      "same-answer-to-every-shape": "sent one second apart from the same container (appendix (D) sections 2 to 5): a tools/list with no session header, a GET with accept text/event-stream, a HEAD, and the registry link gate's own shape (POST {} with user-agent public-agents-ci) all answered 401 with the same challenge and, where a body was served, the same 74 bytes.",
+      "protected-resource-metadata": "GET on the URL the challenge names (section 6) answered 200, 153 bytes, cache-control public max-age=3600: resource https://mcp.semgrep.ai/, authorization_servers [https://login.semgrep.dev/], scopes_supported [] (empty), bearer_methods_supported [header]. The path-aware variant /.well-known/oauth-protected-resource/mcp answered 404 'Not Found' (section 7).",
+      "authorization-server-metadata": "served twice: by the resource host at https://mcp.semgrep.ai/.well-known/oauth-authorization-server (section 8, 743 bytes) and by the issuer at https://login.semgrep.dev/.well-known/oauth-authorization-server (section 9), both 200 and byte-identical in content: issuer https://login.semgrep.dev, authorize, token, introspection, jwks and register endpoints under /oauth2/ on that host, response_types [code], grant_types [authorization_code, refresh_token, device_code], code_challenge_methods [S256], token_endpoint_auth_methods [none, client_secret_post, client_secret_basic], scopes [email, offline_access, openid, profile]. A dynamic client registration endpoint is advertised; it was not called, no client was registered and no token was requested.",
+      "openid-configuration": "the issuer's /.well-known/openid-configuration (section 10) answered 200 and differs from the authorization-server metadata in two places: its grant list adds client_credentials, and it names a userinfo endpoint and a device_authorization endpoint; it carries no registration_endpoint. Which document a client reads decides which grants it believes exist.",
+      "the-host-itself": "GET https://mcp.semgrep.ai/ answered 302 to https://docs.semgrep.dev/guardian (section 11); GET /sse, the path in a commented-out badge of the server's README, answered 404 (section 12). The vendor's Guardian docs never name the hosted server's URL; this host is tied to Guardian by its own redirect and by the README.",
+      "what-this-measures": "whether an agent can use the hosted server without a human making an account: it cannot. The docs say the same ('Prerequisites: A Semgrep account'; 'authenticates through OAuth, one-time browser login'). Not measured: anything the server does with a credential, its tool list, or rate limits."
+    }
+  },
+  "finding": "A keyless MCP initialize sent to https://mcp.semgrep.ai/mcp on 2026-10-05 at 06:07:26Z answered HTTP 401 with a 74-byte JSON error (invalid_token, 'Authentication required') and a challenge of the bearer scheme whose resource_metadata parameter names https://mcp.semgrep.ai/.well-known/oauth-protected-resource. Four other keyless shapes sent within three seconds (tools/list, GET, HEAD, the registry gate's empty POST) drew the identical refusal. The discovery chain behind the challenge is complete and public: the protected-resource document (200) names the issuer login.semgrep.dev with an empty scopes list; the issuer's metadata (200, also mirrored on the resource host) advertises PKCE S256, the device-code grant, a public-client token method and a dynamic registration endpoint, none of which were exercised. The hosted server's root redirects to the vendor's Guardian documentation. The vendor's docs name the account as a prerequisite and OAuth as the sign-in; the wire agrees, and adds that the refusal is served before any handshake, so an anonymous caller learns nothing about the server beyond where to authenticate.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.semgrep.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

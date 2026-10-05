@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "semgrep-guardian"
+  },
+  "surface": "https://mcp.semgrep.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1,
+  "id": "p-20261005-semgrep-guardian-mcp-gate-shape-401",
+  "at": "2026-10-05T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "the shape the registry's link gate sends to a probe surface whose record says POST: body {}, user-agent public-agents-ci, accept */*, content-type application/json; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "74",
+      "server": "uvicorn",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme with three parameters: error invalid_token, error_description 'Authentication required', and resource_metadata naming https://mcp.semgrep.ai/.well-known/oauth-protected-resource. The header as received is in the artifact, appendix (D) section 5]"
+    },
+    "decoded": {
+      "what-it-answered": "the same 74-byte JSON error and the same challenge as the initialize of one second earlier (the companion record): the server does not read the body before refusing an anonymous caller, so an empty object, a malformed JSON-RPC request and a well-formed initialize are indistinguishable from outside.",
+      "why-this-request": "the registry's link gate counts a 401 on a POST as alive. This record pins what the gate will see on this surface, so that a change to a 404 or a 200 is visible as drift against a dated reading rather than against an assumption.",
+      "edge": "every response from this host carries x-robots-tag noindex and is served through CloudFront (x-cache 'Error from cloudfront' on the 401s, 'Hit' on the cached protected-resource document); the origin identifies itself as uvicorn, consistent with the vendor's Python MCP server source.",
+      "not-measured": "the server's behaviour with a token; whether the empty-scopes protected-resource document means any scope or no scope is required."
+    }
+  },
+  "finding": "An empty JSON object posted to https://mcp.semgrep.ai/mcp with the registry link gate's own user-agent on 2026-10-05 at 06:07:29Z answered HTTP 401 with the same 74-byte invalid_token body and the same bearer challenge as a well-formed initialize sent three seconds earlier. The anonymous refusal is unconditional on the request body. Recorded so the gate's reading of this surface has a dated baseline.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.semgrep.ai/mcp -A public-agents-ci -H 'Accept: */*' -H Content-Type:application/json -d '{}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
