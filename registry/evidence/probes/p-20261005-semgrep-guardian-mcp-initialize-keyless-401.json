@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "semgrep-guardian"
+  },
+  "surface": "https://mcp.semgrep.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1,
+  "id": "p-20261005-semgrep-guardian-mcp-initialize-keyless-401",
+  "at": "2026-10-05T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "74",
+      "server": "uvicorn",
+      "x-robots-tag": "noindex",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme with three parameters: error invalid_token, error_description 'Authentication required', and resource_metadata naming https://mcp.semgrep.ai/.well-known/oauth-protected-resource. The header as received is in the artifact, appendix (D) section 1]"
+    },
+    "decoded": {
+      "what-it-answered": "a 74-byte JSON body, {\"error\": \"invalid_token\", \"error_description\": \"Authentication required\"}, not a JSON-RPC envelope, together with the challenge described above. The handshake itself is refused: no serverInfo, no session id, no capabilities were served to an anonymous caller.",
+      "in-the-transcript-only": "appendix (D) sections 2 to 4 of the artifact hold three further keyless requests sent within two seconds of this one (a tools/list with no session header, a GET with accept text/event-stream, a HEAD), each answering 401 with the same challenge. They are readings in the transcript, not probe records, and this record's command does not repeat them; nothing in this record's finding rests on them. The link gate's own shape has its own record (p-20261005-semgrep-guardian-mcp-gate-shape-401).",
+      "protected-resource-metadata": "GET on the URL the challenge names (section 6) answered 200, 153 bytes, cache-control public max-age=3600: resource https://mcp.semgrep.ai/, authorization_servers [https://login.semgrep.dev/], scopes_supported [] (empty), bearer_methods_supported [header]. The path-aware variant /.well-known/oauth-protected-resource/mcp answered 404 'Not Found' (section 7).",
+      "authorization-server-metadata": "served twice, and the two copies differ by one key. The resource host's copy at https://mcp.semgrep.ai/.well-known/oauth-authorization-server (section 8) answered 200, 743 bytes; the issuer's copy at https://login.semgrep.dev/.well-known/oauth-authorization-server (section 9) answered 200, 831 bytes, etag W/\"33f-...\". The issuer's copy carries device_authorization_endpoint https://login.semgrep.dev/oauth2/device_authorization; the resource host's copy does not; every other key is equal (compared key by key from the two artifact bodies, and again on the wire at 12:03Z on 2026-10-05, when each document came back byte-equal to its section; appendix (D) continued). Both advertise: issuer https://login.semgrep.dev, authorize, token, introspection, jwks and register endpoints under /oauth2/ on that host, response_types [code], grant_types [authorization_code, refresh_token, device_code], code_challenge_methods [S256], token_endpoint_auth_methods [none, client_secret_post, client_secret_basic], scopes [email, offline_access, openid, profile]. So the mirror on the resource host advertises the device_code grant without the endpoint a client needs to start it; a client that reads only the mirror learns that the grant exists and not where to begin. A dynamic client registration endpoint is advertised in both copies; it was not called, no client was registered and no token was requested.",
+      "openid-configuration": "the issuer's /.well-known/openid-configuration (section 10) answered 200, 854 bytes, etag W/\"356-...\"; it is a third document, compared here key by key against the issuer's own authorization-server metadata (section 9), eight keys apart: grant_types_supported adds client_credentials; userinfo_endpoint, id_token_signing_alg_values_supported [RS256] and subject_types_supported [public] appear only here; registration_endpoint, code_challenge_methods_supported [S256] and response_modes_supported [query] appear only in the authorization-server metadata; token_endpoint_auth_methods_supported lists the same three methods in a different order. device_authorization_endpoint is in both of the issuer's documents and absent only from the resource host's mirror (section 8). Which document a client reads decides which grants and endpoints it believes exist: three documents, three different answers.",
+      "corrected": "the first version of this record (heads cdb5691 and b3114ca), and the profile bullet and pull request body built on it, said the two authorization-server metadata documents were 'byte-identical in content'. The artifact they cited showed otherwise in sections 8 and 9: 743 bytes against 831, the issuer's copy carrying device_authorization_endpoint and the resource host's copy not. The registry's merger read it there on 2026-10-05 at about 10:06Z and held the pull request. Re-read from this container at 12:03Z on 2026-10-05: all three discovery documents fetched again, each byte-equal to its artifact section, the one differing key confirmed (appendix (D) continued). The same wrong reading made the openid-configuration field name device_authorization as a difference from 'the authorization-server metadata', which is true of the mirror and false of the issuer's own copy; that field now compares against the issuer's copy and lists every differing key. The sentences were written against a wrong reading of the artifact, not against a world that moved, and are corrected here in place with the date.",
+      "the-host-itself": "GET https://mcp.semgrep.ai/ answered 302 to https://docs.semgrep.dev/guardian (section 11); GET /sse, the path in a commented-out badge of the server's README, answered 404 (section 12). The vendor's Guardian docs never name the hosted server's URL; this host is tied to Guardian by its own redirect and by the README.",
+      "what-this-measures": "whether an agent can use the hosted server without a human making an account: it cannot. The docs say the same ('Prerequisites: A Semgrep account'; 'authenticates through OAuth, one-time browser login'). Not measured: anything the server does with a credential, its tool list, or rate limits."
+    }
+  },
+  "finding": "A keyless MCP initialize sent to https://mcp.semgrep.ai/mcp on 2026-10-05 at 06:07:26Z answered HTTP 401 with a 74-byte JSON error (invalid_token, 'Authentication required') and a challenge of the bearer scheme whose resource_metadata parameter names https://mcp.semgrep.ai/.well-known/oauth-protected-resource. No serverInfo, session id or capabilities were served. The discovery chain behind the challenge is complete and public: the protected-resource document (200) names the issuer login.semgrep.dev with an empty scopes list; the issuer's metadata (200) advertises PKCE S256, the device-code grant and its endpoint, a public-client token method and a dynamic registration endpoint, none exercised; the resource host's mirror lacks only the device-authorization endpoint. The hosted server's root redirects to the vendor's Guardian documentation. The vendor's docs name the account as a prerequisite and OAuth as the sign-in; the wire agrees, and adds that the refusal is served before any handshake, so an anonymous caller learns nothing about the server beyond where to authenticate. Other shapes sent in the same pass are in the transcript and a companion record, not in this finding.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.semgrep.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

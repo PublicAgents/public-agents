@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "semgrep-guardian",
+  "name": "Semgrep Guardian",
+  "kind": "service",
+  "status": "active",
+  "summary": "Semgrep's plugin for AI coding agents: an MCP server, hooks and skills that scan each file an agent writes with Semgrep Code, Supply Chain and Secrets and hand the findings back to the agent. The recommended path is a hosted MCP server behind OAuth; every other path runs a locally installed, signed-in Semgrep CLI. Measured keyless on 2026-10-05: every request to the hosted server answered 401 with a bearer challenge; the discovery documents behind it are public and the plugin's fixed ruleset is readable without a login.",
+  "vendor": {
+    "name": "Semgrep, Inc.",
+    "url": "https://semgrep.dev/",
+    "kind": "organization"
+  },
+  "license": "LGPL-2.1 (CLI and MCP server source); hosted under the Terms",
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured keyless 2026-10-05: initialize, tools/list, GET, HEAD and an empty POST to mcp.semgrep.ai/mcp all 401 with a bearer challenge naming the protected-resource document (200; issuer login.semgrep.dev, PKCE S256, device-code grant, DCR advertised, not called). Docs: a Semgrep account is needed."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://semgrep.dev/pricing/",
+    "notes": "Read 2026-10-05: no keyless request drew a 402; no vendor page read names a machine-payment protocol. Billing docs: Team plan users 'who pay using a credit card are charged monthly. Payments are processed through Stripe'; purchase order or invoice on request; Enterprise on an agreed cycle."
+  },
+  "surfaces": {
+    "homepage": "https://semgrep.dev/products/semgrep-guardian/",
+    "docs": "https://docs.semgrep.dev/semgrep-guardian/overview",
+    "llmsTxt": "https://semgrep.dev/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.semgrep.ai/mcp",
+    "api": null,
+    "openapi": null,
+    "source": "https://github.com/semgrep/semgrep/tree/develop/cli/src/semgrep/mcp"
+  },
+  "social": {
+    "github": "semgrep",
+    "x": "semgrep"
+  },
+  "domains": [
+    "semgrep.dev",
+    "docs.semgrep.dev",
+    "login.semgrep.dev",
+    "mcp.semgrep.ai",
+    "semgrep.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1
+}
