@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "grafana-cloud-mcp",
+  "name": "Grafana Cloud MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Grafana Labs' hosted MCP server for Grafana Cloud: external AI agents connect at mcp.grafana.com/mcp over Streamable HTTP and, after an OAuth 2.1 browser authorization scoped to the signed-in user, query metrics, logs, traces and profiles, read and write dashboards, alerts and incidents, and start Assistant investigations. Measured keyless on 2026-10-05: initialize, an empty POST and a GET each answered 401 with a bearer challenge; the discovery documents behind it are public and name three scopes. Part of Grafana Assistant for billing; a Grafana Cloud account is required.",
+  "vendor": {
+    "name": "Grafana Labs",
+    "url": "https://grafana.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under the Terms; OSS server source Apache-2.0",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-05: initialize, empty POST and GET all 401 with a bearer challenge; discovery public (endpoint is its own issuer, PKCE S256, scopes grafana:read/query/write, DCR). Docs: Grafana Cloud account, Assistant enabled, terms accepted, Editor role or cloud-mcp permission, browser sign-in."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://grafana.com/pricing/",
+    "notes": "Read 2026-10-05: no keyless request drew a 402; no vendor page read names a machine-payment protocol. Pricing page: Free plan '3 active AI users per month', Pro 'self-serve', '$19 per month' platform fee then 'pay as you go'. No page read names the payment method, so humanBilling is unknown."
+  },
+  "surfaces": {
+    "homepage": "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/",
+    "docs": "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/",
+    "llmsTxt": "https://grafana.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.grafana.com/mcp",
+    "api": null,
+    "openapi": null,
+    "source": "https://github.com/grafana/mcp-grafana"
+  },
+  "social": {
+    "github": "grafana",
+    "x": "grafana"
+  },
+  "domains": [
+    "grafana.com",
+    "mcp.grafana.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.investigate-incidents",
+      "summary": "The vendor's words: Assistant 'helps you investigate incidents'; investigations 'explore metrics, logs, traces, and profiles, build hypotheses, and produce a report'; the Cloud MCP server lets agents 'query metrics, logs' and start investigations (create_investigation). Not measured: 401 keyless.",
+      "sources": [
+        "https://grafana.com/docs/grafana-cloud/platform/grafana-assistant/platform/investigation/",
+        "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/"
+      ]
+    }
+  ],
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1
+}

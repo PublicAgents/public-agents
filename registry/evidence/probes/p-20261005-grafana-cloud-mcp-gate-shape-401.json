@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "grafana-cloud-mcp"
+  },
+  "surface": "https://mcp.grafana.com/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-05",
+  "updated": "2026-10-05",
+  "version": 1,
+  "id": "p-20261005-grafana-cloud-mcp-gate-shape-401",
+  "at": "2026-10-05T12:14Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "an empty JSON object, {}, with content-type application/json and user-agent public-agents-ci, the shape the registry's link gate sends; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "80",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme with one parameter, resource_metadata, naming https://mcp.grafana.com/.well-known/oauth-protected-resource/mcp. The header as received is in the artifact, appendix (E)]"
+    },
+    "decoded": {
+      "what-it-answered": "the same 80-byte JSON error and the same challenge as the initialize of one second earlier (its own record, p-20261005-grafana-cloud-mcp-initialize-keyless-401): two bodies, two identical refusals, measured by cmp on the two body files (section 01-initialize and section 02-gate-shape of appendix (E)). Nothing is claimed about other bodies.",
+      "why-this-shape": "the registry's link check POSTs an empty object to MCP URLs and reads the status. This record gives that reading a dated baseline on this host: a 401 that a gate must count as alive, since the vendor's documented endpoint answers it to every anonymous caller."
+    }
+  },
+  "finding": "An empty JSON object posted to https://mcp.grafana.com/mcp with the registry link gate's own user-agent on 2026-10-05 at 12:14:04Z answered HTTP 401 with the same 80-byte invalid_token body and the same bearer challenge as a JSON-RPC initialize sent one second earlier: the hosted server refuses an anonymous caller before reading a method. A 401 here is the documented endpoint behaving as documented, not a dead link.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.grafana.com/mcp -A public-agents-ci -H Content-Type:application/json -d '{}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
