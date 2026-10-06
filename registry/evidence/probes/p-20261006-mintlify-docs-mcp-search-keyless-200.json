@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-06",
+  "updated": "2026-10-06",
+  "version": 1,
+  "id": "p-20261006-mintlify-docs-mcp-search-keyless-200",
+  "at": "2026-10-06T06:27Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of search_mintlify with one argument, query 'how do I enable the authenticated MCP server and create client credentials'; no session id, no initialize in this request chain"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cf-cache-status": "DYNAMIC",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "what-came-back": "18,163 bytes in 1.07 seconds, measured by the shell clock around the one curl: ten text blocks of 450 to 4,085 characters, each opening with Title, Link, Page and Content. The first block is the Client credentials section of the MCP page itself, the second the help-centre page on advertising an external MCP server, the third the admin MCP server prerequisites. The ten Link values are absolute and all ten carry the /docs prefix. Blocks 6, 7 and 10 (a screen-reader question, an OpenAPI base URL, a webhook automation) are off-question, so this is a ranked list and not a filtered one.",
+      "links-inside-the-content-do-not-resolve": "The markdown links inside the returned Content are root-relative to the docs root, not to the site: /ai/model-context-protocol, /deploy/authentication-setup, /api/introduction and 17 others. Four GETs at 06:27:50Z, no redirect following: https://www.mintlify.com/api/introduction answered 404 (46,303 bytes) while /docs/api/introduction answered 200; https://www.mintlify.com/deploy/authentication-setup answered 308 to https://mintlify.wiki/deploy/authentication-setup while /docs/deploy/authentication-setup answered 200. Two links of the two tried, so nothing is claimed about the other 17. An agent that follows a link out of the Content rather than out of the Link field leaves the documentation.",
+      "filesystem-tool": "One further request at 06:27:49Z called query_docs_filesystem_mintlify with command 'ls' and answered 200 with 446 bytes: 'exit: 0' and a 30-entry listing of the docs tree (agent, ai, analytics, api, ... zh). Keyless, read-only, and the finding below does not rest on it."
+    }
+  },
+  "finding": "One keyless search_mintlify call on 2026-10-06 at 06:27:48Z returned ten source-cited passages in 1.07 seconds, each with an absolute link into the documentation, the top three answering the question asked; no account, no key, no payment. The retrieval itself is what the vendor's page describes. The links inside the returned Content are a different matter: they are root-relative to the docs root, and of the two tried, one answered 404 at the site root and one redirected off to mintlify.wiki, while both resolved under /docs. The Link field is correct; following a link out of the prose is not.",
+  "reproducibility": {
+    "command": "curl -s https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"search_mintlify\",\"arguments\":{\"query\":\"how do I enable the authenticated MCP server and create client credentials\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

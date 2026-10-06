@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-06",
+  "updated": "2026-10-06",
+  "version": 1,
+  "id": "p-20261006-mintlify-docs-mcp-tools-list-keyless-200",
+  "at": "2026-10-06T06:27Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, sent with no session id and with no initialize in this request chain; and, as a second request, a JSON-RPC resources/list with empty params"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "content-length": "6462",
+      "cf-cache-status": "DYNAMIC",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "tools": "Three: search_mintlify (605-character description, inputSchema query required and language optional, readOnlyHint true), query_docs_filesystem_mintlify (3,864-character description, a single required command string, readOnlyHint true) and submit_feedback (313 characters, path and feedback both required, readOnlyHint FALSE, idempotentHint false, openWorldHint true). The two search parameters match the vendor's page, which says a version parameter appears only on sites that have versions: this site has languages and no versions, and the schema carries language and no version.",
+      "resources": "A second request, resources/list, answered 200 with 829 bytes and three text/markdown resources: mintlify://skills/mintlify, mintlify://skills/mintlify-api and mintlify://skills/mintlify-docs. The first and third carry an identical description. The vendor's page says these are the site's skill.md files and that an unauthenticated caller sees only skills marked public.",
+      "submit_feedback-not-called": "Deliberately not called. Its annotation says it is not read-only and the vendor's page says it 'records as unhelpful feedback in your analytics dashboard', so calling it keyless would write a row into a third party's dashboard. Its presence and its annotations are read from the list; nothing is claimed about what calling it would do beyond the vendor's own sentence."
+    }
+  },
+  "finding": "A keyless tools/list to https://www.mintlify.com/docs/mcp on 2026-10-06 at 06:27Z, sent with no session id and no preceding initialize, answered 200 with three tools: two read-only retrieval tools and submit_feedback, annotated readOnlyHint false and openWorldHint true, which the vendor's page says records feedback into the site owner's analytics dashboard. So the write-capable tool on a public Mintlify site is reachable without an account. It was not called. A second request, resources/list, returned three skill.md resources as text/markdown.",
+  "reproducibility": {
+    "command": "curl -s https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

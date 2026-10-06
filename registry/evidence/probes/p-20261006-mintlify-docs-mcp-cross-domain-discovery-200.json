@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://docs.firecrawl.dev/.well-known/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-06",
+  "updated": "2026-10-06",
+  "version": 1,
+  "id": "p-20261006-mintlify-docs-mcp-cross-domain-discovery-200",
+  "at": "2026-10-06T06:27Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "none; one GET of /.well-known/mcp to each of six vendor documentation hosts (docs.semgrep.dev, docs.exa.ai, docs.anthropic.com, docs.cursor.com, docs.perplexity.ai, docs.firecrawl.dev), then two keyless initialize POSTs against docs.firecrawl.dev/mcp and the host its document advertises"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "six-hosts": "Three of the six answered 200 with a JSON discovery document: docs.semgrep.dev (237 bytes), docs.perplexity.ai (225) and docs.firecrawl.dev (223), each with a single server entry named public and authentication none. Three redirected off the asked path instead: docs.exa.ai 308 to exa.ai/docs/.well-known/mcp, docs.anthropic.com 301 to platform.claude.com/docs/.well-known/mcp, docs.cursor.com 308 to cursor.com/docs. The redirect targets were not followed, so nothing is claimed about whether those three serve a document at their new homes.",
+      "every-url-field-names-a-mintlify-host": "All three documents, and the four read on the vendor's own site in p-20261006-mintlify-docs-mcp-discovery-keyless-200, name a *.mintlify.me hostname rather than the host that served the document: semgrep-ee9d73d8.main-kill-isr.mintlify.me, perplexity.main-kill-isr.mintlify.me, firecrawl.main-kill-isr.mintlify.me and mintlify.subdirectory-docs-vite.mintlify.me. Three of the four share the deployment segment main-kill-isr. Four discovery documents of four, from four unrelated domains: none names the domain a reader asked.",
+      "both-hostnames-serve-the-same-server": "Keyless initialize to https://docs.firecrawl.dev/mcp and to https://firecrawl.main-kill-isr.mintlify.me/mcp answered 200 and 1,151 bytes each, cmp-identical, serverInfo 'Firecrawl Docs' 1.0.0. So the advertised host is a second hostname for the same deployment, not a dead or wrong pointer. One pair measured; the other two were not."
+    }
+  },
+  "finding": "Six GETs of /.well-known/mcp to six unrelated vendor documentation hosts on 2026-10-06 at 06:27Z: three served Mintlify's generated discovery document and three redirected off the path. Every document that answered, here and on Mintlify's own site, names a *.mintlify.me deployment hostname instead of the domain that served it, three of the four sharing one deployment segment; so this is how the framework behaves, not one site's misconfiguration. The advertised host is real: for docs.firecrawl.dev the two hostnames answered cmp-identical 1,151-byte initialize bodies. This is the measurement behind reading the server as one implementation deployed per site.",
+  "reproducibility": {
+    "command": "for h in docs.semgrep.dev docs.perplexity.ai docs.firecrawl.dev; do curl -s https://$h/.well-known/mcp | python3 -c 'import json,sys; print(json.load(sys.stdin)[\"url\"])'; done",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

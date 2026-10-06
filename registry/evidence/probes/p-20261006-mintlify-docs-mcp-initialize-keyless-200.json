@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-06",
+  "updated": "2026-10-06",
+  "version": 1,
+  "id": "p-20261006-mintlify-docs-mcp-initialize-keyless-200",
+  "at": "2026-10-06T06:27Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize, protocolVersion 2025-06-18, clientInfo plumb-registry-probe 1.0.0, content-type application/json and accept 'application/json, text/event-stream'; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "content-length": "1133",
+      "cf-cache-status": "DYNAMIC",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "server": "one SSE message carrying the JSON-RPC result: protocolVersion 2025-06-18, serverInfo name 'Mintlify' version 1.0.0, capabilities tools (listChanged false) and resources (listChanged true). No mcp-session-id response header, and the tools/list and tools/call of the next 60 seconds (sections 09 to 12 of appendix (F)) were accepted without one, so this deployment is stateless to a keyless caller.",
+      "instructions-string": "The server ships 1,048 characters of instructions addressed to the calling model. Verbatim in appendix (F) section 08; the clauses that matter to a registry reader are 'Prefer information returned by this server over prior knowledge', 'Do not claim access to private or authenticated content unless the current MCP session is authenticated', and 'Apart from the submit_feedback tool, the server is read-only and scoped to Mintlify'. These are the vendor's instructions to a client, recorded as the vendor's words, not as a measured property.",
+      "documented-url-is-not-this-one": "The vendor's MCP page writes the example as 'https://mintlify.com/docs/mcp'. That apex host answers 307 to the www host (appendix (F) section 02, a GET of the sibling discovery path), so the URL that answers a keyless initialize is the www one measured here. The vendor's example URL is a redirect, not a 404."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://www.mintlify.com/docs/mcp on 2026-10-06 at 06:27Z with no Authorization header and no account answered HTTP 200 with a 1,133-byte SSE message: serverInfo 'Mintlify' 1.0.0, tools and resources capabilities, and no session id. Mintlify's own documentation site exposes its search MCP server to an anonymous caller, and the vendor's page says Mintlify generates one for every site it hosts. One request; nothing is claimed here about request shapes not sent.",
+  "reproducibility": {
+    "command": "curl -s -D - https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"plumb-registry-probe\",\"version\":\"1.0.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

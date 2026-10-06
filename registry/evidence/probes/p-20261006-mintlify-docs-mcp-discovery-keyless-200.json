@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/.well-known/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-06",
+  "updated": "2026-10-06",
+  "version": 1,
+  "id": "p-20261006-mintlify-docs-mcp-discovery-keyless-200",
+  "at": "2026-10-06T06:27Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "none; four GETs, one each to /docs/.well-known/mcp, /docs/.well-known/mcp.json, /docs/.well-known/mcp/server-card.json and /docs/.well-known/mcp/server-cards.json, plus one to /.well-known/mcp at the site root"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "the-url-field": "All four documents name the server as https://mintlify.subdirectory-docs-vite.mintlify.me/docs/mcp, a mintlify.me deployment hostname, not the www.mintlify.com URL the vendor's page documents and not the host that served the document. A keyless initialize to that advertised host answered 200 with a body cmp-identical to the one the www host returned, 1,133 bytes each (section 14), so the hostname is live rather than stale.",
+      "path": "The vendor's page writes the discovery path as /.well-known/mcp. On this site the docs live under /docs, and the path that answers JSON is /docs/.well-known/mcp; /.well-known/mcp at the site root answered 404 with 46,300 bytes of HTML and an x-matched-path of /[owner]/[repo]/[[...rest]]. The two documents at /docs are 249 bytes each and cmp-identical.",
+      "server-card-tool-count": "server-card.json is 5,700 bytes and lists 2 tools, search_mintlify and query_docs_filesystem_mintlify, both annotated readOnlyHint true. server-cards.json is 5,714 bytes and carries one server with the same 2 tools. The live tools/list of the same minute returned 3 (its own record, p-20261006-mintlify-docs-mcp-tools-list-keyless-200): submit_feedback, the one tool with readOnlyHint false, is in the list and not in the card. The vendor's page offers the card as a way to 'pre-populate tool metadata in MCP clients without making an initialize call'."
+    }
+  },
+  "finding": "The four MCP discovery documents Mintlify generates for its own documentation site, read keyless on 2026-10-06 at 06:27Z, all name the server at https://mintlify.subdirectory-docs-vite.mintlify.me/docs/mcp rather than at the www.mintlify.com URL the vendor documents; the advertised host answers a keyless initialize with a cmp-identical 1,133-byte body. The two server cards list 2 tools where the live tools/list of the same minute returned 3, the missing one being the only tool annotated readOnlyHint false. An agent that trusts discovery reaches a working server at an unexpected hostname with an incomplete tool list.",
+  "reproducibility": {
+    "command": "curl -s https://www.mintlify.com/docs/.well-known/mcp/server-card.json | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d[\"url\"], len(d[\"tools\"]), [t[\"name\"] for t in d[\"tools\"]])'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
