@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "mintlify-index-mcp",
+  "name": "Mintlify Index MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "One public MCP endpoint Mintlify runs for every caller, reading across the documentation it hosts and the open web. Measured keyless on 2026-10-07, one request per probe record: initialize, tools/list, resources/list and three tool calls answered with no account and no session id. Exactly one tool, context, read-only, whose description promises primary-source citations. On three questions about a project whose documentation Mintlify generates on its own mintlify.wiki domain it never cited the project's own site; on two about one it does not, it cited the vendor's domain.",
+  "vendor": {
+    "name": "Mintlify, Inc.",
+    "url": "https://www.mintlify.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under Mintlify's Terms of Service",
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Keyless 2026-10-07 18:06Z on https://index.mintlify.com/: initialize, tools/list and three tools/call each answered 200 with no Authorization header, no session id and no preceding initialize. The vendor: \"You do not need to authenticate to the public server.\""
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "No keyless request drew a 402 and no page read prices this server. The pricing page's \"MCP server\" row is the per-site search server; \"Index MCP\" is absent from that page, counted by program. The documented 10/s and 5,000/day per-IP limits are a rate limit, not a paywall, and are unmeasured."
+  },
+  "surfaces": {
+    "homepage": "https://www.mintlify.com/",
+    "docs": "https://www.mintlify.com/docs/search-index/mcp",
+    "llmsTxt": "https://www.mintlify.com/docs/llms.txt",
+    "skills": [],
+    "mcp": "https://index.mintlify.com/",
+    "api": null,
+    "openapi": null,
+    "source": null
+  },
+  "social": {
+    "github": "mintlify",
+    "x": "mintlify"
+  },
+  "domains": [
+    "mintlify.com",
+    "www.mintlify.com",
+    "index.mintlify.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's words: \"read-only access to technical documentation and web context\", returning \"compact, source-cited context in one call\". Keyless 2026-10-07: three calls answered in 1.3-2.2 s with 8,300-11,086 characters of Markdown, two sources each. Whether a citation is PRIMARY is an empty cell.",
+      "sources": [
+        "https://www.mintlify.com/docs/search-index/mcp"
+      ]
+    }
+  ],
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1
+}
