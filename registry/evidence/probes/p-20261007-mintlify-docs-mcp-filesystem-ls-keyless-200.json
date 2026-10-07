@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-filesystem-ls-keyless-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of query_docs_filesystem_mintlify with one argument, command 'ls'; no session id, no initialize in this request chain, no Authorization header"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare",
+      "x-served-version": "dpl_8eLL4XEnv9qq9yBZNakg44dGSAzZ"
+    },
+    "decoded": {
+      "what-came-back": "446 bytes in 0.85 seconds. The returned text opens 'exit: 0', then a stdout section listing 32 entries of the documentation tree: agent, ai, ai-native.mdx, analytics, api, api-playground, assistant, automations, changelog.mdx, cli, components, create, credits.mdx, customize, dashboard, deploy, desktop.mdx, editor, es, fr, guides, help-center, index.mdx, integrations, migration, openapi, optimize, organize, quickstart.mdx, reference, search-index, zh.",
+      "scope": "One command, 'ls', at the root. The tool's 3,864-character description documents further commands; none of them was sent, so nothing is claimed about what the tool does beyond this one listing."
+    }
+  },
+  "finding": "The second read-only tool on the server, query_docs_filesystem_mintlify, answered a keyless tools/call with command 'ls' on 2026-10-07 at 06:05:10Z with HTTP/2 200, 446 bytes and a 32-entry listing of the documentation tree, preceded by 'exit: 0'. An anonymous caller can enumerate the structure of a Mintlify-hosted documentation site, not only search it. One command of the many the tool's description documents.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"query_docs_filesystem_mintlify\",\"arguments\":{\"command\":\"ls\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

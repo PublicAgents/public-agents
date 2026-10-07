@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-tools-list-keyless-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, sent with no session id and with no initialize in this request chain; content-type application/json, accept 'application/json, text/event-stream'; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "content-length": "6462",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare",
+      "x-served-version": "dpl_8eLL4XEnv9qq9yBZNakg44dGSAzZ"
+    },
+    "decoded": {
+      "tools": "Three. search_mintlify: 605-character description, inputSchema requires query with language optional, annotations readOnlyHint true, destructiveHint false, idempotentHint true, openWorldHint false. query_docs_filesystem_mintlify: 3,864-character description, one required string command, same four annotations. submit_feedback: 313-character description, path and feedback both required, annotations readOnlyHint FALSE, destructiveHint false, idempotentHint false, openWorldHint TRUE.",
+      "the-version-parameter-the-page-promises": "The vendor's page says a version parameter appears on the search tool only when a site has multiple versions. This site has languages and no versions, and the schema returned here carries language and no version, which verifies the page and measures nothing about whether a versioned site answers version-correctly.",
+      "submit_feedback-not-called": "Deliberately not called, here or anywhere. Its annotation says it is not read-only and the vendor's page says it 'records as unhelpful feedback in your analytics dashboard', so calling it keyless would write a row into a third party's dashboard. Its presence, its annotations and its input schema are read from this list; nothing is claimed about what calling it would do beyond the vendor's own sentence."
+    }
+  },
+  "finding": "A keyless tools/list to https://www.mintlify.com/docs/mcp on 2026-10-07 at 06:05:08Z, sent with no session id and no preceding initialize, answered HTTP/2 200 with 6,462 bytes and three tools. Two are read-only retrieval tools. The third, submit_feedback, is annotated readOnlyHint false and openWorldHint true, and the vendor's page says it records feedback into the site owner's analytics dashboard: a write path on a public documentation site, reachable with no account. It was not called. That the request succeeded without a session id or an initialize is the measurement that this deployment is stateless to a keyless caller.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

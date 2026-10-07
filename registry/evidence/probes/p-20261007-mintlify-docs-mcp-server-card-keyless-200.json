@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/.well-known/mcp/server-card.json",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-server-card-keyless-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare",
+      "vary": "accept-encoding"
+    },
+    "decoded": {
+      "the-url-field": "The card names the server at https://mintlify.subdirectory-docs-vite.mintlify.me/docs/mcp: a mintlify.me deployment hostname, which is neither the www.mintlify.com URL the vendor's page documents nor the host that served this card.",
+      "tool-count": "5,700 bytes. authentication none, capabilities tools and resources both true, tool count 2: search_mintlify and query_docs_filesystem_mintlify, both annotated readOnlyHint true. The live tools/list taken three seconds earlier in the same pass returned three, and has its own record, p-20261007-mintlify-docs-mcp-tools-list-keyless-200; the comparison between the two is made in the entry's profile, not here.",
+      "what-the-vendor-offers-the-card-for": "The vendor's MCP page offers the server card as a way to 'pre-populate tool metadata in MCP clients without making an initialize call to the server'."
+    }
+  },
+  "finding": "The generated server card at https://www.mintlify.com/docs/.well-known/mcp/server-card.json answered a keyless GET on 2026-10-07 at 06:05:11Z with HTTP/2 200 and 5,700 bytes. It declares authentication none, points at a mintlify.me deployment hostname rather than at the documented www.mintlify.com URL or the host that served it, and lists two tools, both read-only. The vendor offers the card as a substitute for calling initialize, which is what makes its contents load-bearing for a client.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://www.mintlify.com/docs/.well-known/mcp/server-card.json",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

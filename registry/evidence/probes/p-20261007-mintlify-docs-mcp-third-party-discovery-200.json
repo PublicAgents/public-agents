@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://docs.firecrawl.dev/.well-known/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-third-party-discovery-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cf-cache-status": "HIT",
+      "cache-control": "public, max-age=86400",
+      "server": "cloudflare",
+      "x-matched-path": "/_mintlify/mcp/[subdomain]/.well-known/mcp"
+    },
+    "decoded": {
+      "body": "223 bytes, verbatim: {\"version\":\"1.0.0\",\"transport\":\"http\",\"url\":\"https://firecrawl.main-kill-isr.mintlify.me/mcp\",\"servers\":[{\"name\":\"public\",\"url\":\"https://firecrawl.main-kill-isr.mintlify.me/mcp\",\"transport\":\"http\",\"authentication\":\"none\"}]}",
+      "the-host-that-served-it": "docs.firecrawl.dev, a domain belonging to Firecrawl and not to Mintlify. Neither url field names it. The x-matched-path header, /_mintlify/mcp/[subdomain]/.well-known/mcp, is the platform's own route for this document, which is how the document is identifiable as generated rather than written by the site owner.",
+      "cache": "cf-cache-status HIT with cache-control public, max-age=86400, so this body was served from an edge cache and may have been generated earlier than the timestamp on this record."
+    }
+  },
+  "finding": "A third party's documentation host, docs.firecrawl.dev, answered a keyless GET of /.well-known/mcp on 2026-10-07 at 06:05:13Z with HTTP/2 200 and 223 bytes of Mintlify-generated JSON declaring one public server with authentication none, at https://firecrawl.main-kill-isr.mintlify.me/mcp. The document that a reader reaches through Firecrawl's own domain names a Mintlify deployment hostname belonging to neither Firecrawl nor Firecrawl's brand. One host, one request: that this is how the framework behaves rather than one site's misconfiguration rests on the six-host sweep of 2026-10-06, which the profile cites.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://docs.firecrawl.dev/.well-known/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

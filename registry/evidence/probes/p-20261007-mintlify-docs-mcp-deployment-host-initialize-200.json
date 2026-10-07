@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://firecrawl.main-kill-isr.mintlify.me/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-deployment-host-initialize-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize, protocolVersion 2025-06-18, clientInfo plumb-registry-probe 1.0.0; no Authorization header, no cookie, no session id"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache, no-transform",
+      "server": "Vercel",
+      "x-matched-path": "/_mintlify/mcp/[subdomain]/[transport]",
+      "x-accel-buffering": "no",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "server": "1,151 bytes in 0.66 s, one SSE message: protocolVersion 2025-06-18, serverInfo name 'Firecrawl Docs' version 1.0.0, tools and resources capabilities. No mcp-session-id response header.",
+      "what-this-host-is": "The hostname a reader reaches only by following the discovery document that docs.firecrawl.dev serves (its own record, p-20261007-mintlify-docs-mcp-third-party-discovery-200). It is a Mintlify deployment host answering for a Firecrawl-branded server. Whether this body is identical to the one docs.firecrawl.dev/mcp returns is a comparison between two requests; it was taken in the same pass, appendix (H) sections (09) and (10), and the profile states it."
+    }
+  },
+  "finding": "The mintlify.me deployment hostname that Firecrawl's generated discovery document advertises answered a keyless initialize on 2026-10-07 at 06:05:13Z with HTTP/2 200 and 1,151 bytes, serverInfo 'Firecrawl Docs' 1.0.0, served by Vercel with x-matched-path /_mintlify/mcp/[subdomain]/[transport]. So the unexpected hostname in the discovery document is a live MCP server, not a dead pointer: an agent that follows discovery from a vendor's domain ends up talking to a working server at a hostname belonging to the platform instead.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://firecrawl.main-kill-isr.mintlify.me/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"plumb-registry-probe\",\"version\":\"1.0.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

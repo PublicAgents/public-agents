@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-search-keyless-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/call of search_mintlify with one argument, query 'how do I enable the authenticated MCP server and create client credentials'; no session id, no initialize in this request chain, no Authorization header"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare",
+      "x-served-version": "dpl_8eLL4XEnv9qq9yBZNakg44dGSAzZ"
+    },
+    "decoded": {
+      "what-came-back": "18,174 bytes in 1.04 seconds: ten content items, all of type text, 17,463 characters in total, each item opening with Title, Link, Page and Content. The first five answer the question asked (Client credentials; Option 2: Publish the external MCP URL directly; Prerequisites; Admin MCP server; Step 3: generate and secure credentials). Items 6, 7 and 10 are off it (a screen-reader question, an OpenAPI base URL, a webhook automation), so this is a ranked list and not a filtered one. All ten Link values are absolute and all ten carry the /docs prefix.",
+      "root-relative-links-inside-the-content": "The markdown links inside the returned Content are root-relative to the documentation root rather than to the site: 18 of them across the ten items, 17 distinct, including /api/introduction and /deploy/authentication-setup#control-access-with-groups. Whether they resolve was measured in a separate pass on 2026-10-06, four GETs, appendix (F) section (13); this record does not rest on it and the profile states that result."
+    }
+  },
+  "finding": "One keyless search_mintlify call to https://www.mintlify.com/docs/mcp on 2026-10-07 at 06:05:10Z returned HTTP/2 200 and ten source-cited passages in 1.04 seconds, 18,174 bytes, with no account, no key and no payment: the first five answering the question asked, three of the ten off it, and every Link absolute and correct. This is the retrieval the vendor's page describes, measured on one question from one network on one day. The 18 markdown links inside the passages' prose are root-relative to the docs root, not to the site; this request measured their shape, not whether they resolve.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"search_mintlify\",\"arguments\":{\"query\":\"how do I enable the authenticated MCP server and create client credentials\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
