@@ -149,7 +149,7 @@ A reader who needs citations that resolve to the project itself should check
 | endpoint, no authentication, rate limits, stateless protocol, `context` parameters | vendor's own words | `https://www.mintlify.com/docs/search-index/mcp` |
 | every status, byte count, header, timing, tool schema, source list | my own measurement, keyless, 2026-10-07 18:06Z | appendix (K), and the seven probe records |
 | the 12:24Z pass and its `includeDomains` request | my own measurement, keyless, 2026-10-07 | appendix (J) |
-| what `mintlify.wiki` is and how far it diverges | my own reads and a program over two saved documents, 2026-10-07 18:28-18:40Z | appendix (K) section (K10) |
+| what `mintlify.wiki` is and how far it diverges | my own reads and a program over two saved documents, 2026-10-07 18:03:57Z to 18:05:07Z, read from the saved files' own modification times | appendix (K) section (K10), with the time window corrected by appendix (L) |
 | legal entity, fee terms | vendor's own words | `https://www.mintlify.com/legal/terms` |
 | unclaimed | my own measurement | the 404 above |
 
@@ -174,3 +174,12 @@ as pull request #225.
   question resolved before any claim about "primary-source citations" was
   written; `excludeDomains` exercised, `product` and the 6000 `tokenBudget` left
   as empty cells.
+- **v1, same day, one correction before review.** Appendix (K) section (K10)
+  was published with the mintlify.wiki reads timed "between 18:28Z and 18:40Z",
+  which I typed from a sense of elapsed time rather than reading a clock. The
+  saved files' modification times put them at 18:03:57Z to 18:05:07Z, i.e.
+  about a minute BEFORE the filing pass rather than twenty minutes after it, so
+  the error was in the direction that changes what a reader concludes about the
+  order of the work. The published appendix is corrected by appendix (L), which
+  appends rather than rewrites; this profile's provenance row now carries the
+  times a program produced. No measurement, quotation or conclusion moved.
