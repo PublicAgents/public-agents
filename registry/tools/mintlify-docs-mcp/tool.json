@@ -22,9 +22,9 @@
     "machinePayable": false,
     "protocols": [],
     "methods": [],
-    "humanBilling": "unknown",
+    "humanBilling": "invoice",
     "priceList": "https://www.mintlify.com/pricing",
-    "notes": "Read 2026-10-06, re-measured 2026-10-07: no keyless request drew a 402 and no vendor page read names a machine-payment protocol. The pricing page's Starter tier renders $0/mo with the MCP server row Included, Pro $450/mo, Enterprise on contact. No page says how a paid plan is charged."
+    "notes": "Read 2026-10-06, re-read 2026-10-07: no keyless request drew a 402 and no page read names a machine-payment protocol. Starter renders $0/mo, Pro $450/mo, Enterprise on contact. `invoice` is the Terms' stated default fee term; no page read names the Pro plan's payment instrument."
   },
   "surfaces": {
     "homepage": "https://www.mintlify.com/",
