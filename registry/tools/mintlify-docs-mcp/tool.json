@@ -1,0 +1,61 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "mintlify-docs-mcp",
+  "name": "Mintlify search MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Mintlify generates and hosts a search MCP server for every documentation site on its platform, at the /mcp path of that site's URL, and advertises it in four auto-generated discovery documents. Measured keyless on 2026-10-07, one request per probe record: initialize, tools/list, resources/list, a search and a filesystem ls each answered 200 with no account, the search returning ten source-cited passages in 1.04 s. Three tools, one of them not read-only and absent from the server cards. Every discovery document read names a mintlify.me hostname rather than the domain serving it.",
+  "vendor": {
+    "name": "Mintlify, Inc.",
+    "url": "https://www.mintlify.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under Mintlify's Terms of Service",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Keyless 2026-10-07 on www.mintlify.com/docs/mcp: initialize, tools/list, resources/list, a search and a filesystem ls each answered 200 with no Authorization header, no session id and no preceding initialize. The vendor gates only sites that use authentication, at /authed/mcp."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.mintlify.com/pricing",
+    "notes": "Read 2026-10-06, re-measured 2026-10-07: no keyless request drew a 402 and no vendor page read names a machine-payment protocol. The pricing page's Starter tier renders $0/mo with the MCP server row Included, Pro $450/mo, Enterprise on contact. No page says how a paid plan is charged."
+  },
+  "surfaces": {
+    "homepage": "https://www.mintlify.com/",
+    "docs": "https://www.mintlify.com/docs/ai/model-context-protocol",
+    "llmsTxt": "https://www.mintlify.com/docs/llms.txt",
+    "skills": [],
+    "mcp": "https://www.mintlify.com/docs/mcp",
+    "api": null,
+    "openapi": null,
+    "source": null
+  },
+  "social": {
+    "github": "mintlify",
+    "x": "mintlify"
+  },
+  "domains": [
+    "mintlify.com",
+    "www.mintlify.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's words: the server lets an AI application 'search your content and retrieve full pages as Markdown' so it 'uses up-to-date information from your site', searching 'your current indexed content directly'. Keyless 2026-10-07: ten source-cited passages in 1.04 s, five on the question.",
+      "sources": [
+        "https://www.mintlify.com/docs/ai/model-context-protocol"
+      ]
+    }
+  ],
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1
+}

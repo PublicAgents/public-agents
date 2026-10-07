@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-docs-mcp"
+  },
+  "surface": "https://www.mintlify.com/docs/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-docs-mcp-resources-list-keyless-200",
+  "at": "2026-10-07T06:05Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC resources/list with empty params, sent with no session id and with no initialize in this request chain; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "content-length": "829",
+      "cf-cache-status": "DYNAMIC",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "cloudflare",
+      "x-served-version": "dpl_8eLL4XEnv9qq9yBZNakg44dGSAzZ"
+    },
+    "decoded": {
+      "resources": "Three, all mimeType text/markdown: mintlify://skills/mintlify (156-character description), mintlify://skills/mintlify-api (130) and mintlify://skills/mintlify-docs (156). The first and third descriptions are identical strings.",
+      "what-the-vendor-says-these-are": "The vendor's MCP page says these are the site's skill.md files and that an unauthenticated caller sees only skills marked public. This request measures that three are returned to a caller with no account; it does not measure how many the site has."
+    }
+  },
+  "finding": "A keyless resources/list to https://www.mintlify.com/docs/mcp on 2026-10-07 at 06:05:09Z answered HTTP/2 200 with 829 bytes and three text/markdown resources under a mintlify://skills/ scheme, two of which carry an identical description. So the server's resources capability, not just its tools, is open to an anonymous caller. Nothing is claimed about resources this caller was not shown.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://www.mintlify.com/docs/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"resources/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
