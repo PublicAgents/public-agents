@@ -41,7 +41,7 @@
       "x-vercel-cache": "MISS"
     },
     "decoded": {
-      "issuer": "https://mcp.mintlify.com -- the same origin as the resource, so no RFC 8414 section 3.3 issuer mismatch",
+      "issuer": "the issuer is https://mcp.mintlify.com, the same origin as the resource, so there is no RFC 8414 section 3.3 issuer mismatch here",
       "endpoints": "authorization /oauth/authorize, token /oauth/token, registration /oauth/register",
       "registration": "a registration_endpoint is advertised, so dynamic client registration is offered to any caller. NOT exercised: registering a client writes a record into a third party's system.",
       "flow": "response_types [\"code\"], grant_types [\"authorization_code\", \"refresh_token\"], code_challenge_methods [\"S256\"] only, token_endpoint_auth_methods [\"none\"] (public clients)",
