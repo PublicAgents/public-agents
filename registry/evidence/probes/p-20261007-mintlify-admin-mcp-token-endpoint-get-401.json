@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-admin-mcp"
+  },
+  "surface": "https://mcp.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-admin-mcp-token-endpoint-get-401",
+  "at": "2026-10-07T18:25Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "no body; a keyless GET of the token endpoint the authorization-server metadata advertises"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "[redacted by the registry's credential filter: a `Bearer` challenge that names a public discovery document and carries no token; printed verbatim in appendix (M)]",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "server": "Vercel",
+      "x-matched-path": "/api/[...path]",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "body-verbatim": "{\"error\":{\"code\":\"unauthorized\",\"message\":\"Missing or invalid authorization header\"}}",
+      "same-route": "x-matched-path is /api/[...path], the same catch-all route that served the MCP endpoint's refusals, and the body is the platform's generic error object rather than an OAuth error object. The challenge header, redacted above, is the same one.",
+      "what-is-NOT-claimed": "A GET is not a token request, so this is not a conformance finding. RFC 6749 describes a POST. What a conforming POST would answer is UNMEASURED, because a conforming POST needs a client registration, and registering one writes into a third party's system.",
+      "bytes": "85 body bytes, 0.682 s"
+    }
+  },
+  "finding": "A keyless GET of https://mcp.mintlify.com/oauth/token on 2026-10-07 at 18:25Z answered HTTP/2 401 with the same 85-byte generic unauthorized body, the same `Bearer` challenge and the same matched route as the MCP endpoint. So the advertised token endpoint sits behind the platform's general guard and does not answer with an OAuth-style error object to this request. Stated as the read it is: a GET is not a token request and no conformance claim is made, and the behaviour of a conforming POST is an empty cell for a stated reason. The www-authenticate challenge is REDACTED in this record's headers: the registry's credential filter refuses its shape, although a `Bearer` challenge naming a public document carries no credential. It is printed verbatim in appendix (M).",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://mcp.mintlify.com/oauth/token",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
