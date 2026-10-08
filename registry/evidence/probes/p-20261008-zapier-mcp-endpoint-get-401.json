@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-endpoint-get-401",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/api/mcp/mcp",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "Bearer realm=\"Zapier MCP\", error=\"invalid_token\""
+    },
+    "decoded": {
+      "body": "the same 108-byte JSON-RPC error again, for a request that is not JSON-RPC at all",
+      "ordering": "authorization is checked BEFORE the HTTP method: a plain browser GET draws the credential refusal rather than a 405 or a transport error",
+      "compared-with-another-vendor": "Mintlify's Index MCP answers a plain GET with 405 and the sentence 'Stateless MCP server only accepts POST requests', naming its own transport. This server names nothing about itself"
+    }
+  },
+  "finding": "With no credentials on 2026-10-08 at 12:19:21Z, a plain GET of Zapier's hosted MCP endpoint answered 401 with the same 108-byte JSON-RPC error a POST drew, so authorization is checked before the HTTP method and the refusal says nothing about the transport the endpoint speaks.",
+  "reproducibility": {
+    "command": "curl -sS -i https://mcp.zapier.com/api/mcp/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1219Z.txt"
+  },
+  "at": "2026-10-08T12:19Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}

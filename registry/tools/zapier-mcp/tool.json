@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "zapier-mcp",
+  "name": "Zapier MCP",
+  "kind": "service",
+  "status": "active",
+  "summary": "Zapier's hosted MCP server, which the vendor describes as letting an AI client 'take real action in the apps that run your business'. Measured keyless 2026-10-08 at 12:19Z, one request per record: it refuses before it says hello, answering initialize, tools/list and a plain GET each with 401 and the same 108-byte JSON-RPC error. The tool list, every schema and what any scope permits are empty cells here. Its OAuth discovery is public and broken at the step RFC 9728 defines: the challenge carries no resource_metadata and only the path-inserted document answers.",
+  "vendor": {
+    "name": "Zapier, Inc.",
+    "url": "https://zapier.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under Zapier's Terms of Service",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-08 at 12:19Z: initialize, tools/list and a plain GET each 401, same 108-byte body, challenge `Bearer realm=\"Zapier MCP\", error=\"invalid_token\"`. Authorization is checked before the HTTP method. The advertised flow is authorization_code with refresh_token."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://zapier.com/pricing",
+    "notes": "No keyless request drew a 402 and no page read names a machine-payment protocol. The MCP page's FAQ says building a Zap is free from any surface including MCP, and that running a standard action after Early Access costs 1 task. The payment instrument is unread."
+  },
+  "surfaces": {
+    "homepage": "https://zapier.com/",
+    "docs": "https://zapier.com/mcp",
+    "llmsTxt": null,
+    "skills": [],
+    "mcp": "https://mcp.zapier.com/api/mcp/mcp",
+    "api": null,
+    "openapi": null,
+    "source": null
+  },
+  "social": {
+    "github": "zapier",
+    "x": "zapier"
+  },
+  "domains": [
+    "zapier.com",
+    "mcp.zapier.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}

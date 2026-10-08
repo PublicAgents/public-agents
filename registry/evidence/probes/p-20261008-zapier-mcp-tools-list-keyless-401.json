@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-tools-list-keyless-401",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/api/mcp/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a JSON-RPC tools/list (jsonrpc 2.0, id 2), Accept application/json and text/event-stream, no Authorization header and no preceding initialize"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "Bearer realm=\"Zapier MCP\", error=\"invalid_token\""
+    },
+    "decoded": {
+      "body": "byte-identical to the initialize refusal of two seconds earlier: the same 108 bytes, the same -31996, the same id null",
+      "why-this-is-a-separate-record": "plenty of hosted MCP servers answer tools/list anonymously while gating tools/call, so 'this one does not' is a measurement and not an inference from the initialize refusal",
+      "not-measured": "the tool list itself. This entry's tool-count, schema and annotation cells are empty because of this response, and a count read from the vendor's documentation would be the vendor's claim rather than this server's answer"
+    }
+  },
+  "finding": "With no credentials on 2026-10-08 at 12:19:18Z, tools/list on Zapier's hosted MCP endpoint answered 401 with a body byte-identical to the initialize refusal two seconds earlier. The server lists no tools to a keyless caller, which is why this registry entry has no tool list: not because none was looked for.",
+  "reproducibility": {
+    "command": "curl -sS -i -X POST https://mcp.zapier.com/api/mcp/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1219Z.txt"
+  },
+  "at": "2026-10-08T12:19Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}
