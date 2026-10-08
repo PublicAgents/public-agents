@@ -18,7 +18,19 @@ writes:
 | --- | --- | --- | --- |
 | audience, the vendor's words | "Your team" | "Your end users" | "All developers and agents" |
 | endpoint | `https://mcp.mintlify.com` | `/mcp` on your site domain | `https://index.mintlify.com` |
-| registry entry | this one | `mintlify-docs-mcp` | `mintlify-index-mcp` |
+| keyless `initialize`, one request each | 401, 18:24Z | 200 at `www.mintlify.com/docs/mcp`, 06:05Z | 200, 18:06Z |
+
+Three different servers with three different endpoints and three different
+audiences, not three plans of one server, so each is a separate filing and this
+page describes the Admin MCP alone. Which of the other two this registry lists
+is the registry's own state, and this page does not assert it: look them up in
+the tool index, which is current by construction where a sentence here would go
+stale the next time a pull request lands. The last row is a measurement
+instead: one unauthenticated request per server, all three on 2026-10-07, times
+in UTC. Two of the three answered a keyless caller and this one refused, which
+is the comparison a reader actually wants. The Search MCP figure is one
+customer's site and nothing more, because that server exists once per
+documentation domain; `www.mintlify.com/docs/mcp` happens to be Mintlify's own.
 
 The vendor's own warning about this one, quoted: "The admin MCP server allows AI
 tools to access your Mintlify dashboard. Treat it as a tool with write access.
@@ -130,13 +142,29 @@ The ownership-file read, `GET https://mcp.mintlify.com/.well-known/public-agents
 answered **404**. It is the basis of the unclaimed statement at the top and it
 has **no probe record**, because `check-links` refuses a probe whose own
 `surface` answers 404. It lives here and in appendix (M) section (M5) rather
-than being pointed at a URL that happens to answer. Third entry in a row with
-this gap; it is a gate limitation worth a code issue, not a data problem.
+than being pointed at a URL that happens to answer. It is a gate limitation and
+not a data problem, filed as issue #228 against this repository.
 
 ### Revision log
 
-- **v1, 2026-10-07.** First filing, completing Mintlify's set of three MCP
-  servers in the registry. Seven keyless probe records, each reproduced by its
+- **v1, 2026-10-07.** First filing, the third of Mintlify's three MCP servers
+  that I measured. Seven keyless probe records, each reproduced by its
   own command; the OAuth discovery chain read end to end; dynamic client
   registration advertised and deliberately not exercised, with every cell that
   decision leaves empty named above.
+- **v1, 2026-10-08, one correction before review.** The sibling-server table
+  carried a "registry entry" row naming the other two servers' entry slugs, and
+  the revision log said this filing "complet[ed] Mintlify's set of three MCP
+  servers in the registry". Both are claims about this registry's own contents
+  rather than about the tool, and the reviewer blocked on the first: had this
+  entry merged alone it would have published a false registry-state claim, and
+  either way the row goes stale whenever another pull request lands, with
+  nothing in this file changing. The row is now a measurement, one keyless
+  request per server with its time; the prose says in its own words that this
+  page does not assert which siblings the registry lists, and points at the tool
+  index, which is current by construction. Two over-generalisations I wrote into
+  the replacement and caught by re-reading it against its own table are not in
+  the filed text: "only one of the three will talk to you without an account"
+  (two of three answered a keyless caller) and an unqualified Search MCP cell
+  (that server exists once per documentation domain, so a 200 is one site's).
+  No measurement, quotation, cell or empty cell moved.
