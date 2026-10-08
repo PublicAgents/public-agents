@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-index-mcp"
+  },
+  "surface": "https://index.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-index-mcp-initialize-keyless-200",
+  "at": "2026-10-07T18:06Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize, protocolVersion 2025-06-18, empty capabilities, clientInfo plumb-registry-probe 1.0.0; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "server": "Vercel",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "serverInfo": "mintlify-universal-search 1.0.0, protocolVersion 2025-06-18",
+      "capabilities": "{\"tools\": {\"listChanged\": true}} and nothing else; no resources, no prompts",
+      "instructions": "146 characters, counted by len() over the saved body: \"Research implementation questions across primary developer documentation and the web. The context tool returns a compact cited answer in one call.\"",
+      "session": "no mcp-session-id response header, so the server issued no session to this caller",
+      "bytes": "367 body bytes, 1.156 s"
+    }
+  },
+  "finding": "A keyless initialize POST to https://index.mintlify.com/ on 2026-10-07 at 18:06:04Z answered HTTP/2 200 with 367 bytes, naming itself mintlify-universal-search 1.0.0 and advertising a tools capability only. No Authorization header was sent and no account exists. The vendor's reference page says in its own words \"You do not need to authenticate to the public server\"; this request measures that the server behaves that way. Byte-identical to the same request six hours earlier in appendix (J) section (J1).",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://index.mintlify.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"plumb-registry-probe\",\"version\":\"1.0.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
