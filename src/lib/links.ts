@@ -133,6 +133,39 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
 }
 
 /**
+ * The status a probe record filed for its own surface, which that surface is
+ * then allowed to answer with (issue #228). Present only on the record's own
+ * `surface`; a URL a record merely cites carries no expectation, and nor does
+ * the same URL named by an entry two files away.
+ *
+ * Why the gate needs this at all. The registry's product includes absences,
+ * and the commonest absence it publishes is a document that is not served:
+ * `GET /.well-known/public-agents.json` answering 404 is the measurement
+ * behind the words "this is an unclaimed listing" on every unclaimed entry.
+ * `linkTargets` reads every record's `surface` as a target and the table below
+ * calls 404 and 410 dead, so a record whose entire finding is a 404 could not
+ * be filed: the gate fetched the URL the record was about, got the 404 the
+ * record existed to report, and refused the record. Four entries in a row put
+ * that measurement in their profile instead, with the refusal named, which is
+ * honest prose and is also evidence migrating out of the evidence layer.
+ *
+ * Why it is a status match and not an exemption. A record is exempt from the
+ * table only for the one status it filed, compared against what the fetch
+ * actually returned on that run, so the thing this gate exists to catch still
+ * gets caught: a mistyped surface overwhelmingly does not answer with the
+ * status its record claims. What is given up is narrower and worth stating,
+ * because it is real: on a host whose catch-all answers 404, a typo in the
+ * path of a 404-filed record now answers 404 too and passes. The protection
+ * that remains for such a record is a mistyped host (which does not resolve),
+ * a mistyped scheme, and any host whose miss page is a 403, a 410 or a 200.
+ */
+export function probeExpectationOf(value: unknown): { url: string; status: number } | undefined {
+  const probe = value as { surface?: unknown; observed?: { status?: unknown } } | undefined;
+  if (typeof probe?.surface !== "string" || typeof probe.observed?.status !== "number") return undefined;
+  return { url: canonicalUrl(probe.surface), status: probe.observed.status };
+}
+
+/**
  * 2xx and 3xx answer. 405 is a URL that exists and answers a different
  * method (an MCP or API endpoint that takes POST): alive. 401 and 403 are
  * alive too, an endpoint that wants credentials still answers. 402 is alive
@@ -166,7 +199,14 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
  * redirect, so for an endpoint that refusal counts as an answer; for a
  * page it stays dead, since a parked domain redirects too.
  */
-export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: TargetMethod): boolean {
+export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: TargetMethod, expectStatus?: number): boolean {
+  // A probe's own surface answering exactly the status its record filed has
+  // answered the question this gate asks, whatever the table below says about
+  // that status (issue #228, `probeExpectationOf`). The comparison is against
+  // the status this run actually read, never a stored or assumed one, so a
+  // surface that has stopped answering that way is judged by the table like
+  // any other URL.
+  if (expectStatus !== undefined && result.ok && result.status === expectStatus) return true;
   if (result.ok) return statusAnswers(result.status, method);
   // A capped 3xx never reaches here from guardedFetch (it follows or refuses the redirect first); a transport that reports one without its Location is not an answer.
   if (result.reason === "too_large" && result.status !== undefined && !(result.status >= 300 && result.status < 400)) return statusAnswers(result.status, method);
@@ -183,8 +223,15 @@ function statusAnswers(status: number, method?: TargetMethod): boolean {
  * answer accepted through an exception (an endpoint's refused redirect, a
  * capped body judged by its status), so the reader sees why it counted.
  */
-export function linkDetail(result: GuardedResult, alive: boolean): string {
+export function linkDetail(result: GuardedResult, alive: boolean, expectStatus?: number): string {
   const detail = result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}`;
+  // A status the table would have called dead, counted because the record
+  // filed it, is an answer accepted through an exception like the other two:
+  // say so in the line, so a 404 in the log reads as the finding it is rather
+  // than as a gate that has stopped checking.
+  if (alive && result.ok && expectStatus !== undefined && result.status === expectStatus && !statusAnswers(result.status)) {
+    return `${detail}, the status this probe record filed`;
+  }
   return !alive || (!result.ok && (result.reason === "redirect_forbidden" || result.reason === "too_large")) ? detail : "";
 }
 
@@ -203,10 +250,20 @@ export function linkDetail(result: GuardedResult, alive: boolean): string {
  * one run, so a surface that answers a given shape intermittently failed the
  * required gate more often the more evidence the registry held about it. The
  * question "does this URL answer" has one answer per run, not one per file.
+ *
+ * `expectStatus` is part of the key for the same reason the other three are,
+ * and it is the one that would bite hardest if it were left out: the verdict
+ * is cached per key, so a probe surface that may answer 404 and the same URL
+ * named by an entry's `surfaces.api`, which may not, would otherwise share one
+ * verdict and whichever target happened to be asked first would decide the
+ * other. The exemption has to stay attached to the record that earned it.
  */
-export function askKey(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }): string {
-  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : ""].join("\n");
+export function askKey(target: AskTarget): string {
+  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : "", target.expectStatus ?? ""].join("\n");
 }
+
+/** The part of a `LinkTarget` that decides how one URL is asked and how its answer is read. */
+export type AskTarget = { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean; expectStatus?: number };
 
 /** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
 export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number }) => Promise<GuardedResult>;
@@ -276,7 +333,7 @@ export interface AskOptions {
  * dead is visible in the log instead of being quietly rounded to healthy.
  */
 export async function askUrl(
-  target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean },
+  target: AskTarget,
   fetch: LinkFetch,
   options: AskOptions = {}
 ): Promise<LinkAsk> {
@@ -295,13 +352,13 @@ export async function askUrl(
  * `surfaces.mcp` URL that neither answered, one JSON-RPC `initialize`.
  * A probe surface whose record says POST is asked with its POST first.
  */
-async function askSequence(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+async function askSequence(target: AskTarget, fetch: LinkFetch): Promise<LinkAsk> {
   if (target.method === "POST") {
     // A probe's surface that its record measured with a POST is asked
     // with one first: an empty JSON object, no session, nothing that could
     // be a credential. Some servers answer nothing else (issue #107).
     const result = await fetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (linkAnswers(result, target.endpoint, "POST")) return { alive: true, result };
+    if (linkAnswers(result, target.endpoint, "POST", target.expectStatus)) return { alive: true, result };
     // The record's method is the *preferred* way to ask this URL, not the
     // only one the checker knows. A POST that does not answer leaves the
     // question this gate asks unanswered rather than answered no: a 5xx
@@ -329,17 +386,17 @@ async function askSequence(target: { url: string; endpoint: boolean; method?: Ta
  * `askUrl` because a probe surface whose POST said nothing falls through to
  * exactly this, and it must be the same sequence rather than a copy of it.
  */
-async function askBrowser(target: { url: string; endpoint: boolean; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+async function askBrowser(target: AskTarget, fetch: LinkFetch): Promise<LinkAsk> {
   // HEAD first; GET only when HEAD failed outright or the server erred,
   // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
   // overwritten by a fallback that fares worse.
   let result = await fetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
   if (!result.ok || result.status >= 500 || result.status === 404) {
     const fallback = await fetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (linkAnswers(fallback, target.endpoint)) result = fallback;
+    if (linkAnswers(fallback, target.endpoint, undefined, target.expectStatus)) result = fallback;
     else if (!result.ok) result = fallback;
   }
-  if (linkAnswers(result, target.endpoint)) return { alive: true, result };
+  if (linkAnswers(result, target.endpoint, undefined, target.expectStatus)) return { alive: true, result };
   // A `surfaces.mcp` URL that answered neither browser method is asked
   // once more in the protocol it advertises. An MCP server has no other
   // read verb, so a HEAD-and-GET-only check of this field measures the
