@@ -32,9 +32,8 @@ customer's entry.
 
 ## The eight probe records, one request each
 
-Every record below is one unauthenticated, unpaid request and what it answered:
-its `surface`, `request`, status, headers, finding and reproduction command
-describe that request alone. All eight were sent in one pass on 2026-10-07
+Every record below is one unauthenticated, unpaid request and what it
+answered, and describes that request alone. All eight were sent in one pass on 2026-10-07
 between 06:05:06Z and 06:05:14Z from a datacenter container with no account,
 key or payment; the transcript with every origin status line is appendix (H) of
 [this artifact](https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt).
@@ -58,25 +57,22 @@ Together those eight say this: an anonymous caller can open the server, list
 its tools and resources, run a real search and enumerate the documentation
 tree, on Mintlify's own site and on a customer's. Three tools are
 listed, two annotated `readOnlyHint: true`. The third, `submit_feedback`, is
-annotated `readOnlyHint: false` and `openWorldHint: true`, and the vendor's
-page says it "records as unhelpful feedback in your analytics dashboard". It
-was not called, here or anywhere: calling it keyless would write a row into a
-third party's dashboard. Its presence, annotations and input schema are read
-from the list; nothing here claims what calling it would do beyond that
-sentence.
+annotated `readOnlyHint: false` and `openWorldHint: true`: a write path on a
+public documentation site, reachable with no account. It was not called, here
+or anywhere, and the `tools-list` record's own `decoded` block holds its
+annotations, its input schema and the vendor's sentence about what it writes.
 
 ## Four comparisons across requests, which no single probe can carry
 
 A probe is one request, so each of the following rests on several and lives
-here rather than in a probe file. Each names its request count and the saved
-pass holding them.
+here rather than in a probe file.
 
 **The deployment is stateless to a keyless caller.** Four requests. The
 `initialize` record notes only that its own response carried no
 `mcp-session-id` header; the `tools/list`, `resources/list`, `search` and
 `filesystem` records each note acceptance with no session id and no
-`initialize` in the request chain. Those four acceptances together are what
-make this a measurement rather than an inference. Appendix (H) (02) to (05).
+`initialize` in the request chain, which is what makes this a measurement
+rather than an inference. Appendix (H) (02) to (05).
 
 **The discovery documents name a hostname nobody asked for, and it is not one
 site's misconfiguration.** Ten requests across two passes. Four documents on
@@ -90,9 +86,8 @@ documentation hosts, found three serving it (`docs.semgrep.dev`,
 redirecting off the asked path (`docs.exa.ai`, `docs.anthropic.com`,
 `docs.cursor.com`, none followed, so nothing is claimed about their new homes). Every document that answered names a `*.mintlify.me`
 hostname, and three of those four share the deployment segment
-`main-kill-isr`; appendix (F) section (15) has each status and byte count. Four
-documents of four, from four unrelated domains, and none names the domain a
-reader asked.
+`main-kill-isr`; appendix (F) section (15) has each status and byte count.
+Seven documents answered and not one names the domain a reader asked.
 
 **The advertised hostname is live, not stale.** Two pairs of requests. On
 2026-10-07, `firecrawl.main-kill-isr.mintlify.me/mcp` and
@@ -130,10 +125,9 @@ path is relative to the documentation URL and not to the domain, so an agent ask
 the domain can be told there is nothing there when there is.
 
 It has no record because the `links` check reads every record's `surface` and
-refuses a URL answering 404, which is this probe's entire finding. A probe whose
-answer is "nothing is served here" is unfileable today; it is recorded here
-instead, with its request and status named, and the gate's refusal noted
-rather than worked around.
+refuses a URL answering 404, which is this probe's entire finding, so it is
+recorded here with its request and status named rather than worked around.
+That gate limitation is issue #228.
 
 ## One measurement this pass did not repeat
 
@@ -154,9 +148,8 @@ authentication: its own OAuth flow at `/authed/mcp/oauth/*`, a
 client-credentials grant exchanged at `/authed/mcp/oauth/token` for a token
 scoped `mcp:search`, content scoped to the caller's user groups, and an
 allowlist of redirect domains with Claude, ChatGPT, Cursor and Devin always
-permitted. None of it was exercised: no account created, no credential
-requested, no token endpoint called. The vendor's documentation, not a
-measurement.
+permitted. None of it was exercised: no account, no credential, no token
+request. The vendor's documentation, not a measurement.
 
 The page also documents WebMCP, five tools registered on the page itself via
 `navigator.modelContext`, and says it "requires a Pro or Enterprise plan". Not
@@ -180,9 +173,9 @@ and no versions, and the schema the server returned carries `language` and no
 version-filtering half of the job is an empty cell here.
 
 No second job is claimed. `submit_feedback` reports a documentation defect to a
-publisher, which is not an outcome the taxonomy has a row for;
-`eng.write-documentation` is nearest and asks for documentation written and
-kept current, which this tool does not do.
+publisher, which is not an outcome the taxonomy has a row for. The nearest,
+`eng.write-documentation`, asks for documentation written and kept current,
+which this tool does not do.
 
 ## Pricing and payment
 
@@ -258,3 +251,7 @@ by a program over the saved response, never by eye or from memory.
   list at 06:05:08Z and the card at 06:05:11Z. Appendix (H) had the direction
   right but called the gap "three minutes"; appendix (I) section (I5) corrects
   that published line rather than rewriting it.
+- v2, 2026-10-08: the discovery paragraph's closing summary, "Four documents of
+  four, from four unrelated domains", is removed rather than repaired: seven
+  documents answered, not four, and one of the four domains is Mintlify's own.
+  The counts above it are intact. Found by the merge seat on the merged head.
