@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "mintlify-admin-mcp",
+  "name": "Mintlify Admin MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "The write-capable one of Mintlify's three MCP servers: one hosted endpoint every customer connects to, authenticating with a Mintlify account, documented to edit pages, restructure navigation, open pull requests and change project settings. Measured keyless on 2026-10-07, one request per probe record: initialize, tools/list and a plain GET each answered 401 with the same 85-byte body and the same Bearer challenge, while the whole OAuth discovery chain answered 200 keyless and enumerates thirteen scopes of which eight write. The tool list is not readable without an account.",
+  "vendor": {
+    "name": "Mintlify, Inc.",
+    "url": "https://www.mintlify.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under Mintlify's Terms of Service",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-07 18:24Z: initialize, tools/list and GET of https://mcp.mintlify.com/ each answered 401, same 85 bytes, same Bearer challenge. The discovery chain is public and advertises dynamic client registration, PKCE S256 and public clients; authorization still needs a Mintlify account holder."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "invoice",
+    "priceList": "https://www.mintlify.com/pricing",
+    "notes": "No keyless request drew a 402 and no page read names a machine-payment protocol. `invoice` is the governing Terms' stated default fee term, carried from the sibling entry that cites it. The admin MCP page names no plan requirement beyond an account, and the pricing page does not list this server."
+  },
+  "surfaces": {
+    "homepage": "https://www.mintlify.com/",
+    "docs": "https://www.mintlify.com/docs/ai/mintlify-mcp",
+    "llmsTxt": "https://www.mintlify.com/docs/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.mintlify.com/",
+    "api": null,
+    "openapi": null,
+    "source": null
+  },
+  "social": {
+    "github": "mintlify",
+    "x": "mintlify"
+  },
+  "domains": [
+    "mintlify.com",
+    "www.mintlify.com",
+    "mcp.mintlify.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.write-documentation",
+      "summary": "The vendor's words, unverified by me because the surface is gated: the server gives AI tools \"write access to your Mintlify content and settings\", to \"edit pages, restructure navigation, update docs.json, open pull requests, change settings\". Nothing here is measured: a keyless caller gets 401.",
+      "sources": [
+        "https://www.mintlify.com/docs/ai/mintlify-mcp"
+      ]
+    }
+  ],
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1
+}

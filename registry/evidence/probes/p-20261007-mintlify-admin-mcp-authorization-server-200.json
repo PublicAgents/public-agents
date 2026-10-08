@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-admin-mcp"
+  },
+  "surface": "https://mcp.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-admin-mcp-authorization-server-200",
+  "at": "2026-10-07T18:24Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "no body; a keyless GET of the RFC 8414 authorization-server metadata path on the issuer the protected-resource document names"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "server": "Vercel",
+      "x-matched-path": "/api/[...path]",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "issuer": "the issuer is https://mcp.mintlify.com, the same origin as the resource, so there is no RFC 8414 section 3.3 issuer mismatch here",
+      "endpoints": "authorization /oauth/authorize, token /oauth/token, registration /oauth/register",
+      "registration": "a registration_endpoint is advertised, so dynamic client registration is offered to any caller. NOT exercised: registering a client writes a record into a third party's system.",
+      "flow": "response_types [\"code\"], grant_types [\"authorization_code\", \"refresh_token\"], code_challenge_methods [\"S256\"] only, token_endpoint_auth_methods [\"none\"] (public clients)",
+      "bytes": "646 body bytes, 0.691 s"
+    }
+  },
+  "finding": "A keyless GET of https://mcp.mintlify.com/.well-known/oauth-authorization-server on 2026-10-07 at 18:24:50Z answered HTTP/2 200 with 646 bytes. The issuer equals the resource origin, so the mismatch this registry has recorded elsewhere (DocuSign) is absent here. The server advertises dynamic client registration, PKCE S256 only, public clients and an authorization_code plus refresh_token pair. Advertised, not exercised: a registration would write into someone else's system, so what registration actually returns is an empty cell.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://mcp.mintlify.com/.well-known/oauth-authorization-server",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}

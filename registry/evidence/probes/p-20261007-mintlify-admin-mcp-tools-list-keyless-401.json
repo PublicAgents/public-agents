@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-admin-mcp"
+  },
+  "surface": "https://mcp.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "version": 1,
+  "id": "p-20261007-mintlify-admin-mcp-tools-list-keyless-401",
+  "at": "2026-10-07T18:24Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, sent with no session id and no preceding initialize; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "[redacted by the registry's credential filter: a `Bearer` challenge that names a public discovery document and carries no token; printed verbatim in appendix (M)]",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "server": "Vercel",
+      "x-matched-path": "/api/[...path]",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "body-verbatim": "{\"error\":{\"code\":\"unauthorized\",\"message\":\"Missing or invalid authorization header\"}}",
+      "identical-to-the-initialize-refusal": "Same status, same 85 bytes, same challenge. The route guard does not distinguish methods: there is no partially readable surface here.",
+      "why-this-request-exists": "Several hosted MCP servers answer tools/list to an anonymous caller while gating tools/call. This one does not, and that is worth a record rather than an assumption.",
+      "bytes": "85 body bytes, 0.842 s"
+    }
+  },
+  "finding": "A keyless tools/list POST to https://mcp.mintlify.com/ on 2026-10-07 at 18:24:31Z answered HTTP/2 401 with the same 85-byte body and the same `Bearer` challenge as the initialize refusal. So the tool list of Mintlify's write-capable server is not readable without an account, and this entry's tool-list cell is empty for that reason rather than for want of looking. Some hosted MCP servers do list their tools anonymously; this one does not. The www-authenticate challenge is REDACTED in this record's headers: the registry's credential filter refuses its shape, although a `Bearer` challenge naming a public document carries no credential. It is printed verbatim in appendix (M).",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://mcp.mintlify.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  }
+}
