@@ -80,7 +80,7 @@ const asked = new Map(keys.map((key, index) => [key, answers[index]]));
 
 const results = targets.map(target => {
   const { alive, result, reasked } = asked.get(askKey(target))!;
-  const detail = linkDetail(result, alive, target.expectStatus);
+  const detail = linkDetail(result, alive, target.expect?.status);
   // A reference that failed once and answered once is neither a clean row nor a
   // dead one, and saying so is how anyone learns that a listed host is flaky
   // rather than healthy (issue #153, change 2).

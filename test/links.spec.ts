@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { askKey, askUrl, REASK_PAUSE_MS, transientFailure, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeExpectationOf, probeSurfaceOf } from "../src/lib/links.ts";
+import { askKey, askUrl, REASK_PAUSE_MS, transientFailure, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type AskTarget, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeExpectationOf, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -117,12 +117,19 @@ describe("probeSurfaceOf", () => {
 });
 
 describe("probeExpectationOf", () => {
-  it("names a probe's surface and the status it filed, whatever the method, and nothing else", () => {
+  it("names a probe's surface, the status it filed, and the method that read it, and nothing else", () => {
     const probe = (status: unknown) => ({ id: "p-1", surface: "HTTPS://A.Example/.well-known/public-agents.json", request: { method: "GET" }, observed: { status } });
     // Canonical spelling, so the expectation attaches to the same URL `urlsOf` reads out of the record.
-    expect(probeExpectationOf(probe(404))).toEqual({ url: "https://a.example/.well-known/public-agents.json", status: 404 });
-    // Unlike probeSurfaceOf this does not care about the method: the 404 the registry needs filed is a GET.
-    expect(probeExpectationOf({ surface: "https://a.example/", request: { method: "POST" }, observed: { status: 404 } })).toEqual({ url: "https://a.example/", status: 404 });
+    expect(probeExpectationOf(probe(404))).toEqual({ url: "https://a.example/.well-known/public-agents.json", expect: { status: 404, method: "GET" } });
+    // The method comes along, because a filed status answers for the record's
+    // own request: the same 404 filed by a POST record is a POST's 404.
+    expect(probeExpectationOf({ surface: "https://a.example/", request: { method: "POST" }, observed: { status: 404 } })).toEqual({ url: "https://a.example/", expect: { status: 404, method: "POST" } });
+    expect(probeExpectationOf({ surface: "https://a.example/", request: { method: "HEAD" }, observed: { status: 404 } })).toEqual({ url: "https://a.example/", expect: { status: 404, method: "HEAD" } });
+    // The schema allows an OPTIONS and the checker never sends one, so such a
+    // record carries no expectation at all: an empty cell in the gate rather
+    // than a status accepted on the strength of a different request.
+    expect(probeExpectationOf({ surface: "https://a.example/", request: { method: "OPTIONS" }, observed: { status: 404 } })).toBeUndefined();
+    expect(probeExpectationOf({ surface: "https://a.example/", observed: { status: 404 } })).toBeUndefined();
     // No surface, no expectation: a URL a record merely cites is a page, and an entry is not a record.
     expect(probeExpectationOf({ surfaces: { mcp: "https://mcp.a.example/" }, observed: { status: 404 } })).toBeUndefined();
     expect(probeExpectationOf({ surface: 12, observed: { status: 404 } })).toBeUndefined();
@@ -182,12 +189,84 @@ describe("a probe surface answering the status its record filed (issue #228)", (
       asked.push(options.method);
       return answered(404);
     };
-    const target = { url: "https://a.example/.well-known/public-agents.json", endpoint: false, expectStatus: 404 };
+    const target: AskTarget = { url: "https://a.example/.well-known/public-agents.json", endpoint: false, expect: { status: 404, method: "GET" } };
     expect(await askUrl(target, fetch)).toMatchObject({ alive: true });
     // A 404 from HEAD still falls through to the GET, which is the request the
     // record made; the expectation is read from that answer rather than short
     // circuiting the pair.
     expect(asked).toEqual(["HEAD", "GET"]);
+  });
+
+  it("reads the filed status off a capped body, because a 404 miss page is a whole HTML document", async () => {
+    // The motivating record of issue #228 is a GET of
+    // /.well-known/public-agents.json whose 404 arrives with 46,345 bytes of a
+    // platform miss page, measured on www.mintlify.com at 12:13:47Z on
+    // 2026-10-08. The guarded fetch caps the body at 16 KB, so what the gate
+    // holds is a `too_large` carrying a 404 and not an `ok` one. Insisting on
+    // `ok` declined the record this rule exists for.
+    const capped = (status: number): GuardedResult => ({ ok: false, reason: "too_large", detail: "https://a.example/x: over 16384 bytes (HTTP " + status + ")", status });
+    expect(linkAnswers(capped(404), false, undefined, 404)).toBe(true);
+    expect(linkAnswers(capped(410), false, undefined, 410)).toBe(true);
+    // And the wrong status still fails, capped or not.
+    expect(linkAnswers(capped(500), false, undefined, 404)).toBe(false);
+    expect(linkAnswers(capped(404), false, undefined, 410)).toBe(false);
+    // A capped redirect whose Location was never read carries no status this
+    // check may use, so it cannot match an expectation either.
+    expect(linkAnswers({ ok: false, reason: "too_large", detail: "d", status: 301 }, false, undefined, 301)).toBe(false);
+    // A refusal that kept no status matches nothing.
+    expect(linkAnswers(refused("timeout"), false, undefined, 404)).toBe(false);
+    expect(linkAnswers(refused("unresolvable"), false, undefined, 404)).toBe(false);
+    // The line says how it counted, and the capped refusal is where the 404 is.
+    expect(linkDetail(capped(404), true, 404)).toBe("too_large: https://a.example/x: over 16384 bytes (HTTP 404), the status this probe record filed");
+    // End to end: HEAD 404, then a GET whose body outgrows the cap, which is
+    // the real sequence against a real host.
+    const fetch: LinkFetch = async (_url, options) => (options.method === "HEAD" ? answered(404) : capped(404));
+    const target: AskTarget = { url: "https://a.example/.well-known/public-agents.json", endpoint: false, expect: { status: 404, method: "GET" } };
+    const ask = await askUrl(target, fetch);
+    expect(ask.alive).toBe(true);
+    // The GET is what it kept, so the line names the cap rather than the HEAD's 404.
+    expect(ask.result).toMatchObject({ reason: "too_large", status: 404 });
+  });
+
+  it("refuses a HEAD that matches when the record's own GET does not (Caliper's blocker on #229)", async () => {
+    // The defect this closes: a HEAD 404 triggered the GET fallback, the GET
+    // answered 500, the fallback was not adopted because the HEAD had been an
+    // `ok` response, and the expectation was then satisfied by the HEAD. So a
+    // 404-filed ownership probe passed while the request the record actually
+    // made no longer reproduced its finding, on the strength of a request the
+    // record never made.
+    const asked: string[] = [];
+    const pair = (head: number, get: number): LinkFetch => async (_url, options) => {
+      asked.push(options.method);
+      return answered(options.method === "HEAD" ? head : get);
+    };
+    const target: AskTarget = { url: "https://a.example/.well-known/public-agents.json", endpoint: false, expect: { status: 404, method: "GET" } };
+    const erred = await askUrl(target, pair(404, 500), { sleep: async () => {}, pauseMs: 0 });
+    expect(erred.alive).toBe(false);
+    // And the GET is what the report keeps, so the line says 500 rather than
+    // printing the HEAD's 404 beside a verdict of dead.
+    expect(erred.result).toMatchObject({ status: 500 });
+    expect(linkDetail(erred.result, erred.alive, 404)).toBe("HTTP 500");
+    // A 5xx is a transient failure, so the whole sequence is read twice: four requests.
+    expect(asked).toEqual(["HEAD", "GET", "HEAD", "GET"]);
+    // The same in the other direction: a GET that answers the filed status is
+    // alive however the HEAD fared.
+    expect(await askUrl(target, pair(500, 404))).toMatchObject({ alive: true, result: { status: 404 } });
+    expect(await askUrl(target, pair(404, 404))).toMatchObject({ alive: true, result: { status: 404 } });
+    // A record that filed a 410 is entitled to its own GET even though a HEAD
+    // 410 alone would never have drawn one: without that it could not agree
+    // with itself.
+    const gone: AskTarget = { url: "https://a.example/x", endpoint: false, expect: { status: 410, method: "GET" } };
+    asked.length = 0;
+    expect(await askUrl(gone, pair(410, 410))).toMatchObject({ alive: true });
+    expect(asked).toEqual(["HEAD", "GET"]);
+    // And a record that filed a POST is not satisfied by the browser pair
+    // either, for the same reason in the same words.
+    const posted: AskTarget = { url: "https://mcp.a.example/", endpoint: true, method: "POST", expect: { status: 404, method: "POST" } };
+    const postThen = (post: number, head: number, get: number): LinkFetch => async (_url, options) =>
+      answered(options.method === "POST" ? post : options.method === "HEAD" ? head : get);
+    expect(await askUrl(posted, postThen(404, 500, 500))).toMatchObject({ alive: true, result: { status: 404 } });
+    expect((await askUrl(posted, postThen(503, 404, 404), { sleep: async () => {}, pauseMs: 0 })).alive).toBe(false);
   });
 
   it("does not re-ask: a 404 that the record filed is not a transient failure", async () => {
@@ -196,7 +275,7 @@ describe("a probe surface answering the status its record filed (issue #228)", (
       calls += 1;
       return answered(404);
     };
-    const ask = await askUrl({ url: "https://a.example/x", endpoint: false, expectStatus: 404 }, fetch, { sleep: async () => {}, pauseMs: 0 });
+    const ask = await askUrl({ url: "https://a.example/x", endpoint: false, expect: { status: 404, method: "GET" } }, fetch, { sleep: async () => {}, pauseMs: 0 });
     expect(ask).toMatchObject({ alive: true });
     expect(ask.reasked).toBeUndefined();
     expect(calls).toBe(2);
@@ -208,9 +287,9 @@ describe("a probe surface answering the status its record filed (issue #228)", (
     // surfaces.api, which may not, would share one verdict and whichever was
     // asked first would decide the other.
     const url = "https://a.example/x";
-    expect(askKey({ url, endpoint: false, expectStatus: 404 })).not.toBe(askKey({ url, endpoint: false }));
-    expect(askKey({ url, endpoint: false, expectStatus: 404 })).not.toBe(askKey({ url, endpoint: false, expectStatus: 410 }));
-    expect(askKey({ url, endpoint: false, expectStatus: 404 })).toBe(askKey({ url, endpoint: false, expectStatus: 404 }));
+    expect(askKey({ url, endpoint: false, expect: { status: 404, method: "GET" } })).not.toBe(askKey({ url, endpoint: false }));
+    expect(askKey({ url, endpoint: false, expect: { status: 404, method: "GET" } })).not.toBe(askKey({ url, endpoint: false, expect: { status: 410, method: "GET" } }));
+    expect(askKey({ url, endpoint: false, expect: { status: 404, method: "GET" } })).toBe(askKey({ url, endpoint: false, expect: { status: 404, method: "GET" } }));
   });
 });
 
