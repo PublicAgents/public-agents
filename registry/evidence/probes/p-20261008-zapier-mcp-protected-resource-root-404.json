@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-protected-resource-root-404",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/.well-known/oauth-protected-resource",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 404,
+    "headers": {
+      "content-type": "application/json",
+      "server": "Vercel",
+      "x-matched-path": "/.well-known/oauth-protected-resource/[[...path]]",
+      "access-control-allow-methods": "GET, OPTIONS",
+      "cache-control": "public, max-age=0, must-revalidate"
+    },
+    "decoded": {
+      "body": "{\"error\":\"not_found\",\"error_description\":\"No protected resource exists at the root domain. Protected resources are available at specific endpoints\"}",
+      "bytes": 148,
+      "against-the-earlier-pass": "148 bytes and the same body at 12:19:24Z the same day",
+      "what-it-establishes": "the root form of the RFC 9728 well-known URI, which is where a client lands when a challenge names no resource_metadata, answers a deliberate 404 with a JSON body of its own rather than the site's HTML miss page: the route exists and declines the root on purpose. The path-inserted form for /api/mcp/mcp answers 200, filed as the protected-resource-path-200 record",
+      "why-this-record-exists": "a probe record whose finding is a 404 could not pass the registry's link gate until pull request 229 merged on 2026-10-08"
+    }
+  },
+  "finding": "With no credentials on 2026-10-08 at 18:05:19Z, GET https://mcp.zapier.com/.well-known/oauth-protected-resource answered 404 with a 148-byte JSON body saying no protected resource exists at the root domain and that protected resources are available at specific endpoints, the same body as at 12:19:24Z; the route is deliberate, and because the 401 challenge names no resource_metadata, a client following the challenge alone reaches this 404 and not the path-inserted document that answers 200.",
+  "reproducibility": {
+    "command": "curl -sS -i https://mcp.zapier.com/.well-known/oauth-protected-resource",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1805Z.txt"
+  },
+  "at": "2026-10-08T18:05Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}

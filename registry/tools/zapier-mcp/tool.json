@@ -21,10 +21,15 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "card",
+      "other",
+      "bank-transfer",
+      "invoice"
+    ],
+    "humanBilling": "card-on-file",
     "priceList": "https://zapier.com/pricing",
-    "notes": "No keyless request drew a 402 and no page read names a machine-payment protocol. The MCP page's FAQ says building a Zap is free from any surface including MCP, and that running a standard action after Early Access costs 1 task. The payment instrument is unread."
+    "notes": "Read 2026-10-08 18:05Z: the how-to-pay article lists credit card, PayPal, ACH (US banks) and invoicing (Enterprise only); the pricing FAQ says invoice or wire on annual Team or Enterprise, and its Pay by Invoice link answers 404. MCP draws from the account's shared task pool. No 402 seen."
   },
   "surfaces": {
     "homepage": "https://zapier.com/",

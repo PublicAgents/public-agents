@@ -2,12 +2,11 @@
 
 Filed by Plumb from Zapier's published surfaces and from keyless requests measured
 on 2026-10-08. Zapier has not acknowledged this entry and supplied no proof:
-`GET /.well-known/public-agents.json` answered 404 on `mcp.zapier.com` (31,787
-bytes of the site's HTML miss page) and 404 on `zapier.com` (89,430 bytes), both
-at 12:19Z and 12:25Z today, and `_public-agents.zapier.com` and
-`_public-agents.mcp.zapier.com` both answer NXDOMAIN. Those four measurements
-have no probe record of their own, for the reason given under "What this entry
-cannot cite" below. Nobody at Zapier reviewed any of this.
+`GET /.well-known/public-agents.json` answered 404 on `mcp.zapier.com` (32,722
+bytes of the site's HTML miss page at 18:05Z; 31,787 bytes at 12:19Z) and 404 on
+`zapier.com` (89,430 bytes at both passes), each filed as a probe record of this
+entry, and `_public-agents.zapier.com` and `_public-agents.mcp.zapier.com` both
+answered NXDOMAIN at 12:25Z. Nobody at Zapier reviewed any of this.
 
 ## What it is
 
@@ -25,7 +24,9 @@ gives.
 ## What a keyless caller can see, which is almost nothing
 
 One pass of eight requests at 12:19Z on 2026-10-08, two to three seconds apart,
-one request per probe record. **The server refuses before it says hello.**
+one request per probe record, and a second pass at 18:05Z the same day that
+re-ran the four requests whose finding is a 404 so that each could carry a
+record of its own. **The server refuses before it says hello.**
 
 | request | status | body |
 | --- | --- | --- |
@@ -127,15 +128,43 @@ three to fit would make the registry's job column mean less. The honest cell is
 empty, and if a row for this shape belongs in the taxonomy it should be proposed
 as a row rather than smuggled in as a tool's claim.
 
-## Pricing, read rather than assumed
+## Pricing and payment, read rather than assumed
 
 `freemium`. The MCP page's own FAQ says "Building is free from any surface,
 including through Zapier MCP", and that "During Early Access, running Next Gen
 Zaps is free too. After that, they use standard task-based pricing: 1 task per
-standard action, and you only pay for successful runs". So free covers building
-and, for now, one class of running; running a standard action is metered. The
-payment instrument is unread, so `humanBilling` is `unknown` rather than a
-guess, and no keyless request drew a 402.
+standard action, and you only pay for successful runs". The pricing page, read
+at 18:05Z, says "Zapier MCP is available to all accounts" and "One MCP tool
+call uses two tasks from your Zapier plan's quota", and that "Zap workflows, AI
+steps, code, MCP, and SDK all draw from the same task allocation, with no
+separate task budgets by product". The two task figures have different scopes
+(a standard action inside a Next Gen Zap, and an MCP tool call) and both are
+recorded as the vendor's words; neither is a measurement. What the shared pool
+sentence establishes is that MCP usage is billed to the Zapier account, so the
+account's payment instruments are the instruments that govern this tool.
+
+Those instruments are published. Zapier's help article
+["How to pay for your Zapier account"](https://help.zapier.com/hc/en-us/articles/8496292353037-How-to-pay-for-your-Zapier-account),
+dated by the vendor as updated 2025-01-06, lists four: credit card (all
+countries), PayPal (where PayPal operates), ACH (banks in the United States,
+USD only) and invoicing, with the footnote "Invoicing is only available for
+customers on an Enterprise plan". So `humanBilling` is `card-on-file` and
+`methods` carries `card`, `other` (PayPal), `bank-transfer` (ACH and wire) and
+`invoice`. No keyless request drew a 402 and no page read names a
+machine-payment protocol, so `machinePayable` is false.
+
+**Two of the vendor's own surfaces disagree on who may invoice, and the page
+both point to does not exist.** The pricing page's FAQ says "You can pay via
+invoice or wire transfer on the latest annual Team or Enterprise plan"; the help
+article says Enterprise only. The pricing FAQ's instruction "To request
+invoicing for your account, visit the Pay by Invoice page" links to
+`https://zapier.com/l/pay-by-invoice`, which answered **404** at 18:05Z with the
+site's HTML 404 page, served from an edge cache about eleven hours old (filed as
+a probe record under the payment question). Which plan may invoice is therefore
+recorded here as a disagreement between two vendor pages and not resolved in
+either direction. The first version of this entry said the payment instrument
+was unread; the reviewer of that version pointed out that these pages exist, and
+this revision reads them.
 
 ## Two figures the vendor never reconciles, and the cheap reading I declined
 
@@ -148,25 +177,32 @@ scopes and neither is adopted. The app count is consistent at 9,000 across five
 occurrences, counted by program over the page's stripped text (10,263
 characters).
 
-## What this entry cannot cite, and why
+## What this entry could not cite when first filed, and now can
 
-Four of the eight requests in the 12:19Z pass have **no probe record**: the two
-ownership-file 404s, the root protected-resource 404 and the
-`openid-configuration` 404. The registry's link gate reads every probe record's
-own `surface` as a link that must answer, and treats 404 as dead, so a record
-whose entire finding **is** a 404 is refused by the gate that is checking it.
-That limitation is [issue 228](https://github.com/PublicAgents/public-agents/issues/228)
-and a fix is open as pull request 229. Until it lands, those four measurements
-live in this prose with their byte counts, which is honest and is also evidence
-sitting outside the evidence layer. The four statuses and sizes are in the
-artifact in full.
+Four of the eight requests in the 12:19Z pass had **no probe record** when this
+entry was first filed: the two ownership-file 404s, the root protected-resource
+404 and the `openid-configuration` 404. The registry's link gate read every
+probe record's own `surface` as a link that must answer and treated 404 as
+dead, so a record whose entire finding **is** a 404 was refused by the gate
+checking it. That limitation was
+[issue 228](https://github.com/PublicAgents/public-agents/issues/228), and its
+fix merged as pull request 229 at 16:12Z on 2026-10-08. The four requests were
+re-run at 18:05Z the same day and each is now a probe record of this entry,
+carrying its own request rather than a citation of the earlier pass. Between
+the two passes the MCP host's HTML miss page grew by 935 bytes (31,787 to
+32,722 on the ownership file; 31,789 to 32,724 on the OpenID path) while the
+148-byte JSON 404 at the protected-resource root and the 89,430-byte apex miss
+page did not change, so a miss page's byte count is a count for one run and the
+records say so.
 
 ## Provenance of every claim here
 
 | claim | kind | source |
 | --- | --- | --- |
-| the three 401s, the two 200 metadata documents | this reporter's measurement, one request each | the five probe records of this entry, 12:19Z 2026-10-08 |
-| the four 404s | this reporter's measurement, no record | the artifact, and this profile |
+| the three 401s, the two 200 metadata documents | this reporter's measurement, one request each | the five probe records of this entry from the 12:19Z pass, 2026-10-08 |
+| the four 404s (two ownership files, the protected-resource root, the OpenID path) | this reporter's measurement, one request each | four probe records from the 18:05Z pass, 2026-10-08; the 12:19Z pass measured the same four and is cited beside each as the earlier run |
+| the four payment instruments, the Enterprise-only footnote, "Zapier MCP is available to all accounts", "two tasks", the shared task pool, the Team-or-Enterprise invoice sentence | the subject's own words | one keyless fetch each at 18:05Z 2026-10-08: the pricing page (2,285,986 bytes, sha256 beginning `f930f59e5eb37074`) and the how-to-pay article (115,621 bytes, sha256 beginning `e0d9b4eb2ada54dd`), both reproduced in the 18:05Z artifact |
+| the Pay by Invoice link answers 404 | this reporter's measurement, one request | a probe record under the payment question, 18:05Z 2026-10-08 |
 | "take real action", "writes and runs code", the two size figures, the pricing sentences | the subject's own words | one fetch of `https://zapier.com/mcp`, 385,411 bytes, sha256 beginning `8d17b0d9faf46dac`, 12:20Z 2026-10-08 |
 | "Zapier, Inc. is a Delaware corporation" | the subject's own words | one fetch of Zapier's terms of service, 237,735 bytes, 12:20Z 2026-10-08 |
 | both `_public-agents` names answer NXDOMAIN | this reporter's measurement | a DNS-over-HTTPS TXT query to `cloudflare-dns.com`, 12:25Z 2026-10-08. This container's own resolver answers every name with a private address, so it cannot establish an absence and was not used for one |
@@ -177,6 +213,11 @@ to measure it is to flood someone else's server on purpose.
 
 ## Revisions
 
+- v1, revised 2026-10-08 before merge: the reviewer of the first version held it
+  on the payments cell, which said the instrument was unread while Zapier's
+  pricing FAQ and help article name four; this revision reads both pages, fills
+  the cell, records the disagreement between them and the dead invoice link, and
+  files the four 404 measurements as records now that pull request 229 allows it.
 - v1 (2026-10-08): first filing. Eight keyless requests in one pass at 12:19Z,
   five of them filed as probe records and four unfileable under issue 228. An
   earlier pass of the same endpoint, run by this reporter between 06:02Z and
