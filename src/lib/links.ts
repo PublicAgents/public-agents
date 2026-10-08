@@ -132,6 +132,60 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
   return { url: canonicalUrl(probe.surface), method: "POST" };
 }
 
+/** The methods the checker can send, so an expectation can name the request it belongs to. */
+export type ExpectMethod = "GET" | "HEAD" | "POST";
+
+/** The status a probe record filed, and the method of the request that read it. */
+export interface ProbeExpectation {
+  status: number;
+  method: ExpectMethod;
+}
+
+/**
+ * The status a probe record filed for its own surface, which that surface is
+ * then allowed to answer with (issue #228), together with the method the
+ * record read it with. Present only on the record's own `surface`; a URL a
+ * record merely cites carries no expectation, and nor does the same URL named
+ * by an entry two files away.
+ *
+ * The method travels with the status because a filed status is the answer to
+ * the record's OWN request and to no other. The checker asks HEAD first and
+ * GET second, and the two disagree often enough to matter: a host can answer
+ * a HEAD 404 and a GET 500, or the reverse. Without the method, such a pair
+ * let a record filing 404 pass on the strength of a request it never made
+ * (Caliper's blocker on #229). A record filing an OPTIONS gets no
+ * expectation at all, because the checker never sends one: that is a cell the
+ * gate leaves empty rather than a status it quietly accepts.
+ *
+ * Why the gate needs this at all. The registry's product includes absences,
+ * and the commonest absence it publishes is a document that is not served:
+ * `GET /.well-known/public-agents.json` answering 404 is the measurement
+ * behind the words "this is an unclaimed listing" on every unclaimed entry.
+ * `linkTargets` reads every record's `surface` as a target and the table below
+ * calls 404 and 410 dead, so a record whose entire finding is a 404 could not
+ * be filed: the gate fetched the URL the record was about, got the 404 the
+ * record existed to report, and refused the record. Four entries in a row put
+ * that measurement in their profile instead, with the refusal named, which is
+ * honest prose and is also evidence migrating out of the evidence layer.
+ *
+ * Why it is a status match and not an exemption. A record is exempt from the
+ * table only for the one status it filed, compared against what the fetch
+ * actually returned on that run, so the thing this gate exists to catch still
+ * gets caught: a mistyped surface overwhelmingly does not answer with the
+ * status its record claims. What is given up is narrower and worth stating,
+ * because it is real: on a host whose catch-all answers 404, a typo in the
+ * path of a 404-filed record now answers 404 too and passes. The protection
+ * that remains for such a record is a mistyped host (which does not resolve),
+ * a mistyped scheme, and any host whose miss page is a 403, a 410 or a 200.
+ */
+export function probeExpectationOf(value: unknown): { url: string; expect: ProbeExpectation } | undefined {
+  const probe = value as { surface?: unknown; request?: { method?: unknown }; observed?: { status?: unknown } } | undefined;
+  if (typeof probe?.surface !== "string" || typeof probe.observed?.status !== "number") return undefined;
+  const method = probe.request?.method;
+  if (method !== "GET" && method !== "HEAD" && method !== "POST") return undefined;
+  return { url: canonicalUrl(probe.surface), expect: { status: probe.observed.status, method } };
+}
+
 /**
  * 2xx and 3xx answer. 405 is a URL that exists and answers a different
  * method (an MCP or API endpoint that takes POST): alive. 401 and 403 are
@@ -166,11 +220,41 @@ export function probeSurfaceOf(value: unknown): { url: string; method: TargetMet
  * redirect, so for an endpoint that refusal counts as an answer; for a
  * page it stays dead, since a parked domain redirects too.
  */
-export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: TargetMethod): boolean {
+export function linkAnswers(result: GuardedResult, endpoint: boolean, method?: TargetMethod, expectStatus?: number): boolean {
+  // A probe's own surface answering exactly the status its record filed has
+  // answered the question this gate asks, whatever the table below says about
+  // that status (issue #228, `probeExpectationOf`). The comparison is against
+  // the status this run actually read, never a stored or assumed one, so a
+  // surface that has stopped answering that way is judged by the table like
+  // any other URL.
+  //
+  // It reads the status through `statusRead`, which is the same reading the
+  // capped-body rule below takes, and that is not a detail: the motivating
+  // record of issue #228 is a `GET /.well-known/public-agents.json` whose 404
+  // arrives with 46,345 bytes of a platform miss page, so the fetch that
+  // measures it is a `too_large` carrying a 404 and not an `ok` one. A rule
+  // that insisted on `ok` here would decline the very record it exists for,
+  // on hosts whose miss page is a full HTML document, which is most of them.
+  if (expectStatus !== undefined && statusRead(result) === expectStatus) return true;
   if (result.ok) return statusAnswers(result.status, method);
-  // A capped 3xx never reaches here from guardedFetch (it follows or refuses the redirect first); a transport that reports one without its Location is not an answer.
-  if (result.reason === "too_large" && result.status !== undefined && !(result.status >= 300 && result.status < 400)) return statusAnswers(result.status, method);
+  if (statusRead(result) !== undefined) return statusAnswers(statusRead(result)!, method);
   return endpoint && result.reason === "redirect_forbidden";
+}
+
+/**
+ * The status this check is allowed to read from a result, and `undefined` when
+ * there is none it may use.
+ *
+ * A body that outgrew the byte cap is judged by the status line that arrived
+ * before it: the check never reads the body, so the bytes it refused to buffer
+ * are not evidence of anything. A capped 3xx never reaches here from
+ * `guardedFetch` (it follows or refuses the redirect first), and a transport
+ * that reports one without its Location is not an answer.
+ */
+function statusRead(result: GuardedResult): number | undefined {
+  if (result.ok) return result.status;
+  if (result.reason !== "too_large" || result.status === undefined) return undefined;
+  return result.status >= 300 && result.status < 400 ? undefined : result.status;
 }
 
 function statusAnswers(status: number, method?: TargetMethod): boolean {
@@ -183,8 +267,19 @@ function statusAnswers(status: number, method?: TargetMethod): boolean {
  * answer accepted through an exception (an endpoint's refused redirect, a
  * capped body judged by its status), so the reader sees why it counted.
  */
-export function linkDetail(result: GuardedResult, alive: boolean): string {
+export function linkDetail(result: GuardedResult, alive: boolean, expectStatus?: number): string {
   const detail = result.ok ? `HTTP ${result.status}` : `${result.reason}: ${result.detail}`;
+  // A status the table would have called dead, counted because the record
+  // filed it, is an answer accepted through an exception like the other two:
+  // say so in the line, so a 404 in the log reads as the finding it is rather
+  // than as a gate that has stopped checking.
+  const status = statusRead(result);
+  if (alive && status !== undefined && expectStatus !== undefined && status === expectStatus && !statusAnswers(status)) {
+    // A capped body prints its own refusal too, which is where the 404 is:
+    // `too_large: <url>: over 16384 bytes (HTTP 404), the status this probe
+    // record filed`. That is the line the commonest record of this kind draws.
+    return `${detail}, the status this probe record filed`;
+  }
   return !alive || (!result.ok && (result.reason === "redirect_forbidden" || result.reason === "too_large")) ? detail : "";
 }
 
@@ -203,9 +298,32 @@ export function linkDetail(result: GuardedResult, alive: boolean): string {
  * one run, so a surface that answers a given shape intermittently failed the
  * required gate more often the more evidence the registry held about it. The
  * question "does this URL answer" has one answer per run, not one per file.
+ *
+ * The expectation is part of the key for the same reason the other three are,
+ * and it is the one that would bite hardest if it were left out: the verdict
+ * is cached per key, so a probe surface that may answer 404 and the same URL
+ * named by an entry's `surfaces.api`, which may not, would otherwise share one
+ * verdict and whichever target happened to be asked first would decide the
+ * other. The exemption has to stay attached to the record that earned it. Its
+ * method is in the key too, because two records of one URL that filed the same
+ * status with different methods are judged on different requests.
  */
-export function askKey(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }): string {
-  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : ""].join("\n");
+export function askKey(target: AskTarget): string {
+  const expect = target.expect ? `${target.expect.method} ${target.expect.status}` : "";
+  return [canonicalUrl(target.url), target.method ?? "", target.mcp === true ? "mcp" : "", target.endpoint ? "endpoint" : "", expect].join("\n");
+}
+
+/** The part of a `LinkTarget` that decides how one URL is asked and how its answer is read. */
+export type AskTarget = { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean; expect?: ProbeExpectation };
+
+/**
+ * The status this target's record filed, if and only if the record read it
+ * with the method about to be asked. One expression of the rule that a filed
+ * status answers for the record's own request and for nothing else, so that
+ * every place in the sequence applies it the same way.
+ */
+export function expectFor(target: AskTarget, method: ExpectMethod): number | undefined {
+  return target.expect?.method === method ? target.expect.status : undefined;
 }
 
 /** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
@@ -276,7 +394,7 @@ export interface AskOptions {
  * dead is visible in the log instead of being quietly rounded to healthy.
  */
 export async function askUrl(
-  target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean },
+  target: AskTarget,
   fetch: LinkFetch,
   options: AskOptions = {}
 ): Promise<LinkAsk> {
@@ -295,13 +413,16 @@ export async function askUrl(
  * `surfaces.mcp` URL that neither answered, one JSON-RPC `initialize`.
  * A probe surface whose record says POST is asked with its POST first.
  */
-async function askSequence(target: { url: string; endpoint: boolean; method?: TargetMethod; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+async function askSequence(target: AskTarget, fetch: LinkFetch): Promise<LinkAsk> {
   if (target.method === "POST") {
     // A probe's surface that its record measured with a POST is asked
     // with one first: an empty JSON object, no session, nothing that could
     // be a credential. Some servers answer nothing else (issue #107).
     const result = await fetch(target.url, { method: "POST", body: "{}", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (linkAnswers(result, target.endpoint, "POST")) return { alive: true, result };
+    // The expectation is honoured here only if the record filed a POST, which
+    // for a `request.method` of POST it did; the guard is the rule stated
+    // once rather than an assumption repeated.
+    if (linkAnswers(result, target.endpoint, "POST", expectFor(target, "POST"))) return { alive: true, result };
     // The record's method is the *preferred* way to ask this URL, not the
     // only one the checker knows. A POST that does not answer leaves the
     // question this gate asks unanswered rather than answered no: a 5xx
@@ -329,17 +450,35 @@ async function askSequence(target: { url: string; endpoint: boolean; method?: Ta
  * `askUrl` because a probe surface whose POST said nothing falls through to
  * exactly this, and it must be the same sequence rather than a copy of it.
  */
-async function askBrowser(target: { url: string; endpoint: boolean; mcp?: boolean }, fetch: LinkFetch): Promise<LinkAsk> {
+async function askBrowser(target: AskTarget, fetch: LinkFetch): Promise<LinkAsk> {
   // HEAD first; GET only when HEAD failed outright or the server erred,
   // so a qualifying HEAD answer (405, 403, 401, 2xx, 3xx) is never
   // overwritten by a fallback that fares worse.
   let result = await fetch(target.url, { method: "HEAD", timeoutMs: 10_000 });
-  if (!result.ok || result.status >= 500 || result.status === 404) {
+  // The expectation each of these two requests may be judged by: the HEAD's,
+  // only for a record that filed a HEAD, and the GET's only for one that filed
+  // a GET. `judged` follows whichever response `result` ends up holding, so
+  // the status a record filed can never be satisfied by the other request.
+  let judged = expectFor(target, "HEAD");
+  const expectOnGet = expectFor(target, "GET");
+  // A record that filed a GET is entitled to have its GET sent, even where a
+  // HEAD alone would have settled the matter: without this a record filing a
+  // 410 is judged on a HEAD 410 that the table calls dead, and never gets to
+  // agree with itself.
+  if (!result.ok || result.status >= 500 || result.status === 404 || (expectOnGet !== undefined && !linkAnswers(result, target.endpoint))) {
     const fallback = await fetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024 });
-    if (linkAnswers(fallback, target.endpoint)) result = fallback;
-    else if (!result.ok) result = fallback;
+    // A GET record's own GET is what the report keeps whatever it answered,
+    // for the reason the POST path above keeps its POST: it is the request the
+    // record made, and the most informative thing the checker learned about
+    // the surface. It is also what makes the failure legible: a record filing
+    // 404 whose GET now 500s is reported as the 500 it is, rather than as the
+    // HEAD's 404 beside a verdict of dead.
+    if (linkAnswers(fallback, target.endpoint, undefined, expectOnGet) || !result.ok || expectOnGet !== undefined) {
+      result = fallback;
+      judged = expectOnGet;
+    }
   }
-  if (linkAnswers(result, target.endpoint)) return { alive: true, result };
+  if (linkAnswers(result, target.endpoint, undefined, judged)) return { alive: true, result };
   // A `surfaces.mcp` URL that answered neither browser method is asked
   // once more in the protocol it advertises. An MCP server has no other
   // read verb, so a HEAD-and-GET-only check of this field measures the

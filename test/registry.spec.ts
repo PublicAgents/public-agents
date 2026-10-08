@@ -416,6 +416,38 @@ describe("linkTargets", () => {
     expect(flags["registry/tools/m/tool.json https://api.m.example/v1"]).toBe(false);
     expect(flags["registry/tools/m/tool.json https://m.example/"]).toBe(false);
   });
+  it("puts a probe's filed status on its own surface and on nothing else it cites (issue #228)", () => {
+    const record = {
+      file: "registry/evidence/probes/p-1.json",
+      value: {
+        id: "p-1",
+        surface: "https://a.example/.well-known/public-agents.json",
+        request: { method: "GET" },
+        observed: { status: 404 },
+        // Two URLs the record cites rather than measures: the reporter's page
+        // and the artifact. Neither is the subject, so neither may answer 404.
+        conductedBy: { url: "https://plumb.public-agents.ai/" },
+        artifactsUrl: "https://plumb.public-agents.ai/evidence/a/x.txt"
+      }
+    };
+    const got = Object.fromEntries(linkTargets([record]).map(t => [canonicalUrl(t.url), t.expect]));
+    // The method travels with the status: the expectation answers for the
+    // request the record made and for neither of the others the checker sends.
+    expect(got["https://a.example/.well-known/public-agents.json"]).toEqual({ status: 404, method: "GET" });
+    expect(got["https://plumb.public-agents.ai/"]).toBeUndefined();
+    expect(got["https://plumb.public-agents.ai/evidence/a/x.txt"]).toBeUndefined();
+  });
+  it("does not let a probe's expectation reach the same URL named by an entry", () => {
+    // The entry declares the endpoint; a record of it filed a 404 against the
+    // same URL. The entry's own target must be judged by the table, because the
+    // entry claims the surface is there and the record claims one answer from it.
+    const url = "https://mcp.a.example/";
+    const record = { file: "registry/evidence/probes/p-2.json", value: { id: "p-2", surface: url, request: { method: "GET" }, observed: { status: 404 } } };
+    const tool = { file: "registry/tools/a/tool.json", value: { surfaces: { homepage: "https://a.example/", mcp: url } } };
+    const got = linkTargets([record, tool]).map(t => [t.file, canonicalUrl(t.url), t.expect] as const);
+    expect(got).toContainEqual(["registry/evidence/probes/p-2.json", url, { status: 404, method: "GET" }]);
+    expect(got).toContainEqual(["registry/tools/a/tool.json", url, undefined]);
+  });
   it("keeps an uppercase scheme rather than dropping it silently, in JSON and in a profile alike", () => {
     const shouty = {
       file: "registry/tools/y/tool.json",

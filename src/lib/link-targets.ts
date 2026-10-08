@@ -1,4 +1,4 @@
-import { canonicalUrl, endpointsOf, mcpEndpointsOf, probeSurfaceOf, type TargetMethod } from "./links.ts";
+import { canonicalUrl, endpointsOf, mcpEndpointsOf, probeExpectationOf, probeSurfaceOf, type ProbeExpectation, type TargetMethod } from "./links.ts";
 import { profileUrls } from "./profile.ts";
 
 /**
@@ -38,6 +38,17 @@ export interface LinkTarget {
    * profile is treated as the same server.
    */
   mcp?: boolean;
+  /**
+   * Present only on a probe's own `surface`: the status the record filed in
+   * `observed.status`, and the method of the request that read it. That
+   * surface answering exactly that status, to exactly that method, counts as
+   * alive whatever the liveness table says about it, so a record whose whole
+   * finding is a 404 can be filed (issue #228; `probeExpectationOf` in
+   * src/lib/links.ts says what the narrowing buys, what it costs, and why the
+   * method travels with the status). Absent everywhere else, including on the
+   * same URL named by an entry.
+   */
+  expect?: ProbeExpectation;
 }
 
 /** The shape this needs from a loaded entry; the registry's entries satisfy it. */
@@ -99,7 +110,8 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
     urls: Iterable<string>,
     endpoints: ReadonlySet<string> = new Set(),
     surface?: { url: string; method: TargetMethod },
-    mcpEndpoints: ReadonlySet<string> = new Set()
+    mcpEndpoints: ReadonlySet<string> = new Set(),
+    expectation?: { url: string; expect: ProbeExpectation }
   ) => {
     for (const url of urls) {
       if (!keep(url)) continue;
@@ -109,7 +121,8 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
         url,
         endpoint: endpoints.has(canonical),
         ...(mcpEndpoints.has(canonical) ? { mcp: true } : {}),
-        ...(surface && surface.url === canonical ? { method: surface.method } : {})
+        ...(surface && surface.url === canonical ? { method: surface.method } : {}),
+        ...(expectation && expectation.url === canonical ? { expect: expectation.expect } : {})
       });
     }
   };
@@ -139,7 +152,7 @@ export function linkTargets(entries: Iterable<TargetSource>, options: TargetOpti
       const urls = new Set<string>();
       urlsOf(entry.value, urls);
       // A probe's surface carries the record's method; every other URL in the record is a page.
-      add(entry.file, urls, endpoints, probeSurfaceOf(entry.value), mcpEndpoints);
+      add(entry.file, urls, endpoints, probeSurfaceOf(entry.value), mcpEndpoints, probeExpectationOf(entry.value));
     }
     // The profile is the other half of an entry and it is where the citations
     // behind its quotations live, so a URL named there is named by the entry.
