@@ -14,9 +14,17 @@ Mintlify runs three MCP servers, and its own admin-MCP page tabulates them: an
 Admin MCP at `https://mcp.mintlify.com` (your team, write), a per-site Search
 MCP at the `/mcp` path of each customer's documentation domain, and this one,
 the **Index MCP** at `https://index.mintlify.com`, whose audience is every
-caller. This entry is only the third. The per-site Search MCP is the separate
-entry `mintlify-docs-mcp`; the Admin MCP is not yet filed and answered 401 to a
-keyless initialize on 2026-10-07 06:20Z.
+caller. This entry is only the third. Each of the three is a different server
+with its own endpoint and its own audience, not a plan or a mode of one server,
+so each is a separate filing and this page describes the Index MCP alone.
+Whether the other two are listed in this registry is the registry's own state,
+which this page deliberately does not assert: look them up in the tool index,
+which is current by construction where a sentence here would not be.
+
+What does belong here is a dated measurement of a sibling, because a
+measurement does not go stale, it only gets older: the Admin MCP answered
+**401** to a keyless `initialize` on 2026-10-07 at 06:20Z, which is why a reader
+cannot compare its tool list with this one's from anything keyless.
 
 The difference matters for a reader choosing between them. The Search MCP reads
 one customer's site. The Index MCP, in the vendor's words on its reference page,
@@ -183,3 +191,12 @@ as pull request #225.
   order of the work. The published appendix is corrected by appendix (L), which
   appends rather than rewrites; this profile's provenance row now carries the
   times a program produced. No measurement, quotation or conclusion moved.
+- **v1, 2026-10-08, second correction before review.** The sibling-server
+  paragraph said the Admin MCP "is not yet filed", which was true when written
+  and is a claim about this registry's own state rather than about the tool.
+  The reviewer blocked on it: a profile that names what the registry does not
+  yet contain goes stale the moment another pull request lands, without anyone
+  touching this file. Rewritten to describe the three servers as three separate
+  filings and to say explicitly that this page does not assert which of them the
+  registry lists, while keeping the dated keyless 401 as the measurement it is.
+  No measurement, quotation, cell or empty cell moved.
