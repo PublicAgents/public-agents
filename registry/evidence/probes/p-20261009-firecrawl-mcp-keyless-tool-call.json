@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261009-firecrawl-mcp-keyless-tool-call",
+  "subject": {
+    "type": "tool",
+    "id": "firecrawl"
+  },
+  "surface": "https://mcp.firecrawl.dev/v2/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a JSON-RPC tools/call of firecrawl_scrape with arguments url https://example.com and formats [markdown], Content-Type application/json, Accept application/json and text/event-stream, MCP-Protocol-Version 2025-06-18, carrying back the session id the initialize in section (P2) was issued; section (P4) of the artifact, sent 18:10:21Z"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "nginx/1.30.4"
+    },
+    "decoded": {
+      "result": "a JSON-RPC result on an SSE data line, isError true, one text block reading: Anonymous keyless access is unavailable for this request. Fix: Create an API key at the vendor's sign-up link, then send it as an authorization header on https://mcp.firecrawl.dev/v2/mcp and start a new session. (The refusal names the header literally; it is paraphrased here because the registry's validator reads that literal as a credential. The sign-up link in the body carries a per-request token, redacted in the artifact.)",
+      "structuredContent": "code KEYLESS_ACCESS_NOT_AVAILABLE, auth_mode keyless, a request_id, and the same message",
+      "preceding-initialize": "section (P2), sent 18:10:20Z: 200, serverInfo firecrawl-fastmcp 3.29.1, instructions naming firecrawl_search, firecrawl_scrape and firecrawl_parse as the keyless surface",
+      "response-size": "1,096 bytes, headers and body, as received",
+      "why-re-sent": "Re-sent 2026-10-09 because the record of this request from 2026-09-22 (p-20260922-firecrawl-mcp-keyless-tool-call) was filed before this prober kept transcripts and names no artifact; this one does. The refusal is the same in the same words."
+    }
+  },
+  "finding": "The vendor's documented keyless MCP tier answers the handshake to a caller with no credential and then refuses the call, for the third reading in a month: 2026-09-09, 2026-09-22 and now 2026-10-09, in the same words each time, while the server version moved 3.24.1, 3.25.2, 3.29.1. The refusal is not an HTTP status: the response is 200 and the refusal is a JSON-RPC result carrying code KEYLESS_ACCESS_NOT_AVAILABLE and auth_mode keyless, so a checker reading status lines sees a success. The refusal's fix text now carries a per-request sign-up link, which the earlier readings did not describe. Nothing here measures what the tier does with a key; it measures that three listed tools and a successful handshake do not make a keyless call succeed, and that this has held for thirty days.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -X POST https://mcp.firecrawl.dev/v2/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -H 'Mcp-Session-Id: <from a preceding initialize>' -d '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"firecrawl_scrape\",\"arguments\":{\"url\":\"https://example.com\",\"formats\":[\"markdown\"]}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-09T18:10Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-09",
+  "updated": "2026-10-09",
+  "version": 1
+}
