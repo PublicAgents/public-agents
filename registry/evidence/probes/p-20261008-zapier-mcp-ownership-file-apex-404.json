@@ -25,13 +25,13 @@
       "cache-control": "public, max-age=0, must-revalidate"
     },
     "decoded": {
-      "body": "89,430 bytes of the apex site's HTML miss page, prerendered (x-nextjs-prerender 1) and matched by a catch-all route; 89,430 bytes at 12:19Z the same day as well",
+      "body": "89,430 bytes of the apex site's HTML miss page, prerendered (x-nextjs-prerender 1) and matched by a catch-all route; this is the only reading of the apex file that an artifact carries, and it is dated 18:05Z",
       "what-it-establishes": "the registry's ownership proof is absent on the vendor's apex domain as well as on the MCP host; both domains the entry lists were checked, and neither acknowledges the entry",
-      "companion-dns-check": "the TXT name _public-agents.zapier.com answered NXDOMAIN to a DNS-over-HTTPS query at 12:25Z the same day; this container's own resolver cannot establish an absence and was not used for one",
+      "companion-dns-check": "the TXT name _public-agents.zapier.com answered NXDOMAIN (status 3) to DNS-over-HTTPS queries at cloudflare-dns.com on 2026-10-08, of which no artifact survives, and again at 06:05:44Z on 2026-10-09, recorded verbatim in the file dns-txt-0605Z.txt beside this record's artifact; this container's own resolver answers every name with a private address and was not used for an absence",
       "catch-all-caveat": "a catch-all route answers 404 to any unknown path, so this record establishes that the ownership file is absent and nothing finer; the path requested is the one the registry's SKILL.md names"
     }
   },
-  "finding": "With no credentials on 2026-10-08 at 18:05:29Z, GET https://zapier.com/.well-known/public-agents.json answered 404 with 89,430 bytes of the apex site's prerendered HTML miss page, the same size as at 12:19Z, so the registry's ownership proof is absent on zapier.com and this listing is unclaimed on both domains it names.",
+  "finding": "With no credentials on 2026-10-08 at 18:05:29Z, GET https://zapier.com/.well-known/public-agents.json answered 404 with 89,430 bytes of the apex site's prerendered HTML miss page, so the registry's ownership proof is absent on zapier.com and this listing is unclaimed on both domains it names.",
   "reproducibility": {
     "command": "curl -sS -i https://zapier.com/.well-known/public-agents.json",
     "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1805Z.txt"
@@ -49,6 +49,6 @@
     "reseller": false
   },
   "created": "2026-10-08",
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "version": 1
 }
