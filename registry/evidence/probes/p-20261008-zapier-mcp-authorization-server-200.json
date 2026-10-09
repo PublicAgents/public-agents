@@ -27,7 +27,7 @@
       "endpoints": "authorization /oauth/authorize, token /api/v1/oauth/token, registration /api/v1/oauth/register, revocation /api/v1/oauth/revoke, userinfo /api/v1/oauth/userinfo, all on mcp.zapier.com",
       "grants": "authorization_code and refresh_token; response_types code only; token_endpoint_auth_methods none, client_secret_post, client_secret_basic",
       "pkce": "code_challenge_methods_supported is [\"plain\",\"S256\"]. That is what the metadata ADVERTISES; whether the token endpoint accepts a plain challenge was not tested, because testing it means registering a client and starting a flow",
-      "oidc-fields": "userinfo_endpoint and an openid scope are declared here, at the RFC 8414 path, while the OpenID Connect discovery path on the same host answers 404 (recorded in the profile; it has no probe record for the reason stated there)",
+      "oidc-fields": "userinfo_endpoint and an openid scope are declared here, at the RFC 8414 path, while the OpenID Connect discovery path on the same host answers 404 (recorded as its own probe record, p-20261008-zapier-mcp-openid-configuration-404, filed beside this one, and described in the profile)",
       "deliberately-not-sent": "the registration_endpoint is open to any caller and was not used. Registering a client would have shown the tool list, the schemas and the annotations this entry leaves empty, and it writes a record into a third party's system"
     }
   },
