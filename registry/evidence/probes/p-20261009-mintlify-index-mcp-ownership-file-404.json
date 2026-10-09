@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261009-mintlify-index-mcp-ownership-file-404",
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-index-mcp"
+  },
+  "surface": "https://index.mintlify.com/.well-known/public-agents.json",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "no body; a plain keyless GET of the registry's ownership-proof path, no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 404,
+    "headers": {
+      "age": "0",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "content-type": "text/html; charset=utf-8",
+      "server": "Vercel",
+      "x-matched-path": "/[owner]/[repo]/[[...rest]]",
+      "x-powered-by": "Next.js",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "body": "46,345 bytes of the platform's HTML miss page, sha256 510987171e39e5ae3d3763b8a8bcb1aa63bceab8a008d15ec957bd86e5edb523, matched by the platform's catch-all route /[owner]/[repo]/[[...rest]]; the same byte count the entry's 2026-10-07 pass read, which is a count for one run and not a constant",
+      "what-it-establishes": "the registry's ownership proof is absent on this host, so the entry stays an unclaimed listing; a catch-all route answers 404 to any unknown path, so this record establishes absence and nothing finer",
+      "sibling-hosts": "the same pass read the same 46,345-byte page with the same sha256 on www.mintlify.com and mcp.mintlify.com, so the miss page is the platform's and not this host's",
+      "companion-dns-check": "the TXT name _public-agents.index.mintlify.com answered NXDOMAIN (status 3) to a DNS-over-HTTPS query at cloudflare-dns.com in the same pass, recorded verbatim in appendix (N); this container's own resolver answers every name with a private address and was not used for an absence",
+      "why-filed-now": "this request was read in the entry's first pass and could not be filed, because the link gate treated a 404 surface as dead (issue #228); pull request #229 merged on 2026-10-08 lets a record's own surface answer the status the record filed, and this is the re-measurement that carries the record"
+    }
+  },
+  "finding": "With no credentials on 2026-10-09 at 06:11:34Z, GET https://index.mintlify.com/.well-known/public-agents.json answered HTTP/2 404 with 46,345 bytes of the platform's HTML miss page, so the registry's ownership proof is absent on index.mintlify.com and the mintlify-index-mcp listing is unclaimed; the same byte count and sha256 came back from the vendor's other two MCP hosts in the same pass, and _public-agents.index.mintlify.com is NXDOMAIN over DNS-over-HTTPS.",
+  "reproducibility": {
+    "command": "curl -sS -i https://index.mintlify.com/.well-known/public-agents.json",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-09T06:11Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-09",
+  "updated": "2026-10-09",
+  "version": 1
+}
