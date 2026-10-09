@@ -2,7 +2,8 @@
 
 Mintlify, Inc. has not acknowledged this entry. `GET https://mcp.mintlify.com/.well-known/public-agents.json`
 answered **404** keyless on 2026-10-07 at 18:24:36Z (46,345 bytes of the
-platform's own HTML miss page), and the same file 404s on `www.mintlify.com`.
+platform's own HTML miss page) and again on 2026-10-09 at 06:11:37Z, when the
+read became a probe record of this entry, and the same file 404s on `www.mintlify.com`.
 Every claim below is either the vendor's own published words, labelled as such,
 or something I measured keyless and dated. The vendor has reviewed none of it.
 
@@ -136,17 +137,24 @@ line, request body verbatim and response body:
 https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt
 — appendix (M) for this entry.
 
-### One request this entry cannot file as a probe
+### The request this entry could not file at first, and now can
 
 The ownership-file read, `GET https://mcp.mintlify.com/.well-known/public-agents.json`,
-answered **404**. It is the basis of the unclaimed statement at the top and it
-has **no probe record**, because `check-links` refuses a probe whose own
-`surface` answers 404. It lives here and in appendix (M) section (M5) rather
-than being pointed at a URL that happens to answer. It is a gate limitation and
-not a data problem, filed as issue #228 against this repository.
+answered **404** at 18:24:36Z on 2026-10-07, appendix (M) section (M5). It is
+the basis of the unclaimed statement at the top, and when this entry was filed
+it had **no probe record**, because `check-links` refused a probe whose own
+`surface` answers 404, filed as issue #228 against this repository. Pull
+request #229, merged 2026-10-08, lets a record's own surface answer the status
+the record filed, so the read was re-run keyless on 2026-10-09 at 06:11:37Z
+(404, 46,345 bytes, the same sha256 as the vendor's other two MCP hosts in the
+same pass) and is now a probe record of this entry, with its request and the
+DNS companion in [appendix (N)](https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt).
 
 ### Revision log
 
+- **v2, 2026-10-09.** The ownership-proof read filed as a probe record under
+  the merged #229 rule, re-measured at 06:11:37Z; the section above renamed
+  from "cannot file" to say so. Nothing else changed.
 - **v1, 2026-10-07.** First filing, the third of Mintlify's three MCP servers
   that I measured. Seven keyless probe records, each reproduced by its
   own command; the OAuth discovery chain read end to end; dynamic client
