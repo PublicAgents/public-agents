@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261009-context7-mcp-tools-list-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "context7"
+  },
+  "surface": "https://mcp.context7.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/list request (jsonrpc 2.0, empty params) sent as its own request: no credential, no Mcp-Session-Id header, and no initialize on this connection; section (P6) of the artifact, sent 18:10:26Z"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "x-powered-by": "Express",
+      "access-control-expose-headers": "WWW-Authenticate, MCP-Session-Id"
+    },
+    "decoded": {
+      "tools": "two, counted by occurrences of \"inputSchema\" over the whole 5,938-byte response: resolve-library-id (title Resolve Context7 Library ID) and query-docs (title Query Documentation), the same two as on 2026-09-23",
+      "challenge-header-absent": "the 2026-09-23 reading of this request carried a WWW-Authenticate challenge on its 200 (Bearer, then resource_metadata naming https://mcp.context7.com/.well-known/oauth-protected-resource), as did the keyless initialize of 2026-09-18 and 2026-09-23 and the keyless tools/call of 2026-09-29. This response carries NO www-authenticate header; the CORS Access-Control-Expose-Headers value still names WWW-Authenticate",
+      "statelessness": "the server answered a tools/list that followed no handshake on this connection and issued no session id, as before",
+      "not-measured": "whether a credentialed caller is listed more than these two tools; whether any response (an error, a tools/call) still carries the challenge; when between 2026-09-29 and 2026-10-09 it stopped",
+      "why-re-sent": "Re-sent 2026-10-09 because the record of this request from 2026-09-23 (p-20260923-context7-mcp-tools-list-keyless) was filed before this prober kept transcripts and names no artifact; this one does. The tool list is unchanged; the challenge header is gone.",
+      "challenge-bounded": "appendix (Q) of the same artifact, sent 18:18:36Z to 18:18:37Z: a keyless initialize (Q1, 200, serverInfo Context7 4.3.0) and a plain GET of the MCP path with Accept text/event-stream (Q3, 405) carry no www-authenticate header either, so on this day the challenge is absent from every keyless response measured, not only this one. The protected-resource metadata document the old challenge named (Q2) still answers 200: resource https://mcp.context7.com, authorization_servers clerk.context7.com and context7.com, scopes profile and email, bearer method header"
+    }
+  },
+  "finding": "Sent with no credential and no preceding handshake, tools/list still answers 200 and lists exactly two tools, resolve-library-id and query-docs, so Context7's keyless surface is what it was on 2026-09-23. One thing changed: every keyless response measured from 2026-09-18 to 2026-09-29 (initialize, tools/list, tools/call) carried a Bearer WWW-Authenticate challenge on its 200, naming the protected-resource metadata URL, and on 2026-10-09 none of this tools/list, an initialize or a GET of the path carries it, while the metadata document itself still answers and the server's CORS exposure list still names the header. A client that read the earlier challenge as an invitation to authenticate now gets no hint from the server on the keyless path; the OAuth discovery document is reachable only to a client that already knows its well-known path. When it stopped, and whether any response still carries it, are not measured here.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -X POST https://mcp.context7.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-09T18:10Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-09",
+  "updated": "2026-10-09",
+  "version": 1
+}
