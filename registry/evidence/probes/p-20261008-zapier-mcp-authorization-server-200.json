@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-authorization-server-200",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/.well-known/oauth-authorization-server",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "body": "658 bytes of RFC 8414 metadata, read in full in the artifact",
+      "issuer": "the value is the string https://mcp.zapier.com, which is the origin that served the document, so the RFC 8414 section 3.3 issuer mismatch this registry records against another vendor is absent here",
+      "endpoints": "authorization /oauth/authorize, token /api/v1/oauth/token, registration /api/v1/oauth/register, revocation /api/v1/oauth/revoke, userinfo /api/v1/oauth/userinfo, all on mcp.zapier.com",
+      "grants": "authorization_code and refresh_token; response_types code only; token_endpoint_auth_methods none, client_secret_post, client_secret_basic",
+      "pkce": "code_challenge_methods_supported is [\"plain\",\"S256\"]. That is what the metadata ADVERTISES; whether the token endpoint accepts a plain challenge was not tested, because testing it means registering a client and starting a flow",
+      "oidc-fields": "userinfo_endpoint and an openid scope are declared here, at the RFC 8414 path, while the OpenID Connect discovery path on the same host answers 404 (recorded as its own probe record, p-20261008-zapier-mcp-openid-configuration-404, filed beside this one, and described in the profile)",
+      "deliberately-not-sent": "the registration_endpoint is open to any caller and was not used. Registering a client would have shown the tool list, the schemas and the annotations this entry leaves empty, and it writes a record into a third party's system"
+    }
+  },
+  "finding": "On 2026-10-08 at 12:19:29Z Zapier's MCP authorization-server metadata answered 200 with 658 bytes, an issuer matching the origin that served it, five endpoints on the same host including a registration endpoint open to any caller, the authorization_code and refresh_token grants, and code_challenge_methods_supported of plain and S256. The plain method is what the document advertises; whether the token endpoint accepts it was not tested, because testing it means registering a client in a third party's system.",
+  "reproducibility": {
+    "command": "curl -sS -i https://mcp.zapier.com/.well-known/oauth-authorization-server",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1219Z.txt"
+  },
+  "at": "2026-10-08T12:19Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}

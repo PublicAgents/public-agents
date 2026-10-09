@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-openid-configuration-404",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/.well-known/openid-configuration",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 404,
+    "headers": {
+      "content-type": "text/html; charset=utf-8",
+      "server": "Vercel",
+      "x-matched-path": "/_not-found",
+      "x-next-error-status": "404",
+      "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+    },
+    "decoded": {
+      "body": "32,724 bytes of the host's HTML miss page, served by the Next.js not-found route; 31,789 bytes at 12:19:32Z the same day",
+      "what-it-establishes": "the OpenID Connect discovery path is unserved on a host whose RFC 8414 document (filed as the authorization-server-200 record, 658 bytes) declares a userinfo_endpoint and an openid scope; the OIDC-specific fields are advertised at the OAuth path and absent at the OIDC path",
+      "the-inverse-on-main": "Mintlify's admin MCP server, listed in this registry, serves byte-identical documents at both paths and declares no OpenID Connect field in either",
+      "why-this-record-exists": "a probe record whose finding is a 404 could not pass the registry's link gate until pull request 229 merged on 2026-10-08"
+    }
+  },
+  "finding": "With no credentials on 2026-10-08 at 18:05:22Z, GET https://mcp.zapier.com/.well-known/openid-configuration answered 404 with 32,724 bytes of the host's HTML miss page, as it had at 12:19:32Z, while the host's RFC 8414 metadata at /.well-known/oauth-authorization-server answers 200 declaring a userinfo_endpoint and an openid scope; the OpenID Connect discovery document those fields imply is not served.",
+  "reproducibility": {
+    "command": "curl -sS -i https://mcp.zapier.com/.well-known/openid-configuration",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1805Z.txt"
+  },
+  "at": "2026-10-08T18:05Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}

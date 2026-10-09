@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261008-zapier-mcp-protected-resource-path-200",
+  "subject": {
+    "type": "tool",
+    "id": "zapier-mcp"
+  },
+  "surface": "https://mcp.zapier.com/.well-known/oauth-protected-resource/api/mcp/mcp",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "body": "exactly {\"resource\":\"https://mcp.zapier.com/api/mcp/mcp\",\"authorization_servers\":[\"https://mcp.zapier.com\"],\"scopes_supported\":[\"openid\",\"profile\",\"email\"]}, 148 bytes",
+      "resource": "names the MCP endpoint this entry's surfaces.mcp names, so the document is about that endpoint",
+      "scopes": "three, all of them OpenID Connect identity scopes: openid, profile, email. NO resource scopes are advertised anywhere in this discovery chain, so what an authorized client may do to a Zapier account is not stated by the metadata",
+      "the-path-form": "this is the path-inserted form RFC 9728 section 3.1 defines (the resource's path appended to /.well-known/oauth-protected-resource). It answers 200 while the root form answers 404, and the challenge points at neither",
+      "not-measured": "nothing was sent to the authorization server named here beyond the metadata read recorded separately; no client was registered and no token was requested"
+    }
+  },
+  "finding": "On 2026-10-08 at 12:19:26Z the RFC 9728 path-inserted protected-resource document for Zapier's MCP endpoint answered 200 with 148 bytes, naming that endpoint as the resource, mcp.zapier.com as its own authorization server, and three scopes, all of them OpenID Connect identity scopes. No resource scope is advertised, so the metadata says nothing about what an authorized client may do to a Zapier account.",
+  "reproducibility": {
+    "command": "curl -sS -i https://mcp.zapier.com/.well-known/oauth-protected-resource/api/mcp/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/zapier-mcp/2026-10-08/probes-1219Z.txt"
+  },
+  "at": "2026-10-08T12:19Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-08",
+  "updated": "2026-10-08",
+  "version": 1
+}
