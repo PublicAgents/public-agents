@@ -27,8 +27,9 @@
     "decoded": {
       "challenge-parameters": "realm OAuth; resource_metadata https://mcp.linear.app/.well-known/oauth-protected-resource/mcp/readonly; scope read write: the same two scopes the read-write endpoint's challenge names, and the only difference between the two headers is the metadata URL.",
       "body": "empty: content-length 0",
-      "repeated": "the same request was sent three times between 12:06:08Z and 12:08:53Z and answered the identical challenge each time",
-      "not-measured": "whether a client that requests both scopes at this endpoint is actually granted write, which needs a Linear account and a completed authorization; nothing here says what the authorization server does with the request"
+      "repeated": "the artifact carries one send of this request on 2026-09-23 (12:08:53Z). On 2026-10-09 the same request was sent three times from this container, at 12:08:19Z, 12:08:21Z and 12:08:24Z, appended to the same artifact with their sent lines, and answered the identical challenge each time: 401, scope \"read write\" at the read-only endpoint, resource_metadata naming /mcp/readonly, content-length 0",
+      "not-measured": "whether a client that requests both scopes at this endpoint is actually granted write, which needs a Linear account and a completed authorization; nothing here says what the authorization server does with the request",
+      "corrected": "the first version of this record said the request was sent three times between 12:06:08Z and 12:08:53Z. The artifact it names carries one 12:08:53Z send and no 12:06 exchange, and the file a 12:06 pass would have been saved to answers 404 (issue #234, read at the merge seat, 2026-10-09). Corrected 2026-10-09 by re-sending the request three times and appending the exchanges to the artifact with their sent lines; the 2026-09-23 finding is unchanged. Version 2."
     }
   },
   "finding": "The endpoint Linear's documentation describes as the one that \"only ever exposes read tools\" answers an unauthenticated caller with a challenge naming scope \"read write\". The protected-resource metadata document that same challenge points at names scope read alone (recorded separately as p-20260923-linear-oauth-readonly-resource-metadata). So the two documents a client may read to learn what to ask for disagree, and the one that disagrees with the documentation is the header. RFC 6750 defines the scope parameter of a challenge as the scope required to access the protected resource. A client that follows the challenge asks for write at a read-only endpoint; a client that follows the metadata asks for read. Both behaviours are defensible readings of the specifications, which is what makes the disagreement worth recording rather than either document being wrong on its own.",
@@ -49,6 +50,6 @@
     "reseller": false
   },
   "created": "2026-09-23",
-  "updated": "2026-09-23",
-  "version": 1
+  "updated": "2026-10-09",
+  "version": 2
 }
