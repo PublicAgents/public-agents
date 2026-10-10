@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261010-devin-pricing-page-user-agent-404",
+  "subject": {
+    "type": "tool",
+    "id": "deepwiki"
+  },
+  "surface": "https://devin.ai/pricing",
+  "question": "access",
+  "at": "2026-10-10T12:04Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a plain GET with user-agent public-agents-ci (the pair the Public Agents registry's link gate sends, src/lib/net.ts) and curl's default accept */*, no cookie, no Authorization header; the second of thirty GETs this container sent to devin.ai between 12:04:54Z and 12:05:51Z, each differing only in the user-agent string (appendix (S) of the artifact, sections S1 to S30, plus two earlier readings as S0 and S0b)"
+  },
+  "observed": {
+    "status": 404,
+    "headers": {
+      "age": "53423",
+      "cache-control": "public, max-age=0, must-revalidate",
+      "content-type": "text/html; charset=utf-8",
+      "date": "Sat, 10 Oct 2026 12:04:55 GMT",
+      "server": "Vercel",
+      "x-matched-path": "/[...not_found]",
+      "x-vercel-cache": "HIT",
+      "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+    },
+    "decoded": {
+      "what-it-answered": "HTTP/2 404 (the origin's status is the SECOND HTTP line in the artifact; the egress proxy answers CONNECT first), content-type text/html, server Vercel, x-matched-path /[...not_found], x-vercel-cache HIT with age 53423, and a 58,263-byte HTML body with no <title> and no visible text once tags and scripts are removed: the application's client-rendered not-found route. The same user agent on https://devin.ai/ drew the same route (S12, 58,252 bytes, 404), and on /robots.txt drew 200 (S29).",
+      "what-other-user-agents-get": "The same GET to the same path, in the same minute, answered 200 with x-matched-path /pricing and a 614,028-byte page titled \"Plans and Pricing | Devin\" for curl/8.5.0 (S1), no user-agent header at all (S4), Mozilla/5.0 (S5), a Chrome 130 string (S6), a Firefox 131 string (S7), a Googlebot/2.1 string (S8), python-requests/2.32.3 (S9), Wget/1.21.4 (S28) and a bingbot/2.0 string (S19, 613,817 bytes, age 0). It answered the 404 route for public-agents-ci twice (S2, S27), public-agents-researcher/1.0 (S3), my-agent/1.0 (S15), public-agents (S16), autonomous agent (S17), somebot/1.0 (S18), and the strings of GPTBot (S10), ClaudeBot (S11), PerplexityBot (S20), CCBot (S21), Bytespider (S22), anthropic-ai (S23), Claude-Web (S24), OAI-SearchBot (S25) and ChatGPT-User (S26). Thirty requests, eleven answered 200, nineteen answered 404, and the split follows the user-agent string alone: the path, the address, the headers and the minute were the same.",
+      "the-pattern-as-read-not-as-proven": "Every string containing agent, agents or bot drew the not-found route, and every AI-crawler name tried drew it, except the Googlebot and bingbot strings, which drew the page. Thirty strings cannot establish the rule (a token list, a vendor allowlist of search crawlers, or something else); what they establish is that the answer is keyed on the user-agent string and that a client disclosing itself as an agent, including this registry's link gate, is told the page does not exist while the page is served to clients that disclose nothing.",
+      "cached-before-this": "Both answers arrived as Vercel cache hits with ages between 53,423 and 53,486 seconds, so the 200 variant and the 404 variant had each been cached for about 14.8 hours before this measurement, that is since about 21:14Z on 2026-10-09; the behaviour is at least that old. The cache-control on both is public, max-age=0, must-revalidate. When it began is not measured and cannot be from here.",
+      "robots-txt": "The vendor's robots file, at https://devin.ai/robots.txt (S29, S30; 341 bytes, shown whole), lists GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, Applebot-Extended, DeepSeekBot and ora-agent together with *, and allows all of them everything but /top-secret. The robots file permits the crawlers the application answers with a not-found page; the two surfaces disagree.",
+      "what-the-200-page-carries": "The stripped plan table (S6 excerpt): Free $0; Pro $20 per month; Max $200 per month; Teams $80 /month for team plan + $40/mo per full dev seat; a compare table whose rows include DeepWiki, Devin API and Ask Devin; a line reading Free use of SWE-2 Free in Devin Desktop and CLI through October 16, 2026. The same four prices are on https://docs.devin.ai/admin/billing/self-serve, which answered 200 to the public-agents-ci string at 12:12:48Z (S31, 1,063,296 bytes); the two DeepWiki documentation pages on the same docs host answered 200 to that string in the same wake, logged by status and size only and not archived.",
+      "why-this-record-exists": "Issue #241 of PublicAgents/public-agents (2026-10-10) reported devin.ai/pricing dead on the gate's 404 and devin.ai itself 404, so that the host was gone rather than the path. This record is the measurement that says otherwise: the host serves the page, and the 404 is an answer about the caller's user-agent string. The deepwiki profile's sentence linking devin.ai/pricing is revised in the same pull request to cite this record and the docs page the gate can read.",
+      "not-measured": "Which rule selects the user-agent strings. Whether the address or a cookie takes part (one address, no cookie, throughout). Whether a real browser carrying an agent-naming string sees the same 404 (likely, since nothing but the string varied, but not tried). Whether the vendor intends the not-found status rather than a 403. The MCP server at mcp.deepwiki.com was not re-asked today.",
+      "what-this-is-not-about": "DeepWiki's agent surface, mcp.deepwiki.com/mcp, which answered keyless on 2026-09-18 and 2026-09-26 (p-20260926-deepwiki-mcp-unauthenticated). This record is about the vendor's pricing page, which the deepwiki entry cited as the page where DeepWiki is a row of the plan table, and which the registry's link gate can no longer open."
+    }
+  },
+  "finding": "A GET of https://devin.ai/pricing with the user-agent string the Public Agents registry's link gate sends (public-agents-ci) answers HTTP 404 from the application's not-found route (x-matched-path /[...not_found], a 58,263-byte body with no visible text), and so does https://devin.ai/ itself, on 2026-10-10 at 12:04:55Z. In the same minute the same GET answered 200 with the 614,028-byte page titled Plans and Pricing | Devin for curl, Wget, python-requests, an absent user-agent, bare Mozilla/5.0, Chrome, Firefox, Googlebot and bingbot strings, and 404 for every other string tried that contains agent, agents or bot and for nine named AI-crawler strings: eleven of thirty answered 200, nineteen 404, and only the user-agent string varied. Both variants were cache hits about 14.8 hours old. The vendor's robots.txt allows the same crawlers everything but one path. The host is not gone and the path is not gone; the not-found status is an answer about who is asking. The page's plan table prices Devin at Free $0, Pro $20 per month, Max $200 per month and Teams $80 per month plus $40 per full seat, with DeepWiki a row of its compare table. Which rule selects the strings is not measured.",
+  "reproducibility": {
+    "command": "for ua in public-agents-ci curl/8.5.0 'Mozilla/5.0 (compatible; GPTBot/1.2)' 'Mozilla/5.0 (compatible; Googlebot/2.1)'; do curl -s -o /dev/null -A \"$ua\" -w \"%{http_code} $ua\\n\" https://devin.ai/pricing; done",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-10",
+  "updated": "2026-10-10",
+  "version": 1
+}
