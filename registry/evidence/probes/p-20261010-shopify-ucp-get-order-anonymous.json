@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261010-shopify-ucp-get-order-anonymous",
+  "subject": {
+    "type": "tool",
+    "id": "shopify-ucp"
+  },
+  "surface": "https://1da1f2-7c.myshopify.com/api/ucp/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "one MCP tools/call of get_order (jsonrpc 2.0, id 1) with arguments byte-identical to the create_checkout of p-20261010-shopify-ucp-checkout-anonymous: the vendor's published example agent profile under meta.ucp-agent and a checkout body no get_order could use. Sent as the control for that record, one second after it. No Authorization header, no HTTP signature, no cookie jar, no payment, no initialize on this connection; section (R4) of the artifact, sent 06:13:29Z"
+  },
+  "observed": {
+    "status": 403,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "link": "</.well-known/ucp>; rel=\"ucp\"; version=\"2026-08-25\"",
+      "powered-by": "Shopify"
+    },
+    "decoded": {
+      "refusal": "HTTP 403, 2,288 bytes as received: JSON-RPC error code -32000, message AuthenticationRequired, data 'Unauthorized: A valid JWT is required to call get_order. See https://shopify.dev/docs/agents/get-started/authentication for instructions on generating a token and authenticating your requests.' The refusal names the tool and not the arguments, which were a checkout body that get_order could not use, so it is applied before any argument is validated.",
+      "control-of": "the create_checkout sent one second earlier with the same arguments (p-20261010-shopify-ucp-checkout-anonymous) answered 200 and failed at merchandise validation; this call answered 403 before validation. Same refusal as 2026-09-20, and as the thirteen-tool passes of 2026-09-20 (p-20260920-shopify-ucp-tool-auth-gate) and 2026-09-29 (p-20260929-shopify-ucp-profile-gate), where get_order and complete_checkout were the two tools refused by name.",
+      "header-difference": "the 200 responses of this pass to tools/list and create_checkout carry x-shopify-ucp-mcp-api-version: 2026-08-25; this 403 carries no such header. The link header naming /.well-known/ucp and powered-by: Shopify are on both.",
+      "why-re-sent": "Re-sent 2026-10-10 because the record of this request from 2026-09-20 (p-20260920-shopify-ucp-checkout-anonymous) was filed before this prober kept transcripts, names no artifact, and filed four requests as one record. The four requests of that record, re-sent as one pass from its own reproducibility.command 06:13:26Z to 06:13:29Z, are appendix (R) of the artifact and four records, one per request: p-20261010-shopify-ucp-well-known-discovery (R1), p-20261010-shopify-ucp-tools-list-keyless (R2), p-20261010-shopify-ucp-checkout-anonymous (R3), p-20261010-shopify-ucp-get-order-anonymous (R4). Nothing measured here changed since 2026-09-20.",
+      "not-measured": "whether the JWT the data URL describes is issued to an anonymous registrant or needs a merchant's grant; whether complete_checkout, the other tool refused by name in the September passes, still refuses (not sent today). The set-cookie value on this response is redacted in the artifact as a session cookie; nothing here depends on it."
+    }
+  },
+  "finding": "The control of the re-sent checkout pass: get_order, sent anonymously to one merchant's UCP endpoint with the same arguments that let create_checkout through to merchandise validation one second earlier, is refused with HTTP 403 and JSON-RPC error -32000 AuthenticationRequired, 'A valid JWT is required to call get_order', pointing at the vendor's authentication page. The arguments were a checkout body no get_order could use, and the refusal names the tool and not them, so the gate sits before argument validation for this tool and after it, or nowhere, for create_checkout. That is the same split the 2026-09-20 pass measured and the 2026-09-29 thirteen-tool pass confirmed, where get_order and complete_checkout were the two tools refused by name. One small difference between the two statuses on this day: the 200s carry an x-shopify-ucp-mcp-api-version header and the 403 does not. Whether the JWT is available to an anonymous registrant is not measured.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -X POST https://1da1f2-7c.myshopify.com/api/ucp/mcp -H 'content-type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"get_order\",\"arguments\":{\"meta\":{\"ucp-agent\":{\"profile\":\"https://shopify.dev/ucp/agent-profiles/examples/2026-08-25/valid-with-capabilities.json\"}},\"checkout\":{\"currency\":\"USD\",\"line_items\":[{\"quantity\":1,\"item\":{\"id\":\"gid://shopify/ProductVariant/0\"}}]}}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-10T06:13Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-10",
+  "updated": "2026-10-10",
+  "version": 1
+}
