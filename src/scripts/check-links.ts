@@ -9,7 +9,9 @@
  *
  * Which URLs get fetched is decided in src/lib/link-targets.ts, and which
  * answers count as alive in src/lib/links.ts, where both can be tested
- * without a network or a git repository. This file is the network.
+ * without a network or a git repository. This file is the network. A dead
+ * 404 or 410 is read once more with no user-agent and the row says what that
+ * reading answered (issue #241); it never turns the row alive.
  */
 import { execFileSync } from "node:child_process";
 import { loadRegistry } from "../lib/registry.ts";
@@ -79,13 +81,20 @@ const answers = await withConcurrency(4, keys.map(key => () => askUrl(byKey.get(
 const asked = new Map(keys.map((key, index) => [key, answers[index]]));
 
 const results = targets.map(target => {
-  const { alive, result, reasked } = asked.get(askKey(target))!;
+  const { alive, result, reasked, plain } = asked.get(askKey(target))!;
   const detail = linkDetail(result, alive, target.expect?.status);
   // A reference that failed once and answered once is neither a clean row nor a
   // dead one, and saying so is how anyone learns that a listed host is flaky
   // rather than healthy (issue #153, change 2).
   const reading = reasked === true ? (alive ? "answered on a second reading, a pause after a transient failure" : "failed twice, a pause apart") : "";
-  return { ...target, dead: !alive, reasked: reasked === true, detail: [detail, reading].filter(Boolean).join(" ") };
+  // A 404 the gate's own user-agent received and a request with no user-agent
+  // did not is a host answering on what the client says it is, not a path that
+  // is gone (issue #241). The row stays dead, because the gate says what it is
+  // and reports what it can open; the label is what sends a reader to measure
+  // the host rather than to replace the link.
+  const plainAnswer = plain === undefined ? "" : plain.result.ok ? `HTTP ${plain.result.status}` : plain.result.status !== undefined ? `HTTP ${plain.result.status}` : plain.result.reason;
+  const second = plain === undefined ? "" : plain.alive ? `and ${plainAnswer} to a GET with no user-agent: the host answers on what the client says it is (a probe finding, not a pass)` : `and ${plainAnswer} to a GET with no user-agent as well`;
+  return { ...target, dead: !alive, reasked: reasked === true, detail: [detail, reading, second].filter(Boolean).join(" ") };
 });
 
 const dead = results.filter(r => r.dead);

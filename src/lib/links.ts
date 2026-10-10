@@ -327,7 +327,7 @@ export function expectFor(target: AskTarget, method: ExpectMethod): number | und
 }
 
 /** What `askUrl` needs of a fetch: the guarded one, or a stub in a test. */
-export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number }) => Promise<GuardedResult>;
+export type LinkFetch = (url: string, options: { method: "GET" | "HEAD" | "POST"; body?: string; accept?: string; timeoutMs: number; maxBytes?: number; userAgent?: string }) => Promise<GuardedResult>;
 
 /** What the checker asks of one URL, and which of its own requests it kept. */
 export interface LinkAsk {
@@ -340,6 +340,45 @@ export interface LinkAsk {
    * #153, change 2).
    */
   reasked?: true;
+  /**
+   * A dead 404 or 410 was read once more with a user-agent that says nothing,
+   * and this is what came back. Present whenever that reading was sent, so a
+   * row can say "the host tells a plain client the same" as well as "the host
+   * serves the page to a client that does not say what it is" (issue #241).
+   * It never makes the row alive: what the gate reports is what the gate, which
+   * says what it is, can open.
+   */
+  plain?: { result: GuardedResult; alive: boolean };
+}
+
+/**
+ * The user-agent of the second reading a dead 404 earns: none at all. A host
+ * that keys its answer on the string cannot be told apart from a host whose
+ * path is gone by any number of requests that carry the gate's own string
+ * (issue #241: `devin.ai/pricing` answered the gate 404 and a request with no
+ * user-agent 200, cached, for hours). An empty header claims nothing about
+ * the client, which is the point: the gate keeps saying what it is, and this
+ * one extra request says nothing, so that the two answers can be compared.
+ */
+export const PLAIN_USER_AGENT = "";
+
+/** The statuses a plain reading can tell something about: the two that say "not here". */
+function saysNotHere(result: GuardedResult): boolean {
+  const status = result.ok ? result.status : result.reason === "too_large" ? result.status : undefined;
+  return status === 404 || status === 410;
+}
+
+/**
+ * One GET with no user-agent, sent only after a reading the table calls dead
+ * because the URL said it is not there, and only on the browser path (a
+ * probe surface asked by its record's POST is judged by that POST, and a
+ * POST with no user-agent would be a different measurement). The result is
+ * attached for the report and judged by the same table, never adopted.
+ */
+async function plainReading(target: AskTarget, fetch: LinkFetch, ask: LinkAsk): Promise<LinkAsk> {
+  if (ask.alive || target.method === "POST" || !saysNotHere(ask.result)) return ask;
+  const result = await fetch(target.url, { method: "GET", timeoutMs: 10_000, maxBytes: 16 * 1024, userAgent: PLAIN_USER_AGENT });
+  return { ...ask, plain: { result, alive: linkAnswers(result, target.endpoint) } };
 }
 
 /**
@@ -399,11 +438,11 @@ export async function askUrl(
   options: AskOptions = {}
 ): Promise<LinkAsk> {
   const first = await askSequence(target, fetch);
-  if (first.alive || !transientFailure(first.result)) return first;
+  if (first.alive || !transientFailure(first.result)) return plainReading(target, fetch, first);
   const sleep = options.sleep ?? (ms => new Promise<void>(resolve => setTimeout(resolve, ms)));
   await sleep(options.pauseMs ?? REASK_PAUSE_MS);
   const second = await askSequence(target, fetch);
-  return second.alive ? { ...second, reasked: true } : { ...first, reasked: true };
+  return second.alive ? { ...second, reasked: true } : plainReading(target, fetch, { ...first, reasked: true });
 }
 
 /**

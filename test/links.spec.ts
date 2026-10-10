@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { askKey, askUrl, REASK_PAUSE_MS, transientFailure, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type AskTarget, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeExpectationOf, probeSurfaceOf } from "../src/lib/links.ts";
+import { askKey, askUrl, PLAIN_USER_AGENT, REASK_PAUSE_MS, transientFailure, canonicalUrl, endpointsOf, linkAnswers, linkDetail, type AskTarget, type LinkFetch, MCP_ACCEPT, MCP_INITIALIZE, mcpEndpointsOf, mcpHandshakeAnswers, probeExpectationOf, probeSurfaceOf } from "../src/lib/links.ts";
 import type { GuardedResult } from "../src/lib/net.ts";
 
 const answered = (status: number): GuardedResult => ({ ok: true, status, body: "", url: "https://a.example/", contentType: "text/html" });
@@ -293,6 +293,69 @@ describe("a probe surface answering the status its record filed (issue #228)", (
   });
 });
 
+describe("a dead 404 read once more with no user-agent (issue #241)", () => {
+  const dead404 = { url: "https://a.example/pricing", endpoint: false };
+  const serving = (toGate: number, toPlain: number) => {
+    const sent: { method: string; userAgent?: string }[] = [];
+    const fetch: LinkFetch = async (_url, options) => {
+      sent.push({ method: options.method, userAgent: options.userAgent });
+      return answered(options.userAgent === PLAIN_USER_AGENT ? toPlain : toGate);
+    };
+    return { sent, fetch };
+  };
+
+  it("sends exactly one extra GET, with an empty user-agent, after the gate's own reading said not here", async () => {
+    const { sent, fetch } = serving(404, 200);
+    const ask = await askUrl(dead404, fetch);
+    expect(sent).toEqual([{ method: "HEAD", userAgent: undefined }, { method: "GET", userAgent: undefined }, { method: "GET", userAgent: "" }]);
+    expect(ask.alive).toBe(false);
+    expect(ask.result).toMatchObject({ status: 404 });
+    expect(ask.plain).toMatchObject({ alive: true, result: { status: 200 } });
+  });
+
+  it("keeps the row dead and says the plain reading agreed when it did", async () => {
+    const { sent, fetch } = serving(404, 404);
+    const ask = await askUrl(dead404, fetch);
+    expect(sent.filter(s => s.userAgent === "")).toHaveLength(1);
+    expect(ask).toMatchObject({ alive: false, plain: { alive: false, result: { status: 404 } } });
+  });
+
+  it("reads a capped 404 and a capped 200 by their status lines, because a not-found page is a whole document", async () => {
+    const fetch: LinkFetch = async (_url, options) => ({ ok: false, reason: "too_large", detail: "over 16384 bytes", status: options.userAgent === PLAIN_USER_AGENT ? 200 : 404 }) as GuardedResult;
+    const ask = await askUrl(dead404, fetch);
+    expect(ask.alive).toBe(false);
+    expect(ask.plain).toMatchObject({ alive: true, result: { reason: "too_large", status: 200 } });
+  });
+
+  it("sends nothing extra for a 403, a refused redirect, a timeout that failed twice, or a 404 the record filed", async () => {
+    for (const [target, answer] of [
+      [dead404, answered(403)],
+      [dead404, refused("redirect_forbidden")],
+      [dead404, refused("timeout")],
+      [{ ...dead404, expect: { status: 404, method: "GET" } }, answered(404)]
+    ] as [AskTarget, GuardedResult][]) {
+      const sent: (string | undefined)[] = [];
+      const fetch: LinkFetch = async (_url, options) => {
+        sent.push(options.userAgent);
+        return answer;
+      };
+      await askUrl(target, fetch, { sleep: async () => {}, pauseMs: 0 });
+      expect(sent.filter(ua => ua === "")).toHaveLength(0);
+    }
+  });
+
+  it("does not read a probe surface's POST path with no user-agent, because that would be a different measurement", async () => {
+    const sent: (string | undefined)[] = [];
+    const fetch: LinkFetch = async (_url, options) => {
+      sent.push(options.userAgent);
+      return answered(404);
+    };
+    const ask = await askUrl({ url: "https://a.example/mcp", endpoint: true, method: "POST" }, fetch);
+    expect(ask.alive).toBe(false);
+    expect(sent.filter(ua => ua === "")).toHaveLength(0);
+  });
+});
+
 describe("linkDetail", () => {
   it("prints the redirect beside an endpoint accepted through the exception, and nothing beside a plain answer", () => {
     expect(linkDetail(refused("redirect_forbidden"), true)).toBe("redirect_forbidden: https://a.example/ -> https://b.example/");
@@ -383,7 +446,8 @@ describe("askUrl", () => {
   it("never sends the handshake to a URL that is not surfaces.mcp", async () => {
     const { fetch, asked } = stub({ HEAD: answered(404), GET: answered(404) });
     expect(await askUrl({ url: "https://api.a.example/v1", endpoint: true }, fetch)).toMatchObject({ alive: false });
-    expect(asked).toEqual(["HEAD", "GET"]);
+    // HEAD, GET, then the one GET with no user-agent a dead 404 earns (issue #241); no POST.
+    expect(asked).toEqual(["HEAD", "GET", "GET"]);
   });
 
   it("keeps a probe surface's single POST and asks it no other way when the POST answers", async () => {
@@ -465,12 +529,16 @@ describe("the second reading a pause apart (issue #153)", () => {
   it("never re-asks an answer, and never re-asks a refusal a pause cannot change", async () => {
     for (const answer of [answered(200), answered(404), answered(410), refused("not_https"), refused("address_forbidden"), refused("unresolvable"), refused("redirect_forbidden")]) {
       let call = 0;
+      let plain = 0;
       const { slept, options } = paused();
-      const ask = await askUrl(target, async () => { call += 1; return answer; }, options);
+      const ask = await askUrl(target, async (_url, o) => { if (o.userAgent === PLAIN_USER_AGENT) plain += 1; else call += 1; return answer; }, options);
       expect(ask.reasked).toBeUndefined();
       expect(slept).toEqual([]);
-      // At most the first reading's own HEAD and GET: no second reading.
+      // At most the first reading's own HEAD and GET: no second reading. The
+      // one GET with no user-agent a 404 or 410 earns (issue #241) is not a
+      // re-ask: no pause, the same table, and it never changes the verdict.
       expect(call).toBeLessThanOrEqual(2);
+      expect(plain).toBe(answer.ok && (answer.status === 404 || answer.status === 410) ? 1 : 0);
     }
   });
 
