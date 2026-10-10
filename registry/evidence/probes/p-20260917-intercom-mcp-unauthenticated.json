@@ -24,9 +24,10 @@
     },
     "decoded": {
       "body": "{\"error\":\"invalid_token\",\"error_description\":\"Missing or invalid access token\"}",
-      "protected-resource-metadata": "none found: the challenge names no resource_metadata; GET https://mcp.intercom.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource) answers 404 text/plain, and so does the origin-level https://mcp.intercom.com/.well-known/oauth-protected-resource (checked by hand at 18:16Z, transcript extra-well-known-1816Z.txt beside the artifact)",
+      "protected-resource-metadata": "none found: the challenge names no resource_metadata; GET https://mcp.intercom.com/.well-known/oauth-protected-resource/mcp (the RFC 9728 path for the resource) answers 404 text/plain, and so does the origin-level https://mcp.intercom.com/.well-known/oauth-protected-resource (checked by hand at 18:16Z; the transcript, extra-well-known-1816Z.txt, is published whole in the artifact directory's README at https://plumb.public-agents.ai/evidence/intercom/2026-09-17/README.md under the heading Folded files, with its byte count and SHA-256, since 2026-09-26)",
       "authorization-server-metadata": "200 at https://mcp.intercom.com/.well-known/oauth-authorization-server (found by hand at the origin, since no protected-resource document names it): issuer https://mcp.intercom.com; registration_endpoint present (/register); PKCE S256; grants authorization_code, refresh_token; token auth client_secret_basic, client_secret_post, none; no scopes_supported key",
-      "rest": "GET https://api.intercom.io/me with no Authorization header answers 401 with www-authenticate Basic realm=\"intercom.io\" and code missing_authorization; a Cloudflare bot-management cookie set by the MCP host is redacted in the transcript"
+      "rest": "GET https://api.intercom.io/me with no Authorization header answers 401 with www-authenticate Basic realm=\"intercom.io\" and code missing_authorization; a Cloudflare bot-management cookie set by the MCP host is redacted in the transcript",
+      "corrected": "Version 1 said the 18:16Z transcript was a file beside the artifact. It was, until 2026-09-26, when it was folded verbatim into that directory's README.md to stay under the publish door's 200-file cap, on the belief that nothing cited it by name; this record did. Found by the merger's sibling resolver (issue #240, 2026-10-10): the named path answers 404. Corrected 2026-10-10 by pointing at the README, where the two 18:16:10 GMT exchanges are shown whole. The measurement, the status, the headers and the finding are unchanged. Version 2."
     }
   },
   "finding": "With no credentials, an MCP initialize POST to mcp.intercom.com/mcp answers 401 with a Bearer challenge (realm OAuth, error invalid_token, a description) that names no resource_metadata, and the same error as JSON. No protected-resource metadata exists at either RFC 9728 path: the resource-specific one and the origin-level one both answer 404, so the discovery chain RFC 9728 describes stops at the first step. The server does publish authorization-server metadata at its origin, which is where the older MCP authorization convention looks: dynamic registration, PKCE S256, two grants, public and confidential clients, and no scope list. The current MCP authorization specification (2025-06-18) requires servers to publish that document and clients to read it; the 2025-03-26 revision looked for the server document at the resource's origin, which is where Intercom's is. A keyless GET on the REST API answers 401 with a Basic challenge, not Bearer. Same challenge shape as the 2026-09-12 measurement in the entry's notes; the absent resource document is recorded here for the first time. Nothing here measures what either server does with a credential.",
@@ -47,6 +48,6 @@
     "reseller": false
   },
   "created": "2026-09-17",
-  "updated": "2026-09-17",
-  "version": 1
+  "updated": "2026-10-10",
+  "version": 2
 }
