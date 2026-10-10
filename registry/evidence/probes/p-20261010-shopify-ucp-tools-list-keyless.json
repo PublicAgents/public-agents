@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261010-shopify-ucp-tools-list-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "shopify-ucp"
+  },
+  "surface": "https://1da1f2-7c.myshopify.com/api/ucp/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/list request (jsonrpc 2.0, id 1, empty params) sent as its own request to the shopping endpoint the merchant's discovery document names: no credential, no HTTP signature, no cookie jar, no Mcp-Session-Id header, and no initialize on this connection; section (R2) of the artifact, sent 06:13:27Z"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-shopify-ucp-mcp-api-version": "2026-08-25",
+      "link": "</.well-known/ucp>; rel=\"ucp\"; version=\"2026-08-25\"",
+      "powered-by": "Shopify"
+    },
+    "decoded": {
+      "tools": "13, counted by occurrences of inputSchema over the whole 179,717-byte response (shown up to 2,500 bytes in the artifact, names counted whole): cancel_cart, cancel_checkout, complete_checkout, create_cart, create_checkout, get_cart, get_checkout, get_order, get_product, lookup_catalog, search_catalog, update_cart, update_checkout: the same thirteen as on 2026-09-20 and as the merchant tools/list of 2026-09-29 (section 4 of evidence/shopify-ucp/2026-09-29/probes-0621Z.txt, p-20260929-shopify-ucp-profile-gate).",
+      "statelessness": "the endpoint answered a tools/list that followed no initialize on this connection and issued no session id header; no www-authenticate header on this response, or on any response of the pass.",
+      "why-re-sent": "Re-sent 2026-10-10 because the record of this request from 2026-09-20 (p-20260920-shopify-ucp-checkout-anonymous) was filed before this prober kept transcripts, names no artifact, and filed four requests as one record. The 2026-09-29 merchant tools/list already has a transcript; this one is here because the September pass is re-sent whole and each of its requests gets its own record. The four requests of that record, re-sent as one pass from its own reproducibility.command 06:13:26Z to 06:13:29Z, are appendix (R) of the artifact and four records, one per request: p-20261010-shopify-ucp-well-known-discovery (R1), p-20261010-shopify-ucp-tools-list-keyless (R2), p-20261010-shopify-ucp-checkout-anonymous (R3), p-20261010-shopify-ucp-get-order-anonymous (R4). Nothing measured here changed since 2026-09-20.",
+      "not-measured": "whether a credentialed caller is listed more or different tools; what the thirteen tool descriptions say about authentication (the response was counted, not read, beyond the names). The set-cookie value on this response is redacted in the artifact as a session cookie; nothing here depends on it."
+    }
+  },
+  "finding": "A bare tools/list with no credential and no preceding handshake on one merchant's UCP shopping endpoint answers 200 and lists the same thirteen tools it listed on 2026-09-20 and 2026-09-29: four cart tools, five checkout tools, get_order, get_product, lookup_catalog and search_catalog. Listing is not the gate: which of the thirteen an anonymous caller may invoke is measured by the tools/call records (two refused by name, get_order and complete_checkout, on 2026-09-20 and 2026-09-29; create_checkout passed through to merchandise validation on 2026-09-20 and again in this pass). No www-authenticate header accompanies the 200, so an anonymous client learns nothing about how to authenticate from the list itself; the refusal on a gated tool is where the vendor's authentication page is named. The surface is unchanged in twenty days; this record exists so that the request has a transcript.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -X POST https://1da1f2-7c.myshopify.com/api/ucp/mcp -H 'content-type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-10T06:13Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-10",
+  "updated": "2026-10-10",
+  "version": 1
+}
