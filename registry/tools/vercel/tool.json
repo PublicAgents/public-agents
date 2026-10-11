@@ -18,7 +18,7 @@
     "methods": [],
     "humanBilling": "card-on-file",
     "priceList": "https://vercel.com/docs/pricing",
-    "notes": "2026-09-22: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file \"immediately\" and \"non-refundable\" after a quote-then-confirm flow. Nothing was bought."
+    "notes": "2026-09-22, re-read 2026-10-11: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file after a quote-then-confirm flow, \"Charges are immediate and non-refundable\". Nothing was bought."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -49,11 +49,11 @@
     },
     {
       "job": "proc.purchase-on-behalf",
-      "summary": "The vendor's words: Purchase tools \"make purchases on behalf of a team\". Quote with get_purchase_quote, then buy_pro, buy_credits, buy_addon or buy_domain with confirm true and the quote's key; \"charges go to the team's payment method immediately and are non-refundable\". Not measured.",
-      "source": "https://vercel.com/docs/agent-resources/vercel-mcp/tools"
+      "summary": "The vendor's words on the Billing and Purchases page: \"You can purchase credits and domains, add supported add-ons, or upgrade a team to Pro.\" Quote with get_purchase_quote, then a buy_* tool with confirm true and the quote's key; \"Charges are immediate and non-refundable.\" Not measured.",
+      "source": "https://vercel.com/docs/agent-resources/vercel-mcp/tools/billing"
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-26",
-  "version": 4
+  "updated": "2026-10-11",
+  "version": 5
 }
