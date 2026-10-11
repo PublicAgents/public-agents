@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261011-vercel-docs-pricing-markdown-to-agent-string",
+  "subject": {
+    "type": "tool",
+    "id": "vercel"
+  },
+  "surface": "https://vercel.com/docs/pricing",
+  "question": "access",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "no body; one plain GET of the entry's priceList page with the registry link gate's user-agent string, public-agents-ci, accept */* (curl's default), no credential, no cookie, redirects followed (none occurred). Section (V3) of the artifact, logged 2026-10-11T12:16:05Z, the first of 206 URLs read twice in appendix (V)."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/markdown; charset=utf-8",
+      "vary": "Accept",
+      "x-matched-path": "/[rootFlagsCode]/docs/md/[...slug]",
+      "x-vercel-cache": "MISS",
+      "cache-control": "public, max-age=3600",
+      "link": "<https://vercel.com/docs/pricing>; rel=\"canonical\"",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "document": "12,261 bytes of Markdown, not the page's HTML: YAML front matter (title Pricing on Vercel, url /docs/pricing, last_updated 2026-09-14, type reference, five related paths, a summary, install_vercel_plugin), then the page's headings, tables and links, with a Related pages block addressed 'For AI agents'. The same URL with an empty User-Agent header, with none, with curl/8.0 and with a Chrome string answered 200 and 1,000,350 bytes of text/html titled Pricing on Vercel (sections V1, logged 12:16:05Z to 12:17:14Z).",
+      "the-vendors-rule": "documented. The vendor's page Markdown and Agent Discovery (section V4, read the same minute as Markdown) says: 'The same URL returns text/markdown when the request prefers Markdown, or when Vercel detects an AI agent without a format preference', 'A recognized AI agent receives HTML when it requests text/html', and 'Every Markdown response sets the Vary: Accept header'. Both held: the gate's string with Accept: text/html drew the HTML, and curl/8.0 with Accept: text/markdown drew the Markdown (12:18Z, logged by status).",
+      "what-selects-the-markdown": "a pattern read, not the rule: of fifteen strings sent 12:17:56Z to 12:18:03Z (section V2), the eight that name an agent or a bot drew Markdown (public-agents-ci, public-agents-researcher/1.0, GPTBot, ClaudeBot in two forms, agent, bot, public-agents) and the seven that do not, or are a search crawler, drew HTML (foo, ci, curl/8.0, python-requests/2.32, Mozilla/5.0, Wget/1.21, Googlebot/2.1). Which strings the vendor recognises is not published.",
+      "what-it-means-for-this-registry": "every vercel.com/docs link the registry's gate checks or quotes is read by it as Markdown, and by a person in a browser as HTML of the same page; the docs surface and the entry's docs page (vercel.docs in the table, 17,293 bytes to the gate against 1,024,067) are the same case. The two renderings carry the same text, so quotations checked against either should hold; that was not verified span by span here.",
+      "not-measured": "whether the Markdown and HTML renderings differ in any sentence; whether the vendor's agent detection is keyed on the string alone or on more (the same container and IP sent every request)."
+    }
+  },
+  "finding": "The registry's link gate, which names itself public-agents-ci, is served a different document than a browser at Vercel's pricing page: HTTP 200, text/markdown, 12,261 bytes, where an empty, absent, curl, Wget or Chrome user-agent string draws 200, text/html and 1,000,350 bytes of the same page. The vendor documents this as content negotiation for agents ('when Vercel detects an AI agent without a format preference'), honours an explicit Accept header either way, and serves the Markdown at a durable .md path too; all three were confirmed. Of fifteen strings, the eight naming an agent or a bot drew Markdown and the rest, Googlebot included, drew HTML: a pattern read off fifteen strings, not the vendor's rule, which is unpublished. This is the deliberate, documented opposite of the devin.ai case of 2026-10-10 (p-20261010-devin-pricing-page-user-agent-404), where naming an agent drew a 404. Every vercel.com/docs page the registry cites is read by its gate as Markdown. Not measured: whether the two renderings differ in any sentence.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -A public-agents-ci https://vercel.com/docs/pricing",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-11T12:16Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-11",
+  "updated": "2026-10-11",
+  "version": 1
+}
