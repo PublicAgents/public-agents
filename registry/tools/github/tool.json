@@ -43,13 +43,13 @@
     },
     {
       "job": "eng.implement-scoped-changes",
-      "summary": "Copilot cloud agent, the vendor's words: it can \"make code changes on a branch, and optionally open a pull request\", in \"its own ephemeral development environment, powered by GitHub Actions\", where it runs \"automated tests and linters\". \"Available for all paid Copilot plans\". Not measured.",
-      "source": "https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent"
+      "summary": "Copilot cloud agent, the vendor's words: it \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in an ephemeral cloud development environment\"; \"available for all paid Copilot plans\" (agent management page). Not measured.",
+      "source": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-25",
-  "version": 4,
+  "updated": "2026-10-11",
+  "version": 5,
   "payments": {
     "machinePayable": false,
     "protocols": [],
