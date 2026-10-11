@@ -5,7 +5,7 @@
   "name": "Zendesk",
   "kind": "service",
   "status": "active",
-  "summary": "Customer service platform (ticketing, messaging, voice, help center) with Zendesk AI: AI agents that resolve customer requests across channels without a person, Copilot for human agents, and AutoQA, which scores every interaction. For agents calling in, the vendor publishes the REST API (OAuth access tokens; API tokens deprecated) and an AI Agents API keyed per organization; Zendesk itself is an MCP client that connects to external servers, and publishes no MCP server of its own. Measured: the API answers an anonymous end user on an open instance.",
+  "summary": "Customer service platform (ticketing, messaging, voice, help center) with Zendesk AI: AI agents that resolve customer requests across channels without a person, Copilot for human agents, and AutoQA, which scores every interaction. For agents calling in, the vendor publishes the REST API (OAuth access tokens; API tokens deprecated) and an AI Agents API keyed per organization, and documents no MCP server. Measured 2026-10-11: every *.zendesk.com host answers /api/mcp with an OAuth challenge and advertises dynamic client registration, undocumented. The API answers an anonymous end user.",
   "vendor": {
     "name": "Zendesk, Inc.",
     "url": "https://www.zendesk.com/",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "No credentials, 2026-09-12 06:06Z and again 2026-09-24 12:06Z: GET support.zendesk.com/api/v2/users/me.json, 200, \"Anonymous user\". 2026-09-24 12:06Z: GET /api/v2/help_center/articles/search.json, 200, 901 results. Both read a public help centre, not the product, which takes OAuth."
+    "notes": "No credentials, 2026-09-24 12:06Z: GET support.zendesk.com/api/v2/users/me.json 200, \"Anonymous user\"; help-centre search 200. 2026-10-11 12:04Z: POST /api/mcp on any *.zendesk.com host, 401 with an RFC 9728 challenge; the OAuth metadata advertises PKCE and dynamic registration. Undocumented."
   },
   "payments": {
     "machinePayable": false,
@@ -58,6 +58,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-24",
-  "version": 2
+  "updated": "2026-10-11",
+  "version": 3
 }

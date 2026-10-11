@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261011-zendesk-api-mcp-initialize-keyless",
+  "subject": {
+    "type": "tool",
+    "id": "zendesk"
+  },
+  "surface": "https://mcp.zendesk.com/api/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "one MCP initialize (jsonrpc 2.0, id 1, protocolVersion 2025-06-18, clientInfo public-agents-ci), content-type application/json, accept application/json and text/event-stream, user-agent public-agents-ci. No Authorization header, no cookie jar, no payment. Section (Z1) of the artifact, sent 12:04:57Z"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "www-authenticate": "[redacted] by the registry's credential filter, which treats any challenge as a token; it is a challenge and carries none (quoted in decoded.challenge, whole in the artifact)",
+      "zendesk-service": "zendesk-end-user-mcp",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC"
+    },
+    "decoded": {
+      "refusal": "HTTP 401, 63 bytes: {\"error\": \"unauthorized\", \"message\": \"Authentication required\"}. The challenge is RFC 9728 shaped: a Bearer scheme naming a protected-resource metadata URL on the same host. The service header names the backend zendesk-end-user-mcp.",
+      "challenge": "scheme Bearer (RFC 6750) with one parameter, resource_metadata, whose value is the URL https://mcp.zendesk.com/.well-known/oauth-protected-resource/api/mcp; no realm, no error, no scope. That is the RFC 9728 pointer to the protected-resource document.",
+      "the-document-the-challenge-names": "read as its own request in section (Z2), not filed as a record: GET of that metadata URL answered 200, cache-control public max-age 3600, 214 bytes, resource https://mcp.zendesk.com/api/mcp, one authorization server https://mcp.zendesk.com/api/mcp/oauth, bearer_methods_supported header, scopes_supported read and write. The authorization server's own metadata is p-20261011-zendesk-api-mcp-oauth-metadata-keyless.",
+      "control": "the control is its own record, p-20261011-zendesk-api-mcp-invented-host-control: an invented account host answers this request byte-for-byte the same apart from its own hostname inside the challenge, so this reading describes the *.zendesk.com platform and not mcp.zendesk.com in particular. A plain GET of the same path at 12:04Z, logged by status and not archived, answered the same 401 and challenge.",
+      "what-the-entry-said": "the zendesk entry (version 2, 2026-09-24) files surfaces.mcp as null and says the vendor publishes no MCP server for calling into Zendesk. The vendor still documents none: developer.zendesk.com's documentation index, the vendor's help article on MCP in action flows (Zendesk as a client) and one web search at 12:05Z turned up no vendor page for /api/mcp; third-party posts name the path. So the endpoint exists on every host and is undocumented, and the entry's cell is read at the level of what the vendor publishes.",
+      "not-measured": "what tools the server lists, since initialize is refused before any; whether the OAuth flow issues a token to an end user of any account (the backend's name suggests end users); what an account's /api/mcp answers when the account is real and the caller is signed in. Set-cookie values are redacted in the artifact; nothing depends on them."
+    }
+  },
+  "finding": "Zendesk's wildcard host answers POST /api/mcp on mcp.zendesk.com, with no credentials, HTTP 401 and an RFC 9728 Bearer challenge naming a protected-resource metadata document on the same host, from a backend that names itself zendesk-end-user-mcp. That document (read beside this request, not filed) names one authorization server at /api/mcp/oauth and read and write scopes. On 2026-09-18 and 2026-09-24 this registry found no MCP surface at Zendesk and the vendor documented none; on 2026-10-11 the vendor still documents none that this prober or issue #247's author could find, and every *.zendesk.com host, invented ones included, answers this way (see the control record). The entry's surfaces.mcp stays null because the cell is the vendor's documented surface, and the profile now says what the hosts answer. Not measured: the tool list, which is behind the token. The www-authenticate value is redacted in this record's header table by the schema's credential filter, which cannot tell a challenge from a token; it carries no credential, is quoted in decoded.challenge and is whole in the artifact.",
+  "reproducibility": {
+    "command": "curl -sS -i -m 25 -A public-agents-ci -X POST https://mcp.zendesk.com/api/mcp -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-ci\",\"version\":\"1\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "at": "2026-10-11T12:04Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-11",
+  "updated": "2026-10-11",
+  "version": 1
+}
