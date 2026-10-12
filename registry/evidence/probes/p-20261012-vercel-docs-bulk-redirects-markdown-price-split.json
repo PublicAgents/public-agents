@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261012-vercel-docs-bulk-redirects-markdown-price-split",
+  "subject": {
+    "type": "tool",
+    "id": "vercel"
+  },
+  "surface": "https://vercel.com/docs/routing/redirects/bulk-redirects",
+  "question": "access",
+  "at": "2026-10-12T12:26Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "no body; one plain GET of the page the pricing page's bulk-redirects row links to, with the registry link gate's user-agent string, public-agents-ci, accept */* (curl's default), no credential, no cookie, redirects followed (none occurred). Section (Y1) of the artifact, sent 2026-10-12T12:26:33Z. The HTML reading with curl/8.5.0 two seconds later (Y2) is the comparison, logged by status, and is not this record's status."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/markdown; charset=utf-8",
+      "server": "Vercel",
+      "x-vercel-cache": "HIT",
+      "cache-control": "public, max-age=3600",
+      "vary": "Accept"
+    },
+    "decoded": {
+      "document": "HTTP/2 200, text/markdown, 11,404 bytes, sha256 19d8a7dc699527ce4bb77bd447876a976008d42befe53315dc959cff9a83f9b1, x-matched-path /[rootFlagsCode]/docs/md/[...slug]: the Markdown rendering of the Bulk Redirects page, the one Vercel's agent detection serves to the gate's string (the vendor's recognition rule is unpublished; appendix V4 names the three documented routes). Archived whole in appendix (Y1) of the artifact, the pricing table verbatim.",
+      "the-table-in-markdown": "Under 'Limits and pricing', lines 87 to 90: Plan | Included in plan | Price for additional capacity; Pro | 1,000 | $0.002/month per additional 25,000; Enterprise | 10,000 | $0.002/month per additional 25,000. No HTML comment naming an error is on the page and no 'Last updated' line is in this rendering.",
+      "the-table-in-html": "The same URL with user-agent curl/8.5.0, sent 12:26:35Z: 200, text/html, 822,239 bytes, sha256 ebd0280ff65f2d8d4540ad4d73f48b351130e883692c0a38a2f569e16e1f7fc9 (Y2). Its stripped text reads: Pro | 1,000 | $50/month per additional 25,000; Enterprise | Custom | Custom; then 'Last updated September 21, 2026'. 25,000 times $0.002 is $50: the two renderings state one add-on at a per-redirect and at a per-block price, and disagree on whether Enterprise has a listed included amount.",
+      "what-it-bounds": "The pricing page's record (p-20261011-vercel-docs-pricing-markdown-lacks-builds-table, on main since merge a660467 of PR #251; appendix W1b) found this same price stated two ways on /docs/pricing. This page is the one that row links to, and it carries the same split in the same direction: the difference is in the table's source rendered twice, not a defect of the pricing page alone. The rendering-error comment (X3) remains one page's; the price split is now two pages'. Both renderings say capacity 'can be purchased in groups of 25,000 redirects'.",
+      "the-other-corpora": "Appendix (Y4): fifteen other listed vendors' llms-full.txt corpora (ashby, aws, context7, exa, grafana, hubspot, mintlify, notion, semgrep, atlassian, cloudflare, github, livevariant and the mintlify MCP host; 28 KB to 10.4 MB; read 12:19Z) grepped once each for an HTML comment naming an error: zero on every one; Vercel's /docs corpus is the only one that carries such a comment (once).",
+      "not-measured": "Which figure a Pro team is charged (nothing was bought and no dashboard was opened). Whether the vendor intends the Markdown's per-redirect unit or the HTML's per-block one. Whether other vercel.com/docs tables differ between renderings beyond the ones (W1b) and (Y2) name. When this page's two renderings diverged (no earlier archive of its Markdown exists on this site)."
+    }
+  },
+  "finding": "The Bulk Redirects page, https://vercel.com/docs/routing/redirects/bulk-redirects, linked from the pricing page's bulk-redirects row, states the add-on price differently in its two renderings, the same split p-20261011-vercel-docs-pricing-markdown-lacks-builds-table (on main since merge a660467 of PR #251; appendix W1b) found on the pricing page. Read once each at 2026-10-12T12:26Z with no credential: the Markdown rendering served to this registry's gate string (HTTP 200, text/markdown, 11,404 bytes) prices additional capacity at $0.002/month per additional 25,000 on Pro and Enterprise, with Enterprise including 10,000; the HTML served to curl/8.5.0 (200, 822,239 bytes) prices Pro at $50/month per additional 25,000 and gives Enterprise Custom for both cells. 25,000 times $0.002 is $50, so the renderings state one add-on at a per-redirect and at a per-block unit and disagree on Enterprise's included amount; which a team is charged is not measured. The split is therefore the table's, rendered twice on two pages, not the pricing page's alone, while the rendering-error comment stays one page's (appendix Y4: fifteen other listed vendors' llms-full.txt corpora carry no such comment).",
+  "reproducibility": {
+    "command": "curl -sS -m 25 -A public-agents-ci https://vercel.com/docs/routing/redirects/bulk-redirects | grep -n 'per additional 25,000'; curl -sS -m 25 -A curl/8.5.0 https://vercel.com/docs/routing/redirects/bulk-redirects | grep -o '\\$50/month per additional 25,000\\|Custom' | head -3",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-09-28/keyless-mcp-1827Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-12",
+  "updated": "2026-10-12",
+  "version": 1
+}
