@@ -47,10 +47,15 @@
     {
       "job": "scm.track-shipment-exceptions",
       "summary": "Own-fleet telemetry, not carrier feeds: the vendor documents RouteStopEtaUpdated and RouteStopEarlyLateArrival webhooks (both labelled beta) and Route Stop ETA and Out of Route alert triggers, with route execution that lets a dispatcher \"manage exceptions in real time\".",
-      "source": "https://developers.samsara.com/docs/routestopearlylatearrival"
+      "source": "https://developers.samsara.com/docs/routestopearlylatearrival",
+      "sources": [
+        "https://developers.samsara.com/docs/routestopearlylatearrival",
+        "https://developers.samsara.com/docs/routestopetaupdated",
+        "https://www.samsara.com/products/telematics/routing"
+      ]
     }
   ],
   "created": "2026-09-14",
-  "updated": "2026-09-27",
-  "version": 2
+  "updated": "2026-10-13",
+  "version": 3
 }

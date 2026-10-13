@@ -39,13 +39,13 @@
   "jobs": [
     {
       "job": "it.answer-internal-knowledge-questions",
-      "summary": "Enterprise Search, the vendor's words: \"finds answers to your questions in just seconds, searching your workspace and your connected apps\" and \"will always cite its sources\". Business and Enterprise plans, in the Notion app; whether the MCP surface reaches it is not established. Not measured.",
+      "summary": "Enterprise Search, the vendor's words: \"finds answers to your questions in just seconds, searching your workspace and your connected apps\" and \"always cite its sources\". Business and Enterprise plans, in the Notion app; whether the MCP surface reaches it is not established. Not measured.",
       "source": "https://www.notion.com/help/enterprise-search"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-25",
-  "version": 4,
+  "updated": "2026-10-13",
+  "version": 5,
   "payments": {
     "machinePayable": false,
     "protocols": [],
