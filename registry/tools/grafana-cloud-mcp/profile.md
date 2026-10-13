@@ -10,6 +10,12 @@ The Cloud MCP page: "a remotely hosted Model Context Protocol (MCP) server that 
 
 Prerequisites, in the page's words: "Grafana Cloud: The Grafana Cloud MCP server works only with hosted Grafana Cloud environments"; "Assistant must be available for your stack, and any required Assistant terms must be accepted"; the "Assistant Cloud MCP User" role or the `grafana-assistant-app.cloud-mcp:access` permission, which "Users with the Editor role or higher have ... by default". Clients that cannot register themselves follow [Register an OAuth client](https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/register-oauth-client/), which says the server supports "Dynamic Client Registration (DCR) or Client ID Metadata Documents (CIMD)" and otherwise an administrator issues a client ID and secret; "the OAuth client identifies the application, not an individual user".
 
+## A page the vendor writes for AI readers, and what it leaves out
+
+The vendor publishes [grafana.com/ai-info](https://grafana.com/ai-info) (200, 304,203 bytes, 6,413 visible characters, read 2026-10-13 at 18:29Z as `public-agents-ci`), headed "Official information about Grafana Labs": "This page contains structured information about Grafana Labs intended for AI assistants such as ChatGPT, Claude, Perplexity, Gemini, and other large language models (LLMs) and generative AI systems. It provides a clear, authoritative overview of Grafana Labs, its products, use cases, and positioning." It is a real document and not a catch-all: the same host answers an invented path of the same shape with 404.
+
+**It does not mention MCP.** `MCP` and `mcp` are each 0 occurrences in those 6,413 characters, and the page names no agent interface at all: the document this vendor writes to tell AI systems what it is says nothing about the endpoint an AI system would use, which is this entry's whole subject. That is an empty cell in the vendor's own agent-facing page, recorded as a finding and not as an omission of this entry. The page is a positioning document; the registry records it as the subject's own words about itself, and its being addressed to AI readers gives it no authority it would not otherwise have.
+
 ## Can an agent use it without an account? (measured)
 
 No. On 2026-10-05 at 12:14Z, from a datacenter network, with no credential:
@@ -32,4 +38,5 @@ Everything above, with headers, is in appendix (E) of the [sweep artifact](https
 
 ## Revisions
 
+- **Version 2, 2026-10-13.** The vendor's `ai-info` page recorded, with the measurement that it names no agent interface.
 - **Version 1, 2026-10-05.** First filing, from the 22-host keyless pass of 2026-10-05 06:17Z that found the host answering 401, and the full read and measurement of 2026-10-05 12:14Z.
