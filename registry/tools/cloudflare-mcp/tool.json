@@ -45,12 +45,15 @@
     {
       "job": "eng.retrieve-reference-context",
       "summary": "Documentation server, the vendor's words on the servers page: \"Get up to date reference information on Cloudflare\", at docs.mcp.cloudflare.com/mcp; its README: \"This public documentation server does not require authentication.\" The keyless access is measured in agentAccess and the profile, not here.",
-      "source": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/"
+      "source": "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
+      "sources": [
+        "https://github.com/cloudflare/mcp-server-cloudflare/blob/main/apps/docs-ai-search/README.md"
+      ]
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-09-25",
-  "version": 3,
+  "updated": "2026-10-13",
+  "version": 4,
   "payments": {
     "machinePayable": false,
     "protocols": [],

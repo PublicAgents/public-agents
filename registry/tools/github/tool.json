@@ -44,12 +44,15 @@
     {
       "job": "eng.implement-scoped-changes",
       "summary": "Copilot cloud agent, the vendor's words: it \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in an ephemeral cloud development environment\"; \"available for all paid Copilot plans\" (agent management page). Not measured.",
-      "source": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github"
+      "source": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github",
+      "sources": [
+        "https://docs.github.com/en/copilot/concepts/agents/cloud-agent/agent-management"
+      ]
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-10-11",
-  "version": 5,
+  "updated": "2026-10-13",
+  "version": 6,
   "payments": {
     "machinePayable": false,
     "protocols": [],

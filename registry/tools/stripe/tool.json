@@ -47,7 +47,10 @@
     {
       "job": "fin.collect-customer-payment",
       "summary": "Vendor's claim for payments: the charge settles to the business's Stripe balance and \"Stripe sends funds from your available balance to your bank account as payouts\"; the disputes page (docs.stripe.com/disputes) adds \"Stripe debits your balance for the payment amount and dispute fee\".",
-      "source": "https://docs.stripe.com/payouts"
+      "source": "https://docs.stripe.com/payouts",
+      "sources": [
+        "https://docs.stripe.com/disputes"
+      ]
     },
     {
       "job": "fin.determine-transaction-tax",
@@ -66,6 +69,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-27",
-  "version": 4
+  "updated": "2026-10-13",
+  "version": 5
 }
