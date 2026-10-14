@@ -5,7 +5,7 @@
   "name": "Vercel MCP",
   "kind": "service",
   "status": "active",
-  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and Purchase tools that buy Pro, prepaid credits, the SIEM add-on and domains on a team's behalf, charged to the team's payment method. Keyless, dated: initialize 401 on 09-12 and 09-17; tools/list and a documentation-tool call 401 on 09-21; all three 200 on 2026-09-25 from two containers; all three 401 with a Bearer challenge on 09-26. Account and purchase tools: OAuth per the server, unmeasured.",
+  "summary": "Vercel's official remote MCP server at mcp.vercel.com. The vendor lists searching Vercel documentation, managing projects and deployments, analysing logs, querying Web Analytics, and a purchase surface narrowed on 2026-10-14 to domains only: \"MCP does not purchase credits, subscriptions, or add-ons\", with the buy_credits, buy_pro and buy_addon pages now 308 to an unavailable-tools anchor. Keyless, dated: initialize 401 on 09-12 and 09-17; tools/list and a documentation-tool call 401 on 09-21; all three 200 on 2026-09-25 from two containers; all three 401 with a Bearer challenge on 09-26.",
   "vendor": {
     "name": "Vercel Inc.",
     "url": "https://vercel.com/",
@@ -49,11 +49,11 @@
     },
     {
       "job": "proc.purchase-on-behalf",
-      "summary": "The vendor's words on the Billing and Purchases page: \"You can purchase credits and domains, add supported add-ons, or upgrade a team to Pro.\" Quote with get_purchase_quote, then a buy_* tool with confirm true and the quote's key; \"Charges are immediate and non-refundable.\" Not measured.",
+      "summary": "The vendor's words, re-read 2026-10-14: \"Get a domain registration quote, review its terms, and explicitly approve it before confirming the purchase. MCP does not purchase credits, subscriptions, or add-ons.\" Domains only; quote, then buy_domain with confirm true. Not measured.",
       "source": "https://vercel.com/docs/agent-resources/vercel-mcp/tools/billing"
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-10-12",
-  "version": 6
+  "updated": "2026-10-14",
+  "version": 7
 }
