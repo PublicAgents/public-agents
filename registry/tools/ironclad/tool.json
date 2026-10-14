@@ -5,7 +5,7 @@
   "name": "Ironclad",
   "kind": "service",
   "status": "active",
-  "summary": "Contract lifecycle management for legal teams. Its agentic product is Jurist, which the vendor says redlines a whole contract against the organization's playbook, on third-party paper, as a first pass before a lawyer reads it; Ironclad AI separately extracts properties, clauses and obligations from uploaded contracts. For agents it publishes a first-party MCP server, one URL per region, with a read-only conversational search over contracts and create/read/update tools for obligations; a user connects it by OAuth, and it answered 401 to a probe with no credentials.",
+  "summary": "Contract lifecycle management for legal teams. Its agentic product is Contract Review Agent, renamed from Jurist by 2026-10-14, which the vendor says redlines a whole contract against the organization's playbook, on third-party paper, as a first pass before a lawyer reads it; Ironclad AI separately extracts properties, clauses and obligations from uploaded contracts. For agents it publishes a first-party MCP server, one URL per region: a read-only conversational search over contracts and create/read/update tools for obligations, connected by user OAuth, which answered 401 to a keyless probe.",
   "vendor": {
     "name": "Ironclad, Inc.",
     "url": "https://ironcladapp.com/",
@@ -42,11 +42,11 @@
   "jobs": [
     {
       "job": "legal.review-nda",
-      "summary": "Jurist Redlining Agent with Playbooks, the vendor's words: Jurist \"can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Not measured: licensed, account-bound, outside the MCP surface.",
-      "source": "https://ironcladapp.com/resources/articles/jurist-redlining-playbooks"
+      "summary": "Redlining with Playbooks, re-read 2026-10-14: \"Ironclad's AI Contract Review Agent can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Renamed from Jurist. Not measured: licensed, account-bound.",
+      "source": "https://ironcladapp.com/resources/articles/contract-review-agent-redlining-playbook"
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-10-13",
-  "version": 5
+  "updated": "2026-10-14",
+  "version": 6
 }
