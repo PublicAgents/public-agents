@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "semgrep-guardian"
+  },
+  "surface": "https://mcp.semgrep.ai/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-16",
+  "updated": "2026-10-16",
+  "version": 1,
+  "id": "p-20261016-semgrep-guardian-mcp-initialize-keyless-401",
+  "at": "2026-10-16T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187 (the same as on 2026-10-05)",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo public-agents-researcher 1.0); content-type application/json, accept application/json, text/event-stream; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "74",
+      "server": "uvicorn",
+      "x-robots-tag": "noindex",
+      "www-authenticate": "[redacted: this repository's credential filter refuses the literal header, which carries no credential. In words: a challenge of the bearer scheme with three parameters: error invalid_token, error_description 'Authentication required', and resource_metadata naming https://mcp.semgrep.ai/.well-known/oauth-protected-resource. The header as received is section (1) of the artifact]"
+    },
+    "decoded": {
+      "what-it-answered": "a 74-byte JSON body, {\"error\": \"invalid_token\", \"error_description\": \"Authentication required\"}, not a JSON-RPC envelope, with the challenge described above: the same status, body and challenge as p-20261005-semgrep-guardian-mcp-initialize-keyless-401 eleven days earlier. No serverInfo, session id or capabilities were served.",
+      "the-gate-shape": "section (2) of the artifact: POST {} with user-agent public-agents-ci, sent the same second, answered the same 401, 74-byte body and challenge, as p-20261005-semgrep-guardian-mcp-gate-shape-401 recorded. A reading in the transcript, not a second record.",
+      "protected-resource-metadata": "section (3): GET on the URL the challenge names answered 200, 153 bytes, served from CloudFront's cache (age 595): resource https://mcp.semgrep.ai/, authorization_servers [https://login.semgrep.dev/], scopes_supported [] (empty), bearer_methods_supported [header]. Compared key by key against section 6 of the 2026-10-05 artifact: equal.",
+      "authorization-server-metadata": "the resource host's mirror (section 4, 743 bytes) is key-for-key equal to its 2026-10-05 reading. The issuer's copy (section 5, https://login.semgrep.dev/.well-known/oauth-authorization-server) answered 200, 876 bytes, etag W/\"36c-...\", against 831 bytes and W/\"33f-...\" on 2026-10-05: one key added, client_id_metadata_document_supported: true, no key removed, no value changed. That key is the issuer declaring that it accepts a client identified by a metadata document hosted at the client's own URL, rather than only a dynamically registered or pre-registered client_id; it was not exercised, no client was identified or registered and no token was requested. The mirror on the resource host does not carry the new key, so it now lacks two of the issuer's keys (device_authorization_endpoint, as before, and this one). The issuer's openid-configuration was not re-read.",
+      "the-host-itself": "section (6): GET https://mcp.semgrep.ai/ answered 302 to https://docs.semgrep.dev/guardian, as before; that URL now answers 308 to https://docs.semgrep.dev/semgrep-guardian/overview (read separately at 06:05Z, not in the artifact).",
+      "what-this-measures": "whether an agent can use the hosted server without a human making an account, eleven days after the first reading and after the vendor's docs rewrite of 2026-10-07 made Codex a second recommended plugin host: it still cannot, and nothing on the wire moved except the issuer advertising one more way for a client to identify itself. Not measured: anything the server does with a credential, its tool list, rate limits, or whether the Codex plugin reaches this host differently."
+    }
+  },
+  "finding": "A keyless MCP initialize sent to https://mcp.semgrep.ai/mcp on 2026-10-16 at 06:07:46Z answered HTTP 401 with the same 74-byte JSON error (invalid_token, 'Authentication required') and the same bearer challenge naming https://mcp.semgrep.ai/.well-known/oauth-protected-resource as on 2026-10-05; no serverInfo, session id or capabilities were served. The protected-resource document and the resource host's authorization-server mirror are key-for-key equal to the 2026-10-05 readings. The issuer's own metadata gained one key, client_id_metadata_document_supported: true (831 to 876 bytes), which the mirror does not carry; nothing OAuth was exercised. The gate's own request shape drew the same refusal. Between the two readings the vendor's docs made Codex a second recommended plugin host (2026-10-07) and reworded the overview (2026-10-13); the access answer did not change.",
+  "reproducibility": {
+    "command": "curl -si https://mcp.semgrep.ai/mcp -H Content-Type:application/json -H Accept:application/json,text/event-stream -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"public-agents-researcher\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/semgrep-guardian/2026-10-16/keyless-0607Z.txt"
+  }
+}
