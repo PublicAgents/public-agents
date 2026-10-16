@@ -5,7 +5,7 @@
   "name": "Shopify agentic commerce (UCP MCP servers)",
   "kind": "service",
   "status": "active",
-  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a Dev Dashboard credential), Signed (RFC 9421 signatures) and Anonymous (nothing). Catalog search needs no account (measured). Measured 2026-09-20 at one merchant: of 13 tools only complete_checkout and get_order refuse an anonymous caller; no valid checkout was attempted.",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a Dev Dashboard credential), Signed (RFC 9421 signatures) and Anonymous (nothing). Catalog search needs no account (measured). Measured 2026-09-20 and again 2026-10-15 at one merchant: of 13 tools only complete_checkout and get_order refuse an anonymous caller; no valid checkout was attempted.",
   "vendor": {
     "name": "Shopify Inc.",
     "url": "https://www.shopify.com/",
@@ -22,7 +22,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Re-measured 2026-09-29, no credential or signature: the 2026-09-20 gate reproduces at one merchant, 11 of 13 tools answer an argument error and complete_checkout and get_order answer 403; keyless catalog search with a published agent profile answers 200, without one 422. No valid checkout made."
+    "notes": "Re-measured 2026-10-15, no credential or signature: the 2026-09-20 gate reproduces at one merchant, 11 of 13 tools answer an argument error and complete_checkout and get_order answer 403. The vendor now adds \"Don't use unauthenticated requests for production traffic\". No valid checkout made."
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
@@ -53,6 +53,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-30",
-  "version": 6
+  "updated": "2026-10-15",
+  "version": 7
 }
