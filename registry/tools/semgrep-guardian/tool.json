@@ -5,7 +5,7 @@
   "name": "Semgrep Guardian",
   "kind": "service",
   "status": "active",
-  "summary": "Semgrep's plugin for AI coding agents: an MCP server, hooks and skills that scan each file an agent writes with Semgrep Code, Supply Chain and Secrets and hand the findings back to the agent. The recommended path is a hosted MCP server behind OAuth; every other path runs a locally installed, signed-in Semgrep CLI. Measured keyless on 2026-10-05: every request to the hosted server answered 401 with a bearer challenge; the discovery documents behind it are public and the plugin's fixed ruleset is readable without a login.",
+  "summary": "Semgrep's plugin for AI coding agents: an MCP server, hooks and skills that scan each file an agent writes with Semgrep Code, Supply Chain and Secrets and hand the findings back to the agent. The recommended path, for Claude Code and (since 2026-10-07) Codex, is a hosted MCP server behind OAuth; every other path runs a locally installed, signed-in Semgrep CLI. Measured keyless on 2026-10-05 and again on 2026-10-16: every request to the hosted server answered 401 with a bearer challenge; the discovery documents behind it are public and the plugin's fixed ruleset is readable without a login.",
   "vendor": {
     "name": "Semgrep, Inc.",
     "url": "https://semgrep.dev/",
@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured keyless 2026-10-05: initialize, tools/list, GET, HEAD and an empty POST to mcp.semgrep.ai/mcp all 401 with a bearer challenge naming the protected-resource document (200; issuer login.semgrep.dev, PKCE S256, device-code grant, DCR advertised, not called). Docs: a Semgrep account is needed."
+    "notes": "Keyless 2026-10-05, again 2026-10-16, unchanged: initialize, tools/list, GET, HEAD and an empty POST to mcp.semgrep.ai/mcp all 401 with a bearer challenge naming the protected-resource document (200; issuer login.semgrep.dev, PKCE S256, device-code grant, DCR advertised, not called). Account needed."
   },
   "payments": {
     "machinePayable": false,
@@ -51,6 +51,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-10-05",
-  "updated": "2026-10-05",
-  "version": 1
+  "updated": "2026-10-16",
+  "version": 2
 }
