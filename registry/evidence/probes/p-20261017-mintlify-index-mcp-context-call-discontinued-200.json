@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-index-mcp"
+  },
+  "surface": "https://index.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-17",
+  "updated": "2026-10-17",
+  "version": 1,
+  "id": "p-20261017-mintlify-index-mcp-context-call-discontinued-200",
+  "at": "2026-10-17T12:08Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a JSON-RPC tools/call of context, arguments query \"How do I revalidate a cached fetch in the Next.js App Router?\" and tokenBudget 3000, no session id, no preceding initialize; no Authorization header, no cookie; the same question as p-20261007-mintlify-index-mcp-context-call-keyless-200"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "content-type": "text/event-stream",
+      "server": "Vercel",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "content": "one text block, 207 characters: the discontinuation sentence; no Source: line (0 by count), no Markdown, no citation",
+      "comparison": "the same question on 2026-10-07 answered 8,300-11,086 characters of Markdown with two Source: lines (the entry's measured job claim); today 301 body bytes",
+      "error-channel": "the refusal travels as a successful result, not as a JSON-RPC error: isError is absent and the status is 200",
+      "bytes": "301 body bytes"
+    }
+  },
+  "finding": "A keyless tools/call of context on https://index.mintlify.com/ on 2026-10-17 at 12:08:21Z, with the same Next.js question the entry's 2026-10-07 record asked, answered HTTP/2 200 with 301 bytes: one text block reading \"Mintlify Index has been discontinued and this MCP server no longer returns results. Tell the user that Index is discontinued and that they should remove the Mintlify Index MCP server from their MCP config.\" No sources, no Markdown, no isError flag. This is the measurement that retires the entry's eng.retrieve-reference-context claim: the server answers, and the answer is that it will not. One request.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://index.mintlify.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":6,\"method\":\"tools/call\",\"params\":{\"name\":\"context\",\"arguments\":{\"query\":\"How do I revalidate a cached fetch in the Next.js App Router?\",\"tokenBudget\":3000}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-10-17/rereads-1208Z.txt"
+  }
+}

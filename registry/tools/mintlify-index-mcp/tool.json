@@ -4,8 +4,8 @@
   "slug": "mintlify-index-mcp",
   "name": "Mintlify Index MCP server",
   "kind": "service",
-  "status": "active",
-  "summary": "One public MCP endpoint Mintlify runs for every caller, reading across the documentation it hosts and the open web. Measured keyless on 2026-10-07, one request per probe record: initialize, tools/list, resources/list and three tool calls answered with no account and no session id. Exactly one tool, context, read-only, whose description promises primary-source citations. On three questions about a project whose documentation Mintlify generates on its own mintlify.wiki domain it never cited the project's own site; on two about one it does not, it cited the vendor's domain.",
+  "status": "retired",
+  "summary": "Retired by the vendor. One public MCP endpoint Mintlify ran for every caller, reading across the documentation it hosted and the open web; measured keyless 2026-10-07, one tool, context. On 2026-10-17 at 12:08Z the same keyless initialize, tools/list and tools/call each answered 200 carrying one sentence instead of a result: \"Mintlify Index has been discontinued and this MCP server no longer returns results.\" The vendor's changelog dates the discontinuation October 16, 2026. The 2026-10-07 records stand as dated history; nothing in this entry is current except the retirement.",
   "vendor": {
     "name": "Mintlify, Inc.",
     "url": "https://www.mintlify.com/",
@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Keyless 2026-10-07 18:06Z on https://index.mintlify.com/: initialize, tools/list and three tools/call each answered 200 with no Authorization header, no session id and no preceding initialize. The vendor: \"You do not need to authenticate to the public server.\""
+    "notes": "Keyless 2026-10-17 12:08Z on https://index.mintlify.com/: initialize, tools/list and tools/call still answer 200 with no credential, but each answer is the vendor's discontinuation sentence and the one tool returns no result. The 2026-10-07 keyless measurements are history, not access."
   },
   "payments": {
     "machinePayable": false,
@@ -28,7 +28,7 @@
   },
   "surfaces": {
     "homepage": "https://www.mintlify.com/",
-    "docs": "https://www.mintlify.com/docs/search-index/mcp",
+    "docs": "https://www.mintlify.com/docs/changelog",
     "llmsTxt": "https://www.mintlify.com/docs/llms.txt",
     "skills": [],
     "mcp": "https://index.mintlify.com/",
@@ -50,13 +50,13 @@
   "jobs": [
     {
       "job": "eng.retrieve-reference-context",
-      "summary": "The vendor's words: \"read-only access to technical documentation and web context\", returning \"compact, source-cited context in one call\". Keyless 2026-10-07: three calls answered in 1.3-2.2 s with 8,300-11,086 characters of Markdown, two sources each. Whether a citation is PRIMARY is an empty cell.",
+      "summary": "Claimed 2026-10-07 on the vendor's words and three keyless calls that returned cited Markdown. Withdrawn: the vendor's changelog of October 16, 2026 says \"Mintlify Index discontinued\" and the server \"tells connected agents to remove it\"; on 2026-10-17 every call answered that sentence and no result.",
       "sources": [
-        "https://www.mintlify.com/docs/search-index/mcp"
+        "https://www.mintlify.com/docs/changelog"
       ]
     }
   ],
   "created": "2026-10-07",
-  "updated": "2026-10-09",
-  "version": 2
+  "updated": "2026-10-17",
+  "version": 3
 }
