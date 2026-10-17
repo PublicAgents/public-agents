@@ -56,10 +56,14 @@
     {
       "job": "sales.enrich-leads",
       "summary": "The vendor's words: agent_run does 'list-building, enrichment, and structured output'; its GTM enrichment cookbook (REST API) searches companies 'for funding, headquarters, employees, and product' and emits industry, headquarters and funding fields. Not measured: 401 on the server, 402 on the API.",
-      "source": "https://exa.ai/docs/integrations/payments/mpp/gtm-enrichment"
+      "source": "https://exa.ai/docs/integrations/payments/mpp/gtm-enrichment",
+      "sources": [
+        "https://exa.ai/docs/integrations/payments/mpp/gtm-enrichment",
+        "https://exa.ai/docs/get-started/exa-mcp"
+      ]
     }
   ],
   "created": "2026-10-03",
-  "updated": "2026-10-04",
-  "version": 1
+  "updated": "2026-10-17",
+  "version": 2
 }
