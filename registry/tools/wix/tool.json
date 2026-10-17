@@ -1,0 +1,69 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "wix",
+  "name": "Wix",
+  "kind": "service",
+  "status": "active",
+  "summary": "Website builder, host and ICANN-accredited registrar, with an AI site generator (Harmony) the vendor says builds a full mobile-friendly site from a chat, and Symphony, an agent platform it says runs the business. Two MCP surfaces: the Wix MCP at mcp.wix.com/mcp for the owner's agent, measured 401 keyless and documented as needing a Wix account; and a built-in, keyless MCP server on every Wix site for visitors' agents, measured 200 on one live site with ten tools, three of which the vendor's page does not list. Sites run only on Wix's servers; the domain can leave.",
+  "vendor": {
+    "name": "Wix.com Ltd.",
+    "url": "https://www.wix.com/",
+    "kind": "organization"
+  },
+  "license": "Hosted under Wix's Terms of Use",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-17 06:12Z: initialize and tools/list at mcp.wix.com/mcp each 401, 79-byte body, challenge naming its protected-resource document; the vendor's page says a Wix account is required. A Wix SITE's own /_api/mcp answered initialize 200 and listed 10 tools with no credential."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "unknown",
+    "priceList": "https://www.wix.com/plans",
+    "notes": "Read 2026-10-17: the plans page names Visa, Mastercard, American Express, Discover, JCB and Diners, says 'Displayed prices are for yearly subscriptions, paid in full at the time of purchase'; free plan 'No credit card required'. Renewal terms sit in a client-rendered page not captured. No 402 seen."
+  },
+  "surfaces": {
+    "homepage": "https://www.wix.com/",
+    "docs": "https://dev.wix.com/docs/overview/ai-the-wix-platform/the-wix-mcp",
+    "llmsTxt": "https://www.wix.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.wix.com/mcp",
+    "api": "https://dev.wix.com/docs/rest",
+    "openapi": null,
+    "source": null
+  },
+  "social": {
+    "github": "wix",
+    "x": "Wix"
+  },
+  "domains": [
+    "www.wix.com",
+    "wix.com",
+    "dev.wix.com",
+    "support.wix.com",
+    "mcp.wix.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.build-website",
+      "summary": "Vendor's words only: the AI builder 'generates a full mobile-friendly site from a chat — pages, layout, text, images'; a custom domain needs a paid plan; hosting is Wix-only ('your site must run on Wix’s servers'), 'the content you build on Wix belongs to you'; the domain can leave. Not measured.",
+      "source": "https://www.wix.com/llms.txt",
+      "sources": [
+        "https://www.wix.com/llms.txt",
+        "https://www.wix.com/ai-website-builder",
+        "https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere"
+      ]
+    }
+  ],
+  "created": "2026-10-17",
+  "updated": "2026-10-17",
+  "version": 1
+}
