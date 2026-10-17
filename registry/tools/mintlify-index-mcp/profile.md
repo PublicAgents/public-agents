@@ -31,7 +31,7 @@ The Index API returns `410 Gone` and the Index MCP server tells connected agents
 to remove it." Hence `retired`, not `deprecated`.
 
 The reference page this entry cited, `/docs/search-index/mcp`, now answers 308 to
-the per-site Search MCP page, which names neither Index nor `index.mintlify.com`
+the per-site Search MCP page, which names neither Index MCP nor `index.mintlify.com`
 (0 and 0 in 34,499 bytes), so `surfaces.docs` and the job claim's source point at
 the changelog. The three vendor sentences versions 1 and 2 quoted count 0 today
 on every vendor page read (changelog, Search MCP, admin MCP, docs `llms.txt`,

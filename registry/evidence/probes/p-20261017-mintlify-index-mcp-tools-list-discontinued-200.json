@@ -41,7 +41,7 @@
     },
     "decoded": {
       "tools": "exactly one, context, as on 2026-10-07",
-      "description": "the tool's description is now the 207-character discontinuation sentence and nothing else; on 2026-10-07 it promised \"a compact answer with primary-source citations\"",
+      "description": "the tool's description is now the 205-character discontinuation sentence and nothing else; on 2026-10-07 it promised \"a compact answer with primary-source citations\"",
       "inputSchema": "only query (string), additionalProperties true; on 2026-10-07 five properties (query, product, includeDomains, excludeDomains, tokenBudget) with additionalProperties false and the $ref defect this entry recorded",
       "annotations": "readOnlyHint true, destructiveHint false, idempotentHint true, openWorldHint FALSE (was true on 2026-10-07)",
       "bytes": "514 body bytes (1,005 on 2026-10-07)"

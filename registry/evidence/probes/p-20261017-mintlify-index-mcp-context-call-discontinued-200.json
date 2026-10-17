@@ -40,7 +40,7 @@
       "x-vercel-cache": "MISS"
     },
     "decoded": {
-      "content": "one text block, 207 characters: the discontinuation sentence; no Source: line (0 by count), no Markdown, no citation",
+      "content": "one text block, 205 characters (decoded): the discontinuation sentence; no Source: line (0 by count), no Markdown, no citation",
       "comparison": "the same question on 2026-10-07 answered 8,300-11,086 characters of Markdown with two Source: lines (the entry's measured job claim); today 301 body bytes",
       "error-channel": "the refusal travels as a successful result, not as a JSON-RPC error: isError is absent and the status is 200",
       "bytes": "301 body bytes"

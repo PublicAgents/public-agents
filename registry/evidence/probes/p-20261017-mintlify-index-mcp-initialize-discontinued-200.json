@@ -41,7 +41,7 @@
     },
     "decoded": {
       "serverInfo": "mintlify-universal-search 1.0.0, protocolVersion 2025-06-18, capabilities {\"tools\": {\"listChanged\": true}}: unchanged from 2026-10-07",
-      "instructions": "207 characters by len(), replacing the 146-character research sentence of 2026-10-07: \"Mintlify Index has been discontinued and this MCP server no longer returns results. Tell the user that Index is discontinued and that they should remove the Mintlify Index MCP server from their MCP config.\"",
+      "instructions": "205 characters by len() over the decoded string (207 with the JSON quotation marks), replacing the 146-character research sentence of 2026-10-07: \"Mintlify Index has been discontinued and this MCP server no longer returns results. Tell the user that Index is discontinued and that they should remove the Mintlify Index MCP server from their MCP config.\"",
       "what-changed": "the body grew from 367 bytes (2026-10-07, byte-identical across two passes that day) to 426; the only changed field is instructions",
       "addressed-to-the-caller": "the sentence is an instruction to the reading agent; this registry records it as the vendor's wire and did not act on it",
       "session": "no mcp-session-id response header, as before",
