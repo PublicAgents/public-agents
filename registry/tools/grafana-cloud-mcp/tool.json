@@ -49,7 +49,7 @@
   "jobs": [
     {
       "job": "eng.investigate-incidents",
-      "summary": "The vendor's words: Assistant 'helps you investigate incidents'; investigations 'explore metrics, logs, traces, and profiles, build hypotheses, and produce a report'; the Cloud MCP server lets agents 'query metrics, logs' and start investigations (create_investigation). Not measured: 401 keyless.",
+      "summary": "Vendor's words 2026-10-17: Investigations are for 'incidents that span services or need analysis across metrics, logs, traces, and profiles'; the Assistant 'gathers evidence, tests hypotheses, and writes a report'; Cloud MCP lets agents 'query metrics, logs' and start one. Not measured: 401 keyless.",
       "sources": [
         "https://grafana.com/docs/grafana-cloud/platform/grafana-assistant/platform/investigation/",
         "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/"
@@ -57,6 +57,6 @@
     }
   ],
   "created": "2026-10-05",
-  "updated": "2026-10-13",
+  "updated": "2026-10-17",
   "version": 2
 }
