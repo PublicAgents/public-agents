@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "atlassian"
+  },
+  "surface": "https://mcp.atlassian.com/.well-known/oauth-authorization-server",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-17",
+  "updated": "2026-10-17",
+  "version": 1,
+  "id": "p-20261017-atlassian-resource-host-as-metadata-second-issuer",
+  "at": "2026-10-17T06:05Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "no body: a GET of the RFC 8414 well-known path at the root of the MCP resource host, user-agent public-agents-ci, accept */*; sent in the same pass (sections 1 to 4 of the artifact) as GETs of the v2 protected-resource document and of the issuer that document names, in both discovery forms"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "561",
+      "server": "AtlassianEdge",
+      "cache-control": "[absent; the issuer's document says no-cache and the protected-resource document says public, max-age=3600]"
+    },
+    "decoded": {
+      "what-it-answered": "an authorization-server metadata document whose issuer is https://mcp.atlassian.com itself, not the https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3 that the v2 protected-resource document names as its only authorization server. Ten keys; the issuer's document has twelve. Every endpoint is on the resource host under /v1/: authorize, token, register, and token again as the revocation endpoint. code_challenge_methods_supported is [plain, S256] here and [S256] at the issuer; grant_types_supported is two values here (authorization_code, refresh_token) and six at the issuer; response_types_supported is [code] here and [code, token] there. Three issuer keys are absent here: client_id_metadata_document_supported, jwks_uri, pushed_authorization_request_endpoint. One key is here only: response_modes_supported [query].",
+      "why-this-request": "the RFC 9728 walk a client makes from the 401 challenge leads to the issuer's document, which is the one that matters to a client that follows the specification; but a client that asks the resource host directly, as older MCP clients did, is handed a different authorization server with weaker PKCE and its own registration endpoint. The registry records both so a reader knows which one an entry's auth cell describes.",
+      "stability": "byte-identical to the 2026-10-16 18:04Z reading of the same URL (561 bytes, same JSON) in the companion transcript cimd-sweep-1803Z.txt; the issuer's document is also unchanged between the two days (969 bytes). The v2 protected-resource document, 1,374 bytes, still names only the auth.atlassian.com issuer and lists 38 scopes.",
+      "not-measured": "whether the /v1/ endpoints on the resource host issue tokens that the v2 endpoint accepts; whether this document is the authorization server for the v1 MCP paths the entry records as still answering; anything with a credential."
+    }
+  },
+  "finding": "The root of the Atlassian MCP resource host, https://mcp.atlassian.com/.well-known/oauth-authorization-server, read keyless on 2026-10-17 at 06:05:08Z, answers 200 with a 561-byte authorization-server document that is not the issuer's: its issuer is https://mcp.atlassian.com, its authorize, token, register and revocation endpoints are all under https://mcp.atlassian.com/v1/, it allows the plain PKCE method beside S256, and it lacks the client_id_metadata_document_supported key. The authorization server that the v2 endpoint's own protected-resource document names, https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3, read in the same pass, has twelve keys, S256 only, six grant types, pushed authorization requests, and the client-ID-metadata key set to true. So a client that follows the RFC 9728 challenge and a client that asks the resource host directly are handed two different authorization servers with different registration endpoints. Both documents are byte-identical to their 2026-10-16 readings. Which one the vendor intends is not stated on any page the entry cites; this record resolves nothing and dates both.",
+  "reproducibility": {
+    "command": "curl -sS -D - -A public-agents-ci -H 'Accept: */*' https://mcp.atlassian.com/.well-known/oauth-authorization-server; curl -sS -A public-agents-ci https://auth.atlassian.com/.well-known/oauth-authorization-server/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3; curl -sS -A public-agents-ci https://mcp.atlassian.com/.well-known/oauth-protected-resource/v2/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-10-17/resource-host-as-0605Z.txt"
+  }
+}

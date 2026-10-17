@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "vercel"
+  },
+  "surface": "https://mcp.vercel.com/.well-known/oauth-authorization-server",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-17",
+  "updated": "2026-10-17",
+  "version": 1,
+  "id": "p-20261017-vercel-resource-host-as-metadata-diverges-from-issuer",
+  "at": "2026-10-17T06:05Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "no body: a GET of the RFC 8414 well-known path at the root of the MCP resource host, user-agent public-agents-ci, accept */*; sent in the same pass (sections 5 to 7 of the artifact) as GETs of the protected-resource document and of the issuer's own document at https://vercel.com/.well-known/oauth-authorization-server"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "Vercel",
+      "cache-control": "no-cache",
+      "x-vercel-cache": "MISS",
+      "x-matched-path": "/.well-known/oauth-authorization-server"
+    },
+    "decoded": {
+      "what-it-answered": "a 655-byte document that claims the same issuer as the real one, https://vercel.com, but is not the same document. Twelve keys against the issuer's twenty-one. Seven shared keys differ in value. Three endpoints move host: token, revocation and registration are https://api.vercel.com/login/oauth/... at the issuer and https://vercel.com/api/login/oauth/... here. token_endpoint_auth_methods_supported and revocation_endpoint_auth_methods_supported are five methods at the issuer (the two basic and post secret methods, the two JWT assertion methods of RFC 7523, and a vendor-named oidc-bearer client assertion type; the names are in the artifact, section 6) and [none] here. grant_types_supported is four at the issuer (adding client_credentials and device_code) and two here. scopes_supported holds the same four values in a different order. Nine issuer keys are absent here, among them device_authorization_endpoint, introspection_endpoint, userinfo_endpoint and the signing-algorithm lists; no key is here only. The issuer's document is served with x-vercel-cache HIT, age 6564 and an etag; this one is a MISS with no-cache.",
+      "why-this-request": "the protected-resource document names https://vercel.com as the authorization server, so a specification-following client reads the issuer's document and never this one. A client that asks the resource host directly reads this one and is told the token endpoint is on a different host and that public clients (auth method none) are the only kind. The registry records both so a reader knows which document an entry's auth cell describes.",
+      "stability": "byte-identical to the 2026-10-16 18:04Z reading of the same URL (655 bytes, same JSON) in the companion transcript cimd-sweep-1803Z.txt; the issuer's document is 2,213 bytes on both days. The protected-resource document, 470 bytes, still names resource https://mcp.vercel.com/, one scope (openid) and the vendor's own description string.",
+      "not-measured": "whether the two token endpoints are the same service behind two hostnames; whether a public client registered at either registration endpoint is accepted at the other; anything with a credential."
+    }
+  },
+  "finding": "The root of the Vercel MCP resource host, https://mcp.vercel.com/.well-known/oauth-authorization-server, read keyless on 2026-10-17 at 06:05:09Z, answers 200 with a 655-byte authorization-server document that names the same issuer as the real one (https://vercel.com) but differs from the issuer's own 2,213-byte document, read in the same pass, on seven shared keys: the token, revocation and registration endpoints are on api.vercel.com at the issuer and on vercel.com/api here; token and revocation auth methods are five at the issuer and [none] here; grant types are four there and two here; the scope list is the same four values reordered. Nine issuer keys are absent here and none is added. Both documents are byte-identical to their 2026-10-16 readings. A client that follows the protected-resource document reads the issuer's; a client that asks the resource host reads this one. Which the vendor intends is not stated on the documentation page the entry cites; this record dates both and resolves nothing.",
+  "reproducibility": {
+    "command": "curl -sS -D - -A public-agents-ci -H 'Accept: */*' https://mcp.vercel.com/.well-known/oauth-authorization-server; curl -sS -A public-agents-ci https://vercel.com/.well-known/oauth-authorization-server; curl -sS -A public-agents-ci https://mcp.vercel.com/.well-known/oauth-protected-resource",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-10-17/resource-host-as-0605Z.txt"
+  }
+}
