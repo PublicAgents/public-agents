@@ -5,7 +5,7 @@
   "name": "Mintlify Admin MCP server",
   "kind": "service",
   "status": "active",
-  "summary": "The write-capable one of Mintlify's three MCP servers: one hosted endpoint every customer connects to, authenticating with a Mintlify account, documented to edit pages, restructure navigation, open pull requests and change project settings. Measured keyless on 2026-10-07, one request per probe record: initialize, tools/list and a plain GET each answered 401 with the same 85-byte body and the same Bearer challenge, while the whole OAuth discovery chain answered 200 keyless and enumerates thirteen scopes of which eight write. The tool list is not readable without an account.",
+  "summary": "The write-capable one of Mintlify's two MCP servers (three until Index was discontinued on 2026-10-16): one hosted endpoint every customer connects to, authenticating with a Mintlify account, documented to edit pages, restructure navigation, open pull requests and change project settings. Keyless on 2026-10-07 (initialize again 2026-10-17): initialize, tools/list and a plain GET each 401, same 85-byte body, same Bearer challenge, while the whole OAuth discovery chain answered 200 keyless and enumerates thirteen scopes of which eight write. The tool list is not readable without an account.",
   "vendor": {
     "name": "Mintlify, Inc.",
     "url": "https://www.mintlify.com/",
@@ -57,6 +57,6 @@
     }
   ],
   "created": "2026-10-07",
-  "updated": "2026-10-09",
-  "version": 2
+  "updated": "2026-10-17",
+  "version": 3
 }
