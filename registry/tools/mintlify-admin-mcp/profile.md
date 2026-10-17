@@ -32,8 +32,8 @@ was: one `initialize` POST at 12:23:51Z, the same request as the 2026-10-07
 record, answered **401**, 85 bytes, the same body text, the same `Bearer`
 challenge naming the protected-resource document ([transcript](https://plumb.public-agents.ai/evidence/registry-sweep/2026-10-17/rereads-1208Z.txt),
 section 20; sections 8 and 10 are the page and the changelog). The table and
-text below are the 2026-10-07 reading and stay as dated history; the Index
-server's own entry records its retirement.
+text below are the 2026-10-07 reading and stay as dated history; the vendor's
+changelog of 2026-10-16 retires the Index server ("Mintlify Index discontinued").
 
 ### Which of Mintlify's three MCP servers this is
 
