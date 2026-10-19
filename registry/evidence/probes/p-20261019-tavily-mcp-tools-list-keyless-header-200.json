@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "tavily-mcp"
+  },
+  "surface": "https://mcp.tavily.com/mcp/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-tavily-mcp-tools-list-keyless-header-200",
+  "at": "2026-10-19T06:29Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, content-type application/json, accept 'application/json, text/event-stream', MCP-Protocol-Version 2025-06-18, and the vendor's documented header X-Tavily-Access-Mode: keyless; no Authorization header, no cookie, no session id (artifact (09); the identical request of (08) differed only in carrying the session id of (07) if one was issued)"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "uvicorn"
+    },
+    "decoded": {
+      "server": "One SSE message, 9,770 bytes, byte-identical in (08) and (09): five tools, tavily_search, tavily_extract, tavily_crawl, tavily_map, tavily_research, each annotated readOnlyHint true, destructiveHint false, idempotentHint false, openWorldHint true. The initialize of (07) with the same header at 06:29:32Z answered 200, 286 bytes: serverInfo tavily-mcp 4.1.0, capabilities tools, prompts, resources (subscribe false) and logging.",
+      "two-differences": "The vendor's pages name the tools tavily-search and tavily-extract (hyphens); the wire names use underscores. The keyless page says /search and /extract are keyless and that /crawl, /map and /research 'require an API key'; the keyless session is shown all five tools. Whether the three refuse a keyless call is not measured: no tool was called.",
+      "direct-api": "POST https://api.tavily.com/search with the same header and {query: 'Tavily keyless access mode', max_results: 1} at 06:29:37Z: 200, 1,672 bytes, the vendor's response shape (query, follow_up_questions, answer, images, results, response_time, request_id), one result, the vendor's own keyless page (10). The same request without the header at 06:29:40Z: 401, 87 bytes, 'Unauthorized: missing or invalid API key.' (11)."
+    }
+  },
+  "finding": "A JSON-RPC tools/list sent to https://mcp.tavily.com/mcp/ on 2026-10-19 at 06:29:35Z with no credentials, no session id and the vendor's documented header X-Tavily-Access-Mode: keyless answered HTTP/2 200 with five tools; the same request without the header is refused at an OAuth gate (its own record). The vendor's keyless mode is real on the wire for initialize, tools/list and one direct-API search: a host that answers an OAuth challenge by default, whose documented keyless door a caller opens with one header and no account. Two discrepancies are recorded, not resolved: hyphenated tool names on the pages against underscored names on the wire, and five tools listed where the page says two are keyless. The rate limit the page promises was neither stated as a number nor reached in this artifact's three requests.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.tavily.com/mcp/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -H 'X-Tavily-Access-Mode: keyless' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/tavily-mcp/2026-10-19/keyless-and-pages-0629Z.txt"
+  }
+}

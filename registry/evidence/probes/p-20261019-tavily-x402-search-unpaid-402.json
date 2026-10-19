@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "tavily-mcp"
+  },
+  "surface": "https://x402.tavily.com/search",
+  "question": "payment",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-tavily-x402-search-unpaid-402",
+  "at": "2026-10-19T12:03Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON body {\"query\":\"Tavily keyless access mode\",\"max_results\":1} to the x402 endpoint the vendor's x402 page documents, content-type application/json; no API key, no X-Tavily-Access-Mode header, no PAYMENT-SIGNATURE header, no cookie (artifact appendix F, (17))"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "54",
+      "payment-required": "[base64, 4,916 characters; decoded below and in the artifact; not reproduced because the envelope carries a per-response signed quote token, worthless after five minutes and redacted all the same]",
+      "access-control-expose-headers": "X-PAYMENT-RESPONSE,PAYMENT-RESPONSE,PAYMENT-REQUIRED",
+      "ratelimit-policy": "120;w=60",
+      "ratelimit-limit": "120",
+      "ratelimit-remaining": "119"
+    },
+    "decoded": {
+      "body": "{\"x402Version\":2,\"error\":\"Payment header is required\"}",
+      "envelope": "x402Version 2; resource {url https://x402.tavily.com/search, description 'Tavily Search - advanced mode', mimeType application/json}; two accepts entries; a bazaar extension carrying an input schema (query required; search_depth const 'advanced'; topic general, news or finance; max_results 'auto' or 1 to 50) and an output example.",
+      "accepts-1": "scheme exact, network eip155:8453 (Base), amount 10000, asset 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 (extra.name 'USD Coin', version 2), a payTo address, maxTimeoutSeconds 60, extra.tier advanced, and an extra.terms sentence binding the caller to the vendor's Terms of Use and Privacy Policy and disclaiming 'any liability with regard to the AI agent and cryptocurrency payments'. This is the entry the vendor's x402 page shows, which says the envelope 'carries a single accepts entry' and that 10000 atomic units of USDC is $0.01.",
+      "accepts-2": "scheme agent-pay, network aws:base, amount 0.016, asset iso4217:USD, payTo urn:x402:agent-pay:see-quote, maxTimeoutSeconds 300, extra.reference tavily-search-advanced, extra.settlement.product_id prod-maeet6sajeg42, and extra.quoteToken, a JWT (kid tavily-agentpay-x402-signing-key, iss https://x402.tavily.com, aud aws:marketplace, exp five minutes after iat) carrying the same price. The vendor's x402 page does not show this entry, and no page I read names the scheme; it is recorded as served, not interpreted. 0.016 USD is not the same price as the 0.01 USD of the first entry.",
+      "pricing-document": "GET https://x402.tavily.com/.well-known/pricing at 12:03:28Z: 200, 243 bytes: version 1, service tavily-x402, currency USDC, network eip155:8453, endpoints {/search: POST, pricing_model fixed_by_tier, tier_param search_depth, tier_default advanced, tiers {advanced: {usd 0.01}}} (18). The ownership file on x402.tavily.com is 404 (19).",
+      "rate-limit": "The x402 host states its own limit in headers: ratelimit-policy 120;w=60, 119 remaining after this request. The direct API's keyless mode states none; the merger's reading on the PR thread (2026-10-19 10:03Z, a second container) reached a 429 on api.tavily.com whose body named this x402 door and a 60-second retry; that is a third party's measurement, cited in the profile, not reproduced here.",
+      "not-measured": "No payment was made and the paid retry was not sent, so what is served after payment, the PAYMENT-RESPONSE receipt and the automatic refund the page describes are not measured. The MCP server drew no 402 on any keyless request; the keyless mode (its own records) and this paid door are two surfaces of one search API."
+    },
+    "protocols": [
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account, no wallet and no payment, a POST of a one-result search to https://x402.tavily.com/search, the endpoint the vendor's x402 page documents, answered HTTP/2 402 on 2026-10-19 at 12:03:28Z (sent 12:03:27.006Z) with a 54-byte body, 'Payment header is required', and a PAYMENT-REQUIRED header that decodes to an x402 version 2 envelope with two accepts entries: scheme exact at 10000 atomic units of USDC on Base, the $0.01 the vendor's page and its machine-readable pricing document both state, and a second entry of scheme agent-pay on network aws:base at 0.016 USD with a signed quote token, which the vendor's page does not show. The vendor documents the door in its own words ('AI agents pay per request for Tavily Advanced Search in USDC on Base' and 'no API key, no account, no human in the loop') on a page its llms.txt indexes, which the keyless, MCP and credits pages this entry first read do not mention. No payment was made, so what follows payment is not measured. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://x402.tavily.com/search -H 'Content-Type: application/json' -d '{\"query\":\"Tavily keyless access mode\",\"max_results\":1}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/tavily-mcp/2026-10-19/keyless-and-pages-0629Z.txt"
+  }
+}

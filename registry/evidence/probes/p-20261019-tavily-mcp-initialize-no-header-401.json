@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "tavily-mcp"
+  },
+  "surface": "https://mcp.tavily.com/mcp/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-tavily-mcp-initialize-no-header-401",
+  "at": "2026-10-19T06:29Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo PlumbRegistryProbe 1.0), content-type application/json, accept 'application/json, text/event-stream', MCP-Protocol-Version 2025-06-18; no Authorization header, no cookie, and NOT the vendor's X-Tavily-Access-Mode header"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "server": "uvicorn",
+      "www-authenticate": "[redacted]"
+    },
+    "decoded": {
+      "challenge": "The www-authenticate value as received, described here because the registry's header rule withholds any value in which the word Bearer is followed by a token-shaped string: scheme Bearer, then scope=\"openid offline_access\" and resource_metadata=\"https://mcp.tavily.com/.well-known/oauth-protected-resource/mcp\". It carries no credential. The body was empty (0 bytes).",
+      "protected-resource": "GET of the challenge's URL at 06:29:26Z: 200, 178 bytes; resource https://mcp.tavily.com/mcp; authorization_servers [https://mcp.tavily.com/]; scopes_supported openid and offline_access; bearer_methods_supported [header] (artifact (03)). The root protected-resource path: 404, 9 bytes (04). A GET of /mcp/ with Accept text/event-stream: 405, allow DELETE, POST (02).",
+      "authorization-server": "GET /.well-known/oauth-authorization-server at 06:29:29Z: 200, 702 bytes; issuer https://mcp.tavily.com/ (trailing slash); /authorize, /token, /register, /revoke; response_types [code]; grant_types authorization_code and refresh_token; token_endpoint_auth_methods none and private_key_jwt; code_challenge_methods_supported [S256]; client_id_metadata_document_supported true; authorization_response_iss_parameter_supported true (05). openid-configuration: 404, 9 bytes (06). Registration was not called.",
+      "the-other-door": "The same initialize with the vendor's documented header X-Tavily-Access-Mode: keyless answered 200 (its own record)."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.tavily.com/mcp/ on 2026-10-19 at 06:29:22Z with no credentials and without the vendor's keyless header answered HTTP/2 401 with an empty body and a challenge naming scopes openid and offline_access and the path-inserted RFC 9728 document, which names the host as its own issuer. The issuer's document advertises S256 only, token-endpoint auth none and private_key_jwt, dynamic registration and client-id metadata documents. This is the gate the vendor's keyless page describes: 'without it the server asks your client to sign in.' The challenge header is shown as [redacted] in the headers block under the registry's rule and described in decoded.challenge. One request per path; nothing past the challenge was exercised.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.tavily.com/mcp/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/tavily-mcp/2026-10-19/keyless-and-pages-0629Z.txt"
+  }
+}
