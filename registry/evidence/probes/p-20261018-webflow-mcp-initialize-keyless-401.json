@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "webflow-mcp"
+  },
+  "surface": "https://mcp.webflow.com/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-18",
+  "updated": "2026-10-18",
+  "version": 1,
+  "id": "p-20261018-webflow-mcp-initialize-keyless-401",
+  "at": "2026-10-18T18:08Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize, protocolVersion 2025-06-18, clientInfo PlumbRegistryProbe 1.0, content-type application/json and accept 'application/json, text/event-stream'; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "content-length": "79",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"Missing or invalid access token\"}, 79 bytes, the same body and byte count as the keyless initialize of 2026-10-05.",
+      "challenge": "A www-authenticate header naming the OAuth realm, error invalid_token, and a resource_metadata URL at /.well-known/oauth-protected-resource/mcp on the same host (RFC 9728). That URL and the host's authorization-server document were read in the same pass and are in the artifact, sections (09), (12) and (13): resource https://mcp.webflow.com/mcp, authorization server https://mcp.webflow.com, grant types authorization_code and refresh_token, PKCE methods plain and S256, dynamic registration at /oauth/register, client_id_metadata_document_supported false. Documents only; no OAuth flow was started."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.webflow.com/mcp on 2026-10-18 at 18:08:51Z with no Authorization header and no account answered HTTP/2 401 in 0.27 s with a 79-byte invalid_token body and an RFC 9728 challenge pointing at the host's own protected-resource metadata. The production server is account-gated, as the vendor's page says ('uses OAuth to authenticate with your Webflow sites'); the same body answered a GET of /sse and an initialize to /beta/mcp in the same pass, each its own request in the artifact. One request; nothing is claimed about an authorized session.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.webflow.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/webflow/2026-10-18/keyless-and-pages-1808Z.txt"
+  }
+}

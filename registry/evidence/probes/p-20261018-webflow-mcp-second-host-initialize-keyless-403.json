@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "webflow-mcp"
+  },
+  "surface": "https://mcp.webflow-sai.com/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-18",
+  "updated": "2026-10-18",
+  "version": 1,
+  "id": "p-20261018-webflow-mcp-second-host-initialize-keyless-403",
+  "at": "2026-10-18T18:09Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "the same JSON-RPC initialize as the mcp.webflow.com record, sent to the host the vendor's own 'Use Node Version Switcher' configuration example names (https://mcp.webflow-sai.com/sse, on developers.webflow.com/data/docs/ai-tools.md); no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 403,
+    "headers": {
+      "content-type": "text/html; charset=UTF-8",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "body": "4,556 bytes of HTML titled 'Attention Required! | Cloudflare', a Cloudflare block page with a Ray ID, not a JSON-RPC or OAuth answer; sha256 in the artifact. The same page answered a GET of /sse and a GET of /.well-known/oauth-protected-resource on the host (sections (04) and (06)), and the apex https://webflow-sai.com/ answered 403 with an empty body from an AWS load balancer (section (05)).",
+      "what-is-not-known": "Who registered webflow-sai.com, whether it is Webflow's, and whether an authorized client reaches a server there: none of it is measured. The entry records only that the vendor's page names the host and that it refused four keyless requests from this network, with a block page rather than a challenge."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.webflow-sai.com/mcp on 2026-10-18 at 18:09:51Z with no credentials answered HTTP/2 403 in 0.29 s with a 4,556-byte Cloudflare 'Attention Required!' block page. The host is one the vendor's own documentation gives as the server URL in a configuration example, the page's one other server URL being mcp.webflow.com/sse in its Windsurf example; from this network the documented production host answers with an OAuth challenge and this one with a block. One request; whether the host serves an authorized or a differently-located client is not measured.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.webflow-sai.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/webflow/2026-10-18/keyless-and-pages-1808Z.txt"
+  }
+}

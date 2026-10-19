@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "webflow-mcp"
+  },
+  "surface": "https://developers.webflow.com/_mcp/server",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-18",
+  "updated": "2026-10-18",
+  "version": 1,
+  "id": "p-20261018-webflow-mcp-docs-server-tools-list-keyless-200",
+  "at": "2026-10-18T18:09Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, content-type application/json and accept 'application/json, text/event-stream'; no Authorization header, no cookie, no mcp-session-id and no initialize in this request's chain (the initialize of 0.4 s earlier is its own request, artifact section (07))"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "cf-placement": "local-IAD",
+      "x-content-type-options": "nosniff"
+    },
+    "decoded": {
+      "server": "One SSE message, 681 bytes, carrying one tool: searchDocs, described as 'Search the documentation at https://developers.webflow.com. Returns relevant doc passages with source URLs.', input properties query and topK. The initialize of section (07) named serverInfo fern-docs-mcp-server 1.0.0, a tools capability with listChanged true, and no session header.",
+      "two-urls": "The vendor names this server at two URLs: developers.webflow.com/llms.txt says /_mcp/server and the documentation-server page says /api/fern-docs/mcp. An initialize to the second at 18:11:45Z answered 200 with the same 198-byte serverInfo (artifact section (10)); whether they are one deployment is not measured."
+    }
+  },
+  "finding": "A JSON-RPC tools/list sent to https://developers.webflow.com/_mcp/server on 2026-10-18 at 18:09:53Z with no credentials, no session id and no preceding initialize in its chain answered HTTP/2 200 in 0.38 s with one tool, searchDocs. Webflow's documentation MCP server, which the vendor's page says the main server reaches on an agent's behalf, is open to an anonymous caller; the production server at mcp.webflow.com is not (its own record). The serverInfo name fern-docs-mcp-server is the documentation host's, not Webflow's. One request; nothing is claimed about any other method or about search results.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://developers.webflow.com/_mcp/server -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/webflow/2026-10-18/keyless-and-pages-1808Z.txt"
+  }
+}

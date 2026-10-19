@@ -1,0 +1,73 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "webflow-mcp",
+  "name": "Webflow MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Webflow's hosted MCP server at mcp.webflow.com exposes the Webflow Data and Designer APIs to an agent holding an OAuth grant for a site or workspace: 37 tools across three vendor references (design, CMS, pages, assets, custom code, localization, analytics add-ons, team administration). Keyless on 2026-10-18 every production and beta path answered 401 with an RFC 9728 challenge; the vendor's documentation MCP server on developers.webflow.com answered keyless with one search tool. The vendor's own configuration example names a second host, mcp.webflow-sai.com, which answered 403 to everything.",
+  "vendor": {
+    "name": "Webflow, Inc.",
+    "url": "https://webflow.com/",
+    "kind": "organization"
+  },
+  "license": "MIT (package); hosted server under Webflow's Terms",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-18: initialize to mcp.webflow.com/mcp, a GET of /sse and initialize to /beta/mcp each answered 401 invalid_token with a resource_metadata challenge; the vendor says only site owners and admins can authorize. The documentation server at developers.webflow.com answered keyless (200)."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": null,
+    "notes": "Price list webflow.com/pricing (unlinked: its headers overflow the links gate; profile). 2026-10-18: no keyless 402, no machine-payment protocol. Free Starter site plan lists 'Webflow AI MCP server'; Analyze, Optimize, AEO need paid add-ons. Terms: card details may be required; annual auto-renew."
+  },
+  "surfaces": {
+    "homepage": "https://webflow.com/",
+    "docs": "https://developers.webflow.com/mcp/reference/overview",
+    "llmsTxt": "https://developers.webflow.com/llms.txt",
+    "skills": [
+      "https://developers.webflow.com/mcp/reference/skills"
+    ],
+    "mcp": "https://mcp.webflow.com/mcp",
+    "api": "https://developers.webflow.com/data/reference/rest-introduction",
+    "openapi": null,
+    "source": "https://github.com/webflow/mcp-server"
+  },
+  "social": {
+    "github": "webflow",
+    "x": "webflow"
+  },
+  "domains": [
+    "webflow.com",
+    "www.webflow.com",
+    "developers.webflow.com",
+    "mcp.webflow.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.publish-web-content",
+      "summary": "The vendor's words: 'Create pages, bulk-update page settings', 'publish and unpublish CMS items', 'Update meta titles, descriptions, and Open Graph tags across pages', 'Read and write freeform site- and page-level custom code'. Its bound: 'Users cannot create new website projects via MCP'.",
+      "sources": [
+        "https://developers.webflow.com/mcp/reference/overview"
+      ]
+    },
+    {
+      "job": "mkt.localize-content",
+      "summary": "The vendor's words, with its own limit: 'The MCP server does not support creating new localized CMS items, though it can read and update existing CMS items and static content in secondary locales'. The data tools reference lists data_localization_tool. Documentation only; nothing exercised.",
+      "sources": [
+        "https://developers.webflow.com/mcp/reference/overview",
+        "https://developers.webflow.com/mcp/tools/data-tools"
+      ]
+    }
+  ],
+  "created": "2026-10-18",
+  "updated": "2026-10-18",
+  "version": 1
+}
