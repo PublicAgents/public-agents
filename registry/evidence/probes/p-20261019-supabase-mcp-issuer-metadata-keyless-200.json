@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "supabase-mcp"
+  },
+  "surface": "https://api.supabase.com/.well-known/oauth-authorization-server",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-supabase-mcp-issuer-metadata-keyless-200",
+  "at": "2026-10-19T06:20Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a plain GET of the authorization server named by the protected-resource document of the mcp.supabase.com record; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "decoded": {
+      "document": "963 bytes: issuer https://api.supabase.com; authorization_endpoint /v1/oauth/authorize; token_endpoint /v1/oauth/token; registration_endpoint /platform/oauth/apps/register; response_types [code]; response_modes [query]; grant_types authorization_code, refresh_token and urn:ietf:params:oauth:grant-type:jwt-bearer; token_endpoint_auth_methods client_secret_basic and client_secret_post (no 'none'); code_challenge_methods_supported S256 and plain; thirteen scopes identical to the protected-resource document's list by a program; authorization_response_iss_parameter_supported true; authorization_grant_profiles_supported [urn:ietf:params:oauth:grant-profile:id-jag].",
+      "openid": "GET https://api.supabase.com/.well-known/openid-configuration at 06:20:24Z: 404, 58 bytes (artifact (16)).",
+      "what-it-is": "What the metadata advertises, read once; not a measurement of what the server accepts. Registration was not called: registering a client writes into a third party's system."
+    }
+  },
+  "finding": "A GET of https://api.supabase.com/.well-known/oauth-authorization-server on 2026-10-19 at 06:20:24Z (sent 06:20:24.288Z, artifact (15)) with no credentials answered HTTP/2 200 with a 963-byte RFC 8414 document whose issuer matches the host that served it. It advertises PKCE plain beside S256, a JWT-bearer grant and an identity-assertion grant profile beside the authorization code, a registration endpoint, and client-secret-only token authentication where the vendor's page says clients use dynamic registration by default. The thirteen scopes are the protected-resource document's thirteen. The issuer is a different host from the MCP resource, which publishes no authorization-server document of its own; the discovery chain here runs as RFC 9728 describes it, challenge to resource document to issuer.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://api.supabase.com/.well-known/oauth-authorization-server",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/supabase-mcp/2026-10-19/keyless-and-pages-0619Z.txt"
+  }
+}

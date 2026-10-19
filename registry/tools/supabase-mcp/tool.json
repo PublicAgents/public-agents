@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "supabase-mcp",
+  "name": "Supabase MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Supabase's hosted MCP server at mcp.supabase.com/mcp gives an agent holding an OAuth grant for a Supabase organization, or a scoped personal access token, tools over projects, databases, logs, Edge Functions, branches and storage, in eight documented feature groups. Keyless on 2026-10-19 every form of the path answered 401 with a 38-byte body and an RFC 9728 challenge. The protected-resource document names api.supabase.com as the authorization server and thirteen scopes; the resource host itself publishes no authorization-server document.",
+  "vendor": {
+    "name": "Supabase Pte. Ltd.",
+    "url": "https://supabase.com/",
+    "kind": "organization"
+  },
+  "license": "Apache-2.0 (repository); hosted under Supabase's terms",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-19: initialize to mcp.supabase.com/mcp, a GET of it, ?read_only=true and ?features=docs each answered 401 'No access token provided' with a resource_metadata challenge. The vendor documents dynamic client registration, a scoped personal access token for CI, or a manual OAuth app."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://supabase.com/pricing",
+    "notes": "2026-10-19: no keyless 402. Four plans, Free at $0/month; the MCP server has no price of its own and its branching tools say 'Requires a paid plan.' Terms: the customer authorizes Supabase to charge the payment method in the account; AWS Marketplace purchases contract with Supabase, Inc."
+  },
+  "surfaces": {
+    "homepage": "https://supabase.com/",
+    "docs": "https://supabase.com/docs/guides/ai-tools/mcp",
+    "llmsTxt": "https://supabase.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.supabase.com/mcp",
+    "api": "https://supabase.com/docs/reference/api/introduction",
+    "openapi": "https://api.supabase.com/api/v1-json",
+    "source": "https://github.com/supabase/mcp"
+  },
+  "social": {
+    "github": "supabase",
+    "x": "supabase"
+  },
+  "domains": [
+    "supabase.com",
+    "mcp.supabase.com",
+    "api.supabase.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's tool list has a Docs group with one tool, search_docs, described as 'Search Supabase documentation'. Documentation only: the group is behind the same OAuth gate as the rest (initialize with ?features=docs answered 401 keyless on 2026-10-19), so nothing was retrieved.",
+      "sources": [
+        "https://supabase.com/docs/guides/ai-tools/mcp"
+      ]
+    }
+  ],
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "supabase-mcp"
+  },
+  "surface": "https://mcp.supabase.com/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-supabase-mcp-initialize-keyless-401",
+  "at": "2026-10-19T06:19Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo PlumbRegistryProbe 1.0), content-type application/json, accept 'application/json, text/event-stream', MCP-Protocol-Version 2025-06-18; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "www-authenticate": "[redacted]"
+    },
+    "decoded": {
+      "challenge": "The www-authenticate value as received, described here because the registry's header rule withholds any value in which the word Bearer is followed by a long token-shaped string: scheme Bearer, then one parameter, resource_metadata=\"https://mcp.supabase.com/.well-known/oauth-protected-resource/mcp\"; no realm, no error, no scope. It carries no credential; the parameter is a URL.",
+      "body": "{\"message\":\"No access token provided\"} (38 bytes)",
+      "same-on-every-form": "A GET of /mcp with Accept text/event-stream at 06:19:42Z, initialize to /mcp?read_only=true at 06:19:51Z and initialize to /mcp?features=docs at 06:20:54Z each answered 401 with the same 38-byte body and the same challenge (artifact (02), (08), (17)). The docs feature group is gated like the rest; Neon's server, measured the same morning, answers its docs category keyless on the same path (its own record).",
+      "protected-resource": "GET of the challenge's URL at 06:19:43Z: 200, 487 bytes; resource https://mcp.supabase.com/mcp; authorization_servers [https://api.supabase.com]; bearer_methods_supported [header]; resource_name 'Supabase MCP (Beta)'; resource_documentation https://mcp.supabase.com/api/mcp (a Scalar API reference page, 26,502 bytes, (18)); thirteen scopes_supported. The resource host's root protected-resource, oauth-authorization-server and openid-configuration paths: 404, empty bodies (04, 05, 06); the host root: 404, empty (07)."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.supabase.com/mcp on 2026-10-19 at 06:19:40Z with no credentials answered HTTP/2 401 with a 38-byte 'No access token provided' body and a www-authenticate challenge whose only parameter names the path-inserted RFC 9728 document. That document answered 200, names api.supabase.com as the authorization server, thirteen scopes and the resource name 'Supabase MCP (Beta)'; the resource host itself serves no authorization-server document. Three other keyless forms of the path, including the docs feature group alone, answered the same 38 bytes. The vendor documents dynamic client registration, a scoped personal access token or a manual OAuth app as the ways in; none was exercised, and nothing is claimed about the server behind the gate. The challenge header is shown as [redacted] in the headers block under the registry's rule and quoted in decoded.challenge.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.supabase.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/supabase-mcp/2026-10-19/keyless-and-pages-0619Z.txt"
+  }
+}
