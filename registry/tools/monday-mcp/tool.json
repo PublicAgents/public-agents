@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "monday-mcp",
+  "name": "monday.com Platform MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "monday.com's hosted Platform MCP server at mcp.monday.com/mcp lets an agent read and write boards, items, docs, forms, users and automations in a monday.com account; the vendor's reference lists 64 tools; calls count toward the account's daily API limit. Access is OAuth 2.0 or a personal API token, with the customer's own OAuth app or dynamic client registration for third-party clients. On 2026-10-19 a keyless initialize answered 401 with an RFC 9728 challenge naming a protected-resource document that hands authorization to auth.monday.com; no keyless path is documented and none was found.",
+  "vendor": {
+    "name": "monday.com Ltd.",
+    "url": "https://monday.com/",
+    "kind": "organization"
+  },
+  "license": "MIT (repository); hosted under monday.com's Terms of Service",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-19: initialize to mcp.monday.com/mcp answered 401 'Not Authenticated' with a resource_metadata challenge; the protected-resource document names auth.monday.com/mcp as issuer (S256 only, DCR, CIMD, token auth none). The vendor documents OAuth 2.0 or a personal API token only."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://monday.com/pricing",
+    "notes": "Read 2026-10-19: no 402 seen, no machine-payment page in the developer index. Free plan '$ 0 free forever Up to 2 seats', 'Start free, no credit card needed.'; paid plans per seat per month, API-call allowance by plan. Terms: Fees charged via the customer's selected payment method; auto-renewal."
+  },
+  "surfaces": {
+    "homepage": "https://monday.com/",
+    "docs": "https://developer.monday.com/api-reference/docs/mondaycom-mcp",
+    "llmsTxt": "https://developer.monday.com/api-reference/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.monday.com/mcp",
+    "api": "https://developer.monday.com/api-reference/docs/authentication",
+    "openapi": null,
+    "source": "https://github.com/mondaycom/mcp"
+  },
+  "social": {
+    "github": "mondaycom"
+  },
+  "domains": [
+    "monday.com",
+    "developer.monday.com",
+    "mcp.monday.com",
+    "auth.monday.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1
+}

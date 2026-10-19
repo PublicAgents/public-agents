@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "monday-mcp"
+  },
+  "surface": "https://auth.monday.com/.well-known/oauth-authorization-server/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-monday-mcp-issuer-metadata-keyless-200",
+  "at": "2026-10-19T12:31Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a plain GET of the issuer's RFC 8414 document at the path-inserted URL the resource host's 302 named; no Authorization header, no cookie (artifact (08))"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "decoded": {
+      "document": "860 bytes: issuer https://auth.monday.com/mcp; authorization_endpoint https://auth.monday.com/oauth2/authorize; token_endpoint /oauth_ms/oauth/token; registration_endpoint /oauth_ms/oauth/register; revocation_endpoint /oauth_ms/oauth/revoke; a token_migration_endpoint /oauth_ms/oauth/migrate, a field no RFC names; response_types [code]; grant_types authorization_code, refresh_token and urn:ietf:params:oauth:grant-type:jwt-bearer; authorization_grant_profiles_supported [urn:ietf:params:oauth:grant-profile:id-jag]; code_challenge_methods_supported [S256]; token_endpoint_auth_methods client_secret_post, client_secret_basic and none; authorization_response_iss_parameter_supported true; client_id_metadata_document_supported true. No scopes_supported field.",
+      "openid": "GET https://auth.monday.com/.well-known/openid-configuration answered 404 with a 35,749-byte HTML page (09).",
+      "the-vendor-documents-it": "The dynamic-client-registration page: a client 'registers, then the user requests admin approval for the connection and its redirect URIs'; the integration page lists three auth paths, a personal API token, the customer's own OAuth app with chosen scopes, and dynamic client registration for 'Additional MCP client for other monday.com accounts'. Scopes are set on the OAuth app, which is where the document's missing scopes_supported would otherwise be read.",
+      "what-it-is": "What the metadata advertises, read once; not a measurement of what the server accepts. Registration was not called: registering a client writes into a third party's system."
+    }
+  },
+  "finding": "A GET of https://auth.monday.com/.well-known/oauth-authorization-server/mcp on 2026-10-19 at 12:31Z with no credentials answered HTTP/2 200 with an 860-byte RFC 8414 document whose issuer, https://auth.monday.com/mcp, matches the authorization server the resource host's protected-resource document names, so the discovery chain runs as RFC 9728 describes it across two hosts: challenge, resource document, issuer. It advertises a JWT-bearer grant and an identity-assertion grant profile beside the authorization code, PKCE S256 only, token auth none beside the two client-secret methods, dynamic registration and client-id metadata documents, a revocation endpoint, and a token_migration_endpoint that no RFC names; it lists no scopes. The issuer's openid-configuration is 404.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://auth.monday.com/.well-known/oauth-authorization-server/mcp",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/monday-mcp/2026-10-19/keyless-and-pages-1230Z.txt"
+  }
+}

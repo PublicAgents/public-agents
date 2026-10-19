@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "monday-mcp"
+  },
+  "surface": "https://mcp.monday.com/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-monday-mcp-initialize-keyless-401",
+  "at": "2026-10-19T12:30Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, a clientInfo naming this prober) to the URL the vendor's pages give clients, content-type application/json, accept 'application/json, text/event-stream'; no Authorization header, no cookie (artifact (01))"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "www-authenticate": "[redacted]"
+    },
+    "decoded": {
+      "body": "32 bytes: {\"errors\":[\"Not Authenticated\"]}.",
+      "challenge": "www-authenticate, described here because the headers block cannot carry it under the validator's credential rule: scheme Bearer, then one parameter, resource_metadata, whose value is https://mcp.monday.com/.well-known/oauth-protected-resource/mcp. No realm, no error code, no credential.",
+      "discovery": "The named document answered 200, 149 bytes: resource https://mcp.monday.com/mcp, authorization_servers [https://auth.monday.com/mcp], bearer_methods_supported [header] (10); the root protected-resource path answered the same 149 bytes (03). The resource host's own authorization-server path answered 302 to https://auth.monday.com/.well-known/oauth-authorization-server/mcp (04), the issuer's document, which is its own record.",
+      "same-host-other-shapes": "GET /sse answered 302 to https://mcp.monday.com/users/sign_in, a browser sign-in page (02); GET / answered 401, 40 bytes (11); the ownership file on mcp.monday.com 302s to the same sign-in page (13).",
+      "the-vendor-documents-it": "The integration page: 'OAuth 2.0 or Bearer token with a personal API token'; the token page: 'If you're using one of the compatible MCP clients, you don't need a token — add the server URL and authenticate via OAuth when prompted.' No tool category or query parameter is documented as working without authentication, and none was found: a keyless caller gets the challenge and nothing else.",
+      "what-it-is": "A gate read once, keyless, from one IP; the OAuth flow was not started, no client was registered, and no token was used."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.monday.com/mcp on 2026-10-19 at 12:30Z with no credentials answered HTTP/2 401, 32 bytes, 'Not Authenticated', with a Bearer challenge whose single parameter names the RFC 9728 protected-resource document on the same host; that document answered 200 and hands authorization to https://auth.monday.com/mcp, a second host, whose metadata is its own record. The challenge header is shown as [redacted] in the headers block under the validator's credential rule and reproduced in decoded.challenge; it carries no credential. The vendor's pages document OAuth or a personal API token and no keyless path, and the wire agrees: GET /sse and the ownership path redirect to a browser sign-in page. The OAuth flow was not started.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.monday.com/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/monday-mcp/2026-10-19/keyless-and-pages-1230Z.txt"
+  }
+}
