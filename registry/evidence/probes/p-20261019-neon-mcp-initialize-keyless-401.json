@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "neon-mcp"
+  },
+  "surface": "https://mcp.neon.tech/mcp",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-neon-mcp-initialize-keyless-401",
+  "at": "2026-10-19T06:06Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, clientInfo PlumbRegistryProbe 1.0), content-type application/json, accept 'application/json, text/event-stream', MCP-Protocol-Version 2025-06-18; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json",
+      "server": "Vercel",
+      "www-authenticate": "Bearer error=\"invalid_token\", error_description=\"No authorization provided\", resource_metadata=\"https://mcp.neon.tech/.well-known/oauth-protected-resource/mcp\""
+    },
+    "decoded": {
+      "body": "{\"error\":\"invalid_token\",\"error_description\":\"No authorization provided\"} (73 bytes)",
+      "readonly-parameter": "The same initialize to /mcp?readonly=true at 06:06:56Z answered 401 with the same 73-byte body; the challenge's resource_metadata carried the query string: /.well-known/oauth-protected-resource/mcp?readonly=true (artifact (11)).",
+      "protected-resource": "GET of the challenge's URL at 06:06:43Z: 200, 196 bytes, resource https://mcp.neon.tech/mcp, authorization_servers [https://mcp.neon.tech], bearer_methods_supported [header], resource_documentation the vendor's overview page (03). The root document (04): 200, 192 bytes, resource https://mcp.neon.tech.",
+      "authorization-server": "GET /.well-known/oauth-authorization-server at 06:06:46Z: 200, 943 bytes; issuer https://mcp.neon.tech; authorization, token, registration and revocation endpoints under /api/; response_types [code]; grant_types authorization_code and refresh_token; token_endpoint_auth_methods client_secret_post, client_secret_basic, none; code_challenge_methods_supported [S256]; scopes_supported [read, write]; x-neon-scope-categories lists thirteen categories (05). /.well-known/openid-configuration: 404, a 12,145-byte HTML not-found page (06). Registration was not called."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.neon.tech/mcp on 2026-10-19 at 06:06:39Z with no credentials answered HTTP/2 401 with a 73-byte invalid_token body and a www-authenticate challenge naming the path-inserted RFC 9728 protected-resource document, which answered 200 and names the host as its own authorization server. The authorization-server document advertises PKCE S256 only, two scopes (read, write) and dynamic registration, and a vendor extension listing thirteen tool categories. The vendor's page says the server supports OAuth and API-key authentication; neither was exercised. One request per path; nothing is claimed about the server behind the gate, except what the docs-category and list-tools records of the same pass measured.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.neon.tech/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/neon-mcp/2026-10-19/keyless-and-pages-0606Z.txt"
+  }
+}

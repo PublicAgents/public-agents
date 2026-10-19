@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "neon-mcp"
+  },
+  "surface": "https://mcp.neon.tech/api/list-tools",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-neon-mcp-list-tools-endpoint-keyless-200",
+  "at": "2026-10-19T06:06Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a plain GET with no query parameters; no Authorization header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "document": "116,271 bytes of JSON: grant {projectId null, scopes []}, readOnly false, and 119 tools, each with name, title, scope (global or project), a readOnlySafe flag, a description and a JSON-Schema inputSchema (names listed in artifact section A2; the body is cut after 6,000 bytes in the artifact and its sha256 is stated).",
+      "vendor-example": "The vendor's own example, GET /api/list-tools?readonly=true&category=querying, at 06:06:51Z: 200, 11,117 bytes, readOnly true, seven tools: run_sql, explain_sql_statement, list_slow_queries, inspect_database, search, fetch, send_feedback (artifact (08)).",
+      "what-it-is-not": "A listing, not a capability: nothing here shows what any tool does against an account. The page presents the endpoint as the way 'To verify which tools are active for a given config without authenticating'."
+    }
+  },
+  "finding": "A GET of https://mcp.neon.tech/api/list-tools on 2026-10-19 at 06:06:49Z with no credentials answered HTTP/2 200 with the server's complete tool inventory: 119 tools with names, scopes, read-only flags and input schemas, 116,271 bytes. The vendor documents the endpoint for exactly this purpose, so the inventory of an OAuth-gated server is public by design here, where most gated servers in this registry list nothing before authorization. The count 119 is a program's over the body; the category table on the vendor's page names thirteen categories and gives no total.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' 'https://mcp.neon.tech/api/list-tools' | python3 -c 'import sys,json; d=json.load(sys.stdin); print(len(d[\"tools\"]))'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/neon-mcp/2026-10-19/keyless-and-pages-0606Z.txt"
+  }
+}

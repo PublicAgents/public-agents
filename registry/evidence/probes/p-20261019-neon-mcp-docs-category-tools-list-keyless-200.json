@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "neon-mcp"
+  },
+  "surface": "https://mcp.neon.tech/mcp?category=docs",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-neon-mcp-docs-category-tools-list-keyless-200",
+  "at": "2026-10-19T06:07Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC tools/list with empty params, content-type application/json, accept 'application/json, text/event-stream', MCP-Protocol-Version 2025-06-18; no Authorization header, no cookie, no mcp-session-id (the initialize of 06:06:55Z to the same URL, artifact (10), answered 200 and issued no session header)"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "Vercel"
+    },
+    "decoded": {
+      "server": "One SSE message, 2,008 bytes, three tools: list_docs_resources ('List Neon documentation page slugs from neon.com/docs/llms.txt'), get_doc_resource ('Fetch one Neon documentation page as markdown'), send_feedback; the first two annotated readOnlyHint true, destructiveHint false, idempotentHint true, openWorldHint true. A second identical request at 06:07:38Z answered the same 2,008 bytes (artifact (20)). The initialize of (10) named serverInfo mcp-server-neon 1.0.0 and a tools capability with listChanged true.",
+      "one-call": "A tools/call of get_doc_resource with slug docs/ai/neon-mcp-server.md at 06:07:57Z, no session id, answered 200 with a 14,430-byte SSE message whose text content is the vendor's own overview page as Markdown (artifact (21)). Public documentation, read once; no other tool was called.",
+      "list-tools-differs": "The vendor's keyless GET /api/list-tools?category=docs at 06:06:53Z reported five tools for the grant {projectId null, scopes [docs]}: search, fetch, list_docs_resources, get_doc_resource, send_feedback (artifact (09)). The keyless session lists three; search and fetch, which the inventory marks scope global, were not listed to it. Not reconciled here."
+    }
+  },
+  "finding": "A JSON-RPC tools/list sent to https://mcp.neon.tech/mcp?category=docs on 2026-10-19 at 06:07:37Z with no credentials and no session id answered HTTP/2 200 with three documentation tools, and one tools/call of get_doc_resource returned the vendor's MCP overview page as Markdown. The vendor's tool table says the docs category needs no OAuth, and on the wire it needs no credential at all, on the same host and path whose plain form answers 401 (its own record). This is the measurement behind the eng.retrieve-reference-context claim: one retrieval of one public page. The vendor's own list-tools endpoint reports five tools for the category where the keyless session lists three.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' 'https://mcp.neon.tech/mcp?category=docs' -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/neon-mcp/2026-10-19/keyless-and-pages-0606Z.txt"
+  }
+}

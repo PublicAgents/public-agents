@@ -1,0 +1,64 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "neon-mcp",
+  "name": "Neon MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Neon's hosted MCP server at mcp.neon.tech/mcp exposes the Neon management API and SQL on its Postgres service to an agent holding an OAuth grant or an API key: 119 tools in thirteen categories, listed with schemas by the vendor's keyless list-tools endpoint. Keyless on 2026-10-19 the plain path answered 401 with an RFC 9728 challenge; the docs category on the same path (?category=docs) answered initialize, tools/list (three tools) and a tools/call returning a documentation page with no credential. The SSE path the vendor dated for retirement answered 401, not 410.",
+  "vendor": {
+    "name": "Databricks, Inc., the parent company of Neon, LLC",
+    "url": "https://neon.com/",
+    "kind": "organization"
+  },
+  "license": "MIT (repository); hosted under the Neon schedule",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-19: initialize to mcp.neon.tech/mcp answered 401 invalid_token with a resource_metadata challenge; the vendor documents OAuth or an API key in the Authorization header. The docs category (?category=docs) answered keyless (200): three documentation tools, one exercised."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://neon.com/pricing",
+    "notes": "2026-10-19: no keyless 402, no machine-payment protocol. Free plan $0/month; paid plans pay-as-you-go, metered hourly, billed monthly; the terms say fees are charged to the payment card on record and the billing page says charges are applied to the card on the first of the month."
+  },
+  "surfaces": {
+    "homepage": "https://neon.com/",
+    "docs": "https://neon.com/docs/ai/neon-mcp-server",
+    "llmsTxt": "https://neon.com/llms.txt",
+    "skills": [
+      "https://neon.com/docs/ai/agent-skills"
+    ],
+    "mcp": "https://mcp.neon.tech/mcp",
+    "api": "https://neon.com/docs/reference/api",
+    "openapi": "https://neon.com/api_spec/release/v2.json",
+    "source": "https://github.com/neondatabase/mcp-server-neon"
+  },
+  "social": {
+    "github": "neondatabase"
+  },
+  "domains": [
+    "neon.com",
+    "neon.tech",
+    "mcp.neon.tech",
+    "console.neon.tech"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's tool table, docs category: 'Look up Neon documentation from within your assistant (no OAuth required)'. Measured keyless 2026-10-19: tools/list on ?category=docs listed list_docs_resources, get_doc_resource, send_feedback; one get_doc_resource call returned the vendor's MCP page.",
+      "sources": [
+        "https://neon.com/docs/ai/neon-mcp-server"
+      ]
+    }
+  ],
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1
+}
