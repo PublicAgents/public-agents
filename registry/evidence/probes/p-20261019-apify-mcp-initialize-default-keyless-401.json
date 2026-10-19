@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "apify-mcp"
+  },
+  "surface": "https://mcp.apify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-apify-mcp-initialize-default-keyless-401",
+  "at": "2026-10-19T12:15Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize (protocolVersion 2025-06-18, a clientInfo naming this prober) to the default endpoint the vendor's page gives clients, content-type application/json, accept 'application/json, text/event-stream'; no Authorization header, no cookie, no tools query parameter (artifact (01))"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "access-control-expose-headers": "Mcp-Session-Id,WWW-Authenticate,Last-Event-Id,Mcp-Protocol-Version",
+      "www-authenticate": "[redacted]"
+    },
+    "decoded": {
+      "body": "213 bytes: {\"error\":\"invalid_token\",\"error_description\":\"Missing or invalid access token. Pass an Apify API token in the Authorization: Bearer <token> header. Manage tokens at https://console.apify.com/account/integrations\"}; the challenge carries the same two parameters and the same description.",
+      "discovery": "The challenge names no resource_metadata URL. The root protected-resource document exists all the same: GET /.well-known/oauth-protected-resource 200, 137 bytes, resource https://mcp.apify.com, authorization_servers [https://console-backend.apify.com], scopes_supported [full_api_access] (03). The resource host also serves an authorization-server document at its own root path, 858 bytes, issuer https://console-backend.apify.com, authorization endpoint on console.apify.com, device_authorization_endpoint, registration endpoint, grants authorization_code, refresh_token and device_code, PKCE S256 only, token auth client_secret_basic, client_secret_post, none and private_key_jwt, client_id_metadata_document_supported true, authorization_response_iss_parameter_supported true (04); openid-configuration 404 (05).",
+      "same-gate-elsewhere": "initialize to /?tools=actors, a category the page says needs a token, answered 401 with the same 213 bytes (25); tools/list to the plain path with no session answered 401 the same (20). GET /sse is 404 with a plain-text body saying the server speaks Streamable HTTP and asking for an Apify token as a Bearer (02). The vendor's page: 'If the tools parameter includes any other tool, or you connect to the default endpoint, the server requires an API token.'",
+      "what-it-is": "A gate read once, keyless, from one IP; the OAuth flow was not started and no token was used. The four-tool keyless door the same page documents is its own record.",
+      "challenge": "www-authenticate, reproduced here because the headers block may not carry it under the validator's credential rule (the word after the scheme matches): Bearer realm=\"OAuth\", error=\"invalid_token\", error_description=\"Missing or invalid access token. Pass an Apify API token in the Authorization: Bearer <token> header. Manage tokens at https://console.apify.com/account/integrations\". No resource_metadata parameter, and no credential."
+    }
+  },
+  "finding": "A JSON-RPC initialize sent to https://mcp.apify.com/ on 2026-10-19 at 12:15:16Z (sent 12:15:16.689Z) with no credentials answered HTTP/2 401, 213 bytes, invalid_token, with a Bearer challenge whose error_description asks for an Apify API token and which carries no resource_metadata parameter, while the root protected-resource document the parameter would name exists and hands authorization to console-backend.apify.com with one scope, full_api_access. The same 401 came back for ?tools=actors and for tools/list on the plain path. The challenge header is shown as [redacted] in the headers block because the validator's credential rule matches the word after the scheme; it is reproduced in decoded.challenge and carries no credential. This is the default door the vendor's page describes as OAuth or an API token; the page's documented no-account URL is measured in its own record.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' https://mcp.apify.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/apify-mcp/2026-10-19/keyless-and-pages-1215Z.txt"
+  }
+}

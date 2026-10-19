@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "apify-mcp"
+  },
+  "surface": "https://mcp.apify.com/?tools=search-actors,fetch-actor-details,search-apify-docs,fetch-apify-docs",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-apify-mcp-no-account-url-tools-list-200",
+  "at": "2026-10-19T12:16Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a JSON-RPC initialize, then tools/list with the session id the server issued, to the exact URL the vendor's page prints under 'Use without an account'; content-type application/json, accept 'application/json, text/event-stream'; no Authorization header, no cookie (artifact (23), (24))"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "access-control-expose-headers": "Mcp-Session-Id,WWW-Authenticate,Last-Event-Id,Mcp-Protocol-Version",
+      "mcp-session-id": "[redacted: a per-session id, sent back on the tools/list]"
+    },
+    "decoded": {
+      "initialize": "200, 3,680 bytes, one SSE message: serverInfo apify-mcp-server, title 'Apify MCP Server', version 0.18.4, capabilities tools, tasks, resources, prompts and logging, a 2,937-character instructions text about Actors, datasets and key-value stores (23).",
+      "tools-list": "200, 21,932 bytes, four tools, the four the page names: search-actors, fetch-actor-details, search-apify-docs, fetch-apify-docs, each annotated readOnlyHint true, destructiveHint false, idempotentHint true, openWorldHint false (24). tools/list with no session id answered 400, 'Bad Request: No valid session ID provided or not initialization request' (19), so a session is required but no account is.",
+      "docs-category": "initialize to /?tools=docs, the category name, also answered 200 (07) and its tools/list two tools, search-apify-docs and fetch-apify-docs (18).",
+      "one-call": "tools/call search-apify-docs with {query: 'MCP server tools parameter', limit: 2} on the docs session at 12:16:03Z answered 200, 3,899 bytes: the first result is the vendor's own MCP page, section 'Use without an account', with its text (21). One retrieval, read once, nothing retained beyond the artifact. search-actors and fetch-actor-details were not called.",
+      "rate-limit": "The page says 'up to *30* requests per second per user' and a 429 past it; not reached, not read in headers."
+    }
+  },
+  "finding": "A JSON-RPC initialize and a tools/list sent to the vendor's own documented no-account URL, https://mcp.apify.com/?tools=search-actors,fetch-actor-details,search-apify-docs,fetch-apify-docs, on 2026-10-19 at 12:16:25Z with no credentials answered HTTP/2 200 each: apify-mcp-server 0.18.4, then exactly the four tools the page names, all read-only by their annotations, and one search-apify-docs call on the docs session returned the vendor's own page. The default endpoint is 401 (its own record), so the vendor's sentence, 'The Apify MCP server accepts requests without an API token when the tools query parameter contains only tools enabled for unauthenticated use', holds on the wire for discovery and documentation; running an Actor was not attempted and the page says it 'always requires authentication'.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' 'https://mcp.apify.com/?tools=search-actors,fetch-actor-details,search-apify-docs,fetch-apify-docs' -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -H 'MCP-Protocol-Version: 2025-06-18' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"PlumbRegistryProbe\",\"version\":\"1.0\"}}}'   # then tools/list with the Mcp-Session-Id the answer carries",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/apify-mcp/2026-10-19/keyless-and-pages-1215Z.txt"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "apify-mcp",
+  "name": "Apify MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Apify's hosted MCP server at mcp.apify.com lets an agent search the Apify Store, read Actor details, run Actors, read runs and storage, and search the vendor's docs; its page lists 29 tools. The vendor says four discovery and docs tools work without an account when the tools query parameter names only them, and on 2026-10-19 it held: the default endpoint answered 401 keyless; the documented four-tool URL answered initialize, tools/list and one docs search with no account. An agent can also buy a prepaid, spend-capped API token through x402 or MPP at agi.apify.com; both answered 402 unpaid.",
+  "vendor": {
+    "name": "Apify Technologies s.r.o.",
+    "url": "https://apify.com/",
+    "kind": "organization"
+  },
+  "license": "MIT (repository); hosted under Apify's terms",
+  "pricing": "freemium",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-19: the default endpoint answered 401 (OAuth or an API token); the documented no-account URL (?tools= the four discovery and docs tools) answered initialize and tools/list 200, four read-only tools, one docs search made. Actor runs need a token, bought or from an account."
+  },
+  "payments": {
+    "machinePayable": true,
+    "protocols": [
+      "x402",
+      "mpp"
+    ],
+    "methods": [
+      "stablecoin"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://apify.com/pricing",
+    "notes": "2026-10-19: agi.apify.com sells a prepaid, spend-capped API token (minimum $1, 14-day TTL, non-refundable, its words): x402 402, USDC on Base or Solana, USDT on Solana; MPP 402, four charge challenges on Tempo and Solana. Plans: Free $0, no card; Starter $19, Scale $199, Business $999 a month."
+  },
+  "surfaces": {
+    "homepage": "https://apify.com/",
+    "docs": "https://docs.apify.com/mcp",
+    "llmsTxt": "https://docs.apify.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.apify.com/",
+    "api": "https://docs.apify.com/api/v2",
+    "openapi": null,
+    "source": "https://github.com/apify/apify-mcp-server"
+  },
+  "social": {
+    "github": "apify"
+  },
+  "domains": [
+    "apify.com",
+    "docs.apify.com",
+    "mcp.apify.com",
+    "agi.apify.com",
+    "api.apify.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's tool table: search-apify-docs 'Search the Apify documentation for relevant pages', fetch-apify-docs 'Fetch the full content of an Apify documentation page by its URL', both 'enabled for unauthenticated use'. Measured keyless 2026-10-19: one search returned the vendor's own MCP page.",
+      "sources": [
+        "https://docs.apify.com/mcp"
+      ]
+    }
+  ],
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1
+}

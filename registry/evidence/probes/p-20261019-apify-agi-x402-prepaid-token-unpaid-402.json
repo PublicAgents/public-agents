@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "apify-mcp"
+  },
+  "surface": "https://agi.apify.com/protocols/x402/prepaid-tokens?amount=1&currency=usd",
+  "question": "payment",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-19",
+  "updated": "2026-10-19",
+  "version": 1,
+  "id": "p-20261019-apify-agi-x402-prepaid-token-unpaid-402",
+  "at": "2026-10-19T12:17Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, egress 205.188.204.187",
+    "body": "a plain GET of the prepaid-token path the vendor's agentic-payments page gives as its example, at the documented minimum of $1; no key, no wallet, no PAYMENT-SIGNATURE header, no cookie (artifact (30))"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "payment-required": "[base64, redacted; it decodes to the JSON body described below]"
+    },
+    "decoded": {
+      "body": "2,879 bytes: x402Version 2, error 'PAYMENT-SIGNATURE header is required.', resource {url https://agi.apify.com/protocols/x402/prepaid-tokens, serviceName Apify, a description of the Actor marketplace, tags automation, web-data, crawling, context, scraping}, three accepts entries, a bazaar extension.",
+      "accepts": "all three scheme exact, amount 1000000 (six decimals: the $1 asked for), maxTimeoutSeconds 60: USDC on Base (eip155:8453, asset 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913), USDC on Solana mainnet (asset EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v, with a feePayer) and a second Solana entry whose asset is Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB, which the AGI page's own words call 'Solana (USDC or USDT)'.",
+      "what-is-bought": "Not a search result: a prepaid, spend-capped Apify API token. The vendor's page: 'An agent pays once through a supported protocol, and AGI returns a temporary Apify API token with a fixed spend cap', the token then used 'as a Bearer token' with the MCP server or the API. GET /protocols listed x402 and mpp (29). The AGI page's terms: minimum $1, unused balance non-refundable, the account deleted after its TTL, currently 14 days.",
+      "not-measured": "No payment was made and the paid retry was not sent, so whether a token is minted, what it can run and the balance endpoint are not measured. The MCP server itself drew no 402 on any keyless request; the per-request Skyfire path the page also names was not exercised."
+    },
+    "protocols": [
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account, no wallet and no payment, a GET of https://agi.apify.com/protocols/x402/prepaid-tokens?amount=1&currency=usd, the vendor's own example for buying a prepaid Apify API token, answered HTTP/2 402 on 2026-10-19 at 12:17:15Z with a 2,879-byte x402 version 2 body and a PAYMENT-REQUIRED header offering three ways to pay the $1 asked for, scheme exact at 1000000 units each: USDC on Base, USDC on Solana, and a second Solana asset the vendor's page calls USDT. The vendor documents the door in its own words: agents 'can run Apify Actors and pay with stablecoins on Base or Solana. No Apify account needed.' What is sold is a spend-capped token, not a result, so what an agent can do after paying is the API's and the MCP server's authenticated surface, which is not measured here. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0' 'https://agi.apify.com/protocols/x402/prepaid-tokens?amount=1&currency=usd'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/apify-mcp/2026-10-19/keyless-and-pages-1215Z.txt"
+  }
+}
