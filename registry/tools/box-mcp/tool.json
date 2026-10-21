@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "box-mcp",
+  "name": "Box MCP server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Box's hosted Model Context Protocol server at mcp.box.com, which the vendor documents as letting \"AI agents and apps search and use Box files over OAuth\": 53 documented tools over files and folders, search, collaboration, Box AI question-answering and extraction, Hubs and Doc Gen. The human path comes first: an administrator enables the server in the Box Admin Console and, for a custom client, creates Integration Credentials (an OAuth client id and secret, a redirect URI and scopes). 16 of the 53 tools are off by default and need an admin to turn them on.",
+  "vendor": {
+    "name": "Box, Inc.",
+    "url": "https://www.box.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-10-20: no 402 and no payment challenge on any surface read, and x402, mpp and 402 are absent from developer.box.com/llms.txt (30,405 bytes). www.box.com/pricing and the terms page answer 403 to this prober, so the human method is unread rather than absent."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-10-20 18:33Z, no credentials: initialize at mcp.box.com and at its /mcp path both answer 401 with a challenge naming one protected-resource document (200, 406 B), which names api.box.com as sole authorization server; its metadata advertises S256 only, no registration endpoint, no CIMD."
+  },
+  "surfaces": {
+    "homepage": "https://www.box.com/",
+    "docs": "https://developer.box.com/guides/box-mcp/index",
+    "llmsTxt": "https://developer.box.com/llms.txt",
+    "mcp": "https://mcp.box.com",
+    "api": "https://api.box.com/2.0/users/me",
+    "source": null
+  },
+  "social": {
+    "github": "box"
+  },
+  "domains": [
+    "www.box.com",
+    "box.com",
+    "developer.box.com",
+    "mcp.box.com",
+    "api.box.com",
+    "account.box.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "created": "2026-10-20",
+  "updated": "2026-10-20",
+  "version": 1
+}
