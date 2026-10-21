@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "netlify-mcp"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1,
+  "id": "p-20261021-netlify-mcp-alias-host-keyless",
+  "surface": "https://mcp.netlify.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "the same MCP initialize request sent to the documented host in p-20261021-netlify-mcp-initialize-keyless, unchanged"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "www-authenticate": "scheme Bearer, realm MCP Server, and resource_metadata naming https://mcp.netlify.com/.well-known/oauth-protected-resource/mcp, which is this host and not the documented one",
+      "content-type": "application/json",
+      "server": "Netlify"
+    },
+    "decoded": {
+      "body": "88 bytes with sha256 1c51ca8385509aaffbef023f84eee626e5dfe30e4145b6efc8ef544494e22634, the same digest as the documented host's refusal in the same pass",
+      "protected-resource-document": "200, 197 bytes: resource https://mcp.netlify.com/mcp, authorization_servers [https://mcp.netlify.com/], the same four scopes and the same bearer method as the documented host, with every URL rewritten to this hostname",
+      "authorization-server-document": "200, 571 bytes: issuer https://mcp.netlify.com/, and the same endpoint paths, grant types, auth methods and S256 as the documented host, again with every URL on this hostname. Both documents are host-relative, so this host presents itself as a SECOND OAuth issuer identity for the same service",
+      "documentation": "the string mcp.netlify.com occurs zero times in all seven vendor documents archived in this pass (both llms.txt files, the agent-setup overview, the build-with-AI overview, the agent-experience page, the pricing twin and netlify.ai), while netlify-mcp.netlify.app occurs once in the docs llms.txt and three times in the setup guide"
+    }
+  },
+  "finding": "A host the vendor documents nowhere, mcp.netlify.com, answers the same keyless MCP initialize with the same 401 and a body whose sha256 equals the documented host's to the digit, measured 2026-10-21 at 06:12:59.542Z. Its discovery documents are host-relative rather than redirects: the protected-resource document (200, 197 bytes) names mcp.netlify.com as the resource and itself as the authorization server, and the authorization-server document (200, 571 bytes) carries issuer https://mcp.netlify.com/ with the documented host's configuration otherwise unchanged. So one service is reachable at two hostnames that advertise two different issuer identities, only one of which any vendor surface names. This probe states what the requests answered; it does not establish which host a client should use.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/netlify-keyless-691e2137.sh && echo \"691e213757870e90d0af5de618b7788b58c91cdee305ca869807657b35a48ff3  netlify-keyless-691e2137.sh\" | sha256sum -c && sh netlify-keyless-691e2137.sh out.txt  # sections 3, 8 and 9",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/netlify-mcp/2026-10-21/keyless-and-docs-0612Z.txt"
+  },
+  "at": "2026-10-21T06:12Z"
+}

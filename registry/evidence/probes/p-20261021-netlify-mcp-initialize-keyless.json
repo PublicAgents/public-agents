@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "netlify-mcp"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1,
+  "id": "p-20261021-netlify-mcp-initialize-keyless",
+  "surface": "https://netlify-mcp.netlify.app/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, empty capabilities, clientInfo public-agents-researcher 1.0); Content-Type application/json, Accept application/json and text/event-stream, MCP-Protocol-Version 2025-06-18"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "www-authenticate": "scheme Bearer, then two parameters: realm MCP Server, and resource_metadata naming https://netlify-mcp.netlify.app/.well-known/oauth-protected-resource/mcp",
+      "content-type": "application/json",
+      "server": "Netlify",
+      "cache-status": "two values, \"Netlify Durable\"; fwd=bypass and \"Netlify Edge\"; fwd=method; fwd-status=401"
+    },
+    "decoded": {
+      "body": "88 bytes, {\"error\":\"unauthenticated\",\"error_description\":\"You must authenticate to use this tool\"}, sha256 1c51ca8385509aaffbef023f84eee626e5dfe30e4145b6efc8ef544494e22634",
+      "tools-list": "a tools/list sent to the same URL 0.46 seconds later with no session header answers the identical 401 and the identical 88-byte body, byte for byte and digest for digest, so no tool name is readable by a stranger here",
+      "protected-resource-document": "200, 213 bytes, at BOTH the bare and the path-aware well-known URI with the same sha256: resource https://netlify-mcp.netlify.app/mcp, authorization_servers [https://netlify-mcp.netlify.app/] which is the resource host itself, scopes_supported [offline_access, read, write, claudeai], bearer_methods_supported [header]",
+      "authorization-server-document": "200, 603 bytes, served by the resource host at /.well-known/oauth-authorization-server and byte-identically at /.well-known/openid-configuration: issuer https://netlify-mcp.netlify.app/, authorization, token and registration endpoints all under /oauth-server/, response_types [code], grant_types [authorization_code, refresh_token], token_endpoint_auth_methods [none, client_secret_post, client_secret_basic], code_challenge_methods [S256]",
+      "client-identification": "a registration_endpoint IS advertised and client_id_metadata_document_supported is absent, which puts this server in the dynamic-registration-only class of the census in issue #280. The registration endpoint was not called: a POST there would create a client, which is a write",
+      "ownership-proof": "/.well-known/public-agents.json answers 404 on all five of this entry's domains (the resource host 404 at 3,449 bytes, the apex and www at 101,762 bytes of marketing HTML, docs at 56,309, netlify.ai at 4,809), and DNS TXT _public-agents.netlify.com and _public-agents.netlify.app both answer Status 0 with an SOA and no answer record, which is NODATA, so the entry is unverified",
+      "vendor-claim": "the vendor's docs index says this server \"lets code agents create projects, deploy sites, manage environment variables, and more using the Netlify API and CLI\" and documents OAuth through the client; its agent-facing page claims elsewhere that agents can deploy static sites without an account, which this surface does not offer"
+    }
+  },
+  "finding": "With no credential on 2026-10-21 at 06:12:57.435Z, Netlify's documented remote MCP server answers an MCP initialize with 401 and an 88-byte unauthenticated body carrying an RFC 9728 challenge; a sessionless tools/list 0.46 seconds later answers the same 401 and the same body digest, so a stranger reads no tool name. The protected-resource document answers 200 at 213 bytes and names the resource host itself as its only authorization server, and that host serves an authorization-server document (200, 603 bytes) advertising dynamic client registration, no client-ID metadata document, S256, and token_endpoint_auth_methods including none. The entry's cells (noAccountNeeded false, auth oauth) are what this measures. The registry ownership file is absent on all five domains and both DNS names answer NODATA. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/netlify-keyless-691e2137.sh && echo \"691e213757870e90d0af5de618b7788b58c91cdee305ca869807657b35a48ff3  netlify-keyless-691e2137.sh\" | sha256sum -c && sh netlify-keyless-691e2137.sh out.txt  # sections 1, 2 and 4 to 7, plus 11 to 15",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/netlify-mcp/2026-10-21/keyless-and-docs-0612Z.txt"
+  },
+  "at": "2026-10-21T06:12Z"
+}

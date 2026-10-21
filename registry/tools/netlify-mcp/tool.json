@@ -1,0 +1,65 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "netlify-mcp",
+  "name": "Netlify MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Netlify's remote MCP server at netlify-mcp.netlify.app/mcp, which the vendor's docs say lets code agents \"create projects, deploy sites, manage environment variables, and more using the Netlify API and CLI\"; a local npx twin is documented beside it. Keyless 2026-10-21: initialize and a sessionless tools/list both 401 with an RFC 9728 challenge, the resource host is its own authorization server, dynamic client registration is advertised and no client-ID metadata document is, and an undocumented alias host answers byte-identically while naming itself as a second issuer.",
+  "vendor": {
+    "name": "Netlify, Inc.",
+    "url": "https://www.netlify.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "prepaid-credits",
+    "priceList": "https://www.netlify.com/pricing/",
+    "notes": "2026-10-21: no surface prices an agent call, no request drew a 402, and x402, MPP and the string 402 are absent from both llms.txt documents and the agent page. Usage is metered in credits (a production deploy is \"15 credits each\") on plans and auto-recharge packs a human buys. Nothing paid."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-21 06:12Z: initialize and a sessionless tools/list at netlify-mcp.netlify.app/mcp both 401, 88 B, \"unauthenticated\"; the challenge names a protected-resource document (200, 213 B) whose authorization server is that host. REST 401 twice. The vendor claims otherwise: see the profile."
+  },
+  "surfaces": {
+    "homepage": "https://www.netlify.com/",
+    "docs": "https://docs.netlify.com/build/build-with-ai/agent-setup-guides/agent-setup-overview/",
+    "llmsTxt": "https://docs.netlify.com/llms.txt",
+    "skills": [
+      "https://github.com/netlify/context-and-tools"
+    ],
+    "mcp": "https://netlify-mcp.netlify.app/mcp",
+    "api": "https://api.netlify.com/api/v1/sites",
+    "openapi": "https://open-api.netlify.com/",
+    "source": "https://github.com/netlify/netlify-mcp"
+  },
+  "domains": [
+    "netlify.com",
+    "www.netlify.com",
+    "docs.netlify.com",
+    "netlify.ai",
+    "netlify.app"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.publish-web-content",
+      "summary": "The vendor's claim on its agent page: \"Give your AI agent the ability to create sites, deploy apps, and manage serverless infrastructure - no human in the loop\", and in its docs index the server \"lets code agents create projects, deploy sites, manage environment variables, and more\". Not measured.",
+      "sources": [
+        "https://netlify.ai/",
+        "https://docs.netlify.com/llms.txt"
+      ],
+      "since": "2026-10"
+    }
+  ],
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1
+}
