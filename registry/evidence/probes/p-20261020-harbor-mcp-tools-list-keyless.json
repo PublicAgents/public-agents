@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "harbor-cross-chain-report"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-20",
+  "updated": "2026-10-20",
+  "version": 1,
+  "id": "p-20261020-harbor-mcp-tools-list-keyless",
+  "surface": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/list request (jsonrpc 2.0, id 2, empty params) sent with NO mcp-session-id header, on a fresh connection after the initialize of p-20261020-harbor-mcp-initialize-keyless; Content-Type application/json, Accept application/json and text/event-stream"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "tool-count": "3",
+      "tool-names": "list_workmap_tasks, get_cross_chain_report_quote, submit_paid_cross_chain_report, which are the three names the vendor's own llms.txt lists at its remote-MCP line",
+      "list_workmap_tasks": "no required arguments; optional taskId and poolId, each a string of at most 100 characters; its description says it returns public instructions, submission links and non-cash Harbor Points and that it does not claim or submit work",
+      "get_cross_chain_report_quote": "no properties and no required arguments; its description says it reads price, networks, batch size and payment destination and never initiates a payment",
+      "submit_paid_cross_chain_report": "required txHash (0x and 64 hex), payerAddress (0x and 40 hex), addresses (1 to 5 unique 40-hex strings), signature (0x and 130 hex); optional paymentRailId, an enum of six values ethereum-usdc, base-usdc, arbitrum-usdc, polygon-usdc, ethereum-usdt, bsc-bsc-usd, defaulting to base-usdc; its description says it only submits a receipt and signature for verification and never pays, moves funds, approves a contract or signs for the user",
+      "paid-tool-not-called": "the prober did not call submit_paid_cross_chain_report: it is a submission, and nothing in this pass sent a payment, a receipt or a signature",
+      "body-bytes": "2393",
+      "body-sha256": "586840a78ac08a1d5865af1a94fa2c80655d8418a0a00502d6c23d76cd4a4366"
+    }
+  },
+  "finding": "A keyless tools/list with no session header answers 200 and lists exactly three tools, the three the vendor's llms.txt names: one free board reader, one quote reader, and one paid submission whose four required arguments are a transaction hash, a payer address, one to five addresses and a 65-byte personal_sign signature. Two of the three are readable by a stranger with no account; the third was deliberately not called. The registry entry names none of the three tools, so this record is where a reader can see what the keyless surface actually exposes. One IP is one sample, on 2026-10-20 at 18:08:03Z.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/harbor-keyless-45895c57.sh && echo \"45895c57852ff79b9c9bbb4d6e1ada3b492cd1f72013accb72a3aac889c6b35a  harbor-keyless-45895c57.sh\" | sha256sum -c && sh harbor-keyless-45895c57.sh out.txt  # section 2 of the transcript",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/harbor-cross-chain-report/2026-10-20/keyless-1808Z.txt"
+  },
+  "at": "2026-10-20T18:08Z"
+}

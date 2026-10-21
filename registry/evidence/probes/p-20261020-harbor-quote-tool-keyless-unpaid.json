@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "harbor-cross-chain-report"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-20",
+  "updated": "2026-10-20",
+  "version": 1,
+  "id": "p-20261020-harbor-quote-tool-keyless-unpaid",
+  "surface": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp",
+  "question": "payment",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP tools/call request (jsonrpc 2.0, id 3) naming get_cross_chain_report_quote with empty arguments, the tool whose own description says it never initiates a payment; no payment header, no wallet, no signature"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "shape": "a JSON-RPC result whose single text content is itself a JSON document of ten keys: service, access, amount, paymentRails, batch, request, response, authorization, privacy, docs",
+      "access": "the document's access field reads paid and its amount field reads 0.02 USDC, USDT, or Binance-Peg BSC-USD",
+      "paymentRails": "six rails, ethereum-usdc, base-usdc, arbitrum-usdc, polygon-usdc, ethereum-usdt and bsc-bsc-usd, each with a chainId, asset, decimals, token contract, explorer prefix, amount 0.02 and confirmationsRequired 12; all six name the SAME recipient address, and every address in the artifact is shortened to its first and last four hex digits because the publisher's secret filter reads a 40-hex string as a credential",
+      "no-402": "no HTTP 402 and no payment challenge of any kind: no x402 envelope, no PAYMENT-REQUIRED header, no accepts array, no MPP or Tempo challenge, and the strings x402, mpp and 402 appear zero times, case-insensitively, in BOTH the vendor's llms.txt (7,673 bytes) and its openapi.json (9,833 bytes), re-counted 2026-10-21 at 06:06Z at the same byte sizes; the one temporar match in the openapi document is a 503 description, \"Public RPC or report storage temporarily unavailable; retry with the same payment\", and carries none of the three strings",
+      "authorization": "the document says the payer signs a message binding the address batch, the payment rail, the network and the transaction hash, and that the signature sends no funds",
+      "privacy": "the document says raw address batches and reports are not stored and that a keyed HMAC fingerprint and a network-scoped transaction key prevent payment replay",
+      "body-sha256": "c0af5e7598329239a581bdde89eb6d0373aeaeacf05494878672cb788653aaf6"
+    }
+  },
+  "finding": "The quote door answers a stranger with no credential and no payment: 200, and a price document naming six rails at 0.02 of a listed stablecoin, 12 confirmations each and one recipient address. It corroborates the entry's payments cells rather than correcting them: machinePayable false with an empty protocols array is what this surface measures, because the price is published and the rails are named but no machine-payment protocol is offered anywhere in the exchange, and the vendor's own machine-readable surfaces carry no x402, MPP or 402 string. Payment here is a direct transfer the payer makes elsewhere and then proves. Measured 2026-10-20 at 18:08:03Z, one IP, nothing paid.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/harbor-keyless-45895c57.sh && echo \"45895c57852ff79b9c9bbb4d6e1ada3b492cd1f72013accb72a3aac889c6b35a  harbor-keyless-45895c57.sh\" | sha256sum -c && sh harbor-keyless-45895c57.sh out.txt  # section 3 of the transcript",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/harbor-cross-chain-report/2026-10-20/keyless-1808Z.txt"
+  },
+  "at": "2026-10-20T18:08Z"
+}

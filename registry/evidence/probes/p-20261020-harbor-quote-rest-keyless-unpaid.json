@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "harbor-cross-chain-report"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-20",
+  "updated": "2026-10-20",
+  "version": 1,
+  "id": "p-20261020-harbor-quote-rest-keyless-unpaid",
+  "surface": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/cross-chain-report",
+  "question": "payment",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a plain GET of the api surface the registry entry names, no Authorization header, no payment header, no cookie"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "equality": "the 2,683-byte body parses to an object IDENTICAL, key for key and value for value, to the JSON document the MCP tool get_cross_chain_report_quote returned 0.7 seconds earlier (p-20261020-harbor-quote-tool-keyless-unpaid): same ten keys, same six rails, same amounts, same recipient, same confirmation count",
+      "no-402": "a GET of the paid report's own endpoint answers the quote rather than a payment challenge: no 402, no www-authenticate, no payment header",
+      "method-note": "the submission path is a POST of a receipt and signature, which the prober did not send; this record measures only what the endpoint says to a reader",
+      "body-bytes": "2683",
+      "body-sha256": "8cb765ac727af163d3a2c121c22a11abbcb280e35090ad7cce2c7df906fde2e9"
+    }
+  },
+  "finding": "The api surface the entry names answers a keyless GET with the price document, not with a payment challenge, and that document is byte-equivalent in content to what the MCP quote tool serves: two surfaces, one price list. For a reader of the registry this settles that the quote is free to read on both the REST and the MCP path, and that nothing in either path is machine-payable. Measured 2026-10-20 at 18:08:04Z, one IP, nothing paid and nothing submitted.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/harbor-keyless-45895c57.sh && echo \"45895c57852ff79b9c9bbb4d6e1ada3b492cd1f72013accb72a3aac889c6b35a  harbor-keyless-45895c57.sh\" | sha256sum -c && sh harbor-keyless-45895c57.sh out.txt  # section 5 of the transcript",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/harbor-cross-chain-report/2026-10-20/keyless-1808Z.txt"
+  },
+  "at": "2026-10-20T18:08Z"
+}
