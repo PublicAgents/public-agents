@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "figma-mcp",
+  "name": "Figma MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Figma's hosted MCP server at mcp.figma.com/mcp, which the vendor's docs index describes as a way to \"Provide Figma design context to AI coding agents via the Model Context Protocol\", with a desktop-app server documented beside it. Keyless 2026-10-21: initialize and a sessionless tools/list both 401 with a challenge carrying an RFC 9728 pointer plus a non-standard authorization_uri parameter; the REST API 401. The vendor publishes a per-plan, per-seat quota for MCP tool calls, and names two of its own tools that spend an AI-credit balance.",
+  "vendor": {
+    "name": "Figma, Inc.",
+    "url": "https://www.figma.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "prepaid-credits",
+    "priceList": "https://www.figma.com/pricing/",
+    "notes": "2026-10-21: nothing prices an agent call machine-payably, no request drew a 402, and x402, MPP and 402 occur 0 times in the llms.txt and five MCP pages. But two MCP tools spend a balance a human buys: the vendor says generate_image \"uses credits for each image\" and send_prompt \"uses credits\"."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-21 12:19Z: initialize and a sessionless tools/list at mcp.figma.com/mcp both 401 with a 12-byte text/plain \"Unauthorized\" and one body digest; GET the same path is 405; api.figma.com/v1/me is 401. No tool name readable. The vendor also gates tool-call volume by plan and seat."
+  },
+  "surfaces": {
+    "homepage": "https://www.figma.com/",
+    "docs": "https://developers.figma.com/docs/figma-mcp-server/",
+    "llmsTxt": "https://developers.figma.com/llms.txt",
+    "mcp": "https://mcp.figma.com/mcp",
+    "api": "https://api.figma.com/v1/me"
+  },
+  "domains": [
+    "figma.com",
+    "www.figma.com",
+    "developers.figma.com",
+    "mcp.figma.com",
+    "api.figma.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "The vendor's claim, unmeasured: the server exists to \"Provide Figma design context to AI coding agents via the Model Context Protocol\" and \"Supports reading designs, extracting variables, and leveraging Code Connect mappings\". The claim covers the read half of the tool set; the server also writes.",
+      "sources": [
+        "https://developers.figma.com/llms.txt",
+        "https://developers.figma.com/docs/figma-mcp-server/"
+      ],
+      "since": "2026-10"
+    }
+  ],
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1
+}
