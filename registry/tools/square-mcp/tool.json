@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "square-mcp",
+  "name": "Square MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Square's remote MCP server at mcp.squareup.com/mcp, which the vendor's own page describes as \"providing a bridge between AI assistants and the Square REST API platform\" and says \"is currently in Beta\". Keyless 2026-10-22: initialize, a sessionless tools/list, a plain GET and /sse all answer 401 with one body digest; the REST API answers 401 too. The protected-resource document this host serves for ANY path under its well-known prefix echoes the requested path back as a declared resource, including a path invented for this pass.",
+  "vendor": {
+    "name": "Block, Inc.",
+    "url": "https://squareup.com/",
+    "kind": "organization"
+  },
+  "pricing": "unknown",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "unknown",
+    "priceList": "https://squareup.com/us/en/pricing",
+    "notes": "2026-10-22: nothing prices a call to this server; no 402 was drawn. x402 occurs 0 times in the developer llms.txt, llms-full.txt, MCP page and .md twin; every mpp and 402 hit is the SQMP SDK prefix, a version timestamp or an asset filename. No page names a price for MCP use."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-22 12:31Z: initialize, a sessionless tools/list, a plain GET and the same request at /sse all answer 401 at 79 bytes with one digest and an RFC 9728 challenge; connect.squareup.com/v2/locations answers 401 at 161 bytes with no challenge. No tool name readable without an account."
+  },
+  "surfaces": {
+    "homepage": "https://squareup.com/",
+    "docs": "https://developer.squareup.com/docs/mcp",
+    "llmsTxt": "https://developer.squareup.com/llms.txt",
+    "mcp": "https://mcp.squareup.com/mcp",
+    "api": "https://connect.squareup.com/v2/locations",
+    "source": "https://github.com/square/square-mcp-server"
+  },
+  "domains": [
+    "squareup.com",
+    "developer.squareup.com",
+    "mcp.squareup.com",
+    "connect.squareup.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-10-22",
+  "updated": "2026-10-22",
+  "version": 1
+}
