@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "postman-docs-mcp",
+  "name": "Postman Docs MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "The documentation MCP server Postman's own llms.txt points an AI client at, at learning.postman.com/_mcp/server. Keyless 2026-10-21: initialize 200 (serverInfo fern-docs-mcp-server 1.0.0), a sessionless tools/list 200 with exactly one tool, searchDocs, carrying readOnlyHint true, and a keyless tools/call answering 4,104 bytes of Postman documentation with source URLs. A stranger needs no account, no key and no session. The vendor's other hosted endpoint, mcp.postman.com, refuses the same request with 401.",
+  "vendor": {
+    "name": "Postman, Inc.",
+    "url": "https://www.postman.com/",
+    "kind": "organization"
+  },
+  "pricing": "free",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": null,
+    "notes": "2026-10-21: nothing on this surface is priced, no request drew a 402, and the search answered a stranger for free. Postman the platform is sold by seat; this entry is the documentation server only, which asked for nothing."
+  },
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Keyless 2026-10-21 06:28:49Z to 06:28:50Z: initialize 200 (198 B), tools/list 200 (677 B, one tool) with NO session header because the server issued none, and tools/call searchDocs 200 (4,104 B of documentation with source URLs). No credential, no cookie, no payment."
+  },
+  "surfaces": {
+    "homepage": "https://www.postman.com/",
+    "docs": "https://learning.postman.com/docs/getting-started/overview/",
+    "llmsTxt": "https://learning.postman.com/llms.txt",
+    "skills": [],
+    "mcp": "https://learning.postman.com/_mcp/server",
+    "api": null,
+    "openapi": null,
+    "source": null
+  },
+  "domains": [
+    "postman.com",
+    "www.postman.com",
+    "learning.postman.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.retrieve-reference-context",
+      "summary": "Documentation search inside an agent's turn, the vendor's words in its llms.txt: \"connect to the Postman Docs MCP server at https://learning.postman.com/_mcp/server\". Measured: a keyless searchDocs call answered 4,104 bytes of passages with source URLs.",
+      "sources": [
+        "https://learning.postman.com/llms.txt"
+      ],
+      "since": "2026-10"
+    }
+  ],
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1
+}

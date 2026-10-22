@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "postman-docs-mcp"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1,
+  "id": "p-20261021-postman-docs-mcp-handshake-keyless",
+  "surface": "https://learning.postman.com/_mcp/server",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, empty capabilities, clientInfo public-agents-researcher 1.0), then a tools/list with no session header; Content-Type application/json, Accept application/json and text/event-stream, MCP-Protocol-Version 2025-06-18"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/event-stream",
+      "server": "cloudflare",
+      "x-vercel-cache": "MISS, and an x-vercel-id is present, so the server runs on Vercel behind Cloudflare",
+      "mcp-session-id": "absent: the server issues no session id, which is why a sessionless tools/list is answered"
+    },
+    "decoded": {
+      "initialize": "the whole text/event-stream response frame is 198 bytes, sha256 d5786b2f753abccb8ecf2980e88c7e6177b86cae84ba3613d3305ed98c7a4ef2; the JSON on its data line alone is 175 bytes, sha256 38d95798b1e93e5e72c0c2575c21ea55ef228b703c8a340be80db61a357e62a9 (both re-measured keyless 2026-10-22 at 12:05:19.199Z, unchanged). Decoded: protocolVersion 2025-06-18, capabilities tools.listChanged true, serverInfo name fern-docs-mcp-server version 1.0.0. The server identifies itself by its platform, Fern, and not by the vendor whose documentation it serves",
+      "tools-list": "200, 677 bytes, exactly ONE tool: searchDocs, described as \"Search the documentation at https://learning.postman.com. Returns relevant doc passages with source URLs.\", inputSchema query (string, required) and topK (integer, 1 to 20), annotations title \"Search learning.postman.com Docs\" and readOnlyHint true, execution taskSupport forbidden",
+      "no-credential-anywhere": "no Authorization header, no cookie jar, no API key and no payment on either request, and neither answer carried a www-authenticate header",
+      "ownership-proof": "/.well-known/public-agents.json answers 404 on learning.postman.com (14,730 bytes of the docs 404 page) and on www.postman.com (229,124 bytes of the marketing 404 page), the apex answers 301, and DNS TXT _public-agents.postman.com is NXDOMAIN (Status 3). The entry is unverified",
+      "sibling-endpoint": "the vendor's other hosted MCP endpoint, https://mcp.postman.com/mcp, is a different product and not this entry's surface; the same keyless initialize there answers 401 with {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32600,\"message\":\"Invalid Request: API key required\"},\"id\":null} (97 bytes, sha256 e1dad51f4f3c27c094d63ac085eb03a476e93b73fc496a6fb3a5c23817c968a7, re-read keyless 2026-10-22 at 12:03:10.714Z at the same bytes and digest) and a Bearer-scheme challenge naming its own protected-resource document, which answers 200 at 239 bytes and lists mcp.postman.com itself as its only authorization server"
+    }
+  },
+  "finding": "The documentation MCP server named in Postman's own llms.txt answers a stranger. With no credential on 2026-10-21 at 06:28:49.100Z an MCP initialize answered 200 with 198 bytes, serverInfo fern-docs-mcp-server 1.0.0, and 0.46 seconds later a tools/list with no session header (the server issues none) answered 200 with exactly one tool: searchDocs, readOnlyHint true, topK capped at 20. Nothing carried a www-authenticate header and nothing asked for an account, so noAccountNeeded true and auth none are what this measures. The vendor's other hosted endpoint, mcp.postman.com, refuses the same request with 401 and names an API key, so the two should not be read as one surface. The registry ownership file is absent on both readable hosts and the DNS name is NXDOMAIN. One IP is one sample.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/postman-docs-keyless-6eb067cd.sh && echo \"6eb067cd2b2c8a92590bde3e942b1ad5c32cbdbaf199dc5757604eb96fd33752  postman-docs-keyless-6eb067cd.sh\" | sha256sum -c && sh postman-docs-keyless-6eb067cd.sh out.txt  # sections 1, 2 and 4 to 8",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/postman-docs-mcp/2026-10-21/keyless-and-docs-0628Z.txt"
+  },
+  "at": "2026-10-21T06:28Z"
+}
