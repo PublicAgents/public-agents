@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "asana-mcp"
+  },
+  "surface": "https://mcp.asana.com/.well-known/oauth-protected-resource",
+  "question": "access",
+  "id": "p-20261021-asana-two-authorization-servers-one-host",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "Four keyless GETs of protected-resource documents on mcp.asana.com (the root path, the RFC 9728 path-inserted path for /v2/mcp, the shorter path the 401 challenge names, and the path for /v2/command/mcp), followed by keyless GETs of the authorization-server metadata of both issuers those documents name."
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "decoded": {
+      "root-document": "GET /.well-known/oauth-protected-resource at 12:07:02.430Z: 200, 317 bytes, resource https://mcp.asana.com, authorization_servers [https://mcp.asana.com], resource_name Asana MCP",
+      "v2-document": "GET /.well-known/oauth-protected-resource/v2/mcp at 12:07:01.183Z: 200, 324 bytes, resource https://mcp.asana.com/v2/mcp, authorization_servers [https://app.asana.com], resource_name Asana MCP. The shorter URL the 401 challenge names, /.well-known/oauth-protected-resource/v2, returned a byte-identical document (one sha256, 8f4bd465a09701c0e04d7e82736486153d7ed59e3aaff2e1de29aa44f90ce2d9) at 12:07:00.880Z and again at 12:09:25.940Z",
+      "command-document": "GET /.well-known/oauth-protected-resource/v2/command/mcp at 12:07:01.815Z: 200, 343 bytes, resource https://mcp.asana.com/v2/command/mcp, authorization_servers [https://app.asana.com], resource_name Command by Asana MCP",
+      "issuer-app-asana-com": "GET https://app.asana.com/.well-known/oauth-authorization-server at 12:07:03.022Z: 200, 579 bytes. NO registration_endpoint and no client-ID metadata document; code_challenge_methods_supported [S256]; token_endpoint_auth_methods_supported [client_secret_post, client_secret_basic]; grant_types_supported includes urn:ietf:params:oauth:grant-type:jwt-bearer; authorization_grant_profiles_supported [urn:ietf:params:oauth:grant-profile:id-jag]. The openid-configuration path on the same host is 404 (463 bytes of HTML), so the two documents are not aliases here as they are at most vendors this registry has read.",
+      "issuer-mcp-asana-com": "GET https://mcp.asana.com/.well-known/oauth-authorization-server at 12:07:04.715Z: 200, 529 bytes. registration_endpoint https://mcp.asana.com/register; token_endpoint_auth_methods_supported includes none; code_challenge_methods_supported [plain, S256]; no client-ID metadata document.",
+      "what-this-means-for-the-census": "The two issuers advertise opposite client-identification capabilities, so which class this host falls into depends on which protected-resource document a client reads: the two documented endpoints point at the issuer with neither dynamic registration nor a client-ID metadata document, while the root document points at the resource host itself, whose own metadata advertises dynamic registration. Both documents were served by the same hostname in the same minute.",
+      "vendor-words": "The vendor's integration guide says 'clients must still pre-register to get a client id and client secret as described above. Dynamic client registration is not supported with Asana’s V2 MCP Server.' That sentence is scoped to V2 and agrees with the app.asana.com document; it says nothing about the root document, which belongs to the beta surface the same documentation set calls deprecated.",
+      "not-measured": "whether either token endpoint accepts a resource parameter, whether the registration endpoint actually registers a client (a POST there is a write and was not made), and anything behind an Asana credential",
+      "control": "An invented path, /.well-known/oauth-protected-resource/v2/mcp/bogus-f0c8bfeb, answered 404 with a 9-byte body, as did /.well-known/oauth-protected-resource/v2/command; /.well-known/oauth-protected-resource/sse answered 404 with a 13-byte body. So the 200s above are documents and not a catch-all."
+    }
+  },
+  "finding": "One hostname, mcp.asana.com, serves three protected-resource documents that name two different authorization servers. The two documents for the endpoints Asana's own pages publish name app.asana.com, whose metadata advertises neither dynamic client registration nor a client-ID metadata document, matching the vendor's written statement that clients must pre-register by hand. The document at the root path names the resource host itself, and that host's own authorization-server metadata advertises a registration endpoint, token auth method none, and plain beside S256. A client that discovers this server by the RFC 9728 fallback path therefore reads a different issuer, with different capabilities, from one that follows the challenge header or the vendor's docs.",
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/asana-mcp/2026-10-21/keyless-and-docs-1206Z.txt",
+    "command": "for p in '' /v2 /v2/mcp /v2/command/mcp; do curl -sS -D- \"https://mcp.asana.com/.well-known/oauth-protected-resource$p\"; done; curl -sS -D- https://app.asana.com/.well-known/oauth-authorization-server; curl -sS -D- https://mcp.asana.com/.well-known/oauth-authorization-server"
+  },
+  "at": "2026-10-21T12:07Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1
+}

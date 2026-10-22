@@ -1,0 +1,50 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "asana-mcp",
+  "name": "Asana MCP Server",
+  "kind": "service",
+  "status": "active",
+  "summary": "Asana's hosted MCP servers. The vendor documents two endpoints on one hostname: mcp.asana.com/v2/mcp, whose tools reference lists 18 read, 6 write and 3 interactive tools over the Asana Work Graph, and mcp.asana.com/v2/command/mcp for Command Teamspaces, tickets and releases. A beta v1 server at mcp.asana.com/sse is documented as deprecated. Keyless 2026-10-21: every one of those paths answers 401 with an RFC 9728 challenge, in two distinct forms, and the host serves three protected-resource documents naming two different authorization servers.",
+  "vendor": {
+    "name": "Asana, Inc.",
+    "url": "https://asana.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": null,
+    "notes": "2026-10-21: nothing prices an agent call, no request drew a 402, and x402, MPP and the string 402 occur 0 times in both llms.txt documents and all seven MCP doc twins. Seats sell per user per month to a human. priceList null: the pricing page is 1.2 MB of client-rendered HTML, unread here."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless 2026-10-21 12:06Z: initialize and a sessionless tools/list at /v2/mcp and at /v2/command/mcp all 401 at 100 B with one body digest; /sse and an undocumented bare /mcp answer a different 401 at 79 B. REST users/me 401. No tool name is readable without an account."
+  },
+  "surfaces": {
+    "homepage": "https://asana.com/",
+    "docs": "https://developers.asana.com/docs/mcp-server",
+    "llmsTxt": "https://developers.asana.com/llms.txt",
+    "mcp": "https://mcp.asana.com/v2/mcp",
+    "api": "https://app.asana.com/api/1.0/users/me"
+  },
+  "domains": [
+    "asana.com",
+    "www.asana.com",
+    "developers.asana.com",
+    "mcp.asana.com",
+    "app.asana.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1
+}
