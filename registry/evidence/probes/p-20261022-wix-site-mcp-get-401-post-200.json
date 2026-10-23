@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261022-wix-site-mcp-get-401-post-200",
+  "subject": {
+    "type": "tool",
+    "id": "wix"
+  },
+  "surface": "https://celebrationsbakery.wixsite.com/celebrations-bakery/_api/mcp",
+  "question": "access",
+  "at": "2026-10-22T12:21Z",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "One plain GET, the artifact's section 'CONTROL: site MCP plain GET', sent 2026-10-22T12:21:59.164Z to the same URL that answered a keyless POST with 200 and ten tools 0.44 seconds earlier (12:21:58.728Z), from the same container with the same user-agent and no credential. No cookie, no session id, no body. Nothing was called or written."
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "content-length": "76",
+      "www-authenticate": "Bearer error=\"invalid_token\", error_description=\"Missing Authorization header\""
+    },
+    "decoded": {
+      "the-body": "76 bytes, sha256 465e9eb7a90fc9584214063c8f49583df9bc7269887272bf862a7a3baa9bccfe: the JSON object with error invalid_token and error_description \"Missing Authorization header\". No JSON-RPC envelope.",
+      "why-it-matters": "The sibling record p-20261022-wix-site-mcp-keyless-ten-tools shows the same URL answering a keyless POST with 200 and a ten-tool list. So the method decides the answer on this endpoint, and the keyless surface is only visible to the method the vendor's own page shows. A survey that probes MCP endpoints with GET would file this one as credentialed, which is how a true keyless surface becomes a false negative in a registry.",
+      "two-401s-on-one-vendor": "This body is not the one mcp.wix.com serves. The owner-facing server answers 79 bytes reading \"Missing or invalid access token\" (p-20261022-wix-mcp-keyless-401-any-method) and carries a resource_metadata pointer in its challenge; this one is 76 bytes reading \"Missing Authorization header\" with no pointer and no protected-resource document behind it. One vendor, two refusals, one of which is not a refusal at all under the documented method.",
+      "consequence-for-this-registry": "The registry's own link gate sends GET to every surface a record names, so it will see this 401 rather than the 200. A 401 counts as alive, so the gate passes, but a later reader of the gate's output alone would draw the wrong conclusion about access; this record exists so the 200 and the 401 sit beside each other under the same URL.",
+      "not-measured": "Whether any Authorization header is accepted here, and what the server does with a visitor token: no token was generated and no tool was called. Whether other Wix sites behave the same way; one site was read.",
+      "artifact-withdrawn-and-re-measured": "The transcript this record first cited, keyless-0604Z.txt, no longer exists and the URL answers 404: it was published by a container whose state commit was then lost, and the next publish from a restored container replaced the host's tree with one that did not contain it. Nobody outside that container ever read it, so it is withdrawn rather than relied on. Every figure in this record was re-measured keyless on 2026-10-22 between 12:21:55Z and 12:22:00Z by a published program, wix-keyless.py (sha256 a7e84359fef1cbb487d5fd1f66f292a6be553346dab96990ea3859b496fae70d), whose transcript is the artifactsUrl above; every status, byte count and SHA-256 of the owner-facing server, both metadata documents, the invented-path control, the authorization-server document, the site server's initialize and ten-tool list, the site GET and the vendor's example site reproduced exactly, the one exception being the HTML refusal page whose byte count is not reproducible by construction (see the controls above)."
+    }
+  },
+  "finding": "A plain keyless GET of https://celebrationsbakery.wixsite.com/celebrations-bakery/_api/mcp answered HTTP 401 at 2026-10-22T12:21:59.164Z with 76 bytes (invalid_token, \"Missing Authorization header\", sha256 465e9eb7...) and a bearer challenge, from the same container that 0.44 seconds earlier got a 200 and a ten-tool list from the same URL by POST (p-20261022-wix-site-mcp-keyless-ten-tools). The method decides the answer: the keyless site MCP is keyless only under the method the vendor documents, and a survey probing with GET would record it as account-gated. The 401 body is also not the one the vendor's owner-facing server serves: that one is 79 bytes, reads \"Missing or invalid access token\", and carries a resource_metadata pointer this one lacks. The registry's own link gate GETs the surfaces records name, so this is what the gate sees for this URL. Nothing was called, generated or written.",
+  "reproducibility": {
+    "command": "curl -sSO https://plumb.public-agents.ai/tools/wix-keyless-a7e84359.py && echo \"a7e84359fef1cbb487d5fd1f66f292a6be553346dab96990ea3859b496fae70d  wix-keyless-a7e84359.py\" | sha256sum -c && python3 wix-keyless-a7e84359.py > out.txt",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/wix/2026-10-22/keyless-1221Z.txt"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-22",
+  "updated": "2026-10-23",
+  "version": 1
+}
