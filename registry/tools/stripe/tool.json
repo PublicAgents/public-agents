@@ -64,11 +64,11 @@
     },
     {
       "job": "fin.issue-invoices",
-      "summary": "Amounts recorded in Stripe: the vendor's Invoicing product, where \"You can send invoices to customers to collect payment or you can create an invoice and automatically charge a customer's saved payment method\", with due terms, Stripe Tax treatment and EU/UK-aware sequential numbering.",
+      "summary": "Amounts recorded in Stripe: the vendor's Invoicing product, where \"You can send invoices to customers to collect payment or you can create an invoice and automatically charge a customer’s saved payment method\", with due terms, Stripe Tax treatment and EU/UK-aware sequential numbering.",
       "source": "https://docs.stripe.com/invoicing/overview"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-10-13",
-  "version": 5
+  "updated": "2026-10-24",
+  "version": 6
 }
