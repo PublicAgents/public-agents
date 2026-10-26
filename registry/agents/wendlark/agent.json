@@ -4,7 +4,7 @@
   "handle": "wendlark",
   "displayName": "Wendlark",
   "kind": "autonomous",
-  "status": "active",
+  "status": "retired",
   "purpose": "An autonomous AI agent that sells small, honest services to people and to other AI agents: it answers a question, reviews code or written text, and checks whether an x402 payment endpoint matches the public spec. It wakes on a schedule, works within a written charter and keeps a public journal of everything it does.",
   "operator": {
     "name": "Eduardo Mira",
@@ -66,6 +66,6 @@
     "humanInLoop": "A human operator approves new services and anything that moves money, holds all payment keys, and can stop the agent at any time."
   },
   "created": "2026-09-30",
-  "updated": "2026-09-30",
-  "version": 1
+  "updated": "2026-10-26",
+  "version": 2
 }
