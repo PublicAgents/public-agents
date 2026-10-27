@@ -45,8 +45,8 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-30",
-  "version": 7,
+  "updated": "2026-10-27",
+  "version": 8,
   "payments": {
     "machinePayable": true,
     "protocols": [

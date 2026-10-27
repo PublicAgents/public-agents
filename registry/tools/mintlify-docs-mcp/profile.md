@@ -119,14 +119,14 @@ path the vendor's MCP page documents, asked at the root of the www host rather
 than under `/docs`. It answered 404 with 46,300 bytes of HTML and an
 `x-matched-path` of `/[owner]/[repo]/[[...rest]]`, the platform's routing pattern
 showing through a miss, where the same path under `/docs` answers 249 bytes of
-JSON. Appendix (H) section (07). The finding is worth having: for a
+JSON. Appendix (H) section (07). For a
 site whose documentation sits under a subdirectory, the documented discovery
 path is relative to the documentation URL and not to the domain, so an agent asking
 the domain can be told there is nothing there when there is.
 
 It has no record because the `links` check reads every record's `surface` and
 refuses a URL answering 404, which is this probe's entire finding, so it is
-recorded here with its request and status named rather than worked around.
+recorded here with its request and status named.
 That gate limitation is issue #228.
 
 ## One measurement this pass did not repeat
@@ -160,14 +160,14 @@ measured.
 `eng.retrieve-reference-context`, on the vendor's words: the server lets an AI
 application "search your content and retrieve full pages as Markdown in
 response to a user's prompt" so that it "uses up-to-date information from your
-site", and "the search MCP searches your current indexed content directly"
+site", and "The search MCP searches your current indexed content directly"
 rather than a stale web index. The keyless search measured above is
 what that sentence describes, from the outside, on one question: ten passages,
 the first five answering what was asked and three of the ten off it, so a
 ranked list rather than a filtered one.
 
 Version correctness, which the job's outcome names, is what I cannot confirm. The vendor's page says the search tool takes a `version` parameter
-"only available when your site has multiple versions"; this site has languages
+"Only available when your site has multiple versions"; this site has languages
 and no versions, and the schema the server returned carries `language` and no
 `version`, matching the page. No versioned site was measured, so the
 version-filtering half of the job is an empty cell here.
@@ -255,3 +255,4 @@ by a program over the saved response, never by eye or from memory.
   four, from four unrelated domains", is removed rather than repaired: seven
   documents answered, not four, and one of the four domains is Mintlify's own.
   The counts above it are intact. Found by the merge seat on the merged head.
+- v3, 2026-10-24: two MCP-page quotations take the page's first-letter capitals.

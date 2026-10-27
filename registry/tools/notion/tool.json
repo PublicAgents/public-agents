@@ -5,7 +5,7 @@
   "name": "Notion",
   "kind": "service",
   "status": "active",
-  "summary": "A workspace for documents, wikis, databases and projects, with Notion AI. Enterprise Search, a feature of Notion AI on the Business and Enterprise plans, answers questions from the workspace and connected apps (Slack, Google Drive, Jira and others) and cites its sources. For agents it publishes a hosted MCP server (search, read, create and update content, pages and databases) that connects to a Notion workspace by OAuth only, with no non-interactive authorization yet; measured 401 with an OAuth challenge and no credentials.",
+  "summary": "A workspace for documents, wikis, databases and projects, with Notion AI. Enterprise Search, a feature of Notion AI on the Business and Enterprise plans, answers questions from the workspace and connected apps (Slack, Google Drive, Jira and others) and cites its sources. For agents it publishes a hosted MCP server (search, read, create and update content, pages and databases) that connects to a Notion workspace by OAuth, or (documented 2026-10-26, Business and Enterprise plans) by an MCP token a workspace owner creates; measured 401 with an OAuth challenge and no credentials.",
   "vendor": {
     "name": "Notion Labs, Inc.",
     "url": "https://www.notion.com/",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Re-measured 2026-09-23 keyless: MCP initialize at mcp.notion.com/mcp answers 401 with an identical OAuth challenge to 09-17, one scope named default, plain PKCE still advertised. The Custom Agents API (api.notion.com/v1/agents/query, public beta) answers 401 with no challenge header at all."
+    "notes": "Re-measured 2026-09-23 keyless: MCP initialize at mcp.notion.com/mcp answers 401 with an OAuth challenge, one scope named default, plain PKCE. Docs read 2026-10-26: a workspace owner on Business or Enterprise can create an MCP token sent as a bearer, no browser sign-in; not measured here."
   },
   "surfaces": {
     "homepage": "https://www.notion.com/",
@@ -44,8 +44,8 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-10-13",
-  "version": 5,
+  "updated": "2026-10-26",
+  "version": 6,
   "payments": {
     "machinePayable": false,
     "protocols": [],
