@@ -61,6 +61,16 @@ export const measuredSchema = z.strictObject({
         unit: shortText(40).optional(),
         baseline: z.number().optional(),
         interval: shortText(80).optional(),
+        /**
+         * A per-metric qualifier that is NOT an interval: what the figure
+         * is scoped to, what it is contingent on, why it may not mean what
+         * its name suggests. `interval` is for dispersion and a consumer
+         * may render it as an error bar, so a validity caveat put there is
+         * printed as uncertainty it is not. #325 has the case that found
+         * this: a record whose 12 rows used `interval` for dispersion,
+         * scope and contingency, because `results[]` admits no other key.
+         */
+        note: shortText(160).optional(),
         /** Whether a higher value is better; the build reads outcome from it. */
         higherIsBetter: z.boolean().optional()
       })

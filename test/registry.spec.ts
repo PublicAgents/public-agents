@@ -8,7 +8,7 @@ import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { linkTargets } from "../src/lib/link-targets.ts";
 import { canonicalUrl } from "../src/lib/links.ts";
 import { classify } from "../src/scripts/pr-class.ts";
-import { agentSchema, caseReportSchema, jobSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
+import { agentSchema, caseReportSchema, jobSchema, measuredSchema, probeSchema, toolSchema } from "../src/schema/index.ts";
 
 /** A registry on disk from a map of relative paths to contents; JSON values are canonicalised. */
 function registry(files: Record<string, unknown>): string {
@@ -313,6 +313,33 @@ describe("schemas", () => {
     expect(withSources(["http://example.com/pricing"])).toBe(false);
     expect(withSources(Array.from({ length: 9 }, (_, i) => `https://example.com/${i}`))).toBe(false);
     expect(withSources("https://example.com/pricing")).toBe(false);
+  });
+
+  it("keeps a per-metric note apart from the interval, and refuses one over 160 characters", () => {
+    const measured = {
+      schemaVersion: 1,
+      id: "m-20260905-example",
+      solution: { type: "tool", id: "exampleproduct" },
+      job: "cs.deflect-tier1",
+      conductedBy: { name: "Someone", github: "someone" },
+      independence: "independent",
+      method: { summary: "Ten keyless calls on one documented path, scored on the body only, four seconds apart.", protocolUrl: "https://example.com/protocol.md", period: { from: "2026-09-05", to: "2026-09-05" } },
+      results: [{ metric: "answered calls carrying a quote timestamp", value: 10, unit: "of 10 answered" }],
+      reproducibility: { artifactsUrl: "https://example.com/run.md" },
+      disclosure: { affiliation: "none", compensation: "none", reseller: false },
+      created: "2026-09-05",
+      updated: "2026-09-05",
+      version: 1
+    };
+    const withResult = (extra: Record<string, unknown>) => measuredSchema.safeParse({ ...measured, results: [{ ...measured.results[0], ...extra }] });
+    expect(withResult({}).success).toBe(true);
+    expect(withResult({ note: "present only because the documented parameter was set" }).success).toBe(true);
+    expect(withResult({ interval: "n=10, min 7.9, max 21.9", note: "scoped to the one documented path" }).success).toBe(true);
+    expect(withResult({ note: "x".repeat(160) }).success).toBe(true);
+    expect(withResult({ note: "x".repeat(161) }).success).toBe(false);
+    expect(withResult({ note: "" }).success).toBe(false);
+    // The caveat has one home, and a consumer that renders `interval` as an error bar is not it.
+    expect(withResult({ caveat: "present only because the documented parameter was set" }).success).toBe(false);
   });
 
   it("pins the agent's disclosure, the tool's maintainers rule and the job's id prefix", () => {

@@ -158,6 +158,11 @@
             "minLength": 1,
             "maxLength": 80
           },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
           "higherIsBetter": {
             "type": "boolean"
           }
