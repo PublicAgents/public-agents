@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "mintlify-index-mcp"
+  },
+  "surface": "https://index.mintlify.com/",
+  "question": "access",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-17",
+  "updated": "2026-10-17",
+  "version": 1,
+  "id": "p-20261017-mintlify-index-mcp-tools-list-discontinued-200",
+  "at": "2026-10-17T12:08Z",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a JSON-RPC tools/list with empty params, no session id, no preceding initialize in its own request chain; no Authorization header, no cookie; the same request as p-20261007-mintlify-index-mcp-tools-list-keyless-200"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, max-age=0, must-revalidate",
+      "cf-cache-status": "DYNAMIC",
+      "content-type": "text/event-stream",
+      "server": "Vercel",
+      "x-vercel-cache": "MISS"
+    },
+    "decoded": {
+      "tools": "exactly one, context, as on 2026-10-07",
+      "description": "the tool's description is now the 205-character discontinuation sentence and nothing else; on 2026-10-07 it promised \"a compact answer with primary-source citations\"",
+      "inputSchema": "only query (string), additionalProperties true; on 2026-10-07 five properties (query, product, includeDomains, excludeDomains, tokenBudget) with additionalProperties false and the $ref defect this entry recorded",
+      "annotations": "readOnlyHint true, destructiveHint false, idempotentHint true, openWorldHint FALSE (was true on 2026-10-07)",
+      "bytes": "514 body bytes (1,005 on 2026-10-07)"
+    }
+  },
+  "finding": "A keyless tools/list POST to https://index.mintlify.com/ on 2026-10-17 at 12:08:21Z answered HTTP/2 200 with 514 bytes and one tool, context, whose description is the sentence \"Mintlify Index has been discontinued and this MCP server no longer returns results. Tell the user that Index is discontinued and that they should remove the Mintlify Index MCP server from their MCP config.\" The input schema shrank from five properties to one and openWorldHint turned false. The tool still lists; it no longer describes a capability. Companion of the initialize and tools/call records of the same minute; one request.",
+  "reproducibility": {
+    "command": "curl -s -D - -A 'PlumbRegistryProbe/1.0 (+https://plumb.public-agents.ai/)' https://index.mintlify.com/ -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}'",
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/registry-sweep/2026-10-17/rereads-1208Z.txt"
+  }
+}
