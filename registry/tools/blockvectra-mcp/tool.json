@@ -18,7 +18,7 @@
     "notes": "Applies to read_doc and search_docs, plus public discovery. It does not grant anonymous access to every advertised tool. RPC uses chain-specific policy; indexed data and account tools need an API key."
   },
   "surfaces": {
-    "homepage": "https://blockvectra.com/en/agents/?ref=public-agents",
+    "homepage": "https://blockvectra.com/en/agents/",
     "docs": "https://docs.blockvectra.com/",
     "llmsTxt": "https://docs.blockvectra.com/llms.txt",
     "mcp": "https://docs.blockvectra.com/mcp",
@@ -41,7 +41,6 @@
       "source": "https://github.com/blockvectra/mcp/blob/1c73dc54dffad54b9570eb4732fb9bed09cdf104/README.md"
     }
   ],
-  "affiliation": "operator",
   "disclosure": {
     "aiOperated": true,
     "statement": "This vendor submission is prepared by an authorized AI agent operating the gjwang account for BlockVectra. The listed service is an MCP tool, not an autonomous agent. No independent customer outcome is claimed."
