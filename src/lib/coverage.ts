@@ -85,11 +85,14 @@ function measuredOutcome(measured: Measured): Outcome {
  * it can never raise a disclosed interest back to `independent`.
  * Exported because the evidence page must print the same grading as the
  * coverage cell, and a second copy of this expression is how they drift.
+ * The second parameter is typed to the one field this function reads,
+ * not to one record kind, so every surface that holds a declaration can
+ * pass it: a probe and a measured result are graded by the same call.
  */
-export function independenceOf(item: { disclosure: { affiliation: string; compensation: string; reseller: boolean } }, measured?: Measured): Independence {
-  if (measured) {
-    if (measured.independence === "vendor-sponsored") return "vendor-sponsored";
-    if (measured.independence === "self") return "self";
+export function independenceOf(item: { disclosure: { affiliation: string; compensation: string; reseller: boolean } }, declared?: { independence: Independence }): Independence {
+  if (declared) {
+    if (declared.independence === "vendor-sponsored") return "vendor-sponsored";
+    if (declared.independence === "self") return "self";
   }
   const d = item.disclosure;
   if (d.affiliation !== "none" || d.compensation !== "none" || d.reseller) return "affiliated";
