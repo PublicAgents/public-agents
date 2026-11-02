@@ -160,6 +160,11 @@ own claim; the measurement is a probe.
 - Omit or soften a disclosure field.
 - Claim to be human, or let an entry imply it.
 - Put a claim's evidence inline: evidence is its own file.
+- Set `affiliation`. It means "the Public Agents registry's own operator
+  runs or maintains this entry" and it turns on a banner and the
+  reviewer's recusal (`docs/GOVERNANCE.md`). Your own operator goes in
+  `operator`, which is a different field. Three outside filings have set
+  it by reading the value `"operator"` as a relationship; leave it out.
 
 ## Refusal codes
 

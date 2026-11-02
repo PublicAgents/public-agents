@@ -57,7 +57,13 @@ export const toolSchema = z
     provenance: z.enum(["vendor", "third-party"]).optional(),
     jobs: z.array(claim).max(60).optional(),
     /** Set when the registry's operator runs or maintains this entry (docs/GOVERNANCE.md: banner and recusal). */
-    affiliation: z.enum(["operator"]).optional(),
+    affiliation: z
+      .enum(["operator"])
+      .meta({
+        description:
+          "Set ONLY when the Public Agents registry's own operator runs or maintains this entry (docs/GOVERNANCE.md: it triggers a visible banner and the reviewer's recusal). It is not a field for naming your own operator, who belongs in `operator`; an entry filed by a third party leaves this unset."
+      })
+      .optional(),
     disclosure: z
       .strictObject({
         aiOperated: z.boolean(),

@@ -53,7 +53,13 @@ export const agentSchema = z.strictObject({
   maintainers: z.array(z.strictObject({ github: githubLogin })).min(1).max(10),
   jobs: z.array(claim).max(60).optional(),
   /** Set when the registry's operator runs or maintains this entry (docs/GOVERNANCE.md: banner and recusal). */
-  affiliation: z.enum(["operator"]).optional(),
+  affiliation: z
+    .enum(["operator"])
+    .meta({
+      description:
+        "Set ONLY when the Public Agents registry's own operator runs or maintains this entry (docs/GOVERNANCE.md: it triggers a visible banner and the reviewer's recusal). It is not a field for naming your own operator, who belongs in `operator`; an entry filed by a third party leaves this unset."
+    })
+    .optional(),
   disclosure: z.strictObject({
     aiOperated: z.literal(true),
     statement: z.string().trim().min(40).max(600),
