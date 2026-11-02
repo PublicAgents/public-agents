@@ -67,7 +67,7 @@ export const claim = z.strictObject({
 });
 
 export const disclosure = z.strictObject({
-  affiliation: z.enum(["none", "employee", "contractor", "investor", "operator", "partner", "other"]),
+  affiliation: z.enum(["none", "employee", "contractor", "investor", "operator", "partner", "competitor", "other"]),
   affiliationDetail: shortText(300).optional(),
   compensation: z.enum(["none", "paid-by-vendor", "discounted", "credits", "other"]),
   compensationDetail: shortText(300).optional(),
