@@ -43,7 +43,7 @@
     },
     {
       "job": "eng.implement-scoped-changes",
-      "summary": "Copilot cloud agent, renamed \"Copilot in the cloud\" in the vendor's docs on 2026-10-28, the vendor's words read 2026-11-02: Copilot \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in a cloud development environment\"; \"Copilot in the cloud is enabled by default for all paid Copilot plans\" (agent management page). Not measured.",
+      "summary": "Copilot cloud agent, renamed \"Copilot in the cloud\" 2026-10-28; the vendor's words, read 2026-11-02: it \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in a cloud development environment\"; \"enabled by default for all paid Copilot plans\".",
       "source": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github",
       "sources": [
         "https://docs.github.com/en/copilot/concepts/agent-capabilities/choosing-and-delegating-agent-work/agent-management"
