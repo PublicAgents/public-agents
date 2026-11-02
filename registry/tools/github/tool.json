@@ -39,20 +39,20 @@
     {
       "job": "eng.review-pull-requests",
       "summary": "Copilot code review, the vendor's words: it \"reviews your pull requests, identifies issues, and suggests fixes you can apply in a couple of clicks\", \"Available for all paid Copilot plans\". With Copilot approvals enabled, a preview, its review can satisfy a required-approval rule.",
-      "source": "https://docs.github.com/en/copilot/concepts/agents/code-review"
+      "source": "https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review"
     },
     {
       "job": "eng.implement-scoped-changes",
-      "summary": "Copilot cloud agent, the vendor's words: it \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in an ephemeral cloud development environment\"; \"available for all paid Copilot plans\" (agent management page). Not measured.",
+      "summary": "Copilot in the cloud (renamed from Copilot cloud agent 2026-10-28, still on the page): it \"can research a repository, plan changes, and implement them in the background\" and \"run tests and linters in a cloud development environment\"; \"enabled by default for all paid Copilot plans\". Not measured.",
       "source": "https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-on-github",
       "sources": [
-        "https://docs.github.com/en/copilot/concepts/agents/cloud-agent/agent-management"
+        "https://docs.github.com/en/copilot/concepts/agent-capabilities/choosing-and-delegating-agent-work/agent-management"
       ]
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-10-13",
-  "version": 6,
+  "updated": "2026-11-02",
+  "version": 7,
   "payments": {
     "machinePayable": false,
     "protocols": [],
