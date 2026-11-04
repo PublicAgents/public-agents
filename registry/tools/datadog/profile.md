@@ -52,7 +52,7 @@ One claimed, `eng.investigate-incidents`, on the vendor's [Bits Investigation](h
 
 The three spans the entry's job summary quotes were re-read on that page on 2026-09-21 and are all still there, unchanged.
 
-Not claimed: `it.triage-alerts` (deduplication, grouping and routing are the vendor's Event Management product, whose page was not read for this entry) and `eng.triage-issues`.
+Not claimed: `it.triage-alerts` and `eng.triage-issues`. Version 4 declined the first because the vendor's [Event Management](https://www.datadoghq.com/product/event-management/) page had not been read. Read keyless 2026-11-04: the job asks that alerts be "deduplicated, grouped and routed to the right responder with the context to act", and the page carries the vendor's own words for three of those four. "Aggregate and deduplicate events and alerts from Datadog and third-party tools in one platform"; "Easily manage, group, filter, and analyze events in one unified view"; "By reducing noise and enriching events with observability context". The fourth is absent, and not by inference: `rout`, `assign`, `responder`, `on-call` and `schedul` occur nowhere in that page's text, which offers instead "Create notifications in PagerDuty, Slack, or Microsoft Teams" and enrichment with "service knowledge and ownership". A partial fit is quoted, not claimed, so the cell stays empty; version 4's "and routing" was the loose word.
 
 ## What the fair-use limit says, and what it said
 
