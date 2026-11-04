@@ -40,7 +40,28 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "fin.pay-supplier-bills",
+      "summary": "Vendor's words: \"Automate the way you approve invoices\", \"Dedupe bills automatically\", \"Sync bills to your general ledger\", and pay \"vendors and contractors internationally in their local currency\" by ACH, check, wire or virtual card. Nothing asserts payment by the due date. Not measured.",
+      "source": "https://www.rippling.com/products/finance/bill-pay"
+    },
+    {
+      "job": "fin.run-payroll",
+      "summary": "Vendor's words: \"Payroll software that runs accurately and on time—every time\"; it will \"file them with the correct federal, state, and local agencies at precisely the right time\"; employees \"view pay stubs and tax forms at any time\". net, social contributions, provider remittance: 0. Not measured.",
+      "source": "https://www.rippling.com/products/payroll"
+    },
+    {
+      "job": "fin.send-payouts",
+      "summary": "Vendor's words: \"generate invoices automatically, route approvals, and pay contractors in 50+ currencies\", \"15+ payout options including Wise, Revolut, instant transfers, stablecoin, debit card\". No verified destination, no fee or exchange rate shown to the recipient. Not measured.",
+      "source": "https://www.rippling.com/products/global/global-contractors"
+    },
+    {
+      "job": "it.provision-and-revoke-access",
+      "summary": "Vendor: Rippling \"automatically provisions or revokes access based on role changes, risk signals, and company policy\", enforces rules \"across provisioning, approvals, license reclamation, and offboarding\", and will \"Instantly reclaim inactive licenses\". No same-day or audit sentence. Not measured.",
+      "source": "https://www.rippling.com/products/it/identity-access-management"
+    }
+  ],
   "created": "2026-09-13",
   "updated": "2026-11-04",
   "version": 3
