@@ -59,7 +59,7 @@ Asserted on pages read 2026-11-04 but **not filed**, for want of an element-by-e
 - **The G2 ratings** on Rippling's own llms.txt ("#1 best workforce management software", "4.8/5") are third-party marks quoted by the vendor, not evidence of any job.
 - **The REST API**: documented at `api.rippling.com` with an OAuth token endpoint, but the base answers 404 to a bare GET, so no `api` surface is listed.
 - **Case reports**: none found that are independent of the vendor.
-- **The vendor's legal entity**: established on 2026-09-26 as "People Center, Inc. d/b/a Rippling", from the first sentence of the Customer Terms of Service Agreement rendered at `app.rippling.com/legal`; the vendor cell keeps the trade name and this line carries the party. Version 1 could not establish it: `rippling.com/terms`, `/legal/terms` and `/privacy` answer 404, the developer portal's terms page names no party, and and the footer names three subsidiaries without saying which publishes the platform.
+- **The vendor's legal entity**: established on 2026-09-26 as "People Center, Inc. d/b/a Rippling", from the first sentence of the Customer Terms of Service Agreement rendered at `app.rippling.com/legal`; the vendor cell keeps the trade name and this line carries the party. Version 1 could not establish it: `rippling.com/terms`, `/legal/terms` and `/privacy` answer 404, the developer portal's terms page names no party, and the footer names three subsidiaries without saying which publishes the platform.
 
 ## A note on two llms.txt files by one vendor
 
