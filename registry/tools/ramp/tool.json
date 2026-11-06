@@ -1,0 +1,108 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "ramp",
+  "name": "Ramp",
+  "kind": "service",
+  "status": "active",
+  "summary": "A corporate card, expense, accounts-payable and procurement platform whose vendor documents three agent paths: a hosted MCP server (mcp.ramp.com/mcp) that reads spend, codes transactions, approves bills and requests and hands an agent card credentials; an open-source CLI with an agent mode whose tools require a stated rationale; and 24 published agent skills for purchasing, bill pay, sourcing and expense cleanup. Agents pay merchants from Ramp funds by agent card, Stripe MPP or an x402 wallet. Account-bound: keyless initialize answers 401 Bearer; every connection acts as a signed-in Ramp user.",
+  "vendor": {
+    "name": "Ramp Business Corporation",
+    "url": "https://ramp.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://ramp.com/pricing",
+    "notes": "2026-11-06: no surface prices an MCP or CLI call; keyless initialize draws 401 Bearer, not 402. Pricing page: Free $0/mo/user, Plus $15/mo/user plus a platform fee, Enterprise custom. Payer side only: the vendor documents agents paying merchants by agent card, Stripe MPP and x402 from Ramp funds."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-06, no credentials: POST mcp.ramp.com/mcp initialize 401 Bearer naming resource metadata; that document (56 scopes) and the authorization-server metadata read 200; /register accepted a loopback-redirect client. Vendor: a Ramp account and a user's browser consent are required."
+  },
+  "surfaces": {
+    "homepage": "https://ramp.com/",
+    "docs": "https://docs.ramp.com/developer-api/v1/ramp-mcp",
+    "llmsTxt": "https://docs.ramp.com/llms.txt",
+    "skills": [
+      "https://agents.ramp.com/skills",
+      "https://agents.ramp.com/.well-known/agent-skills/index.json"
+    ],
+    "mcp": "https://mcp.ramp.com/mcp",
+    "api": "https://docs.ramp.com/developer-api/v1/api",
+    "openapi": "https://docs.ramp.com/openapi/developer-api.json",
+    "source": "https://github.com/ramp-public/ramp-cli"
+  },
+  "domains": [
+    "ramp.com",
+    "docs.ramp.com",
+    "mcp.ramp.com",
+    "demo-mcp.ramp.com",
+    "agents.ramp.com",
+    "api.ramp.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.categorize-expenses",
+      "summary": "Vendor's claim: \"Ramp codes every field.\" and \"Every field is filled using transaction details and your historical coding.\"; its agents \"categorize every expense and invoice\". Cost center is an ERP custom field in the docs. The accuracy figures on the page are the vendor's, measured by nobody else.",
+      "source": "https://ramp.com/accounting-automation-software",
+      "sources": [
+        "https://ramp.com/intelligence",
+        "https://ramp.com/expense-management",
+        "https://docs.ramp.com/llms-guides/erp-integrations.txt"
+      ]
+    },
+    {
+      "job": "fin.pay-supplier-bills",
+      "summary": "Vendor's claim: create approved bills, \"choose a payment method, and pay vendors end-to-end\"; a payment date schedules initiation and the arrival date is \"a requested arrival date, not a delivery guarantee\". No idempotency key is documented for bill creation, so exactly-once is the caller's to keep.",
+      "source": "https://docs.ramp.com/llms-guides/bill-payments.txt",
+      "sources": [
+        "https://docs.ramp.com/llms.txt",
+        "https://ramp.com/accounts-payable"
+      ]
+    },
+    {
+      "job": "fin.match-invoices-to-orders",
+      "summary": "Vendor's claim: \"Ramp checks every line item with two and three-way matching\" and \"Invoices are automatically validated against POs and receiving records\". How an exception surfaces, beyond an agent that \"flags what needs review\", is not described on the pages read.",
+      "source": "https://ramp.com/accounts-payable",
+      "sources": [
+        "https://ramp.com/procurement"
+      ]
+    },
+    {
+      "job": "fin.flag-anomalous-transactions",
+      "summary": "Vendor's claim: \"Ramp agents scan transactions in real-time for anomalies and AI-generated fakes\" and policy is enforced \"before spend happens\". Duplicate detection is asserted for software subscriptions in the spend-audit skill, not for payments; odd counterparties are not mentioned.",
+      "source": "https://ramp.com/intelligence",
+      "sources": [
+        "https://ramp.com/expense-management",
+        "https://agents.ramp.com/skills/ramp-spend-audit"
+      ]
+    },
+    {
+      "job": "proc.draft-rfp",
+      "summary": "Vendor's claim: \"Ramp researches options, generates your RFx, and scores responses.\" The sourcing skill builds \"an RFI, RFP, or RFQ questionnaire\" with a cover sheet and pricing sheet and publishes it to invited vendors. Nothing read asserts the outcome's no-clarification-rounds standard.",
+      "source": "https://ramp.com/procurement",
+      "sources": [
+        "https://agents.ramp.com/skills/ramp-run-sourcing-event"
+      ]
+    },
+    {
+      "job": "proc.compare-supplier-quotes",
+      "summary": "Vendor's claim, for RFx responses collected on Ramp's own pricing sheet: Ramp \"scores responses\" and the sourcing skill reviews \"grading outcomes\" to \"award the winning vendor\". Normalising quotes that arrive in different structures from outside Ramp is not asserted anywhere read.",
+      "source": "https://ramp.com/procurement",
+      "sources": [
+        "https://agents.ramp.com/skills/ramp-manage-sourcing"
+      ]
+    }
+  ],
+  "created": "2026-11-06",
+  "updated": "2026-11-06",
+  "version": 1
+}
