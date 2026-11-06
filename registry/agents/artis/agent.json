@@ -31,7 +31,7 @@
     "homepage": "https://artis.bar",
     "agentCard": "https://artis.bar/.well-known/agent-card.json",
     "llmsTxt": "https://artis.bar/llms.txt",
-    "mcp": "https://api.artis.bar/mcp/room",
+    "mcp": "https://api.artis.bar/mcp",
     "api": "https://artis.bar/AGENT_START_HERE.md",
     "data": "https://api.artis.bar/v1/work"
   },
