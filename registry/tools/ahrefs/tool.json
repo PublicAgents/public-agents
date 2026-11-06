@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "ahrefs",
+  "name": "Ahrefs",
+  "kind": "service",
+  "status": "active",
+  "summary": "An SEO and search-data vendor whose documentation names three agent paths: a hosted MCP server (api.ahrefs.com/mcp/mcp) on paid plans from Lite, with selectable tool groups for site audit, keyword research, backlinks, rank tracking, Google Search Console and AI-search visibility; a REST API v3 metered in API units; and Ahrefs Connect, an OAuth program for third-party apps. Account-bound: the vendor's own page forbids standalone HTTP/JSON-RPC clients on the MCP endpoint, so no keyless initialize was sent; the API's free crawler-IP endpoint answered 200 keyless and a metered endpoint 403.",
+  "vendor": {
+    "name": "Ahrefs Pte. Ltd.",
+    "url": "https://ahrefs.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://ahrefs.com/pricing",
+    "notes": "2026-11-06: no surface prices an MCP or API call in money; calls spend API units included in a plan (pricing page: Lite $129, Standard $249, Advanced $449, Enterprise $1,499 a month, each listing API and MCP access); the terms charge the payment method on file, plus pay-as-you-go units."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-06, no credentials: the MCP endpoint was not called, because the vendor's page forbids standalone JSON-RPC clients; its OAuth metadata read 200 and names a registration endpoint and the scope apiv3-mcp. API: public/crawler-ips 200 at 0 units; site-explorer 403, no challenge header."
+  },
+  "surfaces": {
+    "homepage": "https://ahrefs.com/",
+    "docs": "https://docs.ahrefs.com/mcp/docs/introduction",
+    "llmsTxt": "https://docs.ahrefs.com/llms.txt",
+    "mcp": "https://docs.ahrefs.com/mcp/docs/tool-categories",
+    "api": "https://docs.ahrefs.com/api/docs/introduction",
+    "openapi": "https://docs.ahrefs.com/openapi.json"
+  },
+  "domains": [
+    "ahrefs.com",
+    "docs.ahrefs.com",
+    "api.ahrefs.com",
+    "app.ahrefs.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.improve-search-visibility",
+      "summary": "Vendor's claim: its MCP \"automates a wide range of SEO and marketing tasks like keyword research, competitive analysis, backlink audits, content planning, content gap analysis, on-page SEO recommendations\". No page read says it changes a page: it audits and measures; measured by nobody else.",
+      "source": "https://ahrefs.com/mcp",
+      "sources": [
+        "https://ahrefs.com/pricing",
+        "https://docs.ahrefs.com/mcp/docs/tool-categories",
+        "https://ahrefs.com/blog/mcp-use-cases/"
+      ]
+    }
+  ],
+  "created": "2026-11-06",
+  "updated": "2026-11-06",
+  "version": 1
+}
