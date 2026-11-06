@@ -38,7 +38,7 @@ Four tiers, each figure in its own element on the page. Free: "$0", "Free foreve
 
 The two claims in `tool.json` quote the page each cites. Vendor figures kept apart from the claims because nobody else has measured them: "99% transcription accuracy across accents and environments." ([notetaker](https://fireflies.ai/notetaker)), "Rated 4.8 / 5" and "Our summary arrives right after your call, unlike other tools which take several minutes." ([sales page](https://fireflies.ai/use-cases/sales)).
 
-The sales page's own sentence for the first claim: "Fireflies for Sales preps you before meetings, updates your CRM, drafts follow-ups and flags deal risk, so you can focus on selling." Summaries come "using the framework of your choice" from "BANT, MEDDIC, SPICED, Discovery, Demo, Renewal, and more."; action items are "Tasks, owners, and follow-ups pulled out automatically." The job's second measure, time saved per call, has no figure on any page read.
+The sales page's own sentence for the first claim: "Fireflies for Sales preps you before meetings, updates your CRM, drafts follow-ups and flags deal risk, so you can focus on selling." Summaries come "using the framework of your choice" from "BANT, MEDDIC, SPICED, Discovery, Demo, Renewal, and more."; action items are, on the [notetaker page](https://fireflies.ai/notetaker), "Tasks, owners, and follow-ups pulled out automatically." The job's second measure, time saved per call, has no figure on any page read.
 
 All seventy job ids were read against this vendor's surfaces. Declined, with the nearest words:
 
@@ -46,7 +46,7 @@ All seventy job ids were read against this vendor's surfaces. Declined, with the
 - `sales.draft-outreach`: "As soon as you finish the call, a follow-up email draft is waiting for you to review and send." A follow-up is not the job's first message to a prospect.
 - `cs.summarize-conversations`: the summarizer works on recorded meetings and uploaded files; the customer-support skill is indexed as "Document issue resolution steps, evaluate agent performance, and track escalations" and its page was not read. A handoff to the next handler is not asserted.
 - `cs.score-interaction-quality`: the Sales Coach skill gives "scores and specific feedback on five critical sales skills"; consistency with a trained reviewer's score is not asserted, and support interactions are only the index line above.
-- `cs.detect-churn-signals`: the sales page "flags deal risk"; the customer-success examples are questions a user asks AskFred ("What concerns has the customer raised recently?"), not accounts flagged early.
+- `cs.detect-churn-signals`: the sales page "flags deal risk"; the customer-success examples on the AskFred [use-cases page](https://docs.fireflies.ai/askfred/use-cases) are questions a user asks ("What concerns has the customer raised recently?"), not accounts flagged early.
 - `it.answer-internal-knowledge-questions`: AskFred lets a user "Ask anything in plain English" about meetings; the job's corpus is the wiki and documents.
 - `mkt.monitor-brand-mentions`: "Track competitor mentions and customer sentiment with Fireflies AI Assistant." is inside the team's own meetings, not the web or social.
 - `hr.screen-applications`: "Screen candidates better and collaborate seamlessly with Fireflies AI Assistant." is interview notes and voice-agent screens, not applications scored against stated requirements.
