@@ -1,0 +1,67 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "klaviyo",
+  "name": "Klaviyo",
+  "kind": "service",
+  "status": "active",
+  "summary": "A B2C marketing and CRM platform whose vendor documents three agent paths: a hosted MCP server (mcp.klaviyo.com/mcp) with over 300 tools that read and write profiles, segments, campaigns, flows and email templates, with query parameters for read-only, core-tools-only and scope-limited tool sets; a local MCP server run with a private API key; and a REST API with private-key or OAuth authentication. Account-bound: a keyless initialize answered 401 with a bearer challenge and OAuth discovery documents that name a dynamic-registration endpoint, which was not called.",
+  "vendor": {
+    "name": "Klaviyo, Inc.",
+    "url": "https://www.klaviyo.com/",
+    "kind": "organization"
+  },
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://www.klaviyo.com/pricing",
+    "notes": "2026-11-07: no surface prices an MCP or API call in money. Pricing page: a free plan of 250 active profiles and 500 emails a month, Email from $20/month and Marketing from $25/month at 500 profiles; Personalization is an add-on priced on active profiles. Terms 6.3 authorize charging the card."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-07, no credentials: POST mcp.klaviyo.com/mcp initialize 401, WWW-Authenticate Bearer naming resource metadata; protected-resource and authorization-server documents 200 (code+refresh, PKCE S256, registration endpoint, not called). GET a.klaviyo.com/api/accounts/ 401."
+  },
+  "surfaces": {
+    "homepage": "https://www.klaviyo.com/",
+    "docs": "https://developers.klaviyo.com/en/docs/klaviyo_mcp_server",
+    "llmsTxt": "https://www.klaviyo.com/llms.txt",
+    "mcp": "https://mcp.klaviyo.com/mcp",
+    "api": "https://developers.klaviyo.com/en/reference/api_overview",
+    "openapi": "https://raw.githubusercontent.com/klaviyo/openapi/main/openapi/stable.json"
+  },
+  "domains": [
+    "klaviyo.com",
+    "www.klaviyo.com",
+    "developers.klaviyo.com",
+    "mcp.klaviyo.com",
+    "a.klaviyo.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.personalize-email",
+      "summary": "Vendor's claim: \"Personalize every email with purchase history, browsing behavior, and predicted value\"; its Personalization add-on is measured, the vendor says, \"against a holdout group\". MCP tools create segments, render templates with context and read campaign reports. Measured by nobody else.",
+      "source": "https://www.klaviyo.com/products/email-marketing",
+      "sources": [
+        "https://www.klaviyo.com/products/personalization",
+        "https://developers.klaviyo.com/en/docs/klaviyo_mcp_server_available_tools"
+      ]
+    },
+    {
+      "job": "mkt.optimize-email-creative",
+      "summary": "Vendor's claim, second claimant after livevariant: AI-powered experimentation \"takes it from there, sending the version most likely to resonate with each subscriber\". An MCP tool adds a campaign variation behind beta=true. No page read names the winner-choice method. Measured by nobody else.",
+      "source": "https://www.klaviyo.com/products/email-marketing",
+      "sources": [
+        "https://developers.klaviyo.com/en/docs/klaviyo_mcp_server_available_tools"
+      ]
+    }
+  ],
+  "created": "2026-11-07",
+  "updated": "2026-11-07",
+  "version": 1
+}
