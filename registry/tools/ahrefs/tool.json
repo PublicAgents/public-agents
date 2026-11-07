@@ -29,7 +29,7 @@
     "homepage": "https://ahrefs.com/",
     "docs": "https://docs.ahrefs.com/mcp/docs/introduction",
     "llmsTxt": "https://docs.ahrefs.com/llms.txt",
-    "mcp": "https://docs.ahrefs.com/mcp/docs/tool-categories",
+    "mcp": null,
     "api": "https://docs.ahrefs.com/api/docs/introduction",
     "openapi": "https://docs.ahrefs.com/openapi.json"
   },
