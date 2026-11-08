@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "pigment",
+  "name": "Pigment",
+  "kind": "service",
+  "status": "active",
+  "summary": "An enterprise planning platform (FP&A, sales, workforce and supply-chain planning) whose vendor documents two agent paths: a hosted MCP server whose endpoint URL is generated per workspace (no public URL), authenticated by OAuth 2.1 with dynamic client registration, with read-only tools by default, read-write modeling tools in an opt-in advanced mode and vendor-published skills; and a REST API on pigment.app with bearer API keys typed as import or export. Account-bound: a keyless GET on the API answered 401 Bearer invalid_token; the MCP server was not probed because no endpoint is public.",
+  "vendor": {
+    "name": "Pigment SAS / Pigment Inc.",
+    "url": "https://www.pigment.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "invoice"
+    ],
+    "humanBilling": "invoice",
+    "priceList": null,
+    "notes": "2026-11-08: no public price list (www.pigment.com/pricing answers 404); a free-trial sign-up page exists. Online MSA (last updated May 21, 2026) 9.3-9.4: fees invoiced per Order Form, paid within thirty days to the vendor's bank account. No surface prices an MCP tool call or API call in money."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-08, no credentials: GET pigment.app/api/v1/applications 401, WWW-Authenticate Bearer error=invalid_token; OpenAPI document public (25 paths, bearer API key). The MCP endpoint is per workspace and not public, so none was probed; docs: OAuth 2.1 with DCR, no API keys."
+  },
+  "surfaces": {
+    "homepage": "https://www.pigment.com/",
+    "docs": "https://kb.pigment.com/docs/mcp-server-1",
+    "llmsTxt": "https://www.pigment.com/llms.txt",
+    "skills": [
+      "https://github.com/gopigment/ai-plugins"
+    ],
+    "mcp": null,
+    "api": "https://kb.pigment.com/docs/api-management",
+    "openapi": "https://pigment.app/api/swagger/external-api.swagger.json"
+  },
+  "domains": [
+    "pigment.com",
+    "www.pigment.com",
+    "kb.pigment.com",
+    "pigment.app"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.draft-variance-commentary",
+      "summary": "Vendor's claim for its Analyst Agent: \"Generates tailored explanations for every cost center or department, cutting days of manual commentary.\" Its docs show a mission explaining OPEX variance by GL account and department. Produced inside the vendor's product, not by an MCP tool. Measured by nobody.",
+      "source": "https://www.pigment.com/ai/analyst-agent",
+      "sources": [
+        "https://kb.pigment.com/docs/write-prompts-for-the-analyst-agent"
+      ]
+    }
+  ],
+  "created": "2026-11-08",
+  "updated": "2026-11-08",
+  "version": 1
+}
