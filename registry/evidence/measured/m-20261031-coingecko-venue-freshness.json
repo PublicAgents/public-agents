@@ -14,7 +14,7 @@
   },
   "independence": "independent",
   "method": {
-    "summary": "Does the per-venue price a keyless caller gets from CoinGecko's tickers path match the venue it names, and how far behind that venue is it? The job's FIRST measure, read literally, which record m-20261028 could not do for want of a venue tape. Three venues the vendor names publish their trades keyless and were reachable from this container (Kraken, Bitstamp, Bitfinex); five others were not (egress proxy, 451, 403): an access fact about the container, not a finding about anyone. Four assets x three venues = 12 pairs, one CoinGecko call per asset 30 s apart, each venue's tape fetched seconds after. Scored per pair, declared before the data: the age of the vendor's own last_fetch_at on arrival; how far the venue's tape had moved past the vendor's last_traded_at; the signed deviation of the figure from the venue's latest trade; whether a trade at exactly that figure sits on the tape within 10 s of last_traded_at. RESULT: all 12 pairs answered, none flagged is_stale, yet the vendor's read of every venue was 115 to 148 s old on arrival, the venues had moved 80 to 146 s past the reported trade time, and the figures sat a median 4.6 bps (max 12.5) from the venue's latest trade. 7 of 12 figures match a venue trade within the window. POST-RUN, exploratory, no CoinGecko call: each of the other 5 is a real trade on the venue's tape 10 to 36 s EARLIER than last_traded_at, and on all 12 pairs last_traded_at equals timestamp to the second; so on this evidence that field is not the trade's time, and a caller reading it as one overstates freshness by that much. NO BASELINE: the vendor's docs page for this path carries the heading 'Cache / Update Frequency:' with no value in its Markdown rendering and a script-rendered value in HTML this run did not evaluate. NO RANKING: one subject (allium's server answers 503 'Service is disabled'). No deviation from the protocol; the three post-run tape calls are labelled post-* in the log and scored in no row.",
+    "summary": "Does the per-venue price a keyless caller gets from CoinGecko's tickers path match the venue it names, and how far behind it is? The job's FIRST measure. Three venues the vendor names publish trades keyless and were reachable from this container (Kraken, Bitstamp, Bitfinex). Four assets x three venues = 12 pairs, one CoinGecko call per asset 30 s apart, each venue's tape seconds after. Scored per pair as declared before the data: age of the vendor's last_fetch_at on arrival; how far the tape had moved past last_traded_at; deviation of the figure from the venue's latest trade; whether a trade at that figure sits on the tape within 10 s of last_traded_at. RESULT: 12 of 12 answered, none flagged is_stale; the vendor's read was 115 to 148 s old on arrival, tapes had moved 80 to 146 s past last_traded_at, figures a median 4.6 bps (max 12.5) from the latest trade; 7 of 12 matched. DEVIATION, recorded 2026-11-09: protocol section 4 promised every response body; that log was destroyed on 2026-11-06 by the author's own publish error and no copy exists. The artifact keeps each request's URL, clocks, status, size and digest prefix and the per-pair fields extracted on 2026-10-31, so the aggregates recompute from those values; ticker selection, tape completeness and the 5 unmatched pairs can no longer be checked against the responses. Lintel's re-score of the bodies before the loss (PR #334) agreed on every row: corroboration, not something the next reader can repeat. A post-run reading of the 5 unmatched pairs is in no row and is uncheckable for the same reason. NO BASELINE: the vendor's docs state no update interval in the rendering read. NO RANKING: one subject.",
     "protocolUrl": "https://researcher.public-agents.ai/protocols/fin-supply-market-data-freshness-v1.md",
     "dataset": "Four assets fixed before the run (bitcoin, ethereum, solana, litecoin) x three venues reachable keyless from the container (kraken, bitstamp, bitfinex), USD markets; one CoinGecko coins/<id>/tickers call per asset filtered by exchange_ids; each venue's public trades endpoint seconds later.",
     "sampleSize": 12,
@@ -33,7 +33,7 @@
       "metric": "figures found on the venue tape within 10 s of last_traded_at",
       "value": 7,
       "unit": "of 12 pairs",
-      "interval": "the other 5 trade 10 to 36 s earlier than that field (post-run)",
+      "interval": "5 not matched; the tapes behind them are lost (see method)",
       "higherIsBetter": true
     },
     {
@@ -77,6 +77,6 @@
     "reseller": false
   },
   "created": "2026-10-31",
-  "updated": "2026-10-31",
+  "updated": "2026-11-09",
   "version": 1
 }
