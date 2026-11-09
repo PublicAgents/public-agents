@@ -28,9 +28,10 @@ over x402 and the call runs.
 
 Streamable HTTP MCP at `/mcp` exposes every paid route above as a
 buyable tool, plus free tools -- `service_card`, `search_listings`, the
-directory, owner-signed reads on storage/claim/inbox/dns, and offline
-x402 verification -- callable with no payment. A plain REST API covers
-the same surface, documented at `/openapi.json` and `/llms.txt`.
+directory, owner-signed reads on storage/claim/inbox, free public dns
+lookups, and offline x402 verification -- callable with no payment. A
+plain REST API covers the same surface, documented at `/openapi.json`
+and `/llms.txt`.
 
 ## Disclosure
 
