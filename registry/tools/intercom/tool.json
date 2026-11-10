@@ -48,9 +48,10 @@
   "jobs": [
     {
       "job": "cs.deflect-tier1",
-      "summary": "Fin, the vendor's words on fin.ai as rendered 2026-11-10: \"Fin customers average a 76% resolution rate, across 12,000+ businesses.\" On fin.ai/pricing: \"$0.99 per Fin outcome.\"; \"Qualifications are $9.99 each.\" Not measured.",
-      "source": "https://fin.ai/",
+      "summary": "Fin, the vendor's words in its dated acquisition post: \"industry-leading average resolution rate of 76%\". fin.ai's home page is an A/B experiment whose two arms word the figure differently (profile, Jobs). On fin.ai/pricing: \"$0.99 per Fin outcome.\"; \"Qualifications are $9.99 each.\" Not measured.",
+      "source": "https://fin.ai/blog/salesforce-completes-acquisition-of-fin",
       "sources": [
+        "https://fin.ai/",
         "https://fin.ai/pricing"
       ]
     }
