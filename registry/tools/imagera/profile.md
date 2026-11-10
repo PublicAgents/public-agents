@@ -8,4 +8,4 @@ The MCP server signs in with OAuth through an Imagera account; no key is pasted.
 
 ## Pricing
 
-Paid. Jobs are billed in Imagera credits from a plan or a credit pack.
+Paid, on two separate billing surfaces. The REST API charges each request in US dollars from a prepaid API balance, with no plan needed; every model's dollar price is listed before a call, and a failed generation is not charged (https://imagera.ai/developers). The MCP server spends the same credits as the Imagera studios and is part of the Pro plan; the assistant is told the price before it spends any (https://imagera.ai/mcp).
