@@ -1,0 +1,43 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "imagera",
+  "name": "Imagera",
+  "kind": "service",
+  "status": "active",
+  "summary": "Generate and edit images, video, voice and music with many AI models. Agents use the remote MCP server (OAuth) or the REST API (API key), and can get a cost estimate before each run.",
+  "vendor": {
+    "name": "Imagera",
+    "url": "https://imagera.ai",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "MCP: OAuth sign-in with an Imagera account. REST API: Authorization: Key <api key>. Paid in Imagera credits; a cost estimate is available before a run."
+  },
+  "surfaces": {
+    "homepage": "https://imagera.ai",
+    "docs": "https://imagera.ai/developers",
+    "llmsTxt": "https://imagera.ai/llms.txt",
+    "mcp": "https://mcp.imagera.ai/mcp",
+    "api": "https://api.imagera.ai",
+    "openapi": "https://api.imagera.ai/openapi.json",
+    "source": "https://github.com/alexadams6ix/imagera-skills"
+  },
+  "domains": [
+    "imagera.ai",
+    "api.imagera.ai",
+    "mcp.imagera.ai"
+  ],
+  "maintainers": [
+    {
+      "github": "alexadams6ix"
+    }
+  ],
+  "provenance": "vendor",
+  "created": "2026-11-10",
+  "updated": "2026-11-10",
+  "version": 1
+}
