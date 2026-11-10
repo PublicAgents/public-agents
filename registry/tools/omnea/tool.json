@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "omnea",
+  "name": "Omnea",
+  "kind": "service",
+  "status": "active",
+  "summary": "A procurement platform (intake, approvals, sourcing, contracts, supplier management and third-party risk) whose vendor announces a hosted MCP server at mcp.omnea.co for customers and a REST API whose documentation sits behind a login. Measured keyless: the MCP host answers initialize with 401 and an RFC 9728 Bearer challenge; its OAuth metadata names an external authorization server with dynamic client registration and PKCE S256.",
+  "vendor": {
+    "name": "Omnea Limited",
+    "url": "https://www.omnea.co/",
+    "kind": "organization"
+  },
+  "pricing": "unknown",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-11-10: www.omnea.co/pricing answers 404 and no page read states a price, a free tier or billing terms; the site's Terms of Use govern the website only. The MCP launch page says the server is available for all customers. No surface prices an MCP call in money."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-10 06:10Z, no credentials: POST initialize to mcp.omnea.co and /mcp both 401 with a Bearer resource_metadata challenge; protected-resource and authorization-server metadata public (DCR, client ID metadata documents, PKCE S256). REST API docs redirect to a login."
+  },
+  "surfaces": {
+    "homepage": "https://www.omnea.co/",
+    "docs": null,
+    "llmsTxt": "https://www.omnea.co/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.omnea.co",
+    "api": null,
+    "openapi": null
+  },
+  "domains": [
+    "omnea.co",
+    "www.omnea.co",
+    "mcp.omnea.co"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "proc.monitor-supplier-risk",
+      "summary": "Vendor's claim: \"Continuous Monitoring screens suppliers daily against Dow Jones sanctions, PEPs, and adverse media data\", alerts triaged by supplier tier and spend. Its llms.txt adds financial-health changes, which the product pages do not. Not shown to be reachable via MCP. Measured by nobody.",
+      "source": "https://www.omnea.co/products/third-party-risk-management",
+      "sources": [
+        "https://www.omnea.co/products/third-party-risk-management/continuous-monitoring",
+        "https://www.omnea.co/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-10",
+  "updated": "2026-11-10",
+  "version": 1
+}
