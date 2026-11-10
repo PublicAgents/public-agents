@@ -5,7 +5,7 @@
   "name": "Imagera",
   "kind": "service",
   "status": "active",
-  "summary": "Generate and edit images, video, voice and music with many AI models. Agents use the remote MCP server (OAuth) or the REST API (API key), and can get a cost estimate before each run.",
+  "summary": "Generate and edit images, video, voice and music with many AI models. Agents use the remote MCP server (OAuth, studio credits) or the REST API (API key, prepaid US-dollar balance).",
   "vendor": {
     "name": "Imagera",
     "url": "https://imagera.ai",
@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "MCP: OAuth sign-in with an Imagera account. REST API: Authorization: Key <api key>. Paid in Imagera credits; a cost estimate is available before a run."
+    "notes": "MCP: OAuth sign-in; spends studio credits, part of the Pro plan. REST API: Authorization: Key <key>; prepaid USD balance, no plan needed. Prices shown before a run."
   },
   "surfaces": {
     "homepage": "https://imagera.ai",
