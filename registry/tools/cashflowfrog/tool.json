@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "cashflowfrog",
+  "name": "Cash Flow Frog",
+  "kind": "service",
+  "status": "active",
+  "summary": "Cash flow forecasting software for small and growing businesses that builds forecasts from connected accounting and bank data. Its vendor runs a hosted MCP server at mcp.cashflowfrog.com/mcp, listed in the official MCP registry, which it says can read and change a customer's forecast. Measured keyless: initialize answers 401 with an RFC 9728 Bearer challenge; the authorization server advertises dynamic client registration and PKCE S256. A paid subscription, with a trial.",
+  "vendor": {
+    "name": "Cash Flow Frog",
+    "url": "https://cashflowfrog.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://cashflowfrog.com/pricing/",
+    "notes": "Price set by annual revenue; monthly, annual and two-year billing; card payment. The pricing page fills its amounts in by script and a plain fetch carries none, so none is quoted. MCP access is included in a plan at no extra cost (vendor FAQ). 14-day trial, no card. No surface prices an MCP call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-10 18:11Z, no credentials: POST initialize to mcp.cashflowfrog.com/mcp gave 401 and a Bearer resource_metadata challenge, scope cff.user. Its authorization server advertises dynamic client registration, PKCE S256 and public clients. A directory says API key; not what was measured."
+  },
+  "surfaces": {
+    "homepage": "https://cashflowfrog.com/",
+    "docs": "https://cashflowfrog.com/integrations/ai-connector-mcp/",
+    "llmsTxt": "https://cashflowfrog.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.cashflowfrog.com/mcp",
+    "api": null,
+    "openapi": null
+  },
+  "domains": [
+    "cashflowfrog.com",
+    "mcp.cashflowfrog.com",
+    "accounts.cashflowfrog.com",
+    "help.cashflowfrog.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.forecast-cash",
+      "summary": "Vendor's claim: weekly, monthly and yearly forecasts up to 36 months from accounting and bank data, plan-versus-actual comparison, and an MCP connector through which an assistant reads and updates the forecast. Neither job measure (error at 4 and 13 weeks, update latency) is published.",
+      "source": "https://cashflowfrog.com/llms.txt",
+      "sources": [
+        "https://cashflowfrog.com/integrations/ai-connector-mcp/",
+        "https://cashflowfrog.com/features/planned-vs-actual/"
+      ]
+    }
+  ],
+  "created": "2026-11-10",
+  "updated": "2026-11-10",
+  "version": 1
+}
