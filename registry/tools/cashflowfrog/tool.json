@@ -18,7 +18,7 @@
     "methods": [],
     "humanBilling": "card-on-file",
     "priceList": "https://cashflowfrog.com/pricing/",
-    "notes": "Price set by annual revenue; monthly, annual and two-year billing; card payment. The pricing page fills its amounts in by script and a plain fetch carries none, so none is quoted. MCP access is included in a plan at no extra cost (vendor FAQ). 14-day trial, no card. No surface prices an MCP call."
+    "notes": "Price set by annual revenue; monthly, annual and two-year billing; card payment. Default card (up to $1M revenue): $55.00/mo, or $33.00/mo early-bird; other tiers by script, not read. MCP access included in a plan at no extra cost (vendor FAQ). 14-day trial, no card. No surface prices an MCP call."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -54,6 +54,6 @@
     }
   ],
   "created": "2026-11-10",
-  "updated": "2026-11-10",
+  "updated": "2026-11-11",
   "version": 1
 }
