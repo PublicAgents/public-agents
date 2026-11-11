@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "madkudu",
+  "name": "MadKudu",
+  "kind": "service",
+  "status": "active",
+  "summary": "Predictive lead and account scoring (customer fit, behavioral engagement, lead grade), now sold by HG Insights, which acquired MadKudu in 2025; madkudu.com redirects to hginsights.com. For agents: a hosted MCP server whose docs put the API key in the URL path, and a REST API with an X-API-Key header. The vendor says very good leads convert about 10 times more than low ones and publishes no method or calibration.",
+  "vendor": {
+    "name": "HG Insights",
+    "url": "https://hginsights.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "notes": "API calls cost credits from an allowance that comes with an API access add-on (docs, read 2026-11-11): lookup 1, detailed info 3, AI web search 5. No plan price was read. The docs say to contact HG Insights for API access. Nothing prices a call in money."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Docs: MCP URL is mcp.madkudu.com/<API key>/sse; REST takes X-API-Key, keys made by an admin. Keyless 2026-11-11: initialize and tools/list at mcp.madkudu.com/mcp answered 200 (14 tools, docs list 12); no tool was called. No OAuth metadata (404)."
+  },
+  "surfaces": {
+    "homepage": "https://developers.madkudu.com/",
+    "docs": "https://developers.madkudu.com/madkudu-mcp/what-is-madkudu-mcp",
+    "llmsTxt": "https://developers.madkudu.com/llms.txt",
+    "skills": [],
+    "mcp": "https://developers.madkudu.com/madkudu-mcp/madmcp-tools",
+    "api": "https://developers.madkudu.com/api/authentication"
+  },
+  "domains": [
+    "developers.madkudu.com",
+    "madkudu.com",
+    "mcp.madkudu.com",
+    "madapi.madkudu.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "sales.score-leads",
+      "summary": "Scores leads into fit segments (Very Good to Low), a behavioral score and a lead grade combining both. Vendor: very good leads usually convert about 10x more than low ones; no population or method. Top-decile lift and calibration unpublished; the product's performance page reports recall.",
+      "source": "https://help.hginsights.com/docs/customer-fit-scoring",
+      "sources": [
+        "https://help.hginsights.com/docs/monitoring-your-model-performance",
+        "https://help.hginsights.com/docs/what-are-the-different-models"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
