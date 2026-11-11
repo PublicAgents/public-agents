@@ -5,7 +5,7 @@
   "name": "Optimizely Experimentation",
   "kind": "service",
   "status": "active",
-  "summary": "Web Experimentation and Feature Experimentation, the A/B, multivariate and feature-flag testing products of the Optimizely One digital experience platform, with a proprietary stats engine. For agents: a hosted Experimentation MCP server that signs in by OAuth through an Opti ID account with Opal enabled, and a REST API (v2) that takes a personal token or OAuth 2.0. Every surface needs an account first; plans are individually packaged, not self-serve.",
+  "summary": "Web Experimentation and Feature Experimentation, the A/B, multivariate and feature-flag testing products of the Optimizely One digital experience platform, with a proprietary stats engine. For agents: a hosted Experimentation MCP server that signs in by OAuth through an Opti ID account with Mark (Optimizely Agent Platform) enabled, and a REST API (v2) that takes a personal token or OAuth 2.0. Every surface needs an account first; plans are individually packaged, not self-serve.",
   "vendor": {
     "name": "Optimizely",
     "url": "https://www.optimizely.com/",
@@ -50,6 +50,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-10-03",
-  "version": 5
+  "updated": "2026-11-11",
+  "version": 6
 }
