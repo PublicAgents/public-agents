@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "upflow",
+  "name": "Upflow",
+  "kind": "service",
+  "status": "active",
+  "summary": "Accounts receivable platform for B2B finance teams: collections across email, SMS, calls and letters run by configurable agents, a payment portal, and cash application. For agents: a read-only hosted MCP server (OAuth, allowlisted clients, enabled per organization by an admin) and a REST API with key and secret. Claims a 30% average DSO reduction within three months and publishes no method for it.",
+  "vendor": {
+    "name": "Upflow",
+    "url": "https://upflow.io/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "card-on-file",
+    "priceList": "https://upflow.io/pricing",
+    "notes": "Read 2026-11-11: plans priced by yearly invoiced value, every tier \"Ask for a quote\". Monthly or quarterly plans need a payment method on file (card, ACH or SEPA debit). Upflow Payments fees published: cards 3.5% + $0.30, ACH 0.8% capped at $5. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "MCP at api.upflow.io/mcp: keyless initialize 401 invalid_token, scope mcp:read, RFC 9728 metadata (2026-11-11). Docs: tokens read-only, clients allowlisted, an admin enables MCP per organization. A registration endpoint is advertised but was not tried. REST API: X-Api-Key and X-Api-Secret."
+  },
+  "surfaces": {
+    "homepage": "https://upflow.io/",
+    "docs": "https://docs.upflow.io/en-us/technical-documentation/mcp-server/overview",
+    "llmsTxt": "https://upflow.io/llms.txt",
+    "skills": [],
+    "mcp": "https://api.upflow.io/mcp",
+    "api": "https://upflow.io/integrations/api",
+    "openapi": null
+  },
+  "domains": [
+    "upflow.io",
+    "docs.upflow.io",
+    "api.upflow.io"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.collect-overdue-receivables",
+      "summary": "Chases overdue invoices on configured workflows across email, SMS, calls and letters, with agents from suggestion-only to autonomous. Claims a 30% average DSO cut in three months, method unpublished. Recovery within 30 days, write-off, failed-charge recovery and chases per recovery unpublished.",
+      "source": "https://upflow.io/llms.txt",
+      "sources": [
+        "https://upflow.io/features/cash-collection",
+        "https://upflow.io/"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
