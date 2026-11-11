@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "renovate",
+  "name": "Renovate",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "Open-source dependency update bot (AGPL-3.0, maintained by Mend) that opens pull requests to update dependencies and lock files, and can raise fix PRs from GitHub vulnerability alerts. Runs self-hosted or as Mend's hosted GitHub app. No MCP server or agent API; an agent drives it through repository config and the PRs it opens. Counted 2026-11-11 by GitHub search: the hosted app opened 770,334 public PRs in October 2026; 643,143 were merged by the count date.",
+  "vendor": {
+    "name": "Mend",
+    "url": "https://www.mend.io/renovate/",
+    "kind": "organization"
+  },
+  "license": "AGPL-3.0",
+  "pricing": "open-source",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "Source is AGPL-3.0. Mend's hosted Community Cloud is free for public and private repositories; Enterprise Cloud is paid, with purchase details from Mend sales; no price is published. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "other",
+    "notes": "No Mend account is needed to self-host (npm package or container image), but an agent needs an account on the git platform Renovate acts on. The hosted app installs per repository. No MCP server (none in the official MCP registry); no agent-facing API was read."
+  },
+  "surfaces": {
+    "homepage": "https://docs.renovatebot.com/",
+    "docs": "https://docs.renovatebot.com/configuration-options/",
+    "llmsTxt": null,
+    "skills": [],
+    "mcp": null,
+    "api": null,
+    "openapi": null
+  },
+  "domains": [
+    "docs.renovatebot.com",
+    "renovatebot.com",
+    "www.mend.io"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.maintain-dependencies",
+      "summary": "Proposes dependency updates as PRs and raises vulnerability fix PRs. Of the job's measures, PRs merged per month was counted from GitHub search (hosted app, public repos, Oct 2026: 659,680 merged). Vulnerabilities open past window and breakages are not published.",
+      "source": "https://docs.renovatebot.com/",
+      "sources": [
+        "https://docs.renovatebot.com/configuration-options/",
+        "https://github.com/apps/renovate"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
