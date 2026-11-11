@@ -1,0 +1,61 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "paddle",
+  "name": "Paddle",
+  "kind": "service",
+  "status": "active",
+  "summary": "Merchant of record for software and digital products: Paddle resells the seller's product, so it is the seller on the buyer's receipt and collects and remits sales tax. Its vendor hosts an MCP server (mcp.paddle.com/mcp, in the official MCP registry) with three codemode tools over the whole Paddle API. Measured keyless: 401 with an RFC 9728 challenge; OAuth at id.paddle.com with DCR and PKCE S256, or an API key. Fee deducted from each sale.",
+  "vendor": {
+    "name": "Paddle",
+    "url": "https://www.paddle.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "priceList": "https://www.paddle.com/pricing",
+    "notes": "5% + 50 cents per Checkout transaction (pricing page; MSA clause 3.2), deducted from each sale before payout, so there is no separate bill. Custom pricing for high volume. MSA clause 7.1 adds a 2% to 3% FX margin. No surface prices an MCP or API call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-11 06:15Z, no credentials: initialize to mcp.paddle.com/mcp gave 401 with a Bearer resource_metadata challenge; AS id.paddle.com offers DCR, client metadata documents and S256. Sandbox server: 401 asking for a Bearer API key. Live also takes an API key."
+  },
+  "surfaces": {
+    "homepage": "https://www.paddle.com/",
+    "docs": "https://developer.paddle.com/sdks/ai/paddle-mcp",
+    "llmsTxt": "https://developer.paddle.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.paddle.com/mcp",
+    "api": "https://developer.paddle.com/api-reference/overview",
+    "openapi": null
+  },
+  "domains": [
+    "paddle.com",
+    "www.paddle.com",
+    "developer.paddle.com",
+    "mcp.paddle.com",
+    "sandbox-mcp.paddle.com",
+    "id.paddle.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "fin.sell-as-merchant-of-record",
+      "summary": "Vendor's claim and contract: Paddle is the reseller and seller to the buyer and remits sales tax; payout by the 15th of the following month. By MSA clause 10.4 Paddle recovers the full refund or chargeback, plus fees, from the seller. No measured figure for any of the four measures.",
+      "source": "https://www.paddle.com/legal/terms",
+      "sources": [
+        "https://developer.paddle.com/concepts/sell/supported-countries-locales",
+        "https://www.paddle.com/help/start/intro-to-paddle/how-paddle-is-able-to-take-on-your-vat-and-tax-responsibilities"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
