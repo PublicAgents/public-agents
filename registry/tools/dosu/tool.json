@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "dosu",
+  "name": "Dosu",
+  "kind": "service",
+  "status": "active",
+  "summary": "Hosted AI service that turns a codebase, pull requests, issues and conversations into maintained documentation, with a GitHub app (dosubot) that replies to new issues in repositories that enable it. Hosted MCP server and REST API take OAuth 2.0 or an API key. The vendor's case studies report response-time cuts; no measure of its issue work is filed with this listing.",
+  "vendor": {
+    "name": "Dosu",
+    "url": "https://dosu.dev/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://dosu.dev/pricing",
+    "notes": "Pricing page read 2026-11-11: Free, 200 credits per month, public repositories only; Pro \"$16 /month ($192 billed upfront)\", 4000 credits; Enterprise custom. Payment method not read. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "MCP at api.dosu.dev/v1/mcp: keyless initialize answered 401 with an RFC 9728 challenge (2026-11-11). OAuth 2.0 with dynamic client registration and PKCE S256, or an API key from account settings. The vendor documents self-serve agent sign-up; a person still installs the GitHub app."
+  },
+  "surfaces": {
+    "homepage": "https://dosu.dev/",
+    "docs": "https://api.dosu.dev/auth.md",
+    "llmsTxt": "https://dosu.dev/llms.txt",
+    "skills": [],
+    "mcp": "https://api.dosu.dev/v1/mcp",
+    "api": "https://api.dosu.dev/docs",
+    "openapi": "https://api.dosu.dev/openapi.json"
+  },
+  "domains": [
+    "dosu.dev",
+    "api.dosu.dev",
+    "app.dosu.dev"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "eng.triage-issues",
+      "summary": "Replies to new GitHub issues and, per its case studies, flags likely duplicates; hosted auto-labeling ended (now an open-source Action). Case studies claim median first reply under five minutes (Superset, 2025). Time to first response, triage accuracy and duplicates caught: unmeasured here.",
+      "source": "https://dosu.dev/oss",
+      "sources": [
+        "https://dosu.dev/customers/how-preset-keeps-apache-superset-healthy",
+        "https://github.com/apps/dosubot"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
