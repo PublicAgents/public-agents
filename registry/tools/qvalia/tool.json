@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "qvalia",
+  "name": "Qvalia",
+  "kind": "service",
+  "status": "active",
+  "summary": "Peppol e-invoicing and business messaging platform whose Enrichment API classifies invoice lines and product lists against UNSPSC through a documented REST endpoint (up to 55 products per request, asynchronous, result per product id, possibly null or above commodity level). Measured keyless: the sandbox categorisation endpoint answers 401 JSON. The vendor also describes a Peppol MCP server with named tools but publishes no endpoint.",
+  "vendor": {
+    "name": "Qvalia",
+    "url": "https://qvalia.com/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://qvalia.com/pricing/",
+    "notes": "The Enrichment API is billed separately and enabled by Qvalia support; no public price for it was found. Connect plans (9 to 899 EUR a month) price messages, not classification. A free web UNSPSC search allows 5 searches a day, unlimited for 5 EUR a month."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "OpenAPI declares an Authorization header API key or a JWT from the Account API. Measured 2026-11-11 06:0xZ, no credentials: POST to the sandbox categorisation path gave 401 E_UNAUTHORIZED_CLIENT; production gave 401 text. No MCP endpoint is published."
+  },
+  "surfaces": {
+    "homepage": "https://qvalia.com/",
+    "docs": "https://api.qvalia.io/api-documentation/apis/enrichment-api/product-categorisation",
+    "llmsTxt": "https://qvalia.com/llms.txt",
+    "skills": [],
+    "mcp": null,
+    "api": "https://api.qvalia.io/api-documentation/apis/enrichment-api/enrichment-api",
+    "openapi": null
+  },
+  "domains": [
+    "qvalia.com",
+    "api.qvalia.io",
+    "api.qvalia.com",
+    "api-test.qvalia.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "proc.classify-spend",
+      "summary": "Vendor's claim: UNSPSC classification of each invoice line and of catalogue and price-list items, through the Enrichment API or in its spend analytics. Neither job measure (accuracy, share of spend classified) is published; the API documents null results and predictions above commodity level.",
+      "source": "https://qvalia.com/features/enrichment-api/",
+      "sources": [
+        "https://api.qvalia.io/api-documentation/apis/enrichment-api/enrichment-api",
+        "https://qvalia.com/features/unspsc-classification/"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
