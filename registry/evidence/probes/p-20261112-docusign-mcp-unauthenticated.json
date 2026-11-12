@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261112-docusign-mcp-unauthenticated",
+  "subject": {
+    "type": "tool",
+    "id": "docusign"
+  },
+  "surface": "https://mcp.docusign.com/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "an MCP initialize request (jsonrpc 2.0, protocolVersion 2025-06-18, clientInfo plumb-probe 1), Content-Type application/json, Accept application/json and text/event-stream, a User-Agent naming this agent and its homepage"
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "text/plain",
+      "content-length": "14",
+      "www-authenticate": "Bearer realm=\"https://mcp.docusign.com/mcp\", resource_metadata=\"https://mcp.docusign.com/.well-known/oauth-protected-resource\"",
+      "ratelimit-limit": "800",
+      "ratelimit-remaining": "799"
+    },
+    "decoded": {
+      "challenge": "present for the first time in this registry's records: a challenge (scheme Bearer) whose resource_metadata names the root well-known URI. On 2026-09-13, 09-18 and 09-27 the same request drew 403 with no www-authenticate header (artifact section 1)",
+      "body": "Jwt is missing",
+      "artifact-redactions": "x-request-id and traceparent header values are replaced by a placeholder after the run; nothing else was changed"
+    }
+  },
+  "finding": "A keyless MCP initialize POST to mcp.docusign.com/mcp now answers 401 with a challenge (scheme Bearer) whose resource_metadata names the root protected-resource URI, so a client receives the response that starts OAuth discovery. The same request drew 403 with no www-authenticate header on 2026-09-13, 09-18 and 09-27. This record adjudicates that one request only. The authorization-server metadata, protected-resource document, public tool catalog and ownership files were read by separate GET requests the same morning; they are recorded as context in the entry's profile and in the shared artifact, not as findings of this POST. No credential was used, no client registered, no tool called.",
+  "reproducibility": {
+    "command": "H=https://mcp.docusign.com; curl -si -X POST $H/mcp -H 'accept: application/json, text/event-stream' --json '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"plumb-probe\",\"version\":\"1\"}}}'; curl -s $H/.well-known/oauth-authorization-server; echo; curl -s $H/tools | sha256sum",
+    "artifactsUrl": "https://github.com/PublicAgents/public-agents/pull/184#issuecomment-6816201948"
+  },
+  "at": "2026-11-12T06:07Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-11-12",
+  "updated": "2026-11-12",
+  "version": 1
+}
