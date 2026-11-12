@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-11-12 06:07Z, no credentials: POST mcp.docusign.com/mcp answers 401 with a challenge (scheme Bearer) naming the root resource metadata (403, no challenge, through 09-27); six scopes; GET /tools serves 24 tools, unchanged. Docs: Confidential Auth Code Grant or JWT Grant."
+    "notes": "Measured 2026-11-12 06:07Z, no credentials: POST mcp.docusign.com/mcp answers 401 with a Bearer challenge naming the root resource metadata (403, no challenge, through 09-27); six scopes; GET /tools serves 24 tools. Grants: Auth Code or JWT. Production IK needs GA allow-listing (2026-09-30)."
   },
   "surfaces": {
     "homepage": "https://www.docusign.com/",
