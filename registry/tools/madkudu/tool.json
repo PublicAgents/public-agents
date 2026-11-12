@@ -31,7 +31,7 @@
     "llmsTxt": "https://developers.madkudu.com/llms.txt",
     "skills": [],
     "mcp": "https://mcp.madkudu.com/mcp",
-    "api": "https://developers.madkudu.com/api/authentication"
+    "api": "https://madapi.madkudu.com"
   },
   "domains": [
     "developers.madkudu.com",
@@ -53,6 +53,6 @@
     }
   ],
   "created": "2026-11-11",
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "version": 1
 }
