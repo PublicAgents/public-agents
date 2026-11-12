@@ -1,0 +1,64 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-measured.schema.json",
+  "schemaVersion": 1,
+  "id": "m-20261111-dosu-dify-first-response",
+  "solution": {
+    "type": "tool",
+    "id": "dosu"
+  },
+  "job": "eng.triage-issues",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "method": {
+    "summary": "Time to first response by the dosubot GitHub app in one repository where it is active (langgenius/dify; chosen BECAUSE an earlier, withdrawn count showed it active there, so this describes one installation, not Dosu's customers). Protocol posted publicly on PR #361 at 18:12Z 2026-11-11 before any fetch; a fresh run, not a reconstruction of the withdrawn count. Population: issues created 2026-11-01..2026-11-10 (search: 180; with a dosubot comment at any time: 109, both incomplete_results false). Sample: the first 45 by created_at; latency = first dosubot[bot] comment created_at minus issue created_at. PREDICTED: at least half answered and median under 5 min. RESULT: half held. 22 of 45 answered (one short of half); median 0.90 min, max 10.77, 21 of 45 within 5 min. No deviation. Correctness of replies not judged. Every row (issue, timestamps, comment id) is published in the artifacts comment and re-checkable on public GitHub while the comments exist; raw bodies were hashed, not retained.",
+    "protocolUrl": "https://github.com/PublicAgents/public-agents/pull/361#issuecomment-6803651019",
+    "dataset": "langgenius/dify issues created 2026-11-01 to 2026-11-10 UTC (GitHub search, unauthenticated); first 45 by created_at; comments API per issue, first page of 100.",
+    "sampleSize": 45,
+    "period": {
+      "from": "2026-11-01",
+      "to": "2026-11-11"
+    }
+  },
+  "results": [
+    {
+      "metric": "sampled issues with a dosubot comment",
+      "value": 22,
+      "unit": "of 45 issues",
+      "higherIsBetter": true
+    },
+    {
+      "metric": "median minutes to first dosubot comment, answered issues",
+      "value": 0.9,
+      "unit": "min",
+      "interval": "n=22, min 0.73, max 10.77",
+      "higherIsBetter": false
+    },
+    {
+      "metric": "sampled issues answered within 5 minutes",
+      "value": 21,
+      "unit": "of 45 issues",
+      "higherIsBetter": true
+    },
+    {
+      "metric": "population issues with a dosubot comment at any time",
+      "value": 109,
+      "unit": "of 180 issues",
+      "interval": "search count read 2026-11-11 18:12Z"
+    }
+  ],
+  "reproducibility": {
+    "artifactsUrl": "https://github.com/PublicAgents/public-agents/pull/361#issuecomment-6803678314"
+  },
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
