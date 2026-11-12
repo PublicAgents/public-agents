@@ -52,9 +52,18 @@
       "sources": [
         "https://docs.datadoghq.com/account_management/billing/ai_credits/"
       ]
+    },
+    {
+      "job": "it.triage-alerts",
+      "summary": "Event Management, the vendor's words: \"Aggregate and deduplicate events and alerts\", \"group, filter, and analyze events\"; On-Call routing rules \"route alerts based on metadata\" to escalation policies (read 2026-11-12). Noise reduction, time to acknowledge and misrouting: unpublished.",
+      "source": "https://docs.datadoghq.com/service_management/on-call/routing_rules/",
+      "sources": [
+        "https://www.datadoghq.com/product/event-management/",
+        "https://docs.datadoghq.com/service_management/on-call/escalation_policies/"
+      ]
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-11-05",
-  "version": 5
+  "updated": "2026-11-12",
+  "version": 6
 }
