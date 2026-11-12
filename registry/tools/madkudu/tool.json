@@ -31,7 +31,7 @@
     "llmsTxt": "https://developers.madkudu.com/llms.txt",
     "skills": [],
     "mcp": "https://mcp.madkudu.com/mcp",
-    "api": "https://madapi.madkudu.com"
+    "api": "https://madapi.madkudu.com/lookup/accounts"
   },
   "domains": [
     "developers.madkudu.com",
