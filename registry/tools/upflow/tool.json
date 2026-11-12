@@ -19,7 +19,7 @@
     "methods": [],
     "humanBilling": "card-on-file",
     "priceList": "https://upflow.io/pricing",
-    "notes": "Read 2026-11-11: plans priced by yearly invoiced value, every tier \"Ask for a quote\". Monthly or quarterly plans need a payment method on file (card, ACH or SEPA debit). Upflow Payments fees published: cards 3.5% + $0.30, ACH 0.8% capped at $5. Nothing prices a call."
+    "notes": "Read 2026-11-12: a free Discover plan (dashboard and insights); five paid tiers by yearly invoiced value, each \"Ask for a quote\". Upflow Payments add-on: $390/month platform fee, then cards 3.5% + $0.30, ACH 0.8% capped at $5. The free plan names no collections, API or MCP. Nothing prices a call."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -54,6 +54,6 @@
     }
   ],
   "created": "2026-11-11",
-  "updated": "2026-11-11",
+  "updated": "2026-11-12",
   "version": 1
 }

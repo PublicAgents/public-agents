@@ -27,7 +27,13 @@ Either way a person signs the contract and an admin issues credentials or enable
 
 ## Price
 
-The [pricing page](https://upflow.io/pricing), read 2026-11-11, tiers plans by yearly invoiced value, from "Up to $10M in annual invoiced revenue" upward. Every tier reads "Ask for a quote". Monthly or quarterly plans need a payment method on file before the merchant gets access. The page does publish payment-processing fees: cards "3.5% + $0.30", and ACH Direct Debit "0.8% capped at $5". Nothing prices a call.
+The [pricing page](https://upflow.io/pricing), re-read 2026-11-12 (980,629 B, `e35230676988de67`), has three parts, and the first version of this entry described only one of them.
+
+- **A free plan.** The page offers "Full AR visibility", "free forever", under the line "Use our Discover plan to gain insights into your AR Health". The page's FAQ says the Discover plan "gives you free access to dashboard and insights". That is the whole of what the vendor says the free plan holds. It names no collections workflow, no Collections Agent, no REST API and no MCP access, and this entry does not infer any of them.
+- **Five paid subscription tiers**, by yearly invoiced value: Starter ("Up to $10M in annual invoiced revenue"), Grow, Scale, Accelerate and "Entreprise" (sic, "Over $100M"). Each reads "Ask for a quote". The FAQ says the Collections Agent is "available on higher-tier plans". Monthly or quarterly plans need a payment method on file before the merchant gets access.
+- **Payments, an optional add-on.** "Upflow Payments Lite" runs on the merchant's own gateway "for a small fee. (ask for a quote)". "Upflow Payments", the vendor's own gateway, carries a "Platform fee" of "$390/month" in every tier's column, plus per-transaction processing fees: cards "3.5% + $0.30", and ACH Direct Debit "0.8% capped at $5".
+
+The `pricing` cell stays `paid`. The registry's [taxonomy](https://github.com/PublicAgents/public-agents/blob/main/docs/TAXONOMY.md) prices the claimed job, not the product: "If every claimed job needs the paid tier, the cell is `paid`, whatever the product's own tiers are called." The one claimed job is chasing overdue invoices, and the vendor's description of the free plan does not include it. If Upflow ever says the Discover plan runs collections, the cell becomes `freemium`. Nothing prices a call.
 
 ## The one job claimed, measure by measure
 
@@ -41,4 +47,4 @@ The [pricing page](https://upflow.io/pricing), read 2026-11-11, tiers plans by y
 
 ## Provenance
 
-Vendor surfaces read 2026-11-11 between 12:25Z and 12:28Z, with size and SHA-256 prefix: `upflow.io/llms.txt` 22,128 B `bc15de6248756d2f`; homepage 488,216 B `4983d8073c7a715b`; `/features/cash-collection` 316,378 B `e7a213979208bc4b`; `/pricing` 980,629 B `6a2c90a8c690f13d`; `/integrations/api` 344,742 B `bbf559e870b72772`; the MCP overview's Markdown 5,846 B `f48d64ccdc2d42b9`. The homepage's integration grid lists "MCP Server (Claude, ChatGPT, Copilot)" without a link. The integration page that a URL in the homepage's markup points to, `upflow.io/integrations/mcp-server-claude-chatgpt-copilot`, answered 404. Raw bodies were not kept.
+Vendor surfaces read 2026-11-11 between 12:25Z and 12:28Z, with size and SHA-256 prefix: `upflow.io/llms.txt` 22,128 B `bc15de6248756d2f`; homepage 488,216 B `4983d8073c7a715b`; `/features/cash-collection` 316,378 B `e7a213979208bc4b`; `/pricing` 980,629 B `6a2c90a8c690f13d` (re-read 2026-11-12 06:03Z: same size, `e35230676988de67`, a different hash); `/integrations/api` 344,742 B `bbf559e870b72772`; the MCP overview's Markdown 5,846 B `f48d64ccdc2d42b9`. The homepage's integration grid lists "MCP Server (Claude, ChatGPT, Copilot)" without a link. The integration page that a URL in the homepage's markup points to, `upflow.io/integrations/mcp-server-claude-chatgpt-copilot`, answered 404. Raw bodies were not kept.
