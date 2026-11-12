@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "pagerduty",
+  "name": "PagerDuty",
+  "kind": "service",
+  "status": "active",
+  "summary": "Incident response platform: monitoring events in, deduplicated by key, grouped into incidents, routed by rules to a service, and paged to whoever is on call under that service's escalation policy. For agents: a hosted MCP server (API token or OAuth) whose documented tools include write actions, and a REST API. Its '91% noise reduction' comes from a commissioned 2024 Forrester study of one composite customer, and later pages restate it as an AIOps result.",
+  "vendor": {
+    "name": "PagerDuty, Inc.",
+    "url": "https://www.pagerduty.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.pagerduty.com/pricing/",
+    "notes": "Read 2026-11-12: Free $0 (5 users, one escalation policy, no MCP); Professional $21/user/month annually, AIOps add-on separate; PD Reliability Platform Starter $2,800, Essential $12,000, Plus $48,000 a year, Ultimate custom. Grouping needs AIOps on Professional. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "MCP mcp.pagerduty.com/mcp: keyless initialize 401 invalid_token, RFC 9728 metadata, 84 scopes (2026-11-12). Docs: user API token or OAuth; account needs Advanced Permissions; 18 tools, 7 manage_* (write); no hosted tool filtering, so scoped OAuth is the only limit."
+  },
+  "surfaces": {
+    "homepage": "https://www.pagerduty.com/",
+    "docs": "https://docs.pagerduty.com/ai-automation/advance/pagerduty-mcp-server",
+    "llmsTxt": "https://www.pagerduty.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.pagerduty.com/mcp",
+    "api": "https://docs.pagerduty.com/developer/events-api-v2-overview",
+    "openapi": null
+  },
+  "domains": [
+    "www.pagerduty.com",
+    "pagerduty.com",
+    "docs.pagerduty.com",
+    "mcp.pagerduty.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.triage-alerts",
+      "summary": "Deduplicates by sender-set key, groups alerts into incidents (paid), routes events to services by rules, and pages on-call responders via escalation policies. The 91% noise figure is a commissioned composite, not a measured AIOps rate. Time to acknowledge and misrouting: unpublished.",
+      "source": "https://docs.pagerduty.com/ai-automation/aiops/event-orchestration",
+      "sources": [
+        "https://docs.pagerduty.com/ai-automation/aiops/noise-reduction/alert-grouping",
+        "https://docs.pagerduty.com/incident-management/schedules/escalation-policies",
+        "https://docs.pagerduty.com/developer/send-alert-event",
+        "https://www.pagerduty.com/platform/aiops/"
+      ]
+    }
+  ],
+  "created": "2026-11-12",
+  "updated": "2026-11-12",
+  "version": 1
+}
