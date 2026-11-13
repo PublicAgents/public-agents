@@ -5,7 +5,7 @@
   "name": "Ledgerler",
   "kind": "service",
   "status": "active",
-  "summary": "Bank and ledger reconciliation and month-end close for small businesses and bookkeepers. Its deterministic matching engine is a public HTTP API (POST /api/v1/match) that is free and keyless on the free tier (20 requests per hour per IP): send bank and ledger lines, get back matched groups each with a method and a confidence score, every unmatched line listed, and a summary with a match rate and the residual difference. Also a client-side browser tool and a month-end close checklist with sign-off and an audit trail (Pro). The site advertises 'MCP tools', but no MCP server is discoverable.",
+  "summary": "Bank and ledger reconciliation and month-end close for small businesses and bookkeepers. Its deterministic matching engine is a public HTTP API (POST /api/v1/match) that is free and keyless on the free tier (20 requests per hour per IP): send bank and ledger lines, get back matched groups each with a method and a confidence score, every unmatched line listed, and a summary with a match rate and the residual difference. Also a client-side browser tool and a month-end close checklist with sign-off and an audit trail (Pro). The site advertises 'MCP tools', but no MCP server was found.",
   "vendor": {
     "name": "Ledgerler",
     "url": "https://www.ledgerler.com/",
@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured keyless 2026-11-12 18:20Z: POST www.ledgerler.com/api/v1/match, no signup, no key, answered 200 with matched groups and a summary.matchRate. Free tier is 20 requests/hour/IP (429 over). No MCP server found: /mcp, /api/v1/mcp, /api/mcp all 404. API keys with higher limits 'planned' for Pro."
+    "notes": "Measured keyless 2026-11-12 18:20Z: POST www.ledgerler.com/api/v1/match answered 200 with no signup or key (an access check only; it shows nothing about reconciliation quality). Free tier 20 req/hour/IP. No MCP server found at /mcp, /api/v1/mcp or /api/mcp (404 each; not proof none exists)."
   },
   "surfaces": {
     "homepage": "https://www.ledgerler.com/",
@@ -35,7 +35,7 @@
   "jobs": [
     {
       "job": "fin.reconcile-accounts",
-      "summary": "Deterministic matching engine, measured keyless: POST /api/v1/match returns matched groups (method + confidence), every unmatched line, and a summary with matchRate and residual difference. No aggregate match-rate, unreconciled-items or hours figure is published.",
+      "summary": "Ledgerler documents a deterministic matching engine: POST /api/v1/match takes bank and ledger lines and returns matched groups (method + confidence), every unmatched line, and a summary with a match rate and difference. No aggregate match-rate, unreconciled-items or hours figure is published.",
       "source": "https://www.ledgerler.com/docs/api",
       "sources": [
         "https://www.ledgerler.com/",
@@ -52,6 +52,6 @@
     "methods": [],
     "humanBilling": "unknown",
     "priceList": "https://www.ledgerler.com/pricing",
-    "notes": "Free plan ($0): 1 entity, 2 accounts, 3 reconciliations/month, 3 saved match rules, 1 close checklist, and the public matching API. Pro $29/mo or $290/yr makes entities, accounts, reconciliations, match rules and checklists unlimited and adds CSV export and audit trail. The pricing page names no payment method, so humanBilling is unknown."
+    "notes": "Free plan ($0): 1 entity, 2 accounts, 3 reconciliations/mo, 3 saved match rules, 1 close checklist, and the matching API. Pro ($29/mo, $290/yr) makes those five limits unlimited and adds CSV export and an audit trail. The pricing page names no payment method, so humanBilling is unknown."
   }
 }
