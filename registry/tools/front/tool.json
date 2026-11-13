@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "front",
+  "name": "Front",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer communication platform built on shared inboxes across email, SMS and chat. For agents: a hosted MCP server at mcp.frontapp.com/mcp (OAuth 2.1 + PKCE, no Dynamic Client Registration) reachable either as a human teammate (official Claude/ChatGPT directory, or a custom confidential OAuth app) or as the AI agent's own identity (a client-credentials token). Its create_draft tool queues a reply for human review without sending, beside read tools for the conversation. Front's own AI-agents guide puts the reply-writing in an externally hosted assistant, not Front.",
+  "vendor": {
+    "name": "FrontApp, Inc.",
+    "url": "https://front.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card",
+      "bank-transfer"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://front.com/pricing",
+    "notes": "front.com/pricing FAQ: pay by credit card; wire transfer or ACH only for annual purchases over $12K total contract value (via billing@front.com). The 14-day trial needs no card. Seat prices render behind script not pinned here. Not machine-payable; the docs name no separate MCP charge."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless initialize POST to mcp.frontapp.com/mcp answered 401 (2026-11-13 06:08Z); no Dynamic Client Registration. Two routes: a human teammate's token (official directory, or a custom confidential OAuth app), or a client-credentials token scoped to the AI agent's identity. No tool called."
+  },
+  "surfaces": {
+    "homepage": "https://front.com",
+    "docs": "https://dev.frontapp.com/docs/mcp-server",
+    "llmsTxt": "https://dev.frontapp.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.frontapp.com/mcp"
+  },
+  "domains": [
+    "front.com",
+    "dev.frontapp.com",
+    "mcp.frontapp.com",
+    "app.frontapp.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.draft-agent-replies",
+      "summary": "create_draft: \"Creates a draft reply on an existing conversation, or a new outbound conversation. Does not send.\" The AI-agents guide puts the reply-writing in an agent \"hosted external to Front\". Edit distance, handle time and CSAT: no vendor figure.",
+      "source": "https://dev.frontapp.com/docs/mcp-server.md",
+      "sources": [
+        "https://dev.frontapp.com/docs/ai-agents.md"
+      ]
+    }
+  ],
+  "created": "2026-11-13",
+  "updated": "2026-11-13",
+  "version": 1
+}
