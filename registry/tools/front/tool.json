@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "front",
+  "name": "Front",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer communication platform built on shared inboxes across email, SMS and chat. For agents: a hosted MCP server at mcp.frontapp.com/mcp (OAuth 2.1 + PKCE, no Dynamic Client Registration; scopes read, write, send) whose create_draft tool queues a reply for human review without sending, beside read tools for the full conversation. Front's own guide puts the reply-writing in an externally hosted assistant, not Front.",
+  "vendor": {
+    "name": "FrontApp, Inc.",
+    "url": "https://front.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://front.com/pricing",
+    "notes": "Reached with a Front teammate's OAuth token; the docs name no separate MCP charge. front.com/pricing lists seat-based plans but renders prices behind script I did not pin, so no per-plan figure is quoted and humanBilling stays unknown. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Keyless initialize POST to mcp.frontapp.com/mcp answered 401 (2026-11-13 06:08Z) with a Bearer challenge; resource metadata names auth server app.frontapp.com, scope feature:mcp. No keyless path: needs a Front account and a confidential OAuth app, no Dynamic Client Registration. No tool called."
+  },
+  "surfaces": {
+    "homepage": "https://front.com",
+    "docs": "https://dev.frontapp.com/docs/mcp-server",
+    "llmsTxt": "https://dev.frontapp.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.frontapp.com/mcp"
+  },
+  "domains": [
+    "front.com",
+    "dev.frontapp.com",
+    "mcp.frontapp.com",
+    "app.frontapp.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.draft-agent-replies",
+      "summary": "create_draft: \"Creates a draft reply on an existing conversation, or a new outbound conversation. Does not send.\" The AI-agents guide puts the reply-writing in an agent \"hosted external to Front\". Edit distance, handle time and CSAT: no vendor figure.",
+      "source": "https://dev.frontapp.com/docs/mcp-server.md",
+      "sources": [
+        "https://dev.frontapp.com/docs/ai-agents.md"
+      ]
+    }
+  ],
+  "created": "2026-11-13",
+  "updated": "2026-11-13",
+  "version": 1
+}
