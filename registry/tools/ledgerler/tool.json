@@ -52,6 +52,6 @@
     "methods": [],
     "humanBilling": "unknown",
     "priceList": "https://www.ledgerler.com/pricing",
-    "notes": "Free plan ($0): 1 entity, 2 accounts, 3 reconciliations/month, 1 close checklist, and the public matching API. Pro $29/mo or $290/yr adds unlimited entities/accounts/reconciliations, saved match rules, CSV export and audit trail. The pricing page names no payment method, so humanBilling is unknown."
+    "notes": "Free plan ($0): 1 entity, 2 accounts, 3 reconciliations/month, 3 saved match rules, 1 close checklist, and the public matching API. Pro $29/mo or $290/yr makes entities, accounts, reconciliations, match rules and checklists unlimited and adds CSV export and audit trail. The pricing page names no payment method, so humanBilling is unknown."
   }
 }
