@@ -1,0 +1,55 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "leena-ai",
+  "name": "Leena AI",
+  "kind": "service",
+  "status": "active",
+  "summary": "Enterprise HR and IT service-desk platform whose 'AI Colleague' answers employee questions from a company knowledge base. For agents it ships a first-party MCP server (and an A2A 1.0 server) that exposes the whole Colleague as one conversational sub-agent: exactly three tools (send_message, request_details, cancel), and send_message takes a natural-language instruction and returns a grounded answer with authenticated source links. OAuth 2.0 only, no API-key mode and no anonymous access; the MCP endpoint URL is per-tenant.",
+  "vendor": {
+    "name": "Leena AI",
+    "url": "https://leena.ai/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://leena.ai/pricing",
+    "notes": "leena.ai/pricing publishes no figure and routes to sales ('Talk to a specialist'); the plan and billing terms are not stated on the surfaces read here, so humanBilling is unknown. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "OAuth 2.0 only, bearer token: the docs state 'There is no API-key mode and no anonymous access.' Three grants (authorization_code, refresh_token, jwt-bearer/ID-JAG). The MCP URL is per-tenant (ends in /mcp/) from the dashboard, so there is no single public endpoint and it was not probed here."
+  },
+  "surfaces": {
+    "homepage": "https://leena.ai/",
+    "docs": "https://docs.leena.ai/docs/a2a-mcp-server",
+    "llmsTxt": "https://docs.leena.ai/llms.txt",
+    "skills": [],
+    "mcp": null
+  },
+  "domains": [
+    "leena.ai",
+    "docs.leena.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "hr.answer-policy-questions",
+      "summary": "send_message passes an employee's question to Leena's AI Colleague, returning a knowledge-base-grounded answer with authenticated source links; input_required can route a follow-up. Orchestrator-routed behind generic tools, no named policy tool. Accuracy, deflection, escalation: no vendor figure.",
+      "source": "https://docs.leena.ai/docs/a2a-mcp-server.md",
+      "sources": [
+        "https://leena.ai/"
+      ]
+    }
+  ],
+  "created": "2026-11-13",
+  "updated": "2026-11-13",
+  "version": 1
+}
