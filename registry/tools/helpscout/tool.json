@@ -1,0 +1,57 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "helpscout",
+  "name": "Help Scout",
+  "kind": "service",
+  "status": "active",
+  "summary": "Shared-inbox help desk whose first-party hosted MCP server (mcp.helpscout.net/mcp, OAuth, read-only for new connections) lets an AI client list, search and retrieve conversations, threads, customers, mailboxes and reports. The vendor markets it as 'find and summarize', but states the connector 'makes no model calls of its own', so a connected AI model composes any summary while Help Scout supplies the read-only retrieval. One public MCP endpoint, OAuth 2.1 with dynamic client registration; each user connects with their own credentials and sees only what they may.",
+  "vendor": {
+    "name": "Help Scout",
+    "url": "https://www.helpscout.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.helpscout.com/pricing/",
+    "notes": "The pricing page is client-rendered (an ROI calculator dominates its text), so no plan figure is asserted here and humanBilling is unknown. The MCP needs 'any plan that includes Help Scout API access' and report tools need Plus or Pro. No separate MCP price; not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Probed keyless 2026-11-13 18:10Z: initialize POST to mcp.helpscout.net/mcp answered 401 Bearer. Metadata names scope 'helpscout' and OAuth 2.1 (PKCE S256, authorization_code/refresh_token, a registration endpoint). Read-only; each user uses own credentials. No keyless tool catalog."
+  },
+  "surfaces": {
+    "homepage": "https://www.helpscout.com/",
+    "docs": "https://docs.helpscout.com/article/1779-connect-your-ai-agent-with-help-scout-to-search-conversations-and-pull-reports",
+    "llmsTxt": null,
+    "skills": [],
+    "mcp": "https://mcp.helpscout.net/mcp"
+  },
+  "domains": [
+    "helpscout.com",
+    "www.helpscout.com",
+    "mcp.helpscout.net",
+    "docs.helpscout.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.summarize-conversations",
+      "summary": "First-party hosted MCP (mcp.helpscout.net/mcp), read-only, OAuth: lists, searches and returns conversations and threads. Vendor advertises 'find and summarize', but the connector 'makes no model calls of its own', so the connected model composes the summary, not Help Scout. No vendor figure.",
+      "source": "https://docs.helpscout.com/article/1779-connect-your-ai-agent-with-help-scout-to-search-conversations-and-pull-reports",
+      "sources": [
+        "https://www.helpscout.com/"
+      ]
+    }
+  ],
+  "created": "2026-11-13",
+  "updated": "2026-11-13",
+  "version": 1
+}
