@@ -16,10 +16,13 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "card",
+      "bank-transfer"
+    ],
+    "humanBilling": "card-on-file",
     "priceList": "https://www.helpscout.com/pricing/",
-    "notes": "The pricing page is client-rendered (an ROI calculator dominates its text), so no plan figure is asserted here and humanBilling is unknown. The MCP needs 'any plan that includes Help Scout API access' and report tools need Plus or Pro. No separate MCP price; not machine-payable."
+    "notes": "Pricing page (plain GET, 2026-11-14): Standard $25, Plus $45, Pro $75 per user/mo, plus a free tier (5 users, 1 Inbox, 1 Docs site). FAQ: major credit cards; for some annual payments wire or ACH. The MCP needs a plan with Help Scout API access; report tools need Plus or Pro. No separate MCP price."
   },
   "agentAccess": {
     "noAccountNeeded": false,
