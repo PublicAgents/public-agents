@@ -47,7 +47,7 @@
   "jobs": [
     {
       "job": "cs.summarize-conversations",
-      "summary": "First-party hosted MCP (mcp.helpscout.net/mcp), read-only, OAuth: lists, searches and returns conversations and threads. Vendor advertises 'find and summarize', but the connector 'makes no model calls of its own', so the connected model composes the summary, not Help Scout. No vendor figure.",
+      "summary": "First-party hosted MCP (mcp.helpscout.net/mcp), read-only, OAuth: lists, searches and returns conversations and threads. Vendor advertises 'find and summarize', but the connector 'makes no model calls of its own', so the connected model composes the summary, not the connector. No vendor figure.",
       "source": "https://docs.helpscout.com/article/1779-connect-your-ai-agent-with-help-scout-to-search-conversations-and-pull-reports",
       "sources": [
         "https://www.helpscout.com/"
