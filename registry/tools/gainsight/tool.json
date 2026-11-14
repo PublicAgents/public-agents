@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "gainsight",
+  "name": "Gainsight",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer success platform whose first-party MCP server connects AI tools like Claude and ChatGPT to live Gainsight data. For churn the signal is the vendor's own: Gainsight CS Scorecards (health from product usage and telemetry) and Staircase AI (sentiment and risk mined from email, Slack, meetings and support), which the MCP exposes read-only so an agent can review risk and then act (create CTAs and success plans). OAuth with a PKCE toggle; the server URL is per-tenant ([your-domain].gainsightcloud.com/v1/ds-mcp/mcp), so not keyless-probeable. No churn-flag accuracy figure is published.",
+  "vendor": {
+    "name": "Gainsight",
+    "url": "https://www.gainsight.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.gainsight.com/pricing/",
+    "notes": "The MCP needs a paid Gainsight CS / Staircase AI plan. The pricing page lists two quote-based CS tiers (Essentials, Enterprise, both 'Request Pricing', no currency figure), so priceList points at it and humanBilling is unknown (no method named). No separate MCP price, no machine-payment protocol."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless; two routes. CS MCP is per-tenant (https://[domain].gainsightcloud.com/v1/ds-mcp/mcp, OAuth via an admin-created app with PKCE), no fixed endpoint. Staircase AI MCP is fixed and public (https://mcp.staircase.ai/mcp, SSO via FastMCP), 401 Bearer to a keyless initialize on 2026-11-14."
+  },
+  "surfaces": {
+    "homepage": "https://www.gainsight.com/",
+    "docs": "https://support.gainsight.com/gainsight_nxt/AI_Assistants/MCP_Integration/FAQ/Gainsight_CS_MCP_FAQ",
+    "llmsTxt": null,
+    "skills": [],
+    "mcp": "https://mcp.staircase.ai/mcp"
+  },
+  "domains": [
+    "gainsight.com",
+    "www.gainsight.com",
+    "support.gainsight.com",
+    "gainsightcloud.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.detect-churn-signals",
+      "summary": "Gainsight computes the churn signal: CS Scorecards (health from usage/telemetry) and Staircase AI risk/sentiment from unstructured communication. A first-party MCP exposes these read-only (Read Scorecards, account briefs) and can create CTAs. No vendor precision/recall, lead-time or saves figure.",
+      "source": "https://www.gainsight.com/mcp/",
+      "sources": [
+        "https://support.gainsight.com/gainsight_nxt/AI_Assistants/MCP_Integration/FAQ/Gainsight_CS_MCP_FAQ",
+        "https://www.gainsight.com/press/gainsight-opens-its-platform-with-mcp-bringing-customer-retention-into-the-agentic-era/"
+      ]
+    }
+  ],
+  "created": "2026-11-14",
+  "updated": "2026-11-14",
+  "version": 1
+}
