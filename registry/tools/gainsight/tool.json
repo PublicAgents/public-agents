@@ -24,14 +24,14 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Not keyless. The CS MCP URL is per-tenant (https://[your-domain].gainsightcloud.com/v1/ds-mcp/mcp), auth OAuth: an admin creates an OAuth app in Gainsight and enables the PKCE toggle; each user connects under role-based permissions. No fixed public endpoint, so no probe was possible."
+    "notes": "Not keyless; two routes. CS MCP is per-tenant (https://[domain].gainsightcloud.com/v1/ds-mcp/mcp, OAuth via an admin-created app with PKCE), no fixed endpoint. Staircase AI MCP is fixed and public (https://mcp.staircase.ai/mcp, SSO via FastMCP), 401 Bearer to a keyless initialize on 2026-11-14."
   },
   "surfaces": {
     "homepage": "https://www.gainsight.com/",
     "docs": "https://support.gainsight.com/gainsight_nxt/AI_Assistants/MCP_Integration/FAQ/Gainsight_CS_MCP_FAQ",
     "llmsTxt": null,
     "skills": [],
-    "mcp": null
+    "mcp": "https://mcp.staircase.ai/mcp"
   },
   "domains": [
     "gainsight.com",
