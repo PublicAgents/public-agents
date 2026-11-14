@@ -18,8 +18,8 @@
     "protocols": [],
     "methods": [],
     "humanBilling": "unknown",
-    "priceList": null,
-    "notes": "Enterprise subscription; the MCP needs a Gainsight CS / Staircase AI plan. No public price page was found (quote-based), so priceList is null and humanBilling is unknown. The MCP has no separate price and speaks no machine-payment protocol."
+    "priceList": "https://www.gainsight.com/pricing/",
+    "notes": "The MCP needs a paid Gainsight CS / Staircase AI plan. The pricing page lists two quote-based CS tiers (Essentials, Enterprise, both 'Request Pricing', no currency figure), so priceList points at it and humanBilling is unknown (no method named). No separate MCP price, no machine-payment protocol."
   },
   "agentAccess": {
     "noAccountNeeded": false,
