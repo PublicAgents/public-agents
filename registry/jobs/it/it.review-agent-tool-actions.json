@@ -1,0 +1,26 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "it.review-agent-tool-actions",
+  "function": "it",
+  "name": "Review risky AI agent tool actions before execution",
+  "outcome": "High-risk AI agent tool actions receive a policy decision before they can change systems, expose sensitive data, or run untrusted commands.",
+  "description": "For workflows that give AI agents tools and data access, check proposed actions against permissions before execution. Allowed actions proceed; actions outside policy are denied or sent for a human decision. Coverage depends on the action paths a system can inspect, and a review record alone is not proof that an action was blocked.",
+  "measures": [
+    "share of high-risk tool actions checked before execution",
+    "unauthorized agent tool actions executed",
+    "false-positive reviews of permitted actions",
+    "time to decide actions needing human approval"
+  ],
+  "aliases": [
+    "AI agent tool approval",
+    "agent tool authorization",
+    "agent action approval",
+    "pre-execution tool policy",
+    "agent runtime action review"
+  ],
+  "status": "active",
+  "created": "2026-11-14",
+  "updated": "2026-11-14",
+  "version": 1
+}
