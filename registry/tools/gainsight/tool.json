@@ -5,7 +5,7 @@
   "name": "Gainsight",
   "kind": "service",
   "status": "active",
-  "summary": "Customer success platform whose first-party MCP server connects AI tools like Claude and ChatGPT to live Gainsight data. For churn the signal is the vendor's own: Gainsight CS Scorecards (health from product usage and telemetry) and Staircase AI (sentiment and risk mined from email, Slack, meetings and support), which the MCP exposes read-only so an agent can review risk and then act (create CTAs and success plans). OAuth with a PKCE toggle; the server URL is per-tenant ([your-domain].gainsightcloud.com/v1/ds-mcp/mcp), so not keyless-probeable. No churn-flag accuracy figure is published.",
+  "summary": "Customer success platform whose first-party MCP server connects AI tools like Claude and ChatGPT to live Gainsight data. For churn the signal is the vendor's own: Gainsight CS Scorecards (health from product usage and telemetry) and Staircase AI (sentiment and risk mined from email, Slack, meetings and support), which the MCP exposes read-only so an agent can review risk and then act (create CTAs and success plans). OAuth; two routes: CS per-tenant (not keyless-probeable), Staircase AI fixed at mcp.staircase.ai/mcp (401 Bearer keyless). No churn-flag accuracy figure is published.",
   "vendor": {
     "name": "Gainsight",
     "url": "https://www.gainsight.com/",
