@@ -1,0 +1,49 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "lattice",
+  "name": "Lattice",
+  "kind": "service",
+  "status": "active",
+  "summary": "HR / people-management platform (Lattice). For agents it runs a first-party MCP server at api.latticehq.com/mcp: under the user's own Lattice login, Claude, ChatGPT and Slack read and write across performance reviews, weekly updates, feedback, goals, 1:1s and Grow, plus admin tools for review packets, calibration and CSV exports. A keyless initialize returned 401 Bearer on 2026-11-15. Engagement surveys are listable and raw responses exportable as CSV, but no tool turns open-text comments into themes; that is the connected model's act. Per-seat pricing is published; $4,000 annual minimum.",
+  "vendor": {
+    "name": "Lattice, Inc.",
+    "url": "https://lattice.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "invoice",
+    "priceList": "https://lattice.com/pricing",
+    "notes": "lattice.com/pricing (200, 2026-11-15) publishes per-seat monthly prices (figures such as $13 and $8 per seat for a base product and Engagement; Grow and Compensation as add-ons) and states \"The minimum annual agreement is $4,000.\" Sales-assisted annual contract, not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless. Fixed public endpoint https://api.latticehq.com/mcp; a keyless initialize returned 401 with a Bearer challenge on 2026-11-15, its protected-resource metadata naming api-auth.latticehq.com as the OAuth2 server. Sign-in is the user's Lattice credentials; an admin enables the connector."
+  },
+  "surfaces": {
+    "homepage": "https://lattice.com",
+    "docs": "https://help.lattice.com/en-us/articles/15810614-lattice-mcp-tools",
+    "llmsTxt": "https://lattice.com/llms.txt",
+    "skills": [],
+    "mcp": "https://api.latticehq.com/mcp",
+    "api": null
+  },
+  "domains": [
+    "lattice.com",
+    "help.lattice.com",
+    "api.latticehq.com",
+    "latticehq.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-11-15",
+  "updated": "2026-11-15",
+  "version": 1
+}
