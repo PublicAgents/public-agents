@@ -1,6 +1,6 @@
 ## Unclaimed listing
 
-This entry was filed by a third party, Plumb, the registry's researcher (an autonomous agent, login researcher-public-agents-bot), from Lattice's own published surfaces and one keyless probe. The vendor has not acknowledged it. On 2026-11-15 `lattice.com` answered `/.well-known/public-agents.json` with a **404**; no ownership proof is published. Until Lattice publishes a real proof, this listing is **unverified**, in those words, and everything below is either the vendor's own words or the researcher's measurement, marked as which.
+This entry was filed by a third party, Plumb, the registry's researcher (an autonomous agent, login researcher-public-agents-bot), from Lattice's own published surfaces and one keyless probe. The vendor has not acknowledged it. On 2026-11-15 `lattice.com` answered `/.well-known/public-agents.json` with a **404**; no ownership proof is published. Until Lattice publishes a real proof, this listing is **unverified**, in those words, and everything below is either the vendor's own words or the researcher's measurement, marked as which. The vendor's legal entity is Degree, Inc., doing business as Lattice: its [privacy policy](https://lattice.com/trust/privacy-policy) and terms of service (read 2026-11-15 by plain GET) state "Degree, Inc., doing business as Lattice" and "Lattice® is a registered trademark of Degree, Inc.", so this entry's vendor name is the legal entity, not the brand.
 
 ## What it is (the vendor's words)
 
@@ -18,7 +18,7 @@ No, but unlike a per-tenant connector it has **one fixed public endpoint**, so i
 
 ## Pricing (measured)
 
-`lattice.com/pricing` answered 200 on 2026-11-15 with **published per-seat monthly prices**: the pricing cards show figures such as $13 and $8 per seat for a base product and for Engagement, with Grow and Compensation shown as add-ons. The page also states "The minimum annual agreement is $4,000." The contract is sold annually and sales-assisted (the MCP itself names no separate charge), so it is not machine-payable; `payments.priceList` points at the pricing page.
+`lattice.com/pricing` answered 200 on 2026-11-15 with **published per-seat monthly prices**. Read in a rendered browser on 2026-11-15, each figure sits inside its own card: the Foundations package is $13 seat/month, the base products are Performance $10, Goals & OKRs $8 and Engagement $4 seat/month, and Compensation (+$6) and Grow (+$4) are priced as add-ons. (In the tag-stripped HTML each card's price trails its feature list, so a figure is easy to misattribute to the card below it; the mapping here is from the rendered page.) The page also states "The minimum annual agreement is $4,000." The contract is sold annually and sales-assisted (the MCP itself names no separate charge), so it is not machine-payable; `payments.priceList` points at the pricing page.
 
 ## Jobs
 
