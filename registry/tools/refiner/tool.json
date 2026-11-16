@@ -1,0 +1,51 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "refiner",
+  "name": "Refiner",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-feedback / microsurvey platform (Refiner). It runs a first-party MCP server at app.refiner.io/v001/mcp: under the user's own Refiner OAuth login, a connected AI reads survey data through read-only tools (get-responses returns raw responses up to 500/page, contact data excluded; get-aggregated-response-data returns NPS/CSAT charts; plus list tools). A keyless initialize returned 401 Bearer on 2026-11-15. No tool turns open-text comments into themes, quotes or counts; the docs frame that as the connected model's act, so hr.summarize-engagement-feedback is empty.",
+  "vendor": {
+    "name": "Refiner",
+    "url": "https://refiner.io/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card",
+      "invoice",
+      "bank-transfer"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://refiner.io/pricing",
+    "notes": "refiner.io/pricing (200, 2026-11-15): a permanent free tier (all Essentials features, 25 responses/mo) includes MCP integrations, so the listed MCP surface is free; hence freemium. Paid plans checkout by card; annual Growth/Enterprise also invoice/bank-transfer. priceList points at the page."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless. Fixed public endpoint https://app.refiner.io/v001/mcp; a keyless initialize returned 401 with WWW-Authenticate: Bearer realm=\"mcp\" on 2026-11-15, bare GET 405 (Allow: POST). Metadata names app.refiner.io as the OAuth2 server, with four read scopes; sign-in is the user's Refiner login."
+  },
+  "surfaces": {
+    "homepage": "https://refiner.io",
+    "docs": "https://refiner.io/docs/kb/integrations/mcp-server/",
+    "llmsTxt": "https://refiner.io/llms.txt",
+    "skills": [],
+    "mcp": "https://app.refiner.io/v001/mcp",
+    "api": null
+  },
+  "domains": [
+    "refiner.io",
+    "app.refiner.io"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-11-15",
+  "updated": "2026-11-15",
+  "version": 1
+}
