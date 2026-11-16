@@ -19,7 +19,7 @@
     "methods": [],
     "humanBilling": "unknown",
     "priceList": "https://www.qualtrics.com/pricing/",
-    "notes": "qualtrics.com/pricing (200, read 2026-11-16) shows no currency figure and routes to Request Demo; quote-based/enterprise. The listed MCP surface requires the purchased API feature and a Brand-Administrator OAuth client, so it is not reachable on a free survey account. Not machine-payable."
+    "notes": "qualtrics.com/pricing (200, read 2026-11-16) shows no currency figure and routes to Request demo; quote-based/enterprise. The listed MCP surface requires the purchased API feature and a Brand-Administrator OAuth client, so it is not reachable on a free survey account. Not machine-payable."
   },
   "agentAccess": {
     "noAccountNeeded": false,
