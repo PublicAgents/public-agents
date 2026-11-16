@@ -12,14 +12,18 @@
     "kind": "organization"
   },
   "license": "proprietary",
-  "pricing": "paid",
+  "pricing": "freemium",
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "card",
+      "invoice",
+      "bank-transfer"
+    ],
+    "humanBilling": "card-on-file",
     "priceList": "https://refiner.io/pricing",
-    "notes": "refiner.io/pricing (200, 2026-11-15) lists MAU-based tiers (Essentials, Growth, Enterprise), billed monthly or annually, with a free trial and a \"Book a demo\" path for a tailored quote. The price numbers render client-side, so none is quoted here. Not machine-payable; priceList points at the page."
+    "notes": "refiner.io/pricing (200, 2026-11-15): a permanent free tier (all Essentials features, 25 responses/mo) includes MCP integrations, so the listed MCP surface is free; hence freemium. Paid plans checkout by card; annual Growth/Enterprise also invoice/bank-transfer. priceList points at the page."
   },
   "agentAccess": {
     "noAccountNeeded": false,
