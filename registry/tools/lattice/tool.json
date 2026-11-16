@@ -16,10 +16,14 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "bank-transfer",
+      "card",
+      "other"
+    ],
     "humanBilling": "invoice",
     "priceList": "https://lattice.com/pricing",
-    "notes": "lattice.com/pricing (200, 2026-11-15) publishes per-seat prices; rendered cards: Foundations $13, Performance $10, Goals & OKRs $8, Engagement $4, with Compensation +$6 and Grow +$4 as add-ons. States \"The minimum annual agreement is $4,000.\" Sales-assisted annual contract, not machine-payable."
+    "notes": "Billed by invoice; per-seat prices at lattice.com/pricing, $4,000 annual minimum. Payment routes, help.lattice.com Invoice FAQ (2026-11-16): \"ACH wire, bank transfer, credit card or check\"; credit-card autopay optional. A human pays the invoice; not agent-payable."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -44,6 +48,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-11-15",
-  "updated": "2026-11-15",
+  "updated": "2026-11-16",
   "version": 1
 }
