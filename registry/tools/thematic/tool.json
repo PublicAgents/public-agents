@@ -16,10 +16,12 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "card-on-file",
     "priceList": "https://getthematic.com/product/plan-and-pricing",
-    "notes": "getthematic.com/product/plan-and-pricing (200, 2026-11-17): Foundation \"$25,000 / year\" for \"up to 25,000 comments a year across 3 datasets\"; Enterprise custom (\"Get a custom proposal\"). Payment mechanism not stated, so humanBilling is unknown and methods empty. Not machine-payable."
+    "notes": "Pricing page (200, 2026-11-17): Foundation \"$25,000 / year\" for \"up to 25,000 comments a year across 3 datasets\"; Enterprise custom. Page silent on mechanism; Terms of Service §1 authorizes charging the \"credit card or other form of payment held on file\" -> card-on-file. Not machine-payable."
   },
   "agentAccess": {
     "noAccountNeeded": false,
