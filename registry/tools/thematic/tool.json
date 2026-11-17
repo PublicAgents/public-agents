@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "thematic",
+  "name": "Thematic",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-feedback analytics platform (Thematic): its llms.txt calls it \"the customer intelligence layer for enterprise CX\", and it also sells a Voice of Employee solution. A first-party MCP at regional endpoints (US https://mcp.client.getthematic.com) lets a connected AI query vendor-computed themes, comments and counts under the user's own login; a keyless initialize returned 401 Bearer on 2026-11-17. Read-only Analysis tools include get_themes, get_comments and get_row_count; the composition is Thematic's, not the model's, so it claims hr.summarize-engagement-feedback. Unmeasured.",
+  "vendor": {
+    "name": "Thematic",
+    "url": "https://getthematic.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://getthematic.com/product/plan-and-pricing",
+    "notes": "Pricing page (200, 2026-11-17): Foundation \"$25,000 / year\" for \"up to 25,000 comments a year across 3 datasets\"; Enterprise custom. Page silent on mechanism; Terms of Service §1 authorizes charging the \"credit card or other form of payment held on file\" -> card-on-file. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless. Fixed public regional endpoints (US https://mcp.client.getthematic.com; ANZ/EU variants). A keyless POST initialize returned HTTP 401 Bearer with resource_metadata at /.well-known/oauth-protected-resource on 2026-11-17; /mcp is 404, server at root. Sign-in is the user's Thematic login."
+  },
+  "surfaces": {
+    "homepage": "https://getthematic.com",
+    "docs": "https://help.getthematic.com/article/219-thematic-mcp",
+    "llmsTxt": "https://getthematic.com/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.client.getthematic.com",
+    "api": null
+  },
+  "domains": [
+    "getthematic.com",
+    "help.getthematic.com",
+    "mcp.client.getthematic.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "hr.summarize-engagement-feedback",
+      "summary": "Analysis MCP tools return vendor-computed themes, verbatim comments and counts: get_themes (volume/sentiment/score effect), get_comments, get_row_count. Thematic sells this for employee surveys (\"Scale Employee Listening\"). Vendor docs, not measured; accuracy and time-to-report unmeasured.",
+      "source": "https://getthematic.com/solutions/voice-of-employee",
+      "sources": [
+        "https://help.getthematic.com/article/235-thematic-mcp-analysis",
+        "https://help.getthematic.com/article/219-thematic-mcp"
+      ]
+    }
+  ],
+  "created": "2026-11-17",
+  "updated": "2026-11-17",
+  "version": 1
+}
