@@ -1,0 +1,58 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "chattermill",
+  "name": "Chattermill",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-experience intelligence platform (Chattermill), \"a customer experience intelligence platform that unifies feedback from every channel\" per its llms.txt. A first-party, Chattermill-hosted MCP server (app.chattermill.com/mcp; US variant) lets a connected AI query vendor-computed insights under the user's own login; a keyless initialize returned 401 Bearer, scope mcp:read, on 2026-11-18. Eight read-only tools include list_themes, generate_highlights (an AI feedback summary), get_feedback (verbatims) and get_metrics (counts), so it claims cs.summarize-customer-feedback. Unmeasured.",
+  "vendor": {
+    "name": "Chattermill",
+    "url": "https://chattermill.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "No public price: the pricing link (chattermill.com/plans) 301-redirects to a book-a-demo form (2026-11-18), so plans are sales-quoted. The Website Terms of Use name no payment mechanism, so methods are left empty rather than guessed. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless; needs a Chattermill account. Hosted endpoints app.chattermill.com/mcp (EU) and app-us.chattermill.com/mcp (US). A keyless POST initialize returned HTTP 401 Bearer, scope mcp:read, on 2026-11-18. OAuth at auth.chattermill.com, or an admin-only API key as bearer token."
+  },
+  "surfaces": {
+    "homepage": "https://chattermill.com",
+    "docs": "https://docs.chattermill.com/en/articles/13943134-chattermill-mcp-server",
+    "llmsTxt": "https://chattermill.com/llms.txt",
+    "skills": [],
+    "mcp": "https://app.chattermill.com/mcp",
+    "api": null
+  },
+  "domains": [
+    "chattermill.com",
+    "docs.chattermill.com",
+    "app.chattermill.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.summarize-customer-feedback",
+      "summary": "Read-only MCP tools return vendor-computed themes, verbatims and counts: list_themes (configured themes), generate_highlights (an AI summary of feedback into issues/trends/themes), get_feedback (verbatims), get_metrics (NPS/sentiment/volume). Vendor docs, not measured.",
+      "source": "https://docs.chattermill.com/en/articles/13943134-chattermill-mcp-server",
+      "sources": [
+        "https://chattermill.com/platform/mcp",
+        "https://chattermill.com/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-18",
+  "updated": "2026-11-18",
+  "version": 1
+}
