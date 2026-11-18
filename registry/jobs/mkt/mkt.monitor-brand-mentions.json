@@ -19,10 +19,11 @@
     "brand mention alerts"
   ],
   "related": [
-    "mkt.improve-search-visibility"
+    "mkt.improve-search-visibility",
+    "cs.summarize-customer-feedback"
   ],
   "status": "active",
   "created": "2026-09-05",
-  "updated": "2026-09-18",
-  "version": 3
+  "updated": "2026-11-18",
+  "version": 4
 }
