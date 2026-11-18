@@ -16,10 +16,13 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "bank-transfer",
+      "card"
+    ],
+    "humanBilling": "invoice",
     "priceList": null,
-    "notes": "No public price: the pricing link (chattermill.com/plans) 301-redirects to a book-a-demo form (2026-11-18), so plans are sales-quoted. The Website Terms of Use name no payment mechanism, so methods are left empty rather than guessed. Not machine-payable."
+    "notes": "Prices not public: chattermill.com/plans 301-redirects to a demo form (2026-11-18). SaaS Agreement (Chattermill Teams) s.6.1-6.2: bank transfer \"(or via debit or credit card (if applicable))\", invoices due in 30 days, paid in advance; a Pricing Plan may vary this (s.2.2). Not machine-payable."
   },
   "agentAccess": {
     "noAccountNeeded": false,
