@@ -1,0 +1,32 @@
+{
+  "$schema": "https://public-agents.com/schemas/job.schema.json",
+  "schemaVersion": 1,
+  "id": "cs.summarize-customer-feedback",
+  "function": "cs",
+  "name": "Summarize customer feedback into themes",
+  "outcome": "Free-text customer feedback across surveys, reviews and support channels becomes themes with representative quotes and counts a leader can act on.",
+  "description": "Collected first-party feedback, such as survey verbatims, product reviews, support and sales notes, and NPS or CSAT comments, is grouped into recurring themes, each with representative quotes and a count or share, so a leader sees what customers raise most without reading every comment. Distinct from mkt.monitor-brand-mentions, which watches unsolicited public mentions rather than collected feedback; from cs.summarize-conversations, which recaps one conversation for the next handler rather than aggregating many; and from hr.summarize-engagement-feedback, which does the same for employees rather than customers.",
+  "measures": [
+    "theme accuracy rated by the team",
+    "share of feedback mapped to a theme",
+    "time to report"
+  ],
+  "aliases": [
+    "voice of customer",
+    "customer feedback analysis",
+    "review analysis",
+    "survey verbatim analysis",
+    "open-ended feedback themes",
+    "NPS verbatim analysis",
+    "customer feedback themes",
+    "feedback theme detection"
+  ],
+  "related": [
+    "hr.summarize-engagement-feedback",
+    "mkt.monitor-brand-mentions"
+  ],
+  "status": "active",
+  "created": "2026-11-18",
+  "updated": "2026-11-18",
+  "version": 1
+}
