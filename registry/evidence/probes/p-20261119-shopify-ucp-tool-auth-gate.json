@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261119-shopify-ucp-tool-auth-gate",
+  "subject": {
+    "type": "tool",
+    "id": "shopify-ucp"
+  },
+  "surface": "https://1da1f2-7c.myshopify.com/api/ucp/mcp",
+  "question": "access",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "thirteen requests, one per tool the endpoint lists, each a tools/call (jsonrpc 2.0) whose arguments carry only meta['ucp-agent'].profile, the vendor's own published example agent profile; then one create_checkout carrying a single line item with variant gid://shopify/ProductVariant/0, an id that cannot exist (the command of p-20261010-shopify-ucp-checkout-anonymous). Preceded by GET hardware.shopify.com/.well-known/ucp. No Authorization header, no HTTP signature, no payment; user-agent public-agents-ci. 12:10:16Z to 12:10:36Z"
+  },
+  "observed": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-shopify-ucp-mcp-api-version": "2026-08-25",
+      "link": "</.well-known/ucp>; rel=\"ucp\"; version=\"2026-08-25\"",
+      "powered-by": "Shopify"
+    },
+    "decoded": {
+      "gated": "complete_checkout (12:10:19Z) and get_order (12:10:22Z): HTTP 403, JSON-RPC error -32000 AuthenticationRequired, data 'Unauthorized: A valid JWT is required to call <tool>.' Neither names an argument",
+      "not-gated": "the other eleven: HTTP 200 with isError true and 'Missing required arguments: <names>': id (cancel_cart, cancel_checkout, get_cart, get_checkout), cart (create_cart), checkout (create_checkout), catalog (get_product, lookup_catalog, search_catalog), cart, id (update_cart), checkout, id (update_checkout). No credential asked of any, create_checkout included",
+      "payload": "anonymous create_checkout with variant gid://shopify/ProductVariant/0: HTTP 200, UCP envelope status 'error', no checkout id, continue_url the store root, one message code 'invalid', severity 'unrecoverable', path '$.line_items[0].item.id', 'The merchandise with id gid://shopify/ProductVariant/0 does not exist.' Merchandise validation, not authentication",
+      "docs-now": "the same morning the vendor's Auth and rate limiting page (.md 9,715 B, sha256 d3f76860c2109294) gives the Anonymous tier Catalog Yes, Cart Yes, Checkout No, and says 'Checkout tools, including complete_checkout, and order tools aren't available at this tier'; Checkout MCP (.md 48,296 B, 772e79a7d5411136) still says 'All requests require authentication or a signed request'. On 2026-10-15 the table's Anonymous row said Yes under Checkout. The documentation now agrees with itself and disagrees with this endpoint's credential check",
+      "listing": "GET https://hardware.shopify.com/.well-known/ucp answers 200, 6,496 bytes, and names https://1da1f2-7c.myshopify.com/api/ucp/mcp",
+      "transient-errors": "none: all fifteen requests answered on their first attempt",
+      "not-measured": "no cart, checkout, order or purchase. Whether a well-formed anonymous checkout succeeds is not tested, because it would create a session on a merchant's store. A credential check that lets create_checkout through may still refuse it later in processing; this measures only where the credential check sits. One merchant endpoint, the vendor's own store"
+    }
+  },
+  "finding": "Fourth gate map at one merchant (2026-09-20, 09-29, 10-15, 11-19), all the same: an anonymous caller is refused by credential only at complete_checkout and get_order (HTTP 403 AuthenticationRequired, before arguments are read); create_checkout and the other ten tools take the call and answer an argument error, and an anonymous create_checkout with an impossible variant reaches merchandise validation. The same morning the vendor's tier table changed its Anonymous row to Checkout No, so all three vendor pages now say anonymous agents cannot use checkout tools, and the endpoint's credential check still does not enforce that for create_checkout. Nothing was created or bought.",
+  "reproducibility": {
+    "command": "P=https://shopify.dev/ucp/agent-profiles/examples/2026-08-25/valid-with-capabilities.json; for t in cancel_cart cancel_checkout complete_checkout create_cart create_checkout get_cart get_checkout get_order get_product lookup_catalog search_catalog update_cart update_checkout; do curl -sS -m 25 -A public-agents-ci -w ' %{http_code}\\n' -X POST https://1da1f2-7c.myshopify.com/api/ucp/mcp -H 'content-type: application/json' -d \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"tools/call\\\",\\\"params\\\":{\\\"name\\\":\\\"$t\\\",\\\"arguments\\\":{\\\"meta\\\":{\\\"ucp-agent\\\":{\\\"profile\\\":\\\"$P\\\"}}}}}\"; done",
+    "artifactsUrl": "https://github.com/PublicAgents/public-agents/pull/275#issuecomment-7008721363"
+  },
+  "at": "2026-11-19T12:10Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-11-19",
+  "updated": "2026-11-19",
+  "version": 1
+}
