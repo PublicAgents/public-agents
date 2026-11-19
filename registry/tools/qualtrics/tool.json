@@ -1,0 +1,48 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "qualtrics",
+  "name": "Qualtrics",
+  "kind": "service",
+  "status": "active",
+  "summary": "Qualtrics is an experience-management platform (surveys, CX, EX/Engagement). Its agent surface is a first-party MCP at one per-brand URL (rewritten 2026-11-17; it replaced per-API servers) whose tools set up surveys, contacts, mailing lists, samples, libraries and distributions under the user's OAuth login; read:survey_responses covers only schema and filters. Its theme engines (Text iQ, Text Analytics) are UI features reachable by no MCP scope or API endpoint, so hr.summarize-engagement-feedback is empty.",
+  "vendor": {
+    "name": "Qualtrics, LLC",
+    "url": "https://www.qualtrics.com",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.qualtrics.com/pricing/",
+    "notes": "qualtrics.com/pricing (200, read 2026-11-16) shows no currency figure and routes to Request demo; quote-based/enterprise. The listed MCP surface requires the purchased API feature and a Brand-Administrator OAuth client, so it is not reachable on a free survey account. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless and not probed: the MCP endpoint is per-brand (e.g. my-brand.iad1.qualtrics.com/API/mcp), not a fixed public URL. Access is OAuth 2.0 via a client a Brand Administrator creates (each call runs as the signed-in user), or a one-hour client-credentials Bearer token."
+  },
+  "surfaces": {
+    "homepage": "https://www.qualtrics.com",
+    "docs": "https://developer-docs.qualtrics.com/docs/public-api/mcp/mcp-overview",
+    "llmsTxt": null,
+    "skills": [],
+    "mcp": null,
+    "api": "https://developer-docs.qualtrics.com/public-api/"
+  },
+  "domains": [
+    "qualtrics.com",
+    "www.qualtrics.com",
+    "developer-docs.qualtrics.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-11-16",
+  "updated": "2026-11-19",
+  "version": 1
+}
