@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "enterpret",
+  "name": "Enterpret",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-feedback intelligence platform (Enterpret) that classifies feedback with \"an adaptive taxonomy trained for each customer\" per its llms.txt. A first-party MCP server (wisdom-api.enterpret.com/server/mcp) gives a connected AI themes, counts and verbatims under the user's own login; a keyless initialize returned 401 Bearer, scope mcp:read mcp:write, on 2026-11-19. The vendor says the connected assistant writes the answer, so the claim on cs.summarize-customer-feedback covers the inputs only. Unmeasured.",
+  "vendor": {
+    "name": "Enterpret",
+    "url": "https://www.enterpret.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "invoice",
+    "priceList": null,
+    "notes": "Prices not public: llms.txt says pricing is custom, by feedback volume and integrations; /pricing is 404 (2026-11-19). Terms of Service s.5: unless the Order says otherwise, fees billed annually in advance, due within 30 days of invoice. No payment method named. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Not keyless; needs an Enterpret account. Endpoint wisdom-api.enterpret.com/server/mcp; keyless POST initialize returned HTTP 401 Bearer, scope mcp:read mcp:write, 2026-11-19. OAuth (AS oauth.enterpret.com, user sign-in, no client credentials grant) or a user-tied dashboard token as bearer."
+  },
+  "surfaces": {
+    "homepage": "https://www.enterpret.com",
+    "docs": "https://helpcenter.enterpret.com/article/enterpret-mcp-server",
+    "llmsTxt": "https://www.enterpret.com/llms.txt",
+    "skills": [],
+    "mcp": "https://wisdom-api.enterpret.com/server/mcp",
+    "api": null
+  },
+  "domains": [
+    "enterpret.com",
+    "www.enterpret.com",
+    "helpcenter.enterpret.com",
+    "wisdom-api.enterpret.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.summarize-customer-feedback",
+      "summary": "Vendor-computed inputs: an adaptive taxonomy classifies feedback into themes; run_graph_query counts by taxonomy node; find_user_quote returns verbatims. The vendor says the connected assistant writes the answer, so the prose is the model's. Vendor docs, not measured.",
+      "source": "https://helpcenter.enterpret.com/article/enterpret-mcp-server",
+      "sources": [
+        "https://www.enterpret.com/platform/enterpret-mcp-server",
+        "https://www.enterpret.com/platform/adaptive-taxonomy",
+        "https://www.enterpret.com/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-19",
+  "updated": "2026-11-19",
+  "version": 1
+}
