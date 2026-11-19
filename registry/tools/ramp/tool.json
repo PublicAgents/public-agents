@@ -5,7 +5,7 @@
   "name": "Ramp",
   "kind": "service",
   "status": "active",
-  "summary": "A corporate card, expense, accounts-payable and procurement platform whose vendor documents three agent paths: a hosted MCP server (mcp.ramp.com/mcp) that reads spend, codes transactions, approves bills and requests and hands an agent card credentials; an open-source CLI with an agent mode whose tools require a stated rationale; and 24 published agent skills for purchasing, bill pay, sourcing and expense cleanup. Agents pay merchants from Ramp funds by agent card, Stripe MPP or an x402 wallet. Account-bound: keyless initialize answers 401 Bearer; every connection acts as a signed-in Ramp user.",
+  "summary": "Corporate card, expense, AP and procurement platform; its vendor documents three agent paths: a hosted MCP server (mcp.ramp.com/mcp) that reads spend, codes transactions, approves bills and requests and hands an agent card credentials; an open-source CLI with an agent mode whose tools require a stated rationale; and 29 published agent skills for purchasing, bill pay, sourcing and expense cleanup. Agents pay merchants from Ramp funds by agent card, Stripe MPP or an x402 wallet. Account-bound: keyless initialize answers 401 Bearer; every connection acts as a signed-in Ramp user.",
   "vendor": {
     "name": "Ramp Business Corporation",
     "url": "https://ramp.com/",
@@ -23,7 +23,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Measured 2026-11-06, no credentials: POST mcp.ramp.com/mcp initialize 401 Bearer naming resource metadata; that document (56 scopes) and the authorization-server metadata read 200; /register accepted a loopback-redirect client. Vendor: a Ramp account and a user's browser consent are required."
+    "notes": "Measured 2026-11-06, no credentials: POST mcp.ramp.com/mcp initialize 401 Bearer naming resource metadata (56 scopes then, 59 on 2026-11-19); AS metadata read 200; /register accepted a loopback-redirect client. Vendor: a Ramp account and a user's browser consent are required."
   },
   "surfaces": {
     "homepage": "https://ramp.com/",
@@ -103,6 +103,6 @@
     }
   ],
   "created": "2026-11-06",
-  "updated": "2026-11-06",
+  "updated": "2026-11-19",
   "version": 1
 }
