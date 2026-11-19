@@ -5,7 +5,7 @@
   "name": "CoinGecko API",
   "kind": "service",
   "status": "active",
-  "summary": "Cryptocurrency market data (prices, market caps, volumes, OHLCV, onchain DEX pools and tokens) over a REST API, hosted MCP servers, an SDK and an agent SKILL package. Three ways in for an agent, all documented by the vendor: a keyless public tier with no sign-up at a low IP-shared rate limit, keyed plans (a free Demo key and paid tiers) and an experimental x402 pay-per-use path at $0.01 USDC per request with no key or account at all.",
+  "summary": "Cryptocurrency market data (prices, market caps, volumes, OHLCV, onchain DEX pools and tokens) over a REST API, hosted MCP servers, an SDK and an agent SKILL package. Three ways in for an agent, all documented by the vendor: a keyless public tier with no sign-up at a low IP-shared rate limit, keyed plans (a free Demo key and paid tiers) and an experimental x402 pay-per-use path with no key or account at all, $0.005 USDC per request when measured on 2026-10-27 against the $0.01 the vendor's page still documents.",
   "vendor": {
     "name": "Gecko Labs Pte. Ltd.",
     "url": "https://www.coingecko.com/",
@@ -22,12 +22,12 @@
     ],
     "humanBilling": "card-on-file",
     "priceList": "https://www.coingecko.com/en/api/pricing",
-    "notes": "Measured 2026-09-11, 09-19 and 09-28, no payment made: the x402 path answers 402 (x402Version 2, scheme exact, 10000 units of USDC, $0.01, Base or Solana). Keyed plans are subscriptions paid by card ('Pay with Visa, Mastercard, AMEX, JCB') or crypto; pricing page read on screen 2026-09-19."
+    "notes": "Measured unpaid 2026-09-11, 09-19, 09-28 and 2026-10-27: 402, x402Version 2, scheme exact. On 10-27, 5000 units of USDC ($0.005) on Base, Solana or Polygon; in September, 10000 ($0.01) on Base or Solana. The docs still say $0.01 and two networks. Keyed plans are card or crypto subscriptions."
   },
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Measured 2026-09-10, 09-18, 09-19 and 09-28, no credentials: keyless REST simple/price 200; MCP initialize 200 (server 8.1.0 on 09-28, 8.0.0 on 09-18), tools/list 200 with the same two tools; no discovery document at either well-known URI; unpaid x402 GET 402 ($0.01 USDC, Base or Solana)."
+    "notes": "Measured 2026-09-10, 09-18, 09-19, 09-28 and 2026-10-27, no credentials: keyless REST simple/price 200; MCP initialize 200 (server 8.1.0 on 09-28, 8.0.0 on 09-18), tools/list 200 with the same two tools; no discovery document at either well-known URI; unpaid x402 GET 402 ($0.005, three networks)."
   },
   "surfaces": {
     "homepage": "https://www.coingecko.com/",
@@ -58,6 +58,6 @@
     }
   ],
   "created": "2026-09-10",
-  "updated": "2026-09-28",
-  "version": 6
+  "updated": "2026-10-27",
+  "version": 7
 }
