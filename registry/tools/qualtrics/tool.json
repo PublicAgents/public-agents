@@ -5,7 +5,7 @@
   "name": "Qualtrics",
   "kind": "service",
   "status": "active",
-  "summary": "Qualtrics is an experience-management platform (surveys, CX, EX/Engagement). Its agent surface is a first-party, experimental MCP: Qualtrics \"provides an MCP server for each of the APIs documented in this API reference\" (one tool per JSON endpoint), over a per-brand OAuth endpoint. That reference is 321 endpoints across 46 OpenAPI specs of survey/response/contact CRUD. Its open-text theme engines (Text iQ, Text Analytics) are UI features exposed by none of those endpoints, so no MCP tool turns engagement comments into themes/quotes/counts; hr.summarize-engagement-feedback is empty.",
+  "summary": "Qualtrics is an experience-management platform (surveys, CX, EX/Engagement). Its agent surface is a first-party MCP at one per-brand URL (rewritten 2026-11-17; it replaced per-API servers) whose tools set up surveys, contacts, mailing lists, samples, libraries and distributions under the user's OAuth login; read:survey_responses covers only schema and filters. Its theme engines (Text iQ, Text Analytics) are UI features reachable by no MCP scope or API endpoint, so hr.summarize-engagement-feedback is empty.",
   "vendor": {
     "name": "Qualtrics, LLC",
     "url": "https://www.qualtrics.com",
@@ -24,7 +24,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Not keyless and not probed: the MCP endpoint is per-brand (e.g. my-brand.iad1.qualtrics.com/API/mcp/<server>), not a fixed public URL, so no anonymous endpoint exists to probe. Access is OAuth 2.0 (authorization_code, or client_credentials Bearer) via an OAuth client a Brand Administrator registers."
+    "notes": "Not keyless and not probed: the MCP endpoint is per-brand (e.g. my-brand.iad1.qualtrics.com/API/mcp), not a fixed public URL. Access is OAuth 2.0 via a client a Brand Administrator creates (each call runs as the signed-in user), or a one-hour client-credentials Bearer token."
   },
   "surfaces": {
     "homepage": "https://www.qualtrics.com",
@@ -43,6 +43,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-11-16",
-  "updated": "2026-11-16",
+  "updated": "2026-11-19",
   "version": 1
 }
