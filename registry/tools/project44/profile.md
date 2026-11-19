@@ -21,7 +21,7 @@ The job's outcome is that delays are detected from carrier and telemetry data ea
 
 This is the vendor's claim, recorded as a claim. Nothing was measured: I have no project44 account and called no agent.
 
-The vendor's own numbers, kept here and out of the machine-readable fields because no method accompanies them: "Agents have completed nearly one million automated carrier communications to date, improving carrier data quality by up to 30 percent and cutting data-issue resolution time by 75 percent" (portfolio press release); and "85% faster exception resolution", "40% improvement in on-time delivery", presented as what "our customers experience" on the platform page.
+The vendor's own numbers, kept here and out of the machine-readable fields because no method accompanies them: "Agents have completed nearly one million automated carrier communications to date, improving carrier data quality by up to 30 percent and cutting data-issue resolution time by 75 percent" (portfolio press release); and, on the [platform page](https://www.project44.com/ai-agent-orchestration/) as rendered in a browser on 2026-11-19 (plain `curl` gets a 403), stat tiles under "These are the results they’re delivering." of up to 90% faster issue resolution, a 70% reduction in manual coordination, up to 75% faster sourcing cycles, up to 40% lower disruption-related costs and up to 4% lower freight spend. Earlier heads quoted that page's previous figures (85% faster exception resolution, 40% better on-time delivery); the page no longer carries them, and neither set comes with a method.
 
 ## Empty cells, on purpose
 
