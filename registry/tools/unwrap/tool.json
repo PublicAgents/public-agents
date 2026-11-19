@@ -1,0 +1,63 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "unwrap",
+  "name": "Unwrap",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-feedback intelligence platform (Unwrap.ai) that groups feedback into a taxonomy of Groups with volume and trend metrics. A first-party, read-only MCP server (nlp.api.production.unwrap.ai/mcp) exposes the same tools as its in-app Assistant; per its security FAQ, tools that classify or summarize sampled entries run an LLM server-side. Keyless initialize returned 401 Bearer on 2026-11-19. Unmeasured.",
+  "vendor": {
+    "name": "Unwrap",
+    "url": "https://www.unwrap.ai/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "bank-transfer",
+      "card"
+    ],
+    "humanBilling": "invoice",
+    "priceList": null,
+    "notes": "Pricing page: \"Starting at $24,000 per year\", by feedback volume and integrations, never per seat; a 30-day trial. Terms of Use (2026-11-18) s.7: Order Form fees invoiced in advance by email; ACH or wire fees are the customer's; card where that is the payment method. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Needs an Unwrap account. Keyless POST initialize to nlp.api.production.unwrap.ai/mcp returned HTTP 401 Bearer, 2026-11-19. OAuth 2.1 + PKCE: per-user DCR, or an org admin's static client with client_credentials for machine-to-machine access. All advertised scopes are read scopes."
+  },
+  "surfaces": {
+    "homepage": "https://www.unwrap.ai",
+    "docs": "https://docs.unwrap.ai/articles/6412771011-unwrap-mcp",
+    "llmsTxt": "https://www.unwrap.ai/llms.txt",
+    "skills": [],
+    "mcp": "https://nlp.api.production.unwrap.ai/mcp",
+    "api": "https://docs.unwrap.ai/articles/4212347322-api%2Fapi-overview"
+  },
+  "domains": [
+    "unwrap.ai",
+    "www.unwrap.ai",
+    "docs.unwrap.ai",
+    "nlp.api.production.unwrap.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.summarize-customer-feedback",
+      "summary": "Vendor-computed: search_groups and search_actionable_groups return taxonomy Groups (themes) and top issues; plot_chart gives volume over time; sample_feedback_entries returns entries; analyze_entry_text returns prevalence plus examples, run by an LLM server-side. Vendor docs, not measured.",
+      "source": "https://docs.unwrap.ai/articles/6412771011-unwrap-mcp",
+      "sources": [
+        "https://docs.unwrap.ai/articles/5132579970-unwrap-mcp-server-security-overview-faq",
+        "https://www.unwrap.ai/post/unwrap-mcp",
+        "https://www.unwrap.ai/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-19",
+  "updated": "2026-11-19",
+  "version": 1
+}
