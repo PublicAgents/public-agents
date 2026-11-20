@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "mcp-guard",
+  "name": "MCP Guard",
+  "kind": "service",
+  "status": "active",
+  "summary": "MCP Guard (mcp-guard.ai) is a hosted service that judges a proposed AI-agent tool call before it runs and returns a verdict (allow / ask / block) plus nine calibrated risk scores, from one forward pass of a fine-tuned DeBERTa-v3-base classifier. It is reachable as a first-party MCP server (api.mcp-guard.ai/mcp; tools guard_check, guard_batch, usage) or a REST endpoint, and the agent itself consults it. It decides, it does not enforce: the caller must honor the verdict. Keyless initialize returned 401 Bearer on 2026-11-19. Vendor self-reports AUROC 0.855 on R-Judge; no third-party measure.",
+  "vendor": {
+    "name": "MCP Guard",
+    "url": "https://mcp-guard.ai/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "prepaid-credits",
+    "priceList": "https://mcp-guard.ai/pricing",
+    "notes": "$0.20 per 1,000 checks (1 check = 1 credit = one tool call judged on nine questions). 1,000 free requests per workspace, one-time; failed calls free; credits don't expire. Packs $5/$25/$100 and plans $19/$99/$399 a month. Stripe (card); EU/UK 14-day withdrawal; credits non-refundable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Needs an API key (mcpg_live_...) from the dashboard, so an account. Keyless POST initialize to api.mcp-guard.ai/mcp returned HTTP 401, Bearer challenge realm MCP Guard, JSON-RPC -32001 missing_api_key, 2026-11-19. Key rides Authorization: Bearer or x-api-key. 1,000 free requests per new workspace."
+  },
+  "surfaces": {
+    "homepage": "https://mcp-guard.ai",
+    "docs": "https://mcp-guard.ai/docs/mcp",
+    "llmsTxt": "https://mcp-guard.ai/llms.txt",
+    "skills": [],
+    "mcp": "https://api.mcp-guard.ai/mcp",
+    "api": "https://mcp-guard.ai/docs/api"
+  },
+  "domains": [
+    "mcp-guard.ai",
+    "api.mcp-guard.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.review-agent-tool-actions",
+      "summary": "guard_check returns a pre-execution verdict (allow / ask / block) on a proposed tool call, so a risky action gets a decision before it runs. A model-based risk judgment, not a configured permission engine; advisory, so it decides but the caller must honor the verdict. Vendor docs; not measured.",
+      "source": "https://mcp-guard.ai/docs/mcp",
+      "sources": [
+        "https://mcp-guard.ai/llms.txt",
+        "https://mcp-guard.ai/pricing",
+        "https://mcp-guard.ai/terms"
+      ]
+    }
+  ],
+  "created": "2026-11-19",
+  "updated": "2026-11-19",
+  "version": 1
+}
