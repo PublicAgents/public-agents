@@ -1,0 +1,54 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "tool-guard-core",
+  "name": "Tool Guard Core",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "Tool Guard Core (github.com/dimaggi-ai/tool-guard-core, by DIMAGGI AI) is an Apache-2.0 open-source decision engine for AI agent actions: a proposed tool call sent to POST /evaluate, the Go library, or a bundled MCP bridge is checked against operator-authored YAML policies (deterministic rules plus semantic classifiers, one an optional LLM classifier), returning allow / deny / escalate with the rule that fired and a hash-chained audit log. Core decides and records; the caller enforces. The commercial Tool Guard Enterprise edition is the MCP enforcement gateway. Self-hosted; v0.8.1.",
+  "vendor": {
+    "name": "DIMAGGI AI",
+    "url": "https://dimaggi.ai",
+    "kind": "organization"
+  },
+  "license": "Apache-2.0",
+  "pricing": "open-source",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "notes": "Tool Guard Core is Apache-2.0 open source with no usage limits (the README says nothing in it is gated), so there is no billing for Core. Tool Guard Enterprise is a separate commercial enforcement gateway product; its price is not published. No machine-payable surface."
+  },
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Self-hosted: run the Go binary or ghcr.io container, or embed the Go library; no vendor account or hosted key. The agent-facing decision call is POST /evaluate on your own tg-proxy, the CLI tg evaluate, or a bundled MCP bridge. Escalations use a single shared approver token. v0.8.1 (2026-10-17)."
+  },
+  "surfaces": {
+    "homepage": "https://dimaggi.ai",
+    "docs": "https://dimaggi.ai/products/tool-guard",
+    "llmsTxt": "https://dimaggi.ai/llms.txt",
+    "skills": [],
+    "source": "https://github.com/dimaggi-ai/tool-guard-core"
+  },
+  "domains": [
+    "dimaggi.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.review-agent-tool-actions",
+      "summary": "POST /evaluate checks a proposed call against operator-authored YAML policies (deterministic rules and classifiers, one an optional model classifier), returning allow / deny / escalate before it runs. Operator-authored policy, not vendor-fixed; Core decides, caller enforces. README; not measured.",
+      "source": "https://github.com/dimaggi-ai/tool-guard-core",
+      "sources": [
+        "https://dimaggi.ai/products/tool-guard",
+        "https://dimaggi.ai/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-20",
+  "updated": "2026-11-20",
+  "version": 1
+}
