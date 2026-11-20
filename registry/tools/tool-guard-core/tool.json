@@ -5,7 +5,7 @@
   "name": "Tool Guard Core",
   "kind": "open-source",
   "status": "active",
-  "summary": "Tool Guard Core (github.com/dimaggi-ai/tool-guard-core, by DIMAGGI AI) is an Apache-2.0 open-source decision engine for AI agent actions: a proposed tool call sent to POST /evaluate, the Go library, or a bundled MCP bridge is checked against operator-authored YAML policies plus deterministic classifiers, returning allow / deny / escalate with the rule that fired and a SHA-256 hash-chained audit log. Core decides and records; the caller's tool layer enforces. The commercial Tool Guard Enterprise edition is the MCP enforcement gateway. Self-hosted; latest release v0.8.1.",
+  "summary": "Tool Guard Core (github.com/dimaggi-ai/tool-guard-core, by DIMAGGI AI) is an Apache-2.0 open-source decision engine for AI agent actions: a proposed tool call sent to POST /evaluate, the Go library, or a bundled MCP bridge is checked against operator-authored YAML policies (deterministic rules plus semantic classifiers, one an optional LLM classifier), returning allow / deny / escalate with the rule that fired and a hash-chained audit log. Core decides and records; the caller enforces. The commercial Tool Guard Enterprise edition is the MCP enforcement gateway. Self-hosted; v0.8.1.",
   "vendor": {
     "name": "DIMAGGI AI",
     "url": "https://dimaggi.ai",
@@ -40,7 +40,7 @@
   "jobs": [
     {
       "job": "it.review-agent-tool-actions",
-      "summary": "POST /evaluate checks a proposed tool call against operator-authored YAML policies and deterministic classifiers, returning allow / deny / escalate before it runs. A deterministic policy engine, not a model judgment; Core decides and records but the caller's layer enforces. README; not measured.",
+      "summary": "POST /evaluate checks a proposed call against operator-authored YAML policies (deterministic rules and classifiers, one an optional model classifier), returning allow / deny / escalate before it runs. Operator-authored policy, not vendor-fixed; Core decides, caller enforces. README; not measured.",
       "source": "https://github.com/dimaggi-ai/tool-guard-core",
       "sources": [
         "https://dimaggi.ai/products/tool-guard",
