@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "norviq",
+  "name": "Norviq",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "Norviq (norviq.dev, github.com/norviq-dev/norviq) is an Apache-2.0 open-source policy enforcement point (PEP) for LLM agent tool calls on Kubernetes. Before a tool runs, an SDK or injected sidecar sends the call to POST /api/v1/evaluate, which evaluates OPA/Rego policy scoped to the workload's Kubernetes/SPIFFE identity and answers allow / block / escalate / audit. From v0.2.6 a shipped baseline enforces; evaluation is fail-closed within an enforcing namespace but fail-open by default, and the gate is cooperative: code that calls a tool without asking reaches it unjudged. Self-hosted; v0.2.8.",
+  "vendor": {
+    "name": "Norviq",
+    "url": "https://norviq.dev",
+    "kind": "organization"
+  },
+  "license": "Apache-2.0",
+  "pricing": "open-source",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "none",
+    "notes": "Apache-2.0 open source, self-hosted; the README states no usage limits and there is no billing. It installs from a cosign-signed OCI Helm chart with digest-pinned images. No hosted or paid edition is published (the site footer reads only '(c) 2026 Norviq, Apache 2.0'). No machine-payable surface."
+  },
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "Self-hosted on Kubernetes (1.30+) via Helm; no vendor account or hosted key, so noAccountNeeded is true. The agent-facing decision call is POST /api/v1/evaluate, carrying an operator-minted per-workload token (a webhook-minted HS256 token by default, or a SPIFFE SVID). v0.2.8."
+  },
+  "surfaces": {
+    "homepage": "https://norviq.dev",
+    "docs": "https://docs.norviq.dev",
+    "skills": [],
+    "source": "https://github.com/norviq-dev/norviq"
+  },
+  "domains": [
+    "norviq.dev"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.review-agent-tool-actions",
+      "summary": "POST /api/v1/evaluate returns allow / block / escalate / audit before a call runs, from OPA/Rego policy scoped to the workload's K8s/SPIFFE identity. From 0.2.6 a shipped baseline enforces; fail-closed in an enforcing namespace, fail-open by default, cooperative. README/security model; not measured.",
+      "source": "https://github.com/norviq-dev/norviq",
+      "sources": [
+        "https://norviq.dev",
+        "https://github.com/norviq-dev/norviq/blob/main/docs/security-model.md"
+      ]
+    }
+  ],
+  "created": "2026-11-21",
+  "updated": "2026-11-21",
+  "version": 1
+}
