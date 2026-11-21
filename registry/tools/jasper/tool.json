@@ -1,0 +1,61 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "jasper",
+  "name": "Jasper",
+  "kind": "service",
+  "status": "active",
+  "summary": "Marketing content platform that drafts copy against a workspace's stored brand voices, audiences, style guides and knowledge. Its vendor hosts a streamable HTTP MCP server at mcp.jasper.ai with a documented tool list, including generate-content and run-jasper-agent. Measured keyless: initialize answers 401 invalid_token, with protected-resource and authorization-server metadata (dynamic client registration, PKCE S256). The REST API needs the Business plan.",
+  "vendor": {
+    "name": "Jasper",
+    "url": "https://www.jasper.ai/",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.jasper.ai/pricing",
+    "notes": "Pro: $59 a seat a month billed yearly, $69 monthly, 7-day trial, no API access on the price table. Business: custom pricing, includes API access. The developer docs say the API is Business-only. No surface prices an MCP or API call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "Measured 2026-11-11 06:10Z, no credentials: POST initialize to mcp.jasper.ai gave 401, Bearer error=invalid_token, with no resource_metadata in the challenge; the well-known metadata names api.jasper.ai, DCR and S256. Docs also accept a workspace API key in X-API-KEY."
+  },
+  "surfaces": {
+    "homepage": "https://www.jasper.ai/",
+    "docs": "https://developers.jasper.ai/docs/jasper-mcp-server",
+    "llmsTxt": "https://www.jasper.ai/llms.txt",
+    "skills": [],
+    "mcp": "https://mcp.jasper.ai",
+    "api": "https://developers.jasper.ai/docs/authentication",
+    "openapi": null
+  },
+  "domains": [
+    "jasper.ai",
+    "www.jasper.ai",
+    "developers.jasper.ai",
+    "mcp.jasper.ai",
+    "api.jasper.ai",
+    "app.jasper.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "mkt.draft-campaign-copy",
+      "summary": "Vendor's claim: on-brand drafts from stored brand voices, audiences and style guides, through its app, API and MCP server. Neither job measure is published as measured; the 50% rework reduction it cites is a modelling assumption in a study it commissioned, built from four interviews.",
+      "source": "https://developers.jasper.ai/docs/jasper-mcp-server",
+      "sources": [
+        "https://www.jasper.ai/blog/jasper-mcp-claude-connector",
+        "https://tei.forrester.com/go/Jasper/MarketingAI/?lang=en-us"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
