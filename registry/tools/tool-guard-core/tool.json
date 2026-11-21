@@ -27,7 +27,7 @@
   },
   "surfaces": {
     "homepage": "https://dimaggi.ai",
-    "docs": "https://dimaggi.ai/products/tool-guard",
+    "docs": "https://dimaggi.ai/resources",
     "llmsTxt": "https://dimaggi.ai/llms.txt",
     "skills": [],
     "source": "https://github.com/dimaggi-ai/tool-guard-core"
@@ -49,6 +49,6 @@
     }
   ],
   "created": "2026-11-20",
-  "updated": "2026-11-20",
-  "version": 1
+  "updated": "2026-11-21",
+  "version": 2
 }
