@@ -1,0 +1,59 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "forethought",
+  "name": "Forethought",
+  "kind": "service",
+  "status": "active",
+  "summary": "Customer-support AI agents (Solve, Triage, Assist, Discover, QA) trained on a company's own ticket history; Zendesk completed its acquisition on 2026-03-26. Triage tags, prioritizes and routes tickets. Claims 'Up to 98% Ticket prediction rate', undefined. No MCP server; APIs 401 keyless.",
+  "vendor": {
+    "name": "Forethought (a Zendesk company)",
+    "url": "https://forethought.ai/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://forethought.ai/pricing",
+    "notes": "Read 2026-11-12: three tiers, Team, Professional and Enterprise, each 'Get a Quote'. Team lists ready-to-use triage models; custom handoff models are counted per tier (3, 6). Solve API and Analytics API are Enterprise rows. A Proof of Value replaces a free trial. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "No MCP server found. Keyless 2026-11-12: POST api.forethought.ai/api/predict (Triage) 401 'Not authenticated'; GET app.forethought.ai/solve/api/v1/metadata 401 'Invalid token'; both carry x-zendesk-zorg. Docs at support.forethought.ai redirect to a sign-in page."
+  },
+  "surfaces": {
+    "homepage": "https://forethought.ai/",
+    "docs": null,
+    "llmsTxt": "https://forethought.ai/llms.txt",
+    "skills": [],
+    "mcp": null,
+    "api": null,
+    "openapi": null
+  },
+  "domains": [
+    "forethought.ai",
+    "api.forethought.ai",
+    "app.forethought.ai"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "cs.triage-route-tickets",
+      "summary": "Triage tags tickets by intent, sentiment, urgency and language with models trained on the customer's history; the tags drive routing in the helpdesk. 'Up to 98% Ticket prediction rate' is undefined. Accuracy against human labels, time to correct assignment and re-route rate: unpublished.",
+      "source": "https://forethought.ai/platform/triage",
+      "sources": [
+        "https://forethought.ai/case-studies/achievers",
+        "https://forethought.ai/faq"
+      ]
+    }
+  ],
+  "created": "2026-11-12",
+  "updated": "2026-11-12",
+  "version": 1
+}
