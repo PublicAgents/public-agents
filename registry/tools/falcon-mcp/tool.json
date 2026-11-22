@@ -1,0 +1,65 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "falcon-mcp",
+  "name": "CrowdStrike falcon-mcp",
+  "kind": "open-source",
+  "status": "active",
+  "summary": "CrowdStrike's MIT-licensed MCP server over the Falcon platform API, in maintenance mode since the vendor moved development to a hosted CrowdStrike MCP. Its Identity Protection module has one read tool, falcon_idp_investigate_entity (entity details, timelines, relationships, risk). Measured keyless 2026-11-10: the API's token and Identity Protection GraphQL endpoints answer 401; a tenant's API client is needed.",
+  "vendor": {
+    "name": "CrowdStrike, Inc.",
+    "url": "https://www.crowdstrike.com/",
+    "kind": "organization"
+  },
+  "license": "MIT (server); use needs a paid Falcon tenant",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "2026-11-10: the pricing page's three self-serve bundles each list Identity Protection as a disabled item; identity security is an add-on beside Contact sales. No page read prices it or an API call; sales billing terms not read."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "Measured 2026-11-10 12:30Z, keyless: POST api.crowdstrike.com/oauth2/token and /identity-protection/combined/graphql/v1 both 401 (JSON error, trace_id, no WWW-Authenticate). The server takes a tenant-issued API client ID and secret. Server not run."
+  },
+  "surfaces": {
+    "homepage": "https://developer.crowdstrike.com/falcon-mcp/",
+    "docs": "https://developer.crowdstrike.com/falcon-mcp/modules/overview/",
+    "llmsTxt": "https://www.crowdstrike.com/llms.txt",
+    "skills": [],
+    "mcp": null,
+    "api": "https://developer.crowdstrike.com/api-reference/collections/identity-protection/",
+    "openapi": null,
+    "source": "https://github.com/CrowdStrike/falcon-mcp"
+  },
+  "social": {
+    "github": "CrowdStrike"
+  },
+  "domains": [
+    "crowdstrike.com",
+    "www.crowdstrike.com",
+    "developer.crowdstrike.com",
+    "api.crowdstrike.com",
+    "docs.crowdstrike.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "it.detect-anomalous-access",
+      "summary": "Vendor's claim for Falcon Identity Protection: \"analyze user behavior in context, uncover anomalies, and rapidly prioritize identity alerts\". The MCP tool reads entities, timelines and risk; it detects nothing itself. Not measured.",
+      "source": "https://www.crowdstrike.com/en-us/platform/next-gen-identity-security/identity-protection/",
+      "sources": [
+        "https://developer.crowdstrike.com/falcon-mcp/modules/idp/",
+        "https://www.crowdstrike.com/llms.txt"
+      ]
+    }
+  ],
+  "created": "2026-11-10",
+  "updated": "2026-11-10",
+  "version": 1
+}
