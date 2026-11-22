@@ -1,0 +1,48 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "cultureamp",
+  "name": "Culture Amp",
+  "kind": "service",
+  "status": "active",
+  "summary": "Employee-experience platform (engagement surveys, performance, 1-on-1s). For agents: a first-party MCP connection lets Claude or ChatGPT read engagement survey results and trends, retrieve performance feedback, and read/write 1-on-1 agendas, under the user's own Culture Amp sign-in. There is no public fixed endpoint; an administrator turns the connection on and gives each user a per-account connection address, so it cannot be probed keyless. The connection excludes open-text survey comments.",
+  "vendor": {
+    "name": "Culture Amp Pty Ltd",
+    "url": "https://www.cultureamp.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "paid",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://www.cultureamp.com/platform/plans-and-pricing",
+    "notes": "cultureamp.com/platform/plans-and-pricing (200, 2026-11-15) carries no currency figure and routes to Book a demo / Contact sales; quote-based. The MCP requires an existing Culture Amp subscription and names no separate charge. Not machine-payable."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "No public fixed MCP endpoint: an administrator turns the connection on and gives each user a per-account connection address (support article 17605430, read 2026-11-15), so no keyless probe is possible. Sign-in is the user's own Culture Amp credentials, Google Workspace, or self-service SSO."
+  },
+  "surfaces": {
+    "homepage": "https://www.cultureamp.com",
+    "docs": "https://support.cultureamp.com/en/articles/17605430-ask-claude-or-chatgpt-about-your-culture-amp-data",
+    "llmsTxt": "https://www.cultureamp.com/llms.txt",
+    "skills": [],
+    "mcp": null,
+    "api": null
+  },
+  "domains": [
+    "cultureamp.com",
+    "www.cultureamp.com",
+    "support.cultureamp.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [],
+  "created": "2026-11-15",
+  "updated": "2026-11-15",
+  "version": 1
+}
