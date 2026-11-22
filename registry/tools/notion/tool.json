@@ -15,7 +15,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Keyless MCP initialize at mcp.notion.com/mcp answers 401 with an OAuth challenge (measured 2026-09-23). Non-OAuth paths documented (2026-11-22): an owner-minted MCP bearer token on Business/Enterprise, no browser sign-in, and Enterprise SAML SSO via ID-JAG. An account is still needed."
+    "notes": "Keyless MCP initialize answers 401 with an OAuth challenge. The one documented non-OAuth route is an owner-minted MCP bearer token (Business/Enterprise, no browser sign-in); ID-JAG for Enterprise SAML SSO is an OAuth jwt-bearer grant, not a non-OAuth path. An account is still needed."
   },
   "surfaces": {
     "homepage": "https://www.notion.com/",
