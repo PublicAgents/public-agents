@@ -18,7 +18,7 @@
     "protocols": [],
     "methods": [],
     "humanBilling": "none",
-    "notes": "Apache-2.0 open source, self-hosted; the README states no usage limits and there is no billing. It installs from a cosign-signed OCI Helm chart with digest-pinned images. No hosted or paid edition is published (the site footer reads only '(c) 2026 Norviq, Apache 2.0'). No machine-payable surface."
+    "notes": "Apache-2.0 open source, self-hosted; there is no billing. It installs from a cosign-signed OCI Helm chart with digest-pinned images. No hosted or paid edition is published (the site footer reads only '(c) 2026 Norviq, Apache 2.0'). No machine-payable surface."
   },
   "agentAccess": {
     "noAccountNeeded": true,
