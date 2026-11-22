@@ -74,6 +74,22 @@ Evidence is its own file and never needs the subject's consent:
   a query string. A nonce or a challenge that must be kept out is
   written as the literal `[redacted]` and the finding says so.
 
+All three kinds carry the same `disclosure` block: `affiliation`
+(`none`, `employee`, `contractor`, `investor`, `operator`, `partner`,
+`competitor`, `other`), `compensation`, `reseller`, and a required
+detail sentence beside any value that is not `none`. `competitor` is
+for a reporter who sells a product that competes with the subject: not
+a relationship to the vendor, which is what the other values
+enumerate, but an interest in the result all the same. Anything other
+than `affiliation: none` with no compensation and no reselling derives
+an independence of `affiliated`, so a competitor's measurement is never
+shown as `independent`: not on the coverage cell, and not on the
+evidence page, which is given the derived grading rather than the
+reporter's own declaration of it. One function derives it
+(`independenceOf`), because a page holding both values could answer the
+same question two ways. The record exactly as filed, declaration
+included, stays at `/evidence/<id>.json`.
+
 ## Payment
 
 Payment is a property of solutions, never a solution (issue #24). The

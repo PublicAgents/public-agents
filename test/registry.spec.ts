@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src/lib/registry.ts";
 import { coverage } from "../src/lib/coverage.ts";
+import { evidenceForSite } from "../src/lib/evidence.ts";
 import { profileUrls, renderProfile } from "../src/lib/profile.ts";
 import { linkTargets } from "../src/lib/link-targets.ts";
 import { canonicalUrl } from "../src/lib/links.ts";
@@ -105,6 +106,92 @@ describe("loadRegistry", () => {
     const cell = coverage(loaded).get("cs.deflect-tier1")?.cells.find(c => c.solution.type === "tool" && c.solution.id === "exampleproduct");
     expect(cell?.type).toBe("claim");
     expect(cell?.claim).toEqual({ summary: claim.summary, source: claim.source, sources: claim.sources });
+  });
+
+  it("grades a competitor's evidence as affiliated, including when the record declares itself independent", () => {
+    const disclosure = (affiliation: string) =>
+      affiliation === "none"
+        ? { affiliation, compensation: "none", reseller: false }
+        : { affiliation, affiliationDetail: "The reporter sells a product that competes with the subject.", compensation: "none", reseller: false };
+    const report = {
+      schemaVersion: 1,
+      id: "cr-20261028-rival-bakeoff",
+      solution: { type: "tool", id: "exampleproduct" },
+      job: "cs.deflect-tier1",
+      reporter: { name: "A Rival", github: "arival" },
+      organization: { name: "Rival", sizeBand: "11-50", industry: "software" },
+      period: { from: "2026-09", to: "2026-10" },
+      deployment: "A rival vendor ran the tool beside its own product over the same seventeen repositories and triaged every finding by hand.",
+      outcome: { verdict: "negative", summary: "The tool raised more findings that were not real than the reporter's own product did." },
+      disclosure: disclosure("competitor"),
+      sources: ["https://example.com/"],
+      created: "2026-10-28",
+      updated: "2026-10-28",
+      version: 1
+    };
+    // a measurement whose own `independence` says independent, while its disclosure says competitor
+    const measured = {
+      schemaVersion: 1,
+      id: "m-20261028-rival-bakeoff",
+      solution: { type: "tool", id: "exampleproduct" },
+      job: "cs.deflect-tier1",
+      conductedBy: { name: "A Rival", github: "arival" },
+      independence: "independent",
+      method: {
+        summary: "Both products over one clone of seventeen repositories, sampled with a seed fixed before either tool ran, every finding triaged by hand.",
+        protocolUrl: "https://example.com/protocol",
+        period: { from: "2026-09-01", to: "2026-10-01" }
+      },
+      results: [{ metric: "high-severity findings that were real", value: 1, baseline: 8 }],
+      reproducibility: { artifactsUrl: "https://example.com/artifacts" },
+      disclosure: disclosure("competitor"),
+      created: "2026-10-28",
+      updated: "2026-10-28",
+      version: 1
+    };
+    const independenceIn = (files: Record<string, unknown>) => {
+      const root = registry({
+        "registry/jobs/cs/cs.deflect-tier1.json": JOB,
+        "registry/tools/exampleproduct/tool.json": TOOL,
+        "registry/tools/exampleproduct/profile.md": "Stub.\n",
+        ...files
+      });
+      const loaded = loadRegistry(root);
+      expect(loaded.refusals).toEqual([]);
+      const cell = coverage(loaded).get("cs.deflect-tier1")?.cells.find(c => c.solution.type === "tool" && c.solution.id === "exampleproduct");
+      // Both views of one record: the job page reads the coverage cell, the evidence page reads
+      // `evidence[].independence` out of the site's data. One record must not have two answers.
+      const page = new Map(evidenceForSite(loaded).map(e => [e.id, e.independence]));
+      return new Map(cell?.evidence.map(e => [e.id, { cell: e.independence, page: page.get(e.id) }]));
+    };
+    const reportPath = `registry/evidence/case-reports/${report.id}.json`;
+    const measuredPath = `registry/evidence/measured/${measured.id}.json`;
+    expect(independenceIn({ [reportPath]: report, [measuredPath]: measured })).toEqual(
+      new Map([
+        [report.id, { cell: "affiliated", page: "affiliated" }],
+        [measured.id, { cell: "affiliated", page: "affiliated" }]
+      ])
+    );
+    // the control: the same two records disclosing no affiliation do read independent, so the assertion above discriminates
+    expect(
+      independenceIn({
+        [reportPath]: { ...report, disclosure: disclosure("none") },
+        [measuredPath]: { ...measured, disclosure: disclosure("none") }
+      })
+    ).toEqual(
+      new Map([
+        [report.id, { cell: "independent", page: "independent" }],
+        [measured.id, { cell: "independent", page: "independent" }]
+      ])
+    );
+    // the other precedence, deliberate: a measurement declaring a non-independence keeps the label it
+    // declared, because `self` and `vendor-sponsored` say something the disclosure block cannot see
+    expect(independenceIn({ [reportPath]: report, [measuredPath]: { ...measured, independence: "self" } })).toEqual(
+      new Map([
+        [report.id, { cell: "affiliated", page: "affiliated" }],
+        [measured.id, { cell: "self", page: "self" }]
+      ])
+    );
   });
 
   it("refuses by name: paths, uniqueness, reserved handles, references, profiles, the paid surface", () => {
@@ -302,6 +389,12 @@ describe("schemas", () => {
     expect(missing.success).toBe(false);
     expect(missing.error?.issues.map(i => i.path.join("."))).toContain("disclosure.affiliationDetail");
     expect(caseReportSchema.safeParse({ ...report, disclosure: { ...report.disclosure, affiliationDetail: "runs both" } }).success).toBe(true);
+    // the same rule for the value that names an interest in the result rather than a relationship to the vendor
+    const rival = { ...report, disclosure: { affiliation: "competitor", compensation: "none", reseller: false } };
+    const noDetail = caseReportSchema.safeParse(rival);
+    expect(noDetail.success).toBe(false);
+    expect(noDetail.error?.issues.map(i => i.path.join("."))).toContain("disclosure.affiliationDetail");
+    expect(caseReportSchema.safeParse({ ...rival, disclosure: { ...rival.disclosure, affiliationDetail: "sells a competing product" } }).success).toBe(true);
   });
 
   it("lets a claim name the other pages it quotes, https only, one to eight", () => {

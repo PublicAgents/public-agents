@@ -11,6 +11,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } fr
 import { dirname, join } from "node:path";
 import { coverage, solutionsOf } from "../lib/coverage.ts";
 import { renderLlmsFullTxt, renderLlmsTxt, renderRobotsTxt, SITE } from "../lib/docs.ts";
+import { evidenceForSite } from "../lib/evidence.ts";
 import { normalizeHandle } from "../lib/handles.ts";
 import { renderProfile } from "../lib/profile.ts";
 import { loadRegistry } from "../lib/registry.ts";
@@ -359,7 +360,8 @@ writeFileSync(
       verification: t.value.provenance === "third-party" ? { ok: false, method: "unclaimed", checkedAt: null } : verificationOf(t.value.slug)
     })),
     jobs: registry.jobs.map(j => j.value),
-    evidence: [...registry.caseReports.map(e => ({ kind: "case-report", ...e.value })), ...registry.measured.map(e => ({ kind: "measured", ...e.value }))],
+    // Every record as filed, with `independence` carrying the derived grading: see src/lib/evidence.ts.
+    evidence: evidenceForSite(registry),
     // Probes are kept apart from evidence with a job: the pages that render evidence read a job and a disclosure a probe does not have.
     probes: registry.probes.map(e => ({ kind: "probe", ...e.value })),
     paymentProtocols: registry.paymentProtocols.protocols,
