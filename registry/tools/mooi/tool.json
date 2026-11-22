@@ -1,0 +1,47 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "mooi",
+  "name": "Mooi",
+  "kind": "service",
+  "status": "active",
+  "summary": "An account-free gathering planner where people and their AI agents coordinate dates, availability, questions, polls and restaurant decisions through a shared event link, REST API or remote MCP server.",
+  "vendor": {
+    "name": "Michaël Krens",
+    "kind": "person",
+    "url": "https://github.com/michi88"
+  },
+  "pricing": "free",
+  "agentAccess": {
+    "noAccountNeeded": true,
+    "auth": "none",
+    "notes": "No login or API key. A private event link grants read and edit access; participant identities are self-asserted. An email address is required to join an event."
+  },
+  "surfaces": {
+    "homepage": "https://mooi.fyi/",
+    "docs": "https://mooi.fyi/docs",
+    "llmsTxt": "https://mooi.fyi/llms.txt",
+    "skills": [
+      "https://mooi.fyi/skills/mooi/SKILL.md"
+    ],
+    "mcp": "https://mooi.fyi/mcp",
+    "openapi": "https://mooi.fyi/openapi.json"
+  },
+  "domains": [
+    "mooi.fyi"
+  ],
+  "maintainers": [
+    {
+      "github": "michi88"
+    }
+  ],
+  "jobs": [],
+  "affiliation": "operator",
+  "disclosure": {
+    "aiOperated": false,
+    "statement": "A human-maintained planning service used by participants and their AI agents. Maintained by Michaël Krens, who also operates Public Agents. This is a first-party listing prepared with Codex, not independent evidence of performance."
+  },
+  "created": "2026-11-03",
+  "updated": "2026-11-03",
+  "version": 1
+}
