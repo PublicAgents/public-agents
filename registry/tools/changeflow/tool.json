@@ -1,0 +1,56 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "changeflow",
+  "name": "Changeflow",
+  "kind": "service",
+  "status": "active",
+  "summary": "Hosted web-change monitoring with AI relevance filtering, sold to legal and compliance teams for regulatory intelligence: it watches pages the customer chooses (agency pages, the Federal Register, PDFs) and alerts on changes that match a plain-English brief. Hosted MCP server and REST API take a bearer token. Its free, keyless regulatory feed (GovPing) answered 410 Gone on 2026-11-11.",
+  "vendor": {
+    "name": "Changeflow",
+    "url": "https://changeflow.com/",
+    "kind": "organization"
+  },
+  "license": "proprietary",
+  "pricing": "freemium",
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": "https://changeflow.com/pricing",
+    "notes": "Read 2026-11-11: free tier with 3 sources; Professional $99/mo annual, hourly checks; Business $249/mo annual adds API access and webhooks; Enterprise custom with 10-minute checks. Payment method not read. Nothing prices a call."
+  },
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "api-key",
+    "notes": "MCP at changeflow.com/mcp: keyless initialize answered 403 with a JSON-RPC error asking for a Bearer token, no OAuth metadata (2026-11-11). Same token as the REST API; the pricing page lists API access from the Business plan. 100 requests per hour per token."
+  },
+  "surfaces": {
+    "homepage": "https://changeflow.com/",
+    "docs": "https://changeflow.com/kb/integrations/mcp",
+    "llmsTxt": "https://changeflow.com/llms.txt",
+    "skills": [],
+    "mcp": "https://changeflow.com/mcp",
+    "api": "https://changeflow.com/kb/integrations/api"
+  },
+  "domains": [
+    "changeflow.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "legal.monitor-regulatory-changes",
+      "summary": "Watches customer-chosen regulator pages and alerts on changes matching a brief, with AI summaries; no mapping to policies. Claims an unnamed team caught 100% of relevant changes, no method. Lead time unmeasured; detection waits for the next check (hourly on paid plans).",
+      "source": "https://changeflow.com/solutions/regulatory-intelligence",
+      "sources": [
+        "https://changeflow.com/kb/integrations/mcp",
+        "https://changeflow.com/kb/troubleshooting/it-missed-a-change"
+      ]
+    }
+  ],
+  "created": "2026-11-11",
+  "updated": "2026-11-11",
+  "version": 1
+}
