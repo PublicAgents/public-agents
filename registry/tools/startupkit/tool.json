@@ -5,7 +5,7 @@
   "name": "StartupKit (Kit)",
   "kind": "service",
   "status": "active",
-  "summary": "StartupKit (startupkit.app), branded Kit, is a per-seat SaaS that runs hiring, security/VDP, training, performance reviews, outreach and compensation research for teams where none is a full-time job. Its Hiring module is exposed to AI assistants two ways: an in-app agent and a remote MCP server at /api/v1/mcp (OAuth), whose write tools create a draft job posting from a brief and move a pipeline, always acting as the connected user and never beyond that user's own permissions. A separate no-auth docs/catalog MCP at /mcp is read-only. $8/seat/month, 30-day trial.",
+  "summary": "StartupKit (startupkit.app), branded Kit, is a per-seat SaaS running hiring, security/VDP, training, performance reviews, outreach and compensation research for teams where none is a full-time job. Its Hiring module reaches AI assistants two ways: an in-app agent and a remote MCP server at /api/v1/mcp (OAuth). Write tools always act as the connected user: hiring_create_job_posting takes a title and an already-written Markdown body, creates a draft posting and returns its edit URL, and a human presses Publish. A separate no-auth docs/catalog MCP at /mcp is read-only. $8/seat/month.",
   "vendor": {
     "name": "StartupKit",
     "url": "https://startupkit.app",
@@ -43,18 +43,8 @@
   ],
   "maintainers": [],
   "provenance": "third-party",
-  "jobs": [
-    {
-      "job": "hr.draft-job-descriptions",
-      "summary": "hiring_create_job_posting turns a brief into a draft posting (title, body, salary band, stages, credentials), aided by hiring_list_templates and compensation_get_salary_benchmark; created as a draft with an edit URL, no tool publishes it, a human does. No compliance-review claim; not measured.",
-      "source": "https://startupkit.app/docs/creating-a-job-posting-with-ai",
-      "sources": [
-        "https://startupkit.app/docs/creating-a-job-posting-with-ai",
-        "https://startupkit.app/docs/hiring-ai-agent-mcp"
-      ]
-    }
-  ],
+  "jobs": [],
   "created": "2026-11-23",
   "updated": "2026-11-23",
-  "version": 1
+  "version": 2
 }
