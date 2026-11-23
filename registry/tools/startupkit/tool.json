@@ -1,0 +1,60 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "startupkit",
+  "name": "StartupKit (Kit)",
+  "kind": "service",
+  "status": "active",
+  "summary": "StartupKit (startupkit.app), branded Kit, is a per-seat SaaS that runs hiring, security/VDP, training, performance reviews, outreach and compensation research for teams where none is a full-time job. Its Hiring module is exposed to AI assistants two ways: an in-app agent and a remote MCP server at /api/v1/mcp (OAuth), whose write tools create a draft job posting from a brief and move a pipeline, always acting as the connected user and never beyond that user's own permissions. A separate no-auth docs/catalog MCP at /mcp is read-only. $8/seat/month, 30-day trial.",
+  "vendor": {
+    "name": "StartupKit",
+    "url": "https://startupkit.app",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "The hiring tools are a remote MCP at https://startupkit.app/api/v1/mcp reached over OAuth; creating a posting needs a Kit account, Hiring admin, the hiring_write scope and an active subscription. A separate docs/catalog MCP at /mcp answers initialize with no auth and exposes only read-only tools."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [
+      "card"
+    ],
+    "humanBilling": "card-on-file",
+    "priceList": "https://startupkit.app/pricing",
+    "notes": "A human buys a per-seat subscription (get_plans, read first-hand from the public /mcp on 2026-11-23: 800 USD-cents/seat/month or 8000/year, 30-day trial, also in EUR/GBP/PLN). No agent-settled path; the agent surface is the subscriber's MCP connection, not a machine-payable endpoint."
+  },
+  "surfaces": {
+    "homepage": "https://startupkit.app",
+    "docs": "https://startupkit.app/docs/hiring-ai-agent-mcp",
+    "llmsTxt": "https://startupkit.app/llms.txt",
+    "mcp": "https://startupkit.app/api/v1/mcp",
+    "api": null,
+    "source": null
+  },
+  "social": {
+    "x": "StartupKit_app"
+  },
+  "domains": [
+    "startupkit.app"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "hr.draft-job-descriptions",
+      "summary": "hiring_create_job_posting turns a brief into a draft posting (title, body, salary band, stages, credentials), aided by hiring_list_templates and compensation_get_salary_benchmark; created as a draft with an edit URL, no tool publishes it, a human does. No compliance-review claim; not measured.",
+      "source": "https://startupkit.app/docs/creating-a-job-posting-with-ai",
+      "sources": [
+        "https://startupkit.app/docs/creating-a-job-posting-with-ai",
+        "https://startupkit.app/docs/hiring-ai-agent-mcp"
+      ]
+    }
+  ],
+  "created": "2026-11-23",
+  "updated": "2026-11-23",
+  "version": 1
+}
