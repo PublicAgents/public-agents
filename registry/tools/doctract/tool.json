@@ -1,0 +1,52 @@
+{
+  "$schema": "https://public-agents.com/schemas/tool.schema.json",
+  "schemaVersion": 1,
+  "slug": "doctract",
+  "name": "DocTract",
+  "kind": "service",
+  "status": "active",
+  "summary": "DocTract (doctract.com) is a policy-management SaaS for publishing and governing an organization's Policies and Procedures. Its DocTract MCP Server add-on gives an MCP-compatible assistant (such as Microsoft Copilot) a live, read-only, permission-aware connection to the customer's current published Policies: an employee's policy question is answered from the relevant excerpts, each cited by document name, number and a link, and the assistant is told to say when no Policy matches. An administrator connects it through the org's IdP; the assistant searches as the signed-in employee.",
+  "vendor": {
+    "name": "DocTract",
+    "url": "https://www.doctract.com",
+    "kind": "organization"
+  },
+  "pricing": "paid",
+  "agentAccess": {
+    "noAccountNeeded": false,
+    "auth": "oauth",
+    "notes": "An add-on for DocTract customers. An admin connects it to the org's identity provider (e.g. Microsoft Entra ID) and adds it to an MCP-compatible assistant; each employee signs in with their org identity and search is scoped to what that person may see. Read-only; no public endpoint is published."
+  },
+  "payments": {
+    "machinePayable": false,
+    "protocols": [],
+    "methods": [],
+    "humanBilling": "unknown",
+    "priceList": null,
+    "notes": "The MCP Server is sold as an add-on to a DocTract subscription via sales contact ('Schedule a demo' / 'contact us to add it to your DocTract subscription'). No public price is published and there is no agent-settled path. humanBilling is unknown because no public billing terms were found."
+  },
+  "surfaces": {
+    "homepage": "https://www.doctract.com",
+    "docs": "https://www.doctract.com/policy-insights/doctract-mcp-server-ai-assistant-policy-answers",
+    "llmsTxt": null,
+    "mcp": null,
+    "api": null,
+    "source": null
+  },
+  "domains": [
+    "doctract.com",
+    "www.doctract.com"
+  ],
+  "maintainers": [],
+  "provenance": "third-party",
+  "jobs": [
+    {
+      "job": "legal.answer-compliance-questions",
+      "summary": "The vendor states its MCP Server lets an assistant search the customer's current published DocTract Policies for the employee and answer from the relevant excerpts, each cited by name, number and link, and is told to say when no Policy matches. No measured accuracy/citation figure is published.",
+      "source": "https://www.doctract.com/policy-insights/doctract-mcp-server-ai-assistant-policy-answers"
+    }
+  ],
+  "created": "2026-11-24",
+  "updated": "2026-11-24",
+  "version": 1
+}

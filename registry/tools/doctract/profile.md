@@ -1,0 +1,33 @@
+This is an unclaimed listing: DocTract's makers did not write it and nothing here is verified by the vendor. It records what the product's own public page about its MCP Server says, read first-hand on 2026-11-24. DocTract serves no `/.well-known/public-agents.json` (404 on both `www.doctract.com` and `doctract.com` on 2026-11-24), so every claim below is the vendor's own, and the entry is unverified until the domain acknowledges it.
+
+DocTract is a policy-management SaaS: a system of record where an organization publishes and governs its Policies, Procedures, standards, forms and work instructions, with version control and per-person access control. This entry is about one capability the vendor announced on top of that platform, the DocTract MCP Server, because it is a clean first-hand match for one registry job.
+
+## The surface an agent reaches
+
+The vendor's FAQ calls the DocTract MCP Server "A secure connection, built on the open Model Context Protocol, that lets AI assistants search your published Policies and Procedures in DocTract and answer questions with citations to the official documents." It is not a public endpoint an anonymous agent can call. An administrator connects DocTract to the organization's identity provider (the page names Microsoft Entra ID) and adds the server to an MCP-compatible assistant; from then on an employee asks questions in the assistant they already use, and the assistant searches DocTract on that employee's behalf. The vendor states each employee "signs in with their own organizational identity, and DocTract returns only the published documents that person is authorized to access," so the assistant cannot reach content the signing-in person could not open in the DocTract portal. The connection is read-only: "The DocTract MCP Server is read-only." It cannot create, edit or delete a Policy.
+
+Because the server is bound to a customer's own identity provider and sold as an add-on, there is no public URL to probe from here, and I made no first-hand call against it; the reading below is the vendor's documented description, not a measured round-trip.
+
+## The capability, and the job it matches
+
+The registry's `legal.answer-compliance-questions` asks that "a question about what the rules allow is answered with the policy passage that says so, or routed," measured by answer accuracy and citation correctness. The DocTract MCP Server is documented to do exactly that over an internal policy corpus. The vendor describes the loop: when an employee asks a Policy question, "DocTract returns the most relevant excerpts, along with each document's" name, number, "and a link to the official document. The assistant answers from that content and cites its sources." The "or routed" half of the outcome is addressed too: the vendor says the assistant is guided to "cite each document by name and number with its link, and say plainly when no relevant Policy was found," rather than answer from outside the corpus. The illustrative exchange on the page shows an answer citing a named Policy ("Paid Time Off Policy (HR-104)") with the passage behind it, though the page labels that exchange "Illustrative example. The Policy below is fictional," so it is a demonstration, not evidence of a real answer.
+
+So the claim this entry files is the vendor's: that the DocTract MCP Server answers an employee's policy question from the relevant published-Policy excerpts, cited to the source document, and says plainly when no Policy matches. That is a capability claim in the vendor's own words, not a measurement.
+
+## Why this entry claims the job, and that it is the first to
+
+Before this entry, `legal.answer-compliance-questions` had no structured claimant anywhere in the registry: a search over every `tool.json` on `main` on 2026-11-24 returned none, and the only prose mention is the Ironclad profile's note explaining why that tool does not fit. The cell was empty. DocTract is the first entry to claim it, because it is the first tool I have read whose vendor documents the job's named outcome, an internal policy corpus answering a compliance question with the cited passage, as a concrete, assistant-reachable capability rather than adjacent copy or a program-status dashboard. The distinction from the tools that sit near this job without claiming it (compliance-posture platforms that report whether a control is met, drafting assistants that write policy text) is that DocTract's documented function is the retrieval-and-cite answer itself.
+
+One boundary belongs in the open beside the claim: the flavor here is an internal, customer-published policy corpus, not external law or regulation. A tool that answers "what does GDPR require" from a public-law corpus is a neighbor of this job, and whether the taxonomy should separate internal-policy answering from external-law answering is a job-definition question, noted here as a lead, not acted on in this listing.
+
+## Access and ownership
+
+Reaching the capability needs a DocTract tenant with the MCP Server add-on enabled, an administrator-configured connection to the organization's identity provider, and an employee signing in through that provider, so `noAccountNeeded` is false and `auth` is recorded as `oauth` (the vendor describes identity-provider sign-in, naming Microsoft Entra ID, which is an OAuth/OIDC flow; the page does not name a specific grant). No `/.well-known/public-agents.json` was served (404 on 2026-11-24), so provenance is third-party and the entry is unverified, in those words, until the domain acknowledges it.
+
+## Pricing
+
+DocTract is paid. The MCP Server is, in the vendor's words, "available now as an add-on for DocTract customers," reached by "Schedule a demo" or a request to "contact us to add it to your DocTract subscription." No public price for the add-on or the base subscription is published on the page, and there is no agent-settled or machine-payable path, so `machinePayable` is false and `humanBilling` is recorded as unknown because no public billing terms were found.
+
+## Measures
+
+Both of the job's measures, answer accuracy and citation correctness, are empty. The vendor makes a citation-correctness capability claim (the assistant is instructed to cite each document by name, number and link, and to answer only from returned content), but publishes no measured figure for how often answers are accurate, how often citations are correct, or any benchmark over a policy-question set. The one worked exchange on the page is explicitly fictional and illustrative. So the capability is claimed and recorded; its accuracy is unmeasured, which is the finding, not a gap to be filled by the demonstration.
