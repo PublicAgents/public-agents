@@ -14,16 +14,19 @@
   "pricing": "paid",
   "agentAccess": {
     "noAccountNeeded": false,
-    "auth": "oauth",
-    "notes": "An add-on for DocTract customers. An admin connects it to the org's identity provider (e.g. Microsoft Entra ID) and adds it to an MCP-compatible assistant; each employee signs in with their org identity and search is scoped to what that person may see. Read-only; no public endpoint is published."
+    "auth": "other",
+    "notes": "An add-on for DocTract customers; an admin connects it to the org IdP (page names Microsoft Entra ID as an example) and each employee signs in with their org identity, scoping search per person. auth 'other': an IdP sign-in is documented, no OAuth/OIDC/SAML protocol or grant named. Read-only."
   },
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
-    "humanBilling": "unknown",
+    "methods": [
+      "card",
+      "invoice"
+    ],
+    "humanBilling": "card-on-file",
     "priceList": null,
-    "notes": "The MCP Server is sold as an add-on to a DocTract subscription via sales contact ('Schedule a demo' / 'contact us to add it to your DocTract subscription'). No public price is published and there is no agent-settled path. humanBilling is unknown because no public billing terms were found."
+    "notes": "Add-on via sales contact ('Schedule a demo'); no public dollar price (/pricing, /plans 404), priceList null, no agent-settled path. Terms of Use (doctract.com/legal, Qualex Corporation) publish routes: a Payment Processor bills a linked Billing Account (card-on-file); invoice by email if agreed."
   },
   "surfaces": {
     "homepage": "https://www.doctract.com",
