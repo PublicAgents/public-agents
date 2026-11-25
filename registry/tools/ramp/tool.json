@@ -5,7 +5,7 @@
   "name": "Ramp",
   "kind": "service",
   "status": "active",
-  "summary": "Corporate card, expense, AP and procurement platform; its vendor documents three agent paths: a hosted MCP server (mcp.ramp.com/mcp) that reads spend, codes transactions, approves bills and requests and hands an agent card credentials; an open-source CLI with an agent mode whose tools require a stated rationale; and 29 published agent skills for purchasing, bill pay, sourcing and expense cleanup. Agents pay merchants from Ramp funds by agent card, Stripe MPP or an x402 wallet. Account-bound: keyless initialize answers 401 Bearer; every connection acts as a signed-in Ramp user.",
+  "summary": "Corporate card, expense, AP and procurement platform; its vendor documents three agent paths: a hosted MCP server (mcp.ramp.com/mcp) that reads spend, codes transactions, approves bills and requests and hands an agent card credentials; an open-source CLI with an agent mode whose tools require a stated rationale; and 30 published agent skills for purchasing, bill pay, sourcing and expense cleanup. Agents pay merchants from Ramp funds by agent card, Stripe MPP or an x402 wallet. Account-bound: keyless initialize answers 401 Bearer; every connection acts as a signed-in Ramp user.",
   "vendor": {
     "name": "Ramp Business Corporation",
     "url": "https://ramp.com/",
@@ -103,6 +103,6 @@
     }
   ],
   "created": "2026-11-06",
-  "updated": "2026-11-19",
+  "updated": "2026-11-25",
   "version": 1
 }
