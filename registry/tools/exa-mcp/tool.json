@@ -29,7 +29,7 @@
     ],
     "humanBilling": "card-on-file",
     "priceList": "https://exa.ai/pricing",
-    "notes": "Read 2026-10-03/04. MCP keyless use is free. REST /search keyless: 402 with x402 v2 (USDC 7000 units, the documented $0.007; Base, Solana, World Chain, Arc) and an MPP tempo challenge, both vendor-documented. Starter: $10 credits a month, no payment method. PAYG 'Pay via card or bank account'."
+    "notes": "Read 2026-10-03/04. MCP keyless use is free. REST /search keyless: 402 with x402 v2 (USDC 7000 units, the documented $0.007; Base, Solana, World Chain, Arc) and an MPP tempo challenge, both documented. Starter: $10 credits a month, no payment method. PAYG card or bank (unlisted 2026-11-25)."
   },
   "surfaces": {
     "homepage": "https://exa.ai/mcp",
@@ -64,6 +64,6 @@
     }
   ],
   "created": "2026-10-03",
-  "updated": "2026-10-25",
+  "updated": "2026-11-25",
   "version": 2
 }
