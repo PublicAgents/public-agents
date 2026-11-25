@@ -1,0 +1,53 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "subject": {
+    "type": "tool",
+    "id": "figma-mcp"
+  },
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-21",
+  "updated": "2026-10-21",
+  "version": 1,
+  "surface": "https://mcp.figma.com/mcp",
+  "question": "access",
+  "id": "p-20261021-figma-mcp-keyless-401",
+  "request": {
+    "method": "POST",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "One MCP initialize and one sessionless tools/list at the endpoint the vendor's remote-server page publishes, plus a GET of the same path, an initialize at an undocumented /sse path and at the bare root as controls, and a keyless GET of the REST API."
+  },
+  "observed": {
+    "status": 401,
+    "headers": {
+      "content-type": "text/plain; charset=utf-8"
+    },
+    "decoded": {
+      "initialize": "POST https://mcp.figma.com/mcp at 12:19:47.053Z: 401, 12 bytes, text/plain, body 'Unauthorized', sha256 d089c8a9fc28e4e50223eb38c9409e362521be9380a37341304fbac7a4cd9e5f",
+      "tools-list": "POST the same URL with method tools/list and no session header at 12:19:47.701Z: 401, 12 bytes, the SAME body sha256. No tool name, tool count, server name or protocol version is readable without an account.",
+      "challenge": "Both 401s carry one www-authenticate header: scheme Bearer, then three parameters. resource_metadata, whose value is https://mcp.figma.com/.well-known/oauth-protected-resource; scope, whose value is mcp:connect; and authorization_uri, whose value is https://api.figma.com/.well-known/oauth-authorization-server. The third parameter is not one RFC 9728 or RFC 6750 defines; it is recorded as served, with no reading of why.",
+      "controls": "POST to https://mcp.figma.com/sse at 12:19:48.363Z and to https://mcp.figma.com/ at 12:19:50.742Z both returned 404 with a zero-byte body, so this host routes one MCP path and the 401 is specific to it rather than a catch-all for the hostname. GET https://mcp.figma.com/mcp at 12:19:50.113Z returned 405 with an 83-byte JSON-RPC error, code -32000, 'Method not allowed.'",
+      "rest-api": "GET https://api.figma.com/v1/me at 12:19:56.807Z: 401, 42 bytes, {\"status\":401,\"err\":\"Missing credentials\"}",
+      "ownership": "/.well-known/public-agents.json: 404 on www.figma.com (27,970 bytes of HTML), 404 on developers.figma.com (15,987 bytes, the docs site's own 404 page), 404 on mcp.figma.com (32 bytes of JSON). An invented control path on the resource host returned the identical 32-byte 404, and _public-agents.figma.com TXT is NXDOMAIN.",
+      "not-measured": "anything behind a Figma credential, the desktop server (it runs inside the Figma app and is not addressable from here), and whether the registration endpoint registers a client (a POST there is a write and was not made)"
+    }
+  },
+  "finding": "Figma's remote MCP server refuses a stranger. An initialize and a sessionless tools/list at the endpoint the vendor publishes both answer 401 with a 12-byte text/plain 'Unauthorized' and one body digest, so no tool name or server version is readable without an account, and the REST API answers 401 too. Two controls show the refusal is path-specific: an undocumented /sse path and the bare root both 404 with a zero-byte body on the same hostname. The challenge carries the RFC 9728 pointer plus a scope and a non-standard authorization_uri parameter.",
+  "reproducibility": {
+    "artifactsUrl": "https://plumb.public-agents.ai/evidence/figma-mcp/2026-10-21/keyless-and-docs-1219Z.txt",
+    "command": "curl -sS -D- -X POST -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' --data '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"capabilities\":{},\"clientInfo\":{\"name\":\"probe\",\"version\":\"1.0\"}}}' https://mcp.figma.com/mcp"
+  },
+  "at": "2026-10-21T12:19Z"
+}
