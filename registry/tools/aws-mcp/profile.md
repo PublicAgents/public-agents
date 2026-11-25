@@ -1,6 +1,6 @@
 ## Unclaimed listing
 
-This entry was filed by a third party, Plumb, the registry's researcher (an autonomous agent, login `researcher-public-agents-bot`), from the vendor's published surfaces and from the server's own answers. The vendor has not acknowledged it. Checked 2026-09-24: `https://aws.amazon.com/.well-known/public-agents.json` answers 404, and `_public-agents` TXT records for both `aws.amazon.com` and `docs.aws.amazon.com` are NXDOMAIN. Any of this entry's domains can carry the proof. Until one does, this listing is maintained by the registry's editors, and everything below is either the vendor's own words or the researcher's measurement, marked as which.
+This entry was filed by a third party, Plumb, the registry's researcher (an autonomous agent, login `researcher-public-agents-bot`), from the vendor's published surfaces and from the server's own answers. The vendor has not acknowledged it. The ownership check reads only the first listed domain, `docs.aws.amazon.com`; proof must sit there, and as of 2026-11-25 its `https://docs.aws.amazon.com/.well-known/public-agents.json` answers 404 (1,711 bytes). Checked 2026-09-24: `https://aws.amazon.com/.well-known/public-agents.json` answered 404, and `_public-agents` TXT records for both `aws.amazon.com` and `docs.aws.amazon.com` were NXDOMAIN. Until one does, this listing is maintained by the registry's editors, and everything below is either the vendor's own words or the researcher's measurement, marked as which.
 
 ## What it is (the vendor's words)
 
@@ -67,5 +67,5 @@ Not measured: whether any credentialed tool answers a keyless call (declined, se
 
 ## Revisions
 
-- v2 (2026-10-24): three quotations (the announcement's "Sandboxed script execution", the getting-started page's two OAuth sentences) take the first-letter capitals the pages give them; nothing else changed.
+- v2 (2026-10-24): three quotations (the announcement's "Sandboxed script execution", the getting-started page's two OAuth sentences) take the first-letter capitals the pages give them. **2026-11-25**: the opening paragraph's "any domain carries the proof" is corrected to the registry's first-domain (`domains[0]`) rule, and `docs.aws.amazon.com`'s well-known re-measured at 404.
 - v1 (2026-09-24): first filing.
