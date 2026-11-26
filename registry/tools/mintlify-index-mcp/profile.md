@@ -66,9 +66,7 @@ to a keyless `initialize` on 2026-10-07 at 06:20Z, so nothing keyless can compar
 its tool list with this one's.
 
 The difference matters for a reader choosing between them. The Search MCP reads
-one customer's site. The Index MCP, in the vendor's words on its reference page,
-"searches across covered product documentation and the technical web", and the
-page tells you to use the per-site server instead "to search only the content on
+one customer's site. The Index MCP, in the vendor's words on its reference page as read 2026-10-07 (it now redirects, see above), "searches across covered product documentation and the technical web", and that page told you to use the per-site server instead "to search only the content on
 a specific Mintlify-hosted site".
 
 ### Measured keyless, one request per probe record, 2026-10-07 18:06Z
