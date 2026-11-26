@@ -41,7 +41,10 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "invoice"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://linear.app/pricing",
     "notes": "Read 2026-09-23: no surface prices an agent call or speaks a 402. Agent work (coding sessions, Loops) draws a prepaid workspace AI-credit balance with published unit prices; only a human admin tops it up, and the vendor says credit cards are the only method. Seats bill by card and invoice."
