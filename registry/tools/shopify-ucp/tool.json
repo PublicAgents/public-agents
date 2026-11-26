@@ -26,7 +26,7 @@
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
-    "docs": "https://shopify.dev/docs/agents",
+    "docs": "https://shopify.dev/docs/agents/ucp",
     "skills": [
       "https://shopify.dev/docs/apps/build/ai-toolkit"
     ],
@@ -49,10 +49,10 @@
     {
       "job": "proc.purchase-on-behalf",
       "summary": "Vendor's agents docs: build commerce agents that act on behalf of buyers over the Universal Commerce Protocol, from catalog discovery through carts, checkouts, buyer hand-off and order tracking. Claim only: catalog search was measured without an account; no cart, checkout or purchase was made.",
-      "source": "https://shopify.dev/docs/agents"
+      "source": "https://shopify.dev/docs/agents/ucp"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-11-19",
+  "updated": "2026-11-26",
   "version": 7
 }
