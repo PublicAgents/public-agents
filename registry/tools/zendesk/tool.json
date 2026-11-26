@@ -51,7 +51,7 @@
   "jobs": [
     {
       "job": "cs.deflect-tier1",
-      "summary": "Zendesk AI agents, the vendor's words on this page: \"Resolve multi-step, multi-intent requests across channels with AI agents that understand intent, ask clarifying questions, and take action across systems\"; \"complete requests without handoffs\"; \"resolving requests autonomously\". Not measured.",
+      "summary": "Zendesk AI agents, the vendor's words, re-read 2026-11-26: \"Automate multi-step requests with AI agents that understand intent, ask clarifying questions, follow policies, and act across systems\"; they \"resolve requests from start to finish\" and \"hand off to humans when needed\". Not measured.",
       "source": "https://www.zendesk.com/service/ai/ai-agents/"
     },
     {
@@ -61,6 +61,6 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-10-25",
+  "updated": "2026-11-26",
   "version": 4
 }
