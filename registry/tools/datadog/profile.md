@@ -56,7 +56,7 @@ Claimed from version 5: `it.triage-alerts`, on two products. The [Event Manageme
 
 ## What the fair-use limit says, and what it said
 
-The MCP Server page publishes "fair-use limits", "subject to change". On 2026-09-21 they read: "50 requests/10 seconds tool call burst limits" and "**100,000 monthly tool calls**". This entry, filed 2026-09-12, recorded 50,000 monthly tool calls, and the previous version of this profile quoted that figure. One of the two is wrong and the record cannot say which: the Internet Archive has no copy of `docs.datadoghq.com/mcp_server/` between 2026-06 and today, so the 2026-09-12 text is not recoverable from any third party. What is established is that the page says 100,000 today and that the burst limit is unchanged. Neither figure was tested against the server.
+The MCP Server page publishes fair-use limits. Re-read 2026-11-26: "The MCP Server has a fair-use burst limit of 50 tool calls per 10 seconds. There is no monthly limit on tool calls. This limit is subject to change". On 2026-09-21 it read "50 requests/10 seconds tool call burst limits" and "**100,000 monthly tool calls**"; this entry, filed 2026-09-12, recorded 50,000. So the monthly figure has read 50,000 (unarchived: the Internet Archive has no copy of `docs.datadoghq.com/mcp_server/` from 2026-06 to 2026-09-21), 100,000, and now none; the burst limit has held. Neither was tested against the server.
 
 ## Empty cells
 
