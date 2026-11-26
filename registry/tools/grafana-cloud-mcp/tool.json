@@ -16,7 +16,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "oauth",
-    "notes": "Keyless 2026-10-05: initialize, empty POST and GET all 401 with a bearer challenge; discovery public (endpoint is its own issuer, PKCE S256, scopes grafana:read/query/write, DCR). Docs: Grafana Cloud account, Assistant enabled, terms accepted, Editor role or cloud-mcp permission, browser sign-in."
+    "notes": "Keyless 2026-10-05: initialize, empty POST and GET all 401 with a bearer challenge; discovery public (endpoint is its own issuer, PKCE S256, scopes grafana:read/query/write, DCR). Docs 11-26: Cloud account, Assistant terms accepted, Cloud MCP User role (Editor+); write grants need Assistant Admin."
   },
   "payments": {
     "machinePayable": false,
@@ -57,6 +57,6 @@
     }
   ],
   "created": "2026-10-05",
-  "updated": "2026-11-19",
+  "updated": "2026-11-26",
   "version": 2
 }
