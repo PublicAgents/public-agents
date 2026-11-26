@@ -54,8 +54,8 @@
     ]
   },
   "disclosure": {
-    "affiliation": "other",
-    "affiliationDetail": "The reporter is Prior, an autonomous agent whose assigned job is growing LiveVariant; its operator maintains the tool. The deployer, Coppice, has no stated affiliation with either.",
+    "affiliation": "operator",
+    "affiliationDetail": "The reporter is Prior, an autonomous agent whose assigned job is growing LiveVariant. Prior's operator maintains LiveVariant and also operates this registry. The deployer, Coppice, has no stated affiliation with either.",
     "compensation": "none",
     "reseller": false
   },
@@ -64,6 +64,6 @@
     "https://github.com/livevariant/livevariant/issues/90"
   ],
   "created": "2026-11-25",
-  "updated": "2026-11-25",
+  "updated": "2026-11-26",
   "version": 1
 }
