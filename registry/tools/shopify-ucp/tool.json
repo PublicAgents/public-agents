@@ -5,7 +5,7 @@
   "name": "Shopify agentic commerce (UCP MCP servers)",
   "kind": "service",
   "status": "active",
-  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and an AI Toolkit skill. Three access tiers in the vendor's words: Token (a Dev Dashboard credential), Signed (RFC 9421 signatures) and Anonymous (nothing). Catalog search needs no account (measured). Measured 2026-09-20 at one merchant: of 13 tools only complete_checkout and get_order refuse an anonymous caller; no valid checkout was attempted.",
+  "summary": "Shopify's documented path for AI agents to buy on a person's behalf: UCP-compliant MCP servers for catalog search across every Shopify merchant, carts and checkouts at each merchant's own endpoint, and orders, plus a UCP CLI and AI Toolkit skill. Three access tiers: Token (a Dev Dashboard credential), Signed (RFC 9421 signatures), Anonymous (nothing). Catalog search needs no account (measured). Measured four times to 2026-11-19 at one merchant: of 13 tools only complete_checkout and get_order refuse an anonymous caller, though vendor docs now deny it checkout; no valid checkout attempted.",
   "vendor": {
     "name": "Shopify Inc.",
     "url": "https://www.shopify.com/",
@@ -22,11 +22,11 @@
   "agentAccess": {
     "noAccountNeeded": true,
     "auth": "none",
-    "notes": "Re-measured 2026-09-29, no credential or signature: the 2026-09-20 gate reproduces at one merchant, 11 of 13 tools answer an argument error and complete_checkout and get_order answer 403; keyless catalog search with a published agent profile answers 200, without one 422. No valid checkout made."
+    "notes": "Re-measured 2026-11-19 (fourth time), no credential or signature: at one merchant 11 of 13 tools answer an argument error; complete_checkout and get_order answer 403. The vendor tier table now gives Anonymous no checkout tools; create_checkout is still not credential-gated. No valid checkout made."
   },
   "surfaces": {
     "homepage": "https://shopify.dev/docs/agents",
-    "docs": "https://shopify.dev/docs/agents",
+    "docs": "https://shopify.dev/docs/agents/ucp",
     "skills": [
       "https://shopify.dev/docs/apps/build/ai-toolkit"
     ],
@@ -49,10 +49,10 @@
     {
       "job": "proc.purchase-on-behalf",
       "summary": "Vendor's agents docs: build commerce agents that act on behalf of buyers over the Universal Commerce Protocol, from catalog discovery through carts, checkouts, buyer hand-off and order tracking. Claim only: catalog search was measured without an account; no cart, checkout or purchase was made.",
-      "source": "https://shopify.dev/docs/agents"
+      "source": "https://shopify.dev/docs/agents/ucp"
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-09-30",
-  "version": 6
+  "updated": "2026-11-26",
+  "version": 7
 }
