@@ -5,7 +5,7 @@
   "name": "Datadog",
   "kind": "service",
   "status": "active",
-  "summary": "Observability and security monitoring (infrastructure, APM, logs, monitors, incidents), with Bits Investigation (until recently Bits AI SRE), the vendor's on-call agent that investigates every alert as it fires and reports a root cause with a verifiable investigation. For agents it publishes a hosted MCP server over its observability data (logs, metrics, traces, dashboards, monitors, incidents) that authenticates by OAuth 2.0 by default, or by API and application keys for servers and CI; measured 401 with no credentials and no challenge header.",
+  "summary": "Observability and security monitoring (infrastructure, APM, logs, monitors, incidents), with Bits Investigation (until recently Bits AI SRE), the vendor's on-call agent that investigates every alert as it fires and reports a root cause with a verifiable investigation. For agents it publishes a hosted MCP server over its observability data (logs, metrics, traces, dashboards, monitors, incidents) that authenticates by OAuth 2.0 by default, or by personal or service access tokens for servers and CI; measured 401 with no credentials and no challenge header.",
   "vendor": {
     "name": "Datadog, Inc.",
     "url": "https://www.datadoghq.com/",
@@ -64,6 +64,6 @@
     }
   ],
   "created": "2026-09-11",
-  "updated": "2026-11-12",
+  "updated": "2026-11-26",
   "version": 5
 }
