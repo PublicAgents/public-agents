@@ -5,7 +5,7 @@
   "name": "Semgrep Guardian",
   "kind": "service",
   "status": "active",
-  "summary": "Semgrep's plugin for AI coding agents: an MCP server, hooks and skills that scan each file an agent writes with Semgrep Code, Supply Chain and Secrets and hand the findings back to the agent. The recommended path, for Claude Code and (since 2026-10-07) Codex, is a hosted MCP server behind OAuth; every other path runs a locally installed, signed-in Semgrep CLI. Measured keyless on 2026-10-05 and again on 2026-10-16: every request to the hosted server answered 401 with a bearer challenge; the discovery documents behind it are public and the plugin's fixed ruleset is readable without a login.",
+  "summary": "Semgrep's plugin for AI coding agents: an MCP server, hooks and skills that scan each file an agent writes with Semgrep Code, Supply Chain and Secrets and hand the findings back to the agent. The recommended path, for Claude Code, Codex (since 2026-10-07) and GitHub Copilot, is a hosted MCP server behind OAuth; every other path runs a locally installed, signed-in Semgrep CLI. Measured keyless 2026-10-05 and 2026-10-16: the hosted server answered 401 with a bearer challenge; the discovery documents behind it are public and the plugins' default ruleset is readable without a login.",
   "vendor": {
     "name": "Semgrep, Inc.",
     "url": "https://semgrep.dev/",
@@ -51,6 +51,6 @@
   "provenance": "third-party",
   "jobs": [],
   "created": "2026-10-05",
-  "updated": "2026-10-16",
+  "updated": "2026-11-26",
   "version": 2
 }
