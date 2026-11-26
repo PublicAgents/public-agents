@@ -15,10 +15,15 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "invoice",
+      "bank-transfer",
+      "other"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://www.datadoghq.com/pricing/",
-    "notes": "2026-09-21: no surface read prices an agent or speaks a 402 protocol, and the MCP server consumes no AI Credits, which meter only the Bits products. Two human methods are documented, card and invoicing (ACH, wire, check); this field holds one, so it names the card path and the profile carries both."
+    "notes": "2026-09-21: no surface read prices an agent or speaks a 402, and the MCP server consumes no AI Credits, which meter only the Bits products. Billing page, re-read 2026-11-26: credit card, or invoicing paid by ACH, wire (bank-transfer) or check (other). humanBilling names the self-serve card default."
   },
   "agentAccess": {
     "noAccountNeeded": false,
