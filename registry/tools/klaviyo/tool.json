@@ -15,7 +15,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://www.klaviyo.com/pricing",
     "notes": "2026-11-07: no surface prices an MCP or API call in money. Pricing page: a free plan of 250 active profiles and 500 emails a month, Email from $20/month and Marketing from $25/month at 500 profiles; Personalization is an add-on priced on active profiles. Terms 6.3 authorize charging the card."
@@ -54,7 +56,7 @@
     },
     {
       "job": "mkt.optimize-email-creative",
-      "summary": "Vendor's claim, second claimant after livevariant: AI-powered experimentation \"takes it from there, sending the version most likely to resonate with each subscriber\". An MCP tool adds a campaign variation behind beta=true. No page read names the winner-choice method. Measured by nobody else.",
+      "summary": "Vendor's claim, second claimant after livevariant: AI-powered experimentation \"takes it from there, sending the version most likely to resonate with each subscriber\". An MCP tool adds a campaign variation (ungated 2026-11-26). No page read names the winner-choice method. Measured by nobody else.",
       "source": "https://www.klaviyo.com/products/email-marketing",
       "sources": [
         "https://developers.klaviyo.com/en/docs/klaviyo_mcp_server_available_tools"
@@ -62,6 +64,6 @@
     }
   ],
   "created": "2026-11-07",
-  "updated": "2026-11-25",
+  "updated": "2026-11-26",
   "version": 1
 }
