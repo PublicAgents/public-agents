@@ -155,7 +155,7 @@ be thorough. The consequence is stated rather than hidden:
 | three servers, their audiences and endpoints; the write-access warning; the documented capabilities and session model | vendor's own words | `https://www.mintlify.com/docs/ai/mintlify-mcp` |
 | every status, byte count, header, challenge, scope list and endpoint | my own measurement, keyless, 2026-10-07 18:24Z | appendix (M), and the seven probe records |
 | the two discovery documents being byte-identical | `cmp` over two saved responses | appendix (M) section (M9) |
-| fee term `invoice` | vendor's own words, carried from the sibling entry that cites them | `https://www.mintlify.com/legal/terms` |
+| fee term `invoice`, in `humanBilling` and `methods` (Terms re-read 2026-11-26) | vendor's own words, carried from the sibling entry that cites them | `https://www.mintlify.com/legal/terms` |
 | unclaimed | my own measurement | the 404 above |
 
 Evidence artifact, one numbered section per request with its own origin status

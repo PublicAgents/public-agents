@@ -21,7 +21,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "invoice"
+    ],
     "humanBilling": "invoice",
     "priceList": "https://www.mintlify.com/pricing",
     "notes": "No keyless request drew a 402 and no page read names a machine-payment protocol. `invoice` is the governing Terms' stated default fee term, carried from the sibling entry that cites it. The admin MCP page names no plan requirement beyond an account, and the pricing page does not list this server."
