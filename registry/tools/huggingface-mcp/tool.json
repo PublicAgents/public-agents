@@ -21,7 +21,10 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "other"
+    ],
     "humanBilling": "card-on-file",
     "priceList": null,
     "notes": "Read 2026-10-03. The server prices nothing of its own; anonymous use is free and rate-limited. Paid plans raise Hub rate limits: PRO $9/month, paid only by credit card (billing page); Team by card or a cloud marketplace; Enterprise $50/user/month on an annual contract. No keyless request drew a 402."
@@ -49,6 +52,6 @@
     }
   ],
   "created": "2026-10-03",
-  "updated": "2026-10-03",
-  "version": 1
+  "updated": "2026-11-26",
+  "version": 2
 }

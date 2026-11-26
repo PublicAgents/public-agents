@@ -52,12 +52,15 @@
     }
   ],
   "created": "2026-09-12",
-  "updated": "2026-10-24",
-  "version": 5,
+  "updated": "2026-11-26",
+  "version": 6,
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "stablecoin"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://www.cloudflare.com/plans/",
     "notes": "Read 2026-09-23: the MCP servers carry no price and speak no 402. Cloudflare's checkout offers 'Crypto' beside card, Apple Pay and Google Pay: USDC on Base and Polygon through a Stripe-hosted wallet connection, with a signed permit for recurring charges and a card on file as fallback."

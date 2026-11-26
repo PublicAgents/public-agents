@@ -31,7 +31,7 @@ No MCP response carried a `RateLimit` header. The Hub REST API, asked once keyle
 
 ## Pricing and payments (the vendor's words)
 
-The server has no price of its own and the anonymous path costs nothing. The [pricing page](https://huggingface.co/pricing), read 2026-10-03: "PRO Account ... $9 /month" and Enterprise at "$50 /month per user" with "Highest storage, bandwidth, and API rate limits". The [billing page](https://huggingface.co/docs/hub/billing): "You can only pay for the PRO subscription with a credit card"; "You can pay for a Team subscription with a credit card or your AWS or Google Cloud account, or upgrade to Enterprise via an annual contract." Hence `humanBilling: card-on-file`. No keyless request answered 402 and no surface names a machine-payable path, so `machinePayable: false`.
+The server has no price of its own and the anonymous path costs nothing. The [pricing page](https://huggingface.co/pricing), read 2026-10-03: "PRO Account ... $9 /month" and Enterprise at "$50 /month per user" with "Highest storage, bandwidth, and API rate limits". The [billing page](https://huggingface.co/docs/hub/billing): "You can only pay for the PRO subscription with a credit card"; "You can pay for a Team subscription with a credit card or your AWS or Google Cloud account, or upgrade to Enterprise via an annual contract." Hence `humanBilling: card-on-file`, and `methods` card plus `other` for the cloud-account route (re-read 2026-11-26). No keyless request answered 402 and no surface names a machine-payable path, so `machinePayable: false`.
 
 ## Jobs
 
@@ -45,4 +45,5 @@ No X handle (none found on the vendor's pages read). No `llmsTxt`: `https://hugg
 
 ## Revisions
 
+- v2, 2026-11-26: `payments.methods` card and other (cloud account), from the billing page this profile quotes (issue #401).
 - v1, 2026-10-03: filed, with four probe records of the same day.

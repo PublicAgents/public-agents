@@ -16,10 +16,12 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "invoice"
+    ],
     "humanBilling": "invoice",
     "priceList": null,
-    "notes": "Prices not public: llms.txt says pricing is custom, by feedback volume and integrations; /pricing is 404 (2026-11-19). Terms of Service s.5: unless the Order says otherwise, fees billed annually in advance, due within 30 days of invoice. No payment method named. Not machine-payable."
+    "notes": "Prices not public: llms.txt says pricing is custom, by feedback volume and integrations; /pricing is 404 (2026-11-19). Terms of Service s.5: unless the Order says otherwise, fees billed annually in advance, due within 30 days of invoice. No settlement rail named. Not machine-payable."
   },
   "agentAccess": {
     "noAccountNeeded": false,
@@ -55,6 +57,6 @@
     }
   ],
   "created": "2026-11-19",
-  "updated": "2026-11-19",
-  "version": 1
+  "updated": "2026-11-26",
+  "version": 2
 }
