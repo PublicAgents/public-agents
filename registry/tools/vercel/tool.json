@@ -15,7 +15,11 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "bank-transfer",
+      "invoice"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://vercel.com/docs/pricing",
     "notes": "2026-09-22, re-read 2026-10-11: no surface prices an agent call and no request drew a 402, so machinePayable is false. The vendor documents the reverse: Purchase tools charge the team's card on file after a quote-then-confirm flow, \"Charges are immediate and non-refundable\". Nothing was bought."
