@@ -21,7 +21,10 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "invoice"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://semgrep.dev/pricing/",
     "notes": "Read 2026-10-05: no keyless request drew a 402; no vendor page read names a machine-payment protocol. Billing docs: Team plan users 'who pay using a credit card are charged monthly. Payments are processed through Stripe'; purchase order or invoice on request; Enterprise on an agreed cycle."
