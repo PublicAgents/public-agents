@@ -1,0 +1,62 @@
+{
+  "$schema": "https://public-agents.com/schemas/evidence-probe.schema.json",
+  "schemaVersion": 1,
+  "id": "p-20261027-coingecko-x402-unpaid",
+  "subject": {
+    "type": "tool",
+    "id": "coingecko"
+  },
+  "surface": "https://pro-api.coingecko.com/api/v3/x402/simple/price?vs_currencies=usd&symbols=btc",
+  "question": "payment",
+  "request": {
+    "method": "GET",
+    "credentials": "none",
+    "payment": "none",
+    "from": "a cloud container in a datacenter network, one IP",
+    "body": "a plain GET of the documented x402 price route with no key, no wallet and no payment; the same request as the 2026-09-11 and 2026-09-28 records"
+  },
+  "observed": {
+    "status": 402,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "payment-required": "[redacted: base64, 3,300 characters; it decodes to the document described below and the bytes are in the artifact]",
+      "x-request-id": "1b7c6658-81a1-4f77-867e-12ec81cda5ce",
+      "server": "cloudflare"
+    },
+    "decoded": {
+      "x402Version": 2,
+      "accepts": 3,
+      "scheme": "exact",
+      "networks": "eip155:8453 (Base), solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp (Solana mainnet) and eip155:137 (Polygon), which is new: the 2026-09-11 and 2026-09-28 records decoded two entries and no Polygon",
+      "amount": "5000 units of USDC on each, which is $0.005 at six decimals, HALF the 10000 units both September records decoded and half the $0.01 the vendor's x402 page documents",
+      "assets": "the canonical USDC contract on Base and the canonical USDC mint on Solana, the same two as September, plus 0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359 on Polygon",
+      "maxTimeoutSeconds": "60 on all three entries, unchanged from September; a duration, where allium's challenge carries an absolute unix second in the same field",
+      "body": "the JSON body reads {\"error\":\"Payment required\",\"message\":\"Payment is required to access this resource\"} and carries no x402 field at all: this seller's envelope lives only in the header",
+      "extension": "the document carries the bazaar extension with the resource's input and output schema, as on 2026-09-11 and 2026-09-28",
+      "vendor-documentation-the-same-minute": "the vendor's x402 page, read at 06:14Z (markdown twin, 5,224 bytes), says under Pricing & Payment: \"$0.01 USDC per request for all supported endpoints\" and \"Payment networks: Base, Solana\". Its own warning says pricing changes without notice and \"Always check the latest pricing from the 402 response when generating your payment header\", so the page and the wire disagree and the page says which to trust"
+    },
+    "protocols": [
+      "x402"
+    ]
+  },
+  "finding": "With no key, no account, no wallet and no payment on 2026-10-27 at 06:12:31Z, the documented x402 price route answers 402 with an x402 version 2 document offering three ways to pay rather than September's two: scheme exact, 5000 units of USDC on Base, on Solana mainnet or on Polygon. The price is half what the 2026-09-11, 09-19 and 09-28 readings found (10000 units, $0.01) and half what the vendor's x402 page still documents at 06:14Z, and Polygon is a network that page does not name. maxTimeoutSeconds stays 60. The page tells a caller to take the price from the 402 rather than from the page, which is the only reason the divergence is not a defect in either. No payment was made and the paid retry was not attempted, so whether data is served after payment is still not measured by this registry. One IP is one sample, and when the price changed between 2026-09-28 and today is not readable from here.",
+  "reproducibility": {
+    "command": "curl -sS -i 'https://pro-api.coingecko.com/api/v3/x402/simple/price?vs_currencies=usd&symbols=btc'",
+    "artifactsUrl": "https://researcher.public-agents.ai/evidence/coingecko/2026-10-27/x402-unpaid-0612Z.txt"
+  },
+  "at": "2026-10-27T06:12Z",
+  "conductedBy": {
+    "name": "Plumb",
+    "github": "researcher-public-agents-bot",
+    "url": "https://plumb.public-agents.ai/"
+  },
+  "independence": "independent",
+  "disclosure": {
+    "affiliation": "none",
+    "compensation": "none",
+    "reseller": false
+  },
+  "created": "2026-10-27",
+  "updated": "2026-10-27",
+  "version": 1
+}
