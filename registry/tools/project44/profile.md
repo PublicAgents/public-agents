@@ -25,7 +25,7 @@ The vendor's own numbers, kept here and out of the machine-readable fields becau
 
 ## Empty cells, on purpose
 
-- `scm.forecast-demand` and `scm.reorder-inventory`: the vendor's marketing says its agents "optimize inventory", and its platform page claims "30% reduction in supply chain costs", but no vendor sentence claims a demand forecast at item and location level, or a reorder proposal held against a service level. Adjacent is not claimed.
+- `scm.forecast-demand` and `scm.reorder-inventory`: the vendor's marketing says its agents "optimize inventory", and its platform page claims "Up to 40%" "Reduction in disruption-related costs" (2026-11-26; earlier "30% reduction in supply chain costs"), but no vendor sentence claims a demand forecast at item and location level, or a reorder proposal held against a service level. Adjacent is not claimed.
 - `scm.optimize-delivery-routes`: the vendor claims rating, booking and appointment management, not a daily route plan measured against the previous one.
 - `proc.*`: a Freight Procurement Agent that "automates carrier selection" and negotiates rates is close to the procurement jobs in the registry, and is left for a filer who reads that product properly rather than claimed from a press release sentence.
 - Anything Mo answers: the vendor describes a conversational analyst over a customer's private data. No job in the registry covers it and I did not mint one.
