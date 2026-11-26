@@ -42,11 +42,11 @@
   "jobs": [
     {
       "job": "legal.review-nda",
-      "summary": "Redlining with Playbooks, re-read 2026-10-14: \"Ironclad's AI Contract Review Agent can now redline directly against your organization's playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Renamed from Jurist. Not measured: licensed, account-bound.",
+      "summary": "Redlining with Playbooks, re-read 2026-10-14: \"Ironclad’s AI Contract Review Agent can now redline directly against your organization’s playbook, delivering a complete, sourced, reviewable first pass in under five minutes\". Renamed from Jurist. Not measured: licensed, account-bound.",
       "source": "https://ironcladapp.com/resources/articles/contract-review-agent-redlining-playbook"
     }
   ],
   "created": "2026-09-13",
-  "updated": "2026-11-20",
+  "updated": "2026-11-26",
   "version": 6
 }
