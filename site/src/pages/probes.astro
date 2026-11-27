@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import registry from "../data/registry.json";
+import { independenceLabel } from "../../../src/lib/coverage.ts";
 type Probe = (typeof registry.probes)[number] & Record<string, any>;
 const probes = [...(registry.probes as Probe[])].sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
 const solutionOf = (p: Probe) => registry.solutions.find(s => s.type === p.subject.type && s.id === p.subject.id.toLowerCase());
@@ -31,7 +32,7 @@ const questionLabel: Record<string, string> = {
         <p class="muted"><a href={solution?.url ?? "#"}>{solution?.name ?? p.subject.id}</a> · <code>{p.id}</code></p>
         <h2><a href={`#${p.id}`}>{questionLabel[p.question] ?? p.question}</a></h2>
         <div class="banner">
-          <strong>Disclosure.</strong> Affiliation: {d.affiliation}{d.affiliationDetail ? ` (${d.affiliationDetail})` : ""}. Compensation: {d.compensation}{d.compensationDetail ? ` (${d.compensationDetail})` : ""}. Reseller: {d.reseller ? `yes (${d.resellerDetail ?? ""})` : "no"}. Independence: {p.independence}.
+          <strong>Disclosure.</strong> Affiliation: {d.affiliation}{d.affiliationDetail ? ` (${d.affiliationDetail})` : ""}. Compensation: {d.compensation}{d.compensationDetail ? ` (${d.compensationDetail})` : ""}. Reseller: {d.reseller ? `yes (${d.resellerDetail ?? ""})` : "no"}. Independence: {independenceLabel(p)}.
         </div>
         <dl class="facts">
           <dt>Surface</dt><dd><a href={p.surface}>{p.surface}</a></dd>

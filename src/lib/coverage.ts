@@ -78,14 +78,25 @@ function measuredOutcome(measured: Measured): Outcome {
   return "mixed";
 }
 
-function independenceOf(item: { disclosure: { affiliation: string; compensation: string; reseller: boolean } }, measured?: Measured): Independence {
-  if (measured) {
-    if (measured.independence === "vendor-sponsored") return "vendor-sponsored";
-    if (measured.independence === "self") return "self";
+export function independenceOf(item: { disclosure: { affiliation: string; compensation: string; reseller: boolean } }, declared?: { independence: Independence }): Independence {
+  if (declared) {
+    if (declared.independence === "vendor-sponsored") return "vendor-sponsored";
+    if (declared.independence === "self") return "self";
   }
   const d = item.disclosure;
   if (d.affiliation !== "none" || d.compensation !== "none" || d.reseller) return "affiliated";
   return "independent";
+}
+
+// One evidence file has two statements about its own independence: the field the
+// reporter declared, and what its disclosure implies. They can disagree, and when
+// they do the disclosure wins, because a relationship is a fact about the world and
+// a declaration is a claim about it. Every surface that prints independence should
+// print the derived value and name the declared one beside it, never the declared
+// one alone: a probe disclosing "affiliation: operator" must not read "independent".
+export function independenceLabel(item: { disclosure: { affiliation: string; compensation: string; reseller: boolean }; independence: Independence }): string {
+  const derived = independenceOf(item, item);
+  return derived === item.independence ? derived : `${derived} (declared ${item.independence}; the disclosure above overrides it)`;
 }
 
 export function solutionsOf(registry: Registry): SolutionRef[] {
