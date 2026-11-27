@@ -28,7 +28,7 @@
     ],
     "humanBilling": "card-on-file",
     "priceList": "https://onfleet.com/pricing",
-    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Terms (Aug 31, 2026): monthly plans and usage charged automatically to the card on file; annual plans invoiced upfront, due in 7 days. Pricing page 2026-11-27 (Chromium): monthly plans charged to the card or US bank account on file; annual plans can also be paid by check, ACH, or wire. Plans from $619 a month."
+    "notes": "Read 2026-09-27: no surface prices a request or speaks a 402. Terms (Aug 31, 2026): monthly plans charged to the card on file; annual plans invoiced upfront, due in 7 days. Pricing page 2026-11-27: annual plans also pay by check, ACH, or wire, plus card and US bank account. Plans from $619/mo."
   },
   "surfaces": {
     "homepage": "https://onfleet.com/",
