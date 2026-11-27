@@ -20,7 +20,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://www.statsig.com/pricing",
     "notes": "Read 2026-09-24: nothing prices a call or speaks a 402. Pro is $150/month plus $0.05 per 1K events over 5M, in a monthly bill \"charged to the credit card on file\" (pricing FAQ); Developer is free, no card; Enterprise is custom and \"eligible for custom billing and payment terms\"."
@@ -51,6 +53,6 @@
     }
   ],
   "created": "2026-09-09",
-  "updated": "2026-11-19",
-  "version": 7
+  "updated": "2026-11-26",
+  "version": 8
 }

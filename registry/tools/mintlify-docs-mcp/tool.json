@@ -21,7 +21,9 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "invoice"
+    ],
     "humanBilling": "invoice",
     "priceList": "https://www.mintlify.com/pricing",
     "notes": "Read 2026-10-06, re-read 2026-10-07: no keyless request drew a 402 and no page read names a machine-payment protocol. Starter renders $0/mo, Pro $450/mo, Enterprise on contact. `invoice` is the Terms' stated default fee term; no page read names the Pro plan's payment instrument."
@@ -56,6 +58,6 @@
     }
   ],
   "created": "2026-10-07",
-  "updated": "2026-10-24",
-  "version": 3
+  "updated": "2026-11-26",
+  "version": 4
 }

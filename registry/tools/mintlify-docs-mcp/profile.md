@@ -210,8 +210,8 @@ your current billing cycle" per the
 Pro plan's payment instrument**: "credit card", "card on file" and "payment
 card" are absent from both saved bodies, searched by a program. That instrument
 stays an empty cell inside this one, and settling it needs a paid checkout no
-keyless probe reaches. `methods` is left empty; the pull request asks the
-reviewer about that field, which the registry uses two ways. Appendix (I) sections (I3)
+keyless probe reaches. `methods` is `invoice` alone (2026-11-26); no card is
+asserted. Appendix (I) sections (I3)
 and (I4) hold the quotes, every search including the negatives, and the
 registry-wide counts.
 
@@ -256,3 +256,4 @@ by a program over the saved response, never by eye or from memory.
   documents answered, not four, and one of the four domains is Mintlify's own.
   The counts above it are intact. Found by the merge seat on the merged head.
 - v3, 2026-10-24: two MCP-page quotations take the page's first-letter capitals.
+- v4, 2026-11-26: `payments.methods` invoice, from the Terms (issue #401).

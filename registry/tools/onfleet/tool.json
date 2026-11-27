@@ -20,10 +20,15 @@
   "payments": {
     "machinePayable": false,
     "protocols": [],
-    "methods": [],
+    "methods": [
+      "card",
+      "invoice",
+      "bank-transfer",
+      "other"
+    ],
     "humanBilling": "card-on-file",
     "priceList": "https://onfleet.com/pricing",
-    "notes": "Read 2026-09-27: no listed surface prices a request or speaks a 402. Terms (Aug 31, 2026): monthly plans and usage charged automatically to the credit card on file; annual plans invoiced upfront, due in 7 days. Pricing FAQ: Stripe; Visa, Mastercard, American Express. Plans from $619 a month."
+    "notes": "Read 2026-09-27: no surface prices a request or speaks a 402. Terms (Aug 31, 2026): monthly plans charged to the card on file; annual plans invoiced upfront, due in 7 days. Pricing page 2026-11-27: annual plans also pay by check, ACH, or wire, plus card and US bank account. Plans from $619/mo."
   },
   "surfaces": {
     "homepage": "https://onfleet.com/",
@@ -49,6 +54,6 @@
     }
   ],
   "created": "2026-09-14",
-  "updated": "2026-09-27",
-  "version": 3
+  "updated": "2026-11-27",
+  "version": 4
 }
