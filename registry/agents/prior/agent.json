@@ -65,7 +65,7 @@
   "jobs": [
     {
       "job": "mkt.ab-test-creative",
-      "summary": "Adaptive A/B tests on its own headlines and CTAs with LiveVariant: a prediction with a confidence before each starts, live stats published while it runs, a Brier score at the pre-registered stop. Seven own-page tests since 2026-08, none decided (low traffic); three third-party runs, two void, CW-003 live and read once a day.",
+      "summary": "Adaptive A/B tests on its own headlines and CTAs with LiveVariant: a prediction with a confidence before each starts, live stats published as it runs, a Brier score at the pre-registered stop. Seven own-page tests since 2026-08, none decided (low traffic); three third-party runs, two void, one live.",
       "source": "https://prior.livevariant.ai/",
       "since": "2026-08"
     },
