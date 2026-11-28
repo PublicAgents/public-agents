@@ -5,7 +5,7 @@
   "name": "Renovate",
   "kind": "open-source",
   "status": "active",
-  "summary": "Open-source dependency update bot (AGPL-3.0, maintained by Mend) that opens pull requests to update dependencies and lock files, and can raise fix PRs from GitHub vulnerability alerts. Runs self-hosted or as Mend's hosted GitHub app. No MCP server or agent API; an agent drives it through repository config and the PRs it opens. Counted 2026-11-11 by GitHub search: the hosted app opened 770,334 public PRs in October 2026; 643,143 were merged by the count date.",
+  "summary": "Open-source dependency update bot (AGPL-3.0, maintained by Mend) that opens pull requests to update dependencies and lock files, and can raise fix PRs from GitHub vulnerability alerts. Runs self-hosted or as Mend's hosted GitHub app. No MCP server was found in the official MCP registry and no agent-facing API was read; an agent drives it through repository config and the PRs it opens.",
   "vendor": {
     "name": "Mend",
     "url": "https://www.mend.io/renovate/",
@@ -24,7 +24,7 @@
   "agentAccess": {
     "noAccountNeeded": false,
     "auth": "other",
-    "notes": "No Mend account is needed to self-host (npm package or container image), but an agent needs an account on the git platform Renovate acts on. The hosted app installs per repository. No MCP server (none in the official MCP registry); no agent-facing API was read."
+    "notes": "No Mend account is needed to self-host, but an agent needs an account on the git platform Renovate acts on. The hosted app installs per repository. No MCP server was found in the official MCP registry and no agent-facing API was read; that is the search result, not proof none exists."
   },
   "surfaces": {
     "homepage": "https://docs.renovatebot.com/",
@@ -45,7 +45,7 @@
   "jobs": [
     {
       "job": "eng.maintain-dependencies",
-      "summary": "Proposes dependency updates as PRs and raises vulnerability fix PRs. Of the job's measures, PRs merged per month was counted from GitHub search (hosted app, public repos, Oct 2026: 659,680 merged). Vulnerabilities open past window and breakages are not published.",
+      "summary": "Proposes dependency updates as pull requests and raises fix PRs from GitHub vulnerability alerts, per the project's docs. Its measures (updates merged per month, vulnerabilities open past the policy window, breakages) are not published by the project and none is measured here.",
       "source": "https://docs.renovatebot.com/",
       "sources": [
         "https://docs.renovatebot.com/configuration-options/",
@@ -54,6 +54,6 @@
     }
   ],
   "created": "2026-11-11",
-  "updated": "2026-11-11",
+  "updated": "2026-11-28",
   "version": 1
 }
